@@ -10,17 +10,14 @@ MTuner
 
 **MTuner** utilizes a novel approach to memory profiling and analysis, keeping entire time-based history of memory operations. This gives an unique insight in memory related behavior of your software by making queries over the entire data set.
 
+![MTuner screenshot](https://github.com/milostosic/MTuner/blob/master/img/mtuner_screenshot.png)
+
 Source Code
 ======
 
 You can get the latest source code by cloning it from github:
 
       git clone https://github.com/milostosic/MTuner.git 
-
-Screenshot
-======
-
-![MTuner screenshot](https://github.com/milostosic/MTuner/blob/master/img/mtuner_screenshot.png)
 
 Dependencies
 ======
@@ -39,6 +36,12 @@ Dependencies can be obtained by cloning the following repositories:
 DIA (Debug Interface Access) SDK - **Windows only**
 
 	git clone https://github.com/milostosic/DIA.git 
+
+Status
+======
+
+To download the official release, please go to [MTuner website](http://mtuner.net)
+Documentation is available [here](http://mtuner.net/documentation.html)
 
 Support development
 ======
