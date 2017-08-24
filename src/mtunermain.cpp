@@ -365,6 +365,10 @@ int handleCommandLine(int argc, char const* argv[])
 
 extern void getStoragePath(wchar_t _path[512]);
 
+namespace rtm {
+bool init(rtmLibInterface* _libInterface);
+}
+
 int main(int argc, const char* argv[])
 {
 	rtm::mtunerLoaderInit(true);
@@ -378,9 +382,13 @@ int main(int argc, const char* argv[])
 	wcscat(path, L"MTuner\\");
 	dirAppData.mkdir(QString::fromUtf16((const ushort*)path));
 
-	QApplication app(argc, (char**)argv);
+	RQtErrorHandler error;
+	rtmLibInterface libInterface;
+	libInterface.m_error = &error;
 
-	rqt::init();
+	QApplication app(argc, (char**)argv);
+	rqt::init(&libInterface);
+	rtm::init(&libInterface);
 	rqt::appInit(&app, rqt::AppStyle::RTM);
 
 	app.setApplicationName("MTuner");
