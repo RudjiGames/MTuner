@@ -3,7 +3,7 @@
 MTuner
 ======
 
-[![Build status](https://ci.appveyor.com/api/projects/status/xymgnhhrpg0xr042?svg=true)](https://ci.appveyor.com/project/milostosic/MTuner)
+[![Build status](https://ci.appveyor.com/api/projects/status/fo9uy9h3bcka20kk?svg=true)](https://ci.appveyor.com/project/milostosic/MTuner)
 [![License](https://img.shields.io/badge/license-BSD--2%20clause-blue.svg)](https://github.com/milostosic/MTuner/blob/master/LICENSE)
 
 **MTuner** is a C/C++ memory profiler and memory leak finder for Windows, PS4, PS3, etc.
