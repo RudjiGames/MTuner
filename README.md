@@ -40,7 +40,7 @@ DIA (Debug Interface Access) SDK - **Windows only**
 Status
 ======
 
-To download the official release, please go to [MTuner website](http://mtuner.net)
+To download the official release, please go to [MTuner website](http://mtuner.net)  
 Documentation is available [here](http://mtuner.net/documentation.html)
 
 Support development
