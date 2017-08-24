@@ -1,0 +1,731 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MTunerClass</class>
+ <widget class="QMainWindow" name="MTunerClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>720</height>
+   </rect>
+  </property>
+  <property name="acceptDrops">
+   <bool>true</bool>
+  </property>
+  <property name="windowTitle">
+   <string>MTuner</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="mtuner.qrc">
+    <normaloff>:/MTuner/resources/images/Icon64.png</normaloff>:/MTuner/resources/images/Icon64.png</iconset>
+  </property>
+  <widget class="QWidget" name="CentralWidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <property name="spacing">
+     <number>0</number>
+    </property>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1280</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_File">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <addaction name="action_Open"/>
+    <addaction name="action_Close"/>
+    <addaction name="separator"/>
+    <addaction name="actionOpen_capture_storage"/>
+    <addaction name="separator"/>
+    <addaction name="action_Exit"/>
+   </widget>
+   <widget class="QMenu" name="menu_Help">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="action_Contents"/>
+    <addaction name="separator"/>
+    <addaction name="separator"/>
+    <addaction name="separator"/>
+    <addaction name="action_About"/>
+   </widget>
+   <widget class="QMenu" name="menu_Settings">
+    <property name="title">
+     <string>&amp;Settings</string>
+    </property>
+    <addaction name="action_Symbols"/>
+    <addaction name="action_External_editor"/>
+    <addaction name="action_Manage_projects"/>
+    <addaction name="action_GCC_toolchains"/>
+    <addaction name="separator"/>
+    <addaction name="action_Save_capture_window_layout"/>
+   </widget>
+   <widget class="QMenu" name="menu_View">
+    <property name="title">
+     <string>&amp;View</string>
+    </property>
+    <addaction name="action_View_Memory_Graph"/>
+    <addaction name="action_View_Memory_Stats"/>
+    <addaction name="action_View_Histograms"/>
+    <addaction name="action_View_Tag_Tree"/>
+    <addaction name="action_View_Heaps_Allocators"/>
+   </widget>
+   <widget class="QMenu" name="menuLanguage">
+    <property name="title">
+     <string>&amp;Language</string>
+    </property>
+   </widget>
+   <addaction name="menu_File"/>
+   <addaction name="menu_Settings"/>
+   <addaction name="menuLanguage"/>
+   <addaction name="menu_View"/>
+   <addaction name="menu_Help"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>Main tool bar</string>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonIconOnly</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="action_Open"/>
+   <addaction name="action_Manage_projects"/>
+   <addaction name="action_Symbols"/>
+   <addaction name="action_Filters"/>
+   <addaction name="action_View_Memory_Stats"/>
+   <addaction name="action_View_Tag_Tree"/>
+   <addaction name="action_View_Heaps_Allocators"/>
+   <addaction name="action_View_Memory_Graph"/>
+   <addaction name="action_View_Histograms"/>
+   <addaction name="action_View_StackTrace"/>
+   <addaction name="separator"/>
+  </widget>
+  <action name="action_Open">
+   <property name="icon">
+    <iconset resource="mtuner.qrc">
+     <normaloff>:/MTuner/resources/images/Open64.png</normaloff>:/MTuner/resources/images/Open64.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Open</string>
+   </property>
+   <property name="toolTip">
+    <string>Open capture (.MTuner file)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="action_Exit">
+   <property name="text">
+    <string>&amp;Exit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="action_About">
+   <property name="text">
+    <string>&amp;About</string>
+   </property>
+   <property name="toolTip">
+    <string>About MTuner</string>
+   </property>
+  </action>
+  <action name="action_Manage_projects">
+   <property name="icon">
+    <iconset resource="mtuner.qrc">
+     <normaloff>:/MTuner/resources/images/Projects64.png</normaloff>:/MTuner/resources/images/Projects64.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Manage projects</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="action_Close">
+   <property name="text">
+    <string>&amp;Close</string>
+   </property>
+  </action>
+  <action name="action_Symbols">
+   <property name="icon">
+    <iconset resource="mtuner.qrc">
+     <normaloff>:/MTuner/resources/images/Symbol64.png</normaloff>:/MTuner/resources/images/Symbol64.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Debug symbols</string>
+   </property>
+   <property name="toolTip">
+    <string>Debug symbol sources setting</string>
+   </property>
+  </action>
+  <action name="action_Contents">
+   <property name="text">
+    <string>&amp;Contents</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+  </action>
+  <action name="action_Filters">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="mtuner.qrc">
+     <normaloff>:/MTuner/resources/images/Filter64.png</normaloff>:/MTuner/resources/images/Filter64.png</iconset>
+   </property>
+   <property name="text">
+    <string>Toggle &amp;filtering mode</string>
+   </property>
+   <property name="iconText">
+    <string>Toggle filtering mode</string>
+   </property>
+   <property name="toolTip">
+    <string>Toggle filtering mode</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
+   </property>
+  </action>
+  <action name="action_View_Memory_Graph">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="mtuner.qrc">
+     <normaloff>:/MTuner/resources/images/Graph64.png</normaloff>
+     <activeon>:/MTuner/resources/images/Graph64.png</activeon>:/MTuner/resources/images/Graph64.png</iconset>
+   </property>
+   <property name="text">
+    <string>Ti&amp;meline</string>
+   </property>
+   <property name="toolTip">
+    <string>Toggle timeline graph visibility</string>
+   </property>
+  </action>
+  <action name="action_View_Memory_Stats">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="mtuner.qrc">
+     <normaloff>:/MTuner/resources/images/table.png</normaloff>:/MTuner/resources/images/table.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Statistics</string>
+   </property>
+   <property name="toolTip">
+    <string>Toggle statistics visibility</string>
+   </property>
+  </action>
+  <action name="action_English">
+   <property name="text">
+    <string>&amp;English</string>
+   </property>
+  </action>
+  <action name="action_View_Histograms">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="mtuner.qrc">
+     <normaloff>:/MTuner/resources/images/Histogram64.png</normaloff>:/MTuner/resources/images/Histogram64.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Histograms</string>
+   </property>
+   <property name="toolTip">
+    <string>Toggle histogram window visibility</string>
+   </property>
+  </action>
+  <action name="action_View_Tag_Tree">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="mtuner.qrc">
+     <normaloff>:/MTuner/resources/images/StackTree64.png</normaloff>:/MTuner/resources/images/StackTree64.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Tag Tree</string>
+   </property>
+   <property name="toolTip">
+    <string>Toggle tag tree visibility</string>
+   </property>
+  </action>
+  <action name="action_View_StackTrace">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="mtuner.qrc">
+     <normaloff>:/MTuner/resources/images/StackTraceSource64.png</normaloff>:/MTuner/resources/images/StackTraceSource64.png</iconset>
+   </property>
+   <property name="text">
+    <string>StackTrace</string>
+   </property>
+   <property name="toolTip">
+    <string>Toggle stack trace and source visibility</string>
+   </property>
+  </action>
+  <action name="action_External_editor">
+   <property name="icon">
+    <iconset resource="mtuner.qrc">
+     <normaloff>:/MTuner/resources/images/Editor64.png</normaloff>:/MTuner/resources/images/Editor64.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;External editor</string>
+   </property>
+  </action>
+  <action name="action_Import_license_file">
+   <property name="text">
+    <string>Import license file</string>
+   </property>
+  </action>
+  <action name="action_Activation_MTuner">
+   <property name="text">
+    <string>Activate MTuner</string>
+   </property>
+   <property name="toolTip">
+    <string>Deactivate MTuner</string>
+   </property>
+  </action>
+  <action name="action_GCC_toolchains">
+   <property name="icon">
+    <iconset resource="mtuner.qrc">
+     <normaloff>:/MTuner/resources/images/gnu64.png</normaloff>:/MTuner/resources/images/gnu64.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Toolchains Setup</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+G</string>
+   </property>
+  </action>
+  <action name="action_View_Heaps_Allocators">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="mtuner.qrc">
+     <normaloff>:/MTuner/resources/images/Heaps.png</normaloff>:/MTuner/resources/images/Heaps.png</iconset>
+   </property>
+   <property name="text">
+    <string>Heaps / Allocators</string>
+   </property>
+   <property name="toolTip">
+    <string>Toggle visibility of heaps / allocators dock</string>
+   </property>
+  </action>
+  <action name="actionOpen_capture_storage">
+   <property name="text">
+    <string>Open capture location</string>
+   </property>
+   <property name="toolTip">
+    <string>Opens, in Windows Explorer, a folder where capture files (*.MTuner) are recorder</string>
+   </property>
+  </action>
+  <action name="action_Save_capture_window_layout">
+   <property name="text">
+    <string>&amp;Save capture window settings</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="mtuner.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>action_Manage_projects</sender>
+   <signal>triggered()</signal>
+   <receiver>MTunerClass</receiver>
+   <slot>manageProjects()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>461</x>
+     <y>344</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Symbols</sender>
+   <signal>triggered()</signal>
+   <receiver>MTunerClass</receiver>
+   <slot>setupSymbols()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>461</x>
+     <y>344</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Open</sender>
+   <signal>triggered()</signal>
+   <receiver>MTunerClass</receiver>
+   <slot>openFile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>461</x>
+     <y>344</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Close</sender>
+   <signal>triggered()</signal>
+   <receiver>MTunerClass</receiver>
+   <slot>closeFile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>461</x>
+     <y>344</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Exit</sender>
+   <signal>triggered()</signal>
+   <receiver>MTunerClass</receiver>
+   <slot>exit()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>461</x>
+     <y>344</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Filters</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MTunerClass</receiver>
+   <slot>setFilters(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>461</x>
+     <y>344</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Contents</sender>
+   <signal>triggered()</signal>
+   <receiver>MTunerClass</receiver>
+   <slot>contents()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>461</x>
+     <y>344</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_About</sender>
+   <signal>triggered()</signal>
+   <receiver>MTunerClass</receiver>
+   <slot>about()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>461</x>
+     <y>344</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MTunerClass</sender>
+   <signal>binLoaded(bool)</signal>
+   <receiver>action_Close</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>461</x>
+     <y>344</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_View_Histograms</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MTunerClass</receiver>
+   <slot>showHistogram(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>595</x>
+     <y>370</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_View_Memory_Graph</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MTunerClass</receiver>
+   <slot>showGraph(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>595</x>
+     <y>370</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_View_Memory_Stats</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MTunerClass</receiver>
+   <slot>showStats(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>595</x>
+     <y>370</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_View_Tag_Tree</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MTunerClass</receiver>
+   <slot>showTagTree(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>595</x>
+     <y>370</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MTunerClass</sender>
+   <signal>setFilterState(bool)</signal>
+   <receiver>action_Filters</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>639</x>
+     <y>359</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MTunerClass</sender>
+   <signal>setFilterButtonEnabled(bool)</signal>
+   <receiver>action_Filters</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>639</x>
+     <y>359</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_View_StackTrace</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MTunerClass</receiver>
+   <slot>showStackTrace(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>639</x>
+     <y>359</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_External_editor</sender>
+   <signal>triggered()</signal>
+   <receiver>MTunerClass</receiver>
+   <slot>setupEditor()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>639</x>
+     <y>359</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_GCC_toolchains</sender>
+   <signal>triggered()</signal>
+   <receiver>MTunerClass</receiver>
+   <slot>setupGCCToolchains()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>639</x>
+     <y>359</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_View_Heaps_Allocators</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MTunerClass</receiver>
+   <slot>showHeaps(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>639</x>
+     <y>359</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionOpen_capture_storage</sender>
+   <signal>triggered()</signal>
+   <receiver>MTunerClass</receiver>
+   <slot>openCaptureLocation()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>639</x>
+     <y>359</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <signal>binLoaded(bool)</signal>
+  <signal>setFilterState(bool)</signal>
+  <signal>setFilterButtonEnabled(bool)</signal>
+  <slot>manageProjects()</slot>
+  <slot>setupSymbols()</slot>
+  <slot>openFile()</slot>
+  <slot>closeFile()</slot>
+  <slot>exit()</slot>
+  <slot>setFilters(bool)</slot>
+  <slot>contents()</slot>
+  <slot>about()</slot>
+  <slot>showHistogram(bool)</slot>
+  <slot>showGraph(bool)</slot>
+  <slot>showStats(bool)</slot>
+  <slot>showTagTree(bool)</slot>
+  <slot>showStackTrace(bool)</slot>
+  <slot>setupEditor()</slot>
+  <slot>importLicense()</slot>
+  <slot>activateMTuner()</slot>
+  <slot>setupGCCToolchains()</slot>
+  <slot>showHeaps(bool)</slot>
+  <slot>openCaptureLocation()</slot>
+ </slots>
+</ui>

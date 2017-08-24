@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ProjectsDialog</class>
+ <widget class="QDialog" name="ProjectsDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>477</width>
+    <height>310</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Projects manager</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="mtuner.qrc">
+    <normaloff>:/MTuner/resources/images/Icon64.png</normaloff>:/MTuner/resources/images/Icon64.png</iconset>
+  </property>
+  <property name="toolTip">
+   <string>Hint: drag and drop an executable to the dialog</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_4">
+   <item>
+    <widget class="QTreeWidget" name="listOfProjects">
+     <attribute name="headerVisible">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="headerDefaultSectionSize">
+      <number>24</number>
+     </attribute>
+     <column>
+      <property name="text">
+       <string notr="true">1</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="labelExe">
+         <property name="text">
+          <string>Executable</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelCmdLine">
+         <property name="text">
+          <string>Command line args</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelWorkingDir">
+         <property name="text">
+          <string>Working directory</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QLineEdit" name="txtExecutable">
+             <property name="toolTip">
+              <string>Path of executable to run in instrumented mode</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="buttonBrowseExe">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>42</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>Browse for executable</string>
+             </property>
+             <property name="text">
+              <string>...</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="txtCommandLine">
+           <property name="toolTip">
+            <string>Command line arguments for the executable</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <item>
+            <widget class="QLineEdit" name="txtWorkingDir">
+             <property name="toolTip">
+              <string>Directory to start the executable at. Leaving it empty will start the executable at it's location.</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="buttonBrowseWorkingDir">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>42</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>Browse for a working directory</string>
+             </property>
+             <property name="text">
+              <string>...</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QPushButton" name="buttonAdd">
+       <property name="toolTip">
+        <string>Adds executable with run parameters to the list of projects</string>
+       </property>
+       <property name="text">
+        <string>Add</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buttonDelete">
+       <property name="toolTip">
+        <string>Deletes a project from the list</string>
+       </property>
+       <property name="text">
+        <string>Delete</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buttonRun">
+       <property name="toolTip">
+        <string>Run the MTuner instrumented executable</string>
+       </property>
+       <property name="text">
+        <string>Run</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buttonCancel">
+       <property name="toolTip">
+        <string>Close dialog</string>
+       </property>
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buttonOK">
+       <property name="text">
+        <string>OK</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="mtuner.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>buttonCancel</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectsDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>385</x>
+     <y>299</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>310</x>
+     <y>228</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonAdd</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectsDialog</receiver>
+   <slot>buttonAdd()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>57</x>
+     <y>299</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>310</x>
+     <y>228</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonDelete</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectsDialog</receiver>
+   <slot>buttonRemove()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>165</x>
+     <y>299</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>310</x>
+     <y>228</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonRun</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectsDialog</receiver>
+   <slot>buttonRun()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>246</x>
+     <y>299</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>310</x>
+     <y>228</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBrowseExe</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectsDialog</receiver>
+   <slot>browseExecutable()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>463</x>
+     <y>208</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>310</x>
+     <y>228</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBrowseWorkingDir</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectsDialog</receiver>
+   <slot>browseWorkingDir()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>463</x>
+     <y>265</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>310</x>
+     <y>228</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonOK</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectsDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>424</x>
+     <y>291</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>279</x>
+     <y>267</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>buttonAdd()</slot>
+  <slot>buttonRemove()</slot>
+  <slot>buttonRun()</slot>
+  <slot>browseExecutable()</slot>
+  <slot>browseWorkingDir()</slot>
+  <slot>projectSelectionChanged()</slot>
+ </slots>
+</ui>

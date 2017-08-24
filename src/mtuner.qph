@@ -1,0 +1,35 @@
+<!DOCTYPE QPH>
+<QPH language="sr_RS">
+<phrase>
+    <source>Usage graph</source>
+    <target>Графикон употребе меморије</target>
+</phrase>
+<phrase>
+    <source>Statistics</source>
+    <target>Статистике</target>
+</phrase>
+<phrase>
+    <source>Histogram</source>
+    <target>Хистограм</target>
+</phrase>
+<phrase>
+    <source>Tag tree</source>
+    <target>Стабло тагова</target>
+</phrase>
+<phrase>
+    <source>Failed to load file!</source>
+    <target>Неуспех приликом отварања фајла</target>
+</phrase>
+<phrase>
+    <source>Select executable</source>
+    <target>Изаберите извршни фајл</target>
+</phrase>
+<phrase>
+    <source>Select working directory</source>
+    <target>Изаберите радни директоријум</target>
+</phrase>
+<phrase>
+    <source>Select local symbol store directory</source>
+    <target>Изаберите локацију за локално складиштење симбола</target>
+</phrase>
+</QPH>

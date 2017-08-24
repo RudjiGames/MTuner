@@ -1,0 +1,732 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>GCCSetup</class>
+ <widget class="QDialog" name="GCCSetup">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>632</width>
+    <height>417</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Setup GCC toolchains</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="mtuner.qrc">
+    <normaloff>:/MTuner/resources/images/gnu64.png</normaloff>:/MTuner/resources/images/gnu64.png</iconset>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout_13">
+   <property name="sizeConstraint">
+    <enum>QLayout::SetFixedSize</enum>
+   </property>
+   <property name="topMargin">
+    <number>13</number>
+   </property>
+   <item>
+    <layout class="QGridLayout" name="gridLayout_4">
+     <item row="0" column="0">
+      <layout class="QVBoxLayout" name="verticalLayout_11">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_10">
+         <item>
+          <widget class="QComboBox" name="toolchainCombo">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="maxVisibleItems">
+            <number>18</number>
+           </property>
+           <property name="sizeAdjustPolicy">
+            <enum>QComboBox::AdjustToContents</enum>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>112</width>
+             <height>16</height>
+            </size>
+           </property>
+           <item>
+            <property name="text">
+             <string notr="true"/>
+            </property>
+            <property name="icon">
+             <iconset resource="mtuner.qrc">
+              <normaloff>:/MTuner/resources/images/toolchain_mingw.png</normaloff>:/MTuner/resources/images/toolchain_mingw.png</iconset>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true"/>
+            </property>
+            <property name="icon">
+             <iconset resource="mtuner.qrc">
+              <normaloff>:/MTuner/resources/images/toolchain_ps3.png</normaloff>:/MTuner/resources/images/toolchain_ps3.png</iconset>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true"/>
+            </property>
+            <property name="icon">
+             <iconset resource="mtuner.qrc">
+              <normaloff>:/MTuner/resources/images/toolchain_ps4.png</normaloff>:/MTuner/resources/images/toolchain_ps4.png</iconset>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Custom toolchain 1</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Custom toolchain 2</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Custom toolchain 3</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Custom toolchain 4</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Custom toolchain 5</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Custom toolchain 6</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Custom toolchain 7</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Custom toolchain 8</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Custom toolchain 9</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QLabel" name="labelToolchainName">
+             <property name="text">
+              <string>Toolchain name:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="lineEditToolchainName"/>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox64">
+         <property name="title">
+          <string>64 bit</string>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="0">
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_8">
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_5">
+                <item>
+                 <widget class="QLabel" name="label_13">
+                  <property name="text">
+                   <string>Environment variable</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_14">
+                  <property name="text">
+                   <string>Binutils path</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_6">
+                  <property name="text">
+                   <string>Toolchain prefix</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_6">
+                <item>
+                 <widget class="QLineEdit" name="lineEditEnv64"/>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_4">
+                  <item>
+                   <widget class="QLineEdit" name="lineEditBinutils64"/>
+                  </item>
+                  <item>
+                   <widget class="QToolButton" name="browseButton64">
+                    <property name="text">
+                     <string>...</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="lineEditPrefix64"/>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_9">
+              <item>
+               <widget class="QLabel" name="isOkLabel64">
+                <property name="text">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelFound64">
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QGroupBox" name="groupBox32">
+           <property name="title">
+            <string>32 bit</string>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+           <layout class="QGridLayout" name="gridLayout">
+            <item row="0" column="0">
+             <layout class="QVBoxLayout" name="verticalLayout_3">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_6">
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_2">
+                  <item>
+                   <widget class="QLabel" name="label_11">
+                    <property name="text">
+                     <string>Environment variable</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_12">
+                    <property name="text">
+                     <string>Binutils path</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_4">
+                    <property name="text">
+                     <string>Toolchain prefix</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout">
+                  <item>
+                   <widget class="QLineEdit" name="lineEditEnv32"/>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_3">
+                    <item>
+                     <widget class="QLineEdit" name="lineEditBinutils32"/>
+                    </item>
+                    <item>
+                     <widget class="QToolButton" name="browseButton32">
+                      <property name="text">
+                       <string>...</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="lineEditPrefix32"/>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_7">
+                <item>
+                 <widget class="QLabel" name="isOkLabel32">
+                  <property name="text">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="labelFound32">
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_3">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBoxProDGps3">
+           <property name="title">
+            <string>SN ProDG</string>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_3">
+            <item row="0" column="0">
+             <layout class="QVBoxLayout" name="verticalLayout_7">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_10">
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_8">
+                  <item>
+                   <widget class="QLabel" name="label_15">
+                    <property name="text">
+                     <string>Environment variable</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_16">
+                    <property name="text">
+                     <string>Binutils path</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_9">
+                  <item>
+                   <widget class="QLineEdit" name="lineEditEnvProDGps3"/>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_5">
+                    <item>
+                     <widget class="QLineEdit" name="lineEditBinutilsProDGps3"/>
+                    </item>
+                    <item>
+                     <widget class="QToolButton" name="browseButtonProDGps3">
+                      <property name="text">
+                       <string>...</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_11">
+                <item>
+                 <widget class="QLabel" name="isOkLabelProDGps3">
+                  <property name="text">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="labelFoundProDGps3">
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_5">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item row="1" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout_12">
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QDialogButtonBox" name="buttonBox">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="standardButtons">
+          <set>QDialogButtonBox::Close</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="mtuner.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>GCCSetup</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>257</x>
+     <y>390</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>GCCSetup</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>325</x>
+     <y>390</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>browseButton64</sender>
+   <signal>clicked()</signal>
+   <receiver>GCCSetup</receiver>
+   <slot>pathBrowse64()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>748</x>
+     <y>136</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>768</x>
+     <y>140</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>browseButton32</sender>
+   <signal>clicked()</signal>
+   <receiver>GCCSetup</receiver>
+   <slot>pathBrowse32()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>363</x>
+     <y>277</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>774</x>
+     <y>229</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>browseButtonProDGps3</sender>
+   <signal>clicked()</signal>
+   <receiver>GCCSetup</receiver>
+   <slot>pathBrowseProDGps3()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>742</x>
+     <y>282</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>770</x>
+     <y>320</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEditEnv32</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>GCCSetup</receiver>
+   <slot>envEdited32(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>168</x>
+     <y>250</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>8</x>
+     <y>254</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEditBinutils32</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>GCCSetup</receiver>
+   <slot>pathEdited32(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>208</x>
+     <y>280</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>8</x>
+     <y>290</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEditPrefix32</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>GCCSetup</receiver>
+   <slot>prefixEdited32(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>224</x>
+     <y>310</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>6</x>
+     <y>323</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEditEnv64</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>GCCSetup</receiver>
+   <slot>envEdited64(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>160</x>
+     <y>109</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>3</x>
+     <y>98</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEditBinutils64</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>GCCSetup</receiver>
+   <slot>pathEdited64(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>173</x>
+     <y>135</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>3</x>
+     <y>135</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEditPrefix64</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>GCCSetup</receiver>
+   <slot>prefixEdited64(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>282</x>
+     <y>156</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>5</x>
+     <y>174</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEditEnvProDGps3</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>GCCSetup</receiver>
+   <slot>envEditedProDGps3(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>545</x>
+     <y>258</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>769</x>
+     <y>190</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEditBinutilsProDGps3</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>GCCSetup</receiver>
+   <slot>pathEditedProDGps3(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>615</x>
+     <y>283</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>730</x>
+     <y>215</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEditToolchainName</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>GCCSetup</receiver>
+   <slot>toolchainRenamed(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>370</x>
+     <y>53</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>9</x>
+     <y>40</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolchainCombo</sender>
+   <signal>activated(int)</signal>
+   <receiver>GCCSetup</receiver>
+   <slot>toolchainSelected(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>410</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>4</x>
+     <y>10</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>pathBrowse64()</slot>
+  <slot>pathBrowse32()</slot>
+  <slot>pathBrowseProDGps3()</slot>
+  <slot>envEdited32(QString)</slot>
+  <slot>pathEdited32(QString)</slot>
+  <slot>prefixEdited32(QString)</slot>
+  <slot>envEdited64(QString)</slot>
+  <slot>pathEdited64(QString)</slot>
+  <slot>prefixEdited64(QString)</slot>
+  <slot>envEditedProDGps3(QString)</slot>
+  <slot>pathEditedProDGps3(QString)</slot>
+  <slot>toolchainRenamed(QString)</slot>
+  <slot>toolchainSelected(int)</slot>
+ </slots>
+</ui>

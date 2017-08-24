@@ -1,0 +1,10 @@
+*.c      eol=lf
+*.cpp    eol=lf
+*.h      eol=lf
+*.hpp    eol=lf
+*.hlsl   eol=lf
+*.md     eol=lf
+*.lua    eol=lf
+*.mk     eol=lf
+makefile eol=lf
+

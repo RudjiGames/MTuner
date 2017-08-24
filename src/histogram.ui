@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>HistogramWidgetClass</class>
+ <widget class="QWidget" name="HistogramWidgetClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>391</width>
+    <height>149</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="mtuner.qrc">
+    <normaloff>:/MTuner/resources/images/Histogram64.png</normaloff>:/MTuner/resources/images/Histogram64.png</iconset>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="sizeConstraint">
+    <enum>QLayout::SetMinimumSize</enum>
+   </property>
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="HistogramView" name="graphicsView">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="cacheMode">
+      <set>QGraphicsView::CacheBackground</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetMinimumSize</enum>
+     </property>
+     <item>
+      <widget class="QComboBox" name="comboType">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <item>
+        <property name="text">
+         <string>Memory usage</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Allocation overhead</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Number of allocations</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comboHistogram">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>Select which time range to show histograms for</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>Global histogram</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Snapshot histogram</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Global and snapshot histogram</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBoxPeaks">
+       <property name="toolTip">
+        <string>Shows peak values alongside current values</string>
+       </property>
+       <property name="text">
+        <string>Show peaks</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>HistogramView</class>
+   <extends>QGraphicsView</extends>
+   <header>../../src/histogramview.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="mtuner.qrc"/>
+ </resources>
+ <connections/>
+</ui>

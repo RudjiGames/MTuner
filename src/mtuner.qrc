@@ -1,0 +1,51 @@
+<RCC>
+  <qresource prefix="MTuner">
+    <file>../resources/fonts/Maven Pro Bold.otf</file>
+    <file>../resources/fonts/Maven Pro Medium.otf</file>
+    <file>../resources/fonts/Maven Pro Regular.otf</file>
+    <file>../resources/images/Graph64.png</file>
+    <file>../resources/images/Graph128.png</file>
+    <file>../resources/images/Graph256.png</file>
+    <file>../resources/images/FlameSelected64.png</file>
+    <file>../resources/images/Open64.png</file>
+    <file>../resources/images/Symbol64.png</file>
+    <file>../resources/images/Flame64.png</file>
+    <file>../resources/images/Filter64.png</file>
+    <file>../resources/images/LeakSelected64.png</file>
+    <file>../resources/images/toolchain_android.png</file>
+    <file>../resources/images/toolchain_android_arm.png</file>
+    <file>../resources/images/toolchain_android_mips.png</file>
+    <file>../resources/images/toolchain_android_x86.png</file>
+    <file>../resources/images/toolchain_ps3.png</file>
+    <file>../resources/images/toolchain_ps4.png</file>
+    <file>../resources/images/toolchain_mingw.png</file>
+    <file>../resources/images/table.png</file>
+    <file>../resources/images/Documentation.png</file>
+    <file>../resources/images/Heaps.png</file>
+    <file>../resources/images/gnu64.png</file>
+    <file>../resources/images/notok.png</file>
+    <file>../resources/images/ok.png</file>
+    <file>../resources/images/red_dot.png</file>
+    <file>../resources/images/Editor64.png</file>
+    <file>../resources/images/StackTraceSource64.png</file>
+    <file>../resources/images/List64.png</file>
+    <file>../resources/images/ListSelected64.png</file>
+    <file>../resources/images/Run.png</file>
+    <file>../resources/images/TreeMapSelected64.png</file>
+    <file>../resources/images/Lupa16.png</file>
+    <file>../resources/images/StackTree64.png</file>
+    <file>../resources/images/StackTreeSelected64.png</file>
+    <file>../resources/images/Projects64.png</file>
+    <file>../resources/images/Leak64.png</file>
+    <file>../resources/images/Histogram64.png</file>
+    <file>../resources/images/Group64.png</file>
+    <file>../resources/images/TreeMap64.png</file>
+    <file>../resources/images/Icon64.png</file>
+    <file>../resources/images/GroupSelected64.png</file>
+    <file>../resources/images/Icon128.png</file>
+    <file>../resources/images/Icon256.png</file>
+    <file>../resources/images/IT.png</file>
+    <file>../resources/images/linkedin.png</file>
+    <file>../resources/images/twitter.png</file>	
+  </qresource>
+</RCC>
