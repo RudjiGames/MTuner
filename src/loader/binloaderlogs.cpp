@@ -88,20 +88,20 @@ static inline void WriteStackFrame(FILE* inFile, rdebug::StackFrame& inSt)
 //--------------------------------------------------------------------------
 /// Writes global stats information to the file
 //--------------------------------------------------------------------------
-void	Capture::WriteGlobalStats( FILE* inFile )
+void	Capture::writeGlobalStats( FILE* inFile )
 {
 	char buffer[128];
 
 	fprintf(inFile,"----------------------------------------\n");
-	fprintf(inFile,"Memory usage            : %s\n", FormatNumber(m_StatsGlobal.m_memoryUsage,buffer));
-	fprintf(inFile,"Memory usage at peak    : %s\n", FormatNumber(m_StatsGlobal.m_memoryUsagePeak,buffer));
-	fprintf(inFile,"Overhead                : %s\n", FormatNumber(m_StatsGlobal.m_overhead,buffer));
-	fprintf(inFile,"Overhead at peak        : %s\n", FormatNumber(m_StatsGlobal.m_overheadPeak,buffer));
-	fprintf(inFile,"Number of operations    : %s\n", FormatNumber(m_StatsGlobal.m_numberOfOperations,buffer));
-	fprintf(inFile,"Number of allocations   : %s\n", FormatNumber(m_StatsGlobal.m_numberOfAllocations,buffer));
-	fprintf(inFile,"Number of reallocations : %s\n", FormatNumber(m_StatsGlobal.m_numberOfReAllocations,buffer));
-	fprintf(inFile,"Number of frees         : %s\n", FormatNumber(m_StatsGlobal.m_numberOfFrees,buffer));
-	fprintf(inFile,"Number of memory leaks  : %s\n", FormatNumber(m_StatsGlobal.m_numberOfLiveBlocks,buffer));
+	fprintf(inFile,"Memory usage            : %s\n", FormatNumber(m_statsGlobal.m_memoryUsage,buffer));
+	fprintf(inFile,"Memory usage at peak    : %s\n", FormatNumber(m_statsGlobal.m_memoryUsagePeak,buffer));
+	fprintf(inFile,"Overhead                : %s\n", FormatNumber(m_statsGlobal.m_overhead,buffer));
+	fprintf(inFile,"Overhead at peak        : %s\n", FormatNumber(m_statsGlobal.m_overheadPeak,buffer));
+	fprintf(inFile,"Number of operations    : %s\n", FormatNumber(m_statsGlobal.m_numberOfOperations,buffer));
+	fprintf(inFile,"Number of allocations   : %s\n", FormatNumber(m_statsGlobal.m_numberOfAllocations,buffer));
+	fprintf(inFile,"Number of reallocations : %s\n", FormatNumber(m_statsGlobal.m_numberOfReAllocations,buffer));
+	fprintf(inFile,"Number of frees         : %s\n", FormatNumber(m_statsGlobal.m_numberOfFrees,buffer));
+	fprintf(inFile,"Number of memory leaks  : %s\n", FormatNumber(m_statsGlobal.m_numberOfLiveBlocks,buffer));
 	fprintf(inFile,"----------------------------------------\n");
 }
 
@@ -118,7 +118,7 @@ bool Capture::saveLog(const char* _path, uintptr_t _symResolver )
 
 	uint32_t size = (uint32_t)m_operations.size();
 
-	WriteGlobalStats(f);
+	writeGlobalStats(f);
 
 	// write ops
 	for (uint32_t i=0; i<size; i++)
@@ -177,9 +177,9 @@ static inline bool sortGroupByTotal( const MemoryOperationGroup* inG1, const Mem
 bool Capture::saveGroupsLog(const char* _path, eGroupSort _sorting, uintptr_t _symResolver )
 {
 	rtm_vector<MemoryOperationGroup*> sortedGroups;
-	sortedGroups.reserve(m_OperationGroups.size());
+	sortedGroups.reserve(m_operationGroups.size());
 
-	MemoryGroupsHashType& srcGroups = m_FilteringEnabled ? m_OperationGroupsFiltered : m_OperationGroups;
+	MemoryGroupsHashType& srcGroups = m_filteringEnabled ? m_filter.m_operationGroups : m_operationGroups;
 	MemoryGroupsHashType::iterator it = srcGroups.begin();
 	MemoryGroupsHashType::iterator end = srcGroups.end();
 	while (it != end)
@@ -206,7 +206,7 @@ bool Capture::saveGroupsLog(const char* _path, eGroupSort _sorting, uintptr_t _s
 
 	uint32_t size = (uint32_t)sortedGroups.size();
 
-	WriteGlobalStats(f);
+	writeGlobalStats(f);
 
 	// write ops
 	for (uint32_t i=0; i<size; i++)
@@ -246,9 +246,9 @@ bool Capture::saveGroupsLog(const char* _path, eGroupSort _sorting, uintptr_t _s
 bool Capture::saveGroupsLogXML(const char* _path, eGroupSort _sorting, uintptr_t _symResolver)
 {
 	rtm_vector<MemoryOperationGroup*> sortedGroups;
-	sortedGroups.reserve(m_OperationGroups.size());
+	sortedGroups.reserve(m_operationGroups.size());
 
-	MemoryGroupsHashType& srcGroups = m_FilteringEnabled ? m_OperationGroupsFiltered : m_OperationGroups;
+	MemoryGroupsHashType& srcGroups = m_filteringEnabled ? m_filter.m_operationGroups : m_operationGroups;
 	MemoryGroupsHashType::iterator it = srcGroups.begin();
 	MemoryGroupsHashType::iterator end = srcGroups.end();
 	while (it != end)
@@ -273,45 +273,45 @@ bool Capture::saveGroupsLogXML(const char* _path, eGroupSort _sorting, uintptr_t
 
 	fprintf(f, "<?xml version=\"1.0\"?>\n");
 	fprintf(f, "<MTuner File=\"");
-	fprintf(f,m_LoadedFile.c_str());
+	fprintf(f,m_loadedFile.c_str());
 	fprintf(f, "\">\n");
 
 	char buffer[128];
 	fprintf(f, "    <Stats>\n");
 	fprintf(f, "        <Usage>");
-	fprintf(f, FormatNumber(m_StatsGlobal.m_memoryUsage,buffer));
+	fprintf(f, FormatNumber(m_statsGlobal.m_memoryUsage,buffer));
 	fprintf(f, "</Usage>\n");
 
 	fprintf(f, "        <Peak>");
-	fprintf(f,FormatNumber(m_StatsGlobal.m_memoryUsagePeak,buffer));
+	fprintf(f,FormatNumber(m_statsGlobal.m_memoryUsagePeak,buffer));
 	fprintf(f, "</Peak>\n");
 
 	fprintf(f, "        <Overhead>");
-	fprintf(f,FormatNumber(m_StatsGlobal.m_overhead,buffer));
+	fprintf(f,FormatNumber(m_statsGlobal.m_overhead,buffer));
 	fprintf(f, "</Overhead>\n");
 
 	fprintf(f, "        <OverheadPeak>");
-	fprintf(f,FormatNumber(m_StatsGlobal.m_overheadPeak,buffer));
+	fprintf(f,FormatNumber(m_statsGlobal.m_overheadPeak,buffer));
 	fprintf(f, "</OverheadPeak>\n");
 
 	fprintf(f, "        <Operations>");
-	fprintf(f,FormatNumber(m_StatsGlobal.m_numberOfOperations,buffer));
+	fprintf(f,FormatNumber(m_statsGlobal.m_numberOfOperations,buffer));
 	fprintf(f, "</Operations>\n");
 
 	fprintf(f, "        <Allocations>");
-	fprintf(f,FormatNumber(m_StatsGlobal.m_numberOfAllocations,buffer));
+	fprintf(f,FormatNumber(m_statsGlobal.m_numberOfAllocations,buffer));
 	fprintf(f, "</Allocations>\n");
 
 	fprintf(f, "        <Reallocations>");
-	fprintf(f,FormatNumber(m_StatsGlobal.m_numberOfReAllocations,buffer));
+	fprintf(f,FormatNumber(m_statsGlobal.m_numberOfReAllocations,buffer));
 	fprintf(f, "</Reallocations>\n");
 
 	fprintf(f, "        <Frees>");
-	fprintf(f,FormatNumber(m_StatsGlobal.m_numberOfFrees,buffer));
+	fprintf(f,FormatNumber(m_statsGlobal.m_numberOfFrees,buffer));
 	fprintf(f, "</Frees>\n");
 
 	fprintf(f, "        <Leaks>");
-	fprintf(f,FormatNumber(m_StatsGlobal.m_numberOfLiveBlocks,buffer));
+	fprintf(f,FormatNumber(m_statsGlobal.m_numberOfLiveBlocks,buffer));
 	fprintf(f, "</Leaks>\n");
 	
 	fprintf(f, "    </Stats>\n");

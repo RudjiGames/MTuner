@@ -289,7 +289,7 @@ void GroupTableSource::prepareData()
 {
 	bool filterEnabled = m_list->getFilteringState();
 	
-	const rtm::Capture::MemoryGroupsHashType* groups = &m_context->m_capture->getMemoryGroups();
+	const rtm::MemoryGroupsHashType* groups = &m_context->m_capture->getMemoryGroups();
 	if (filterEnabled)
 		groups = &m_context->m_capture->getMemoryGroupsFiltered();
 
@@ -302,8 +302,8 @@ void GroupTableSource::prepareData()
 	uint32_t numItems = getNumberOfRows();
 	m_allGroups.clear();
 	m_allGroups.reserve(numItems);
-	rtm::Capture::MemoryGroupsHashType::const_iterator it = groups->begin();
-	rtm::Capture::MemoryGroupsHashType::const_iterator end = groups->end();
+	rtm::MemoryGroupsHashType::const_iterator it = groups->begin();
+	rtm::MemoryGroupsHashType::const_iterator end = groups->end();
 	while (it != end)
 	{
 		rtm::MemoryOperationGroup* ptr = (rtm::MemoryOperationGroup*)&it->second;
@@ -439,8 +439,8 @@ QString GroupTableSource::getItem(uint32_t _index, int32_t _column, QColor*, boo
 	
 		case GroupColumn::Heap:
 			{
-				rtm::Capture::HeapsType& heaps = m_context->m_capture->getHeaps();
-				rtm::Capture::HeapsType::iterator it = heaps.find(group->m_operations[0]->m_allocatorHandle);
+				rtm::HeapsType& heaps = m_context->m_capture->getHeaps();
+				rtm::HeapsType::iterator it = heaps.find(group->m_operations[0]->m_allocatorHandle);
 				if (it != heaps.end())
 					return it->second.c_str();
 				else

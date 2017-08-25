@@ -3,10 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNERLOADER_STREAM_H__
-#define __RTM_MTUNERLOADER_STREAM_H__
-
-#include <vector>
+#ifndef __RTM_MTUNER_BINLOADER_H__
+#define __RTM_MTUNER_BINLOADER_H__
 
 namespace rtm {
 
@@ -42,4 +40,4 @@ private:
 
 } // namespace rtm
 
-#endif // __RTM_MTUNERLOADER_STREAM_H__
+#endif // __RTM_MTUNER_BINLOADER_H__

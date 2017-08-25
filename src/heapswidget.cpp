@@ -33,9 +33,9 @@ void HeapsWidget::setContext(CaptureContext* _context)
 	if (m_context)
 	{
 		m_treeWidget->clear();
-		rtm::Capture::HeapsType& heaps = m_context->m_capture->getHeaps();
-		rtm::Capture::HeapsType::iterator it = heaps.begin();
-		rtm::Capture::HeapsType::iterator end = heaps.end();
+		rtm::HeapsType& heaps = m_context->m_capture->getHeaps();
+		rtm::HeapsType::iterator it = heaps.begin();
+		rtm::HeapsType::iterator end = heaps.end();
 
 		QTreeWidgetItem* item = new QTreeWidgetItem(QStringList()
 									<< ""

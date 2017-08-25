@@ -113,11 +113,11 @@ void GraphWidget::setContext(CaptureContext* _context, BinLoaderView* _view)
 		m_minTime = _view->getMinTime();
 		m_maxTime = _view->getMaxTime();
 	
-		if ((m_context->m_capture->getMinTime() == m_context->m_capture->getMinTimeSnapshot()) &&
-			(m_context->m_capture->getMaxTime() == m_context->m_capture->getMaxTimeSnapshot()))
+		if ((m_context->m_capture->getMinTime() == m_context->m_capture->getSnapshotTimeMin()) &&
+			(m_context->m_capture->getMaxTime() == m_context->m_capture->getSnapshotTimeMax()))
 			m_select->setSelectRange(0, 0);
 		else
-			m_select->setSelectRange(m_context->m_capture->getMinTimeSnapshot(), m_context->m_capture->getMaxTimeSnapshot());
+			m_select->setSelectRange(m_context->m_capture->getSnapshotTimeMin(), m_context->m_capture->getSnapshotTimeMax());
 	}
 	invalidateScene();
 }
@@ -140,10 +140,10 @@ QRect GraphWidget::getDrawRect() const
 	int hWidth	= sz.width()/2;
 	int hHeight	= sz.height()/2;
 
-	int left	= -hWidth + GraphWidget::s_marginLeft;
-	int right	= hWidth - GraphWidget::s_marginRight;
+	int left	= -hWidth  + GraphWidget::s_marginLeft;
+	int right	=  hWidth  - GraphWidget::s_marginRight;
 	int top		= -hHeight + GraphWidget::s_marginTop;
-	int bottom	= hHeight - GraphWidget::s_marginBottom;
+	int bottom	=  hHeight - GraphWidget::s_marginBottom;
 	
 	return QRect(left,top,right-left,bottom-top);
 }
@@ -175,7 +175,6 @@ int	GraphWidget::mapTimeToPos(uint64_t _x) const
 	
 	uint64_t minTime = m_minTime;
 	uint64_t maxTime = m_maxTime;
-
 	QRectF drawRect = getDrawRect();
 	uint64_t offset = ((_x - minTime) * drawRect.width()) / (maxTime - minTime);
 	
@@ -315,7 +314,7 @@ void GraphWidget::zoomOut()
 void GraphWidget::zoomOut(uint64_t _time)
 {
 	int64_t timeSpan = (m_maxTime - m_minTime) / 2;
-	int64_t middle = (m_maxTime + m_minTime) / 2;
+	int64_t middle   = (m_maxTime + m_minTime) / 2;
 	if (_time != -1)
 	{
 		middle = _time;
@@ -355,7 +354,7 @@ void GraphWidget::zoomReset()
 
 void GraphWidget::zoomSelect()
 {
-	animateRange(m_context->m_capture->getMinTimeSnapshot(), m_context->m_capture->getMaxTimeSnapshot());
+	animateRange(m_context->m_capture->getSnapshotTimeMin(), m_context->m_capture->getSnapshotTimeMax());
 	m_actionZoomReset->setEnabled(true);
 }
 
@@ -367,8 +366,8 @@ void GraphWidget::zoomAnimEvent()
 void GraphWidget::markerSnapTo()
 {
 	uint64_t f = m_hoverMarkerTime;
-	uint64_t maxS = m_context->m_capture->getMaxTimeSnapshot();
-	uint64_t minS = m_context->m_capture->getMinTimeSnapshot();
+	uint64_t maxS = m_context->m_capture->getSnapshotTimeMax();
+	uint64_t minS = m_context->m_capture->getSnapshotTimeMin();
 
 	if (f>maxS)
 		maxS = f;

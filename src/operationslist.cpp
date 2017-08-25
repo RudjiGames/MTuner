@@ -241,13 +241,12 @@ QString OperationTableSource::getItem(uint32_t _index, int32_t _column, QColor* 
 			
 		case OperationColumn::Heap:
 			{
-				rtm::Capture::HeapsType& heaps = m_context->m_capture->getHeaps();
-				rtm::Capture::HeapsType::iterator it = heaps.find(op->m_allocatorHandle);
+				rtm::HeapsType& heaps = m_context->m_capture->getHeaps();
+				rtm::HeapsType::iterator it = heaps.find(op->m_allocatorHandle);
 				if (it != heaps.end())
 					return it->second.c_str();
 				else
 					return "0x" + QString::number(op->m_allocatorHandle, 16);
-
 			}
 			
 		case OperationColumn::Address: 

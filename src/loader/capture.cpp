@@ -67,7 +67,7 @@ static uint32_t getGranularityMask(uint64_t inOps)
 	return granularity - 1;
 }
 
-inline bool psTime( MemoryOperation* inOp1, MemoryOperation* inOp2 )
+inline bool psTime(MemoryOperation* inOp1, MemoryOperation* inOp2)
 {
 	return inOp1->m_operationTime < inOp2->m_operationTime;
 }
@@ -121,7 +121,7 @@ inline uint32_t	ReadString(wchar_t ioString[Len], BinLoader& _loader, bool inSwa
 //--------------------------------------------------------------------------
 ///
 //--------------------------------------------------------------------------
-static inline uint32_t calcGroupHash( MemoryOperation* _op )
+static inline uint32_t calcGroupHash(MemoryOperation* _op)
 {
 	struct hash
 	{
@@ -139,10 +139,10 @@ static inline uint32_t calcGroupHash( MemoryOperation* _op )
 	return hashMurmur3(&h, sizeof(hash));
 }
 
-static inline void addHeap(Capture::HeapsType& inHeaps, uint64_t inHeap)
+static inline void addHeap(HeapsType& _heaps, uint64_t _heap)
 {
-	if (inHeaps.find(inHeap) == inHeaps.end())
-		inHeaps[inHeap] = "";
+	if (_heaps.find(_heap) == _heaps.end())
+		_heaps[_heap] = "";
 }
 
 //--------------------------------------------------------------------------
@@ -153,8 +153,8 @@ Capture::Capture()
 	m_modulePathBuffer			= 0;
 	m_modulePathBufferPtr		= 0;
 
-	m_LoadProgressCallback		= NULL;
-	m_LoadProgressCustomData	= NULL;
+	m_loadProgressCallback		= NULL;
+	m_loadProgressCustomData	= NULL;
 
 	clearData();
 }
@@ -172,16 +172,16 @@ Capture::~Capture()
 //--------------------------------------------------------------------------
 void Capture::clearData()
 {
-	m_FilteringEnabled = false;
-	m_SwapEndian	= false;
+	m_filteringEnabled = false;
+	m_swapEndian	= false;
 	m_64bit			= false;
 	
-	m_LoadedFile.clear();
-	m_OperationPool.Reset();
-	m_StackPool.Reset();
+	m_loadedFile.clear();
+	m_operationPool.Reset();
+	m_stackPool.Reset();
 	m_operations.clear();
-	m_StatsGlobal.Reset();
-	m_StatsSnapshot.Reset();
+	m_statsGlobal.Reset();
+	m_statsSnapshot.Reset();
 	
 	// symbols
 
@@ -196,28 +196,29 @@ void Capture::clearData()
 
 	// -----
 
-	m_StackTraces.clear();
-	m_TimedStats.clear();
+	m_stackTraces.clear();
+	m_timedStats.clear();
 
-	m_MinTime = 0;
-	m_MaxTime = 0;
-	m_MinTimeSnapshot = 0;
-	m_MaxTimeSnapshot = 0;
+	m_minTime = 0;
+	m_maxTime = 0;
 
-	m_UsageGraph.clear();
+	m_filter.m_minTimeSnapshot	= 0;
+	m_filter.m_maxTimeSnapshot	= 0;
+	m_filter.m_histogramIndex	= 0xffffffff;
+	m_filter.m_tagHash			= 0;
+	m_filter.m_threadID			= 0;
+
+	m_usageGraph.clear();
 	
-	m_MemoryMarkers.clear();
-	m_MemoryMarkerTimes.clear();
+	m_memoryMarkers.clear();
+	m_memoryMarkerTimes.clear();
 
 	m_Heaps.clear(); 
-	m_CurrentHeap = (uint64_t)-1;
+	m_currentHeap = (uint64_t)-1;
 
-	m_SelectedHistogramIndex	= 0xffffffff;
-	m_SelectedTagHash			= 0;
-	m_SelectedThreadId			= 0;
 
-	tagTreeDestroy(m_TagTreeGlobal);
-	destroyStackTree(m_StackTraceTree);
+	tagTreeDestroy(m_tagTree);
+	destroyStackTree(m_stackTraceTree);
 }
 
 //--------------------------------------------------------------------------
@@ -239,7 +240,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 {
 	clearData();
 
-	m_LoadedFile = _path;
+	m_loadedFile = _path;
 
 	rtm::MultiToWide path(_path);
 #if RTM_COMPILER_MSVC
@@ -300,25 +301,25 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 		return Capture::LoadFail;
 
 #if RTM_LITTLE_ENDIAN
-	m_SwapEndian	= (endianess == 0xff) ? true : false;
+	m_swapEndian	= (endianess == 0xff) ? true : false;
 #else
-	m_SwapEndian	= (endianess == 0xff) ? false : true;
+	m_swapEndian	= (endianess == 0xff) ? false : true;
 #endif
 
 	m_64bit			= (pointerSize == 64) ? true : false;
-	m_Toolchain		= (rmem::ToolChain::Enum)toolChain;
+	m_toolchain		= (rmem::ToolChain::Enum)toolChain;
 
-	if (m_SwapEndian)
+	if (m_swapEndian)
 		cpuFrequency = Endian::swap(cpuFrequency);
 	m_CPUFrequency = cpuFrequency;
 
 	printf("Load bin:\n  version %d.%d\n  %s endian\n  %sbit\n", 
 			verHigh, 
 			verLow, 
-			m_SwapEndian ? "Big" : "Little",
+			m_swapEndian ? "Big" : "Little",
 			m_64bit ? "64" : "32" );
 
-	if (!LoadSymbolInfo(loader, fileSize))
+	if (!loadSymbolInfo(loader, fileSize))
 	{
 		clearData();
 		return Capture::LoadFail;
@@ -341,11 +342,11 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 			break;
 
 		uint64_t pos = loader.tell();
-		if ((pos > nextProgressPoint) && m_LoadProgressCallback)
+		if ((pos > nextProgressPoint) && m_loadProgressCallback)
 		{
 			nextProgressPoint += fileSizeOver100;
 			float percent = float(pos) / fileSizeOver100;
-			m_LoadProgressCallback(m_LoadProgressCustomData, percent, "Loading capture file...");
+			m_loadProgressCallback(m_loadProgressCustomData, percent, "Loading capture file...");
 		}
 
 		switch (marker)
@@ -358,7 +359,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 			case rmem::LogMarkers::OpReallocAligned:
 				{
 					// read memory op
-					MemoryOperation* op = m_OperationPool.Alloc();
+					MemoryOperation* op = m_operationPool.Alloc();
 
 					if (loader.readVar(op->m_allocatorHandle) != 1)
 					{
@@ -476,7 +477,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					if (!loadSuccess)
 						break;
 
-					if (m_SwapEndian)
+					if (m_swapEndian)
 					{
 						op->m_allocatorHandle		= Endian::swap(op->m_allocatorHandle);
 						op->m_threadID				= Endian::swap(op->m_threadID);
@@ -539,7 +540,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 						break;
 					}
 
-					if (m_SwapEndian)
+					if (m_swapEndian)
 						numFrames16 = Endian::swap(numFrames16);
 
 					numFrames32 = numFrames16;
@@ -549,7 +550,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 						break;
 					}
 
-					if (m_SwapEndian && stackTraceHash)
+					if (m_swapEndian && stackTraceHash)
 						stackTraceHash = Endian::swap(stackTraceHash);
 
 					StackTrace* st = NULL;
@@ -568,7 +569,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 							if (!loadSuccess)
 								break;
 
-							if (m_SwapEndian)
+							if (m_swapEndian)
 								for (uint32_t i=0; i<numFrames32; i++)
 									backTrace64[i] = Endian::swap(backTrace64[i]);
 
@@ -587,7 +588,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 							if (!loadSuccess)
 								break;
 
-							if (m_SwapEndian)
+							if (m_swapEndian)
 								for (uint32_t i=0; i<numFrames32; i++)
 									backTrace32[i] = Endian::swap(backTrace32[i]);
 
@@ -600,8 +601,8 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 						bool allocateAndAdd = true;
 
-						StackTraceHashType::iterator it = m_StackTraces.find(stackTraceHash);
-						if (it != m_StackTraces.end())
+						StackTraceHashType::iterator it = m_stackTraces.find(stackTraceHash);
+						if (it != m_stackTraces.end())
 						{
 							StackTrace* s = it->second;
 							if (stackTraceCompare(s->m_entries, s->m_numEntries, backTrace64, numFrames32))
@@ -613,19 +614,19 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 						if (allocateAndAdd)
 						{
-							st = (StackTrace*)m_StackPool.Alloc((uint32_t)(sizeof(StackTrace) + ((numFrames32*4)-1)*sizeof(uint64_t)));
-							st->m_next = (StackTrace**)m_StackPool.Alloc((uint32_t)(sizeof(StackTrace*) * (numFrames32+1)));
+							st = (StackTrace*)m_stackPool.Alloc((uint32_t)(sizeof(StackTrace) + ((numFrames32*4)-1)*sizeof(uint64_t)));
+							st->m_next = (StackTrace**)m_stackPool.Alloc((uint32_t)(sizeof(StackTrace*) * (numFrames32+1)));
 							memset(st->m_next, 0, sizeof(StackTrace*) * (numFrames32+1));
 							memcpy(&st->m_entries[0], backTrace64, numFrames32*sizeof(uint64_t));
 							memset(&st->m_entries[numFrames32*2], 0xff, numFrames32 * 2 * sizeof(uint64_t));
 							st->m_numEntries = (uint64_t)numFrames32;
-							m_StackTraces[stackTraceHash] = st;
+							m_stackTraces[stackTraceHash] = st;
 						}
 					}
 					else
 					{
 						// STACK_TRACE_EXISTS
-						st = m_StackTraces[stackTraceHash];
+						st = m_stackTraces[stackTraceHash];
 					}
 
 					if (!st)
@@ -670,21 +671,21 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					uint32_t tagHash;
 					uint32_t tagParentHash = 0;
 
-					ReadString<1024>(tagName, loader, m_SwapEndian);
-					ReadString<1024>(tagParentName, loader, m_SwapEndian);
+					ReadString<1024>(tagName, loader, m_swapEndian);
+					ReadString<1024>(tagParentName, loader, m_swapEndian);
 					VERIFY_READ_SIZE(tagHash)
 					if (strlen(tagParentName) != 0)
 					{
 						VERIFY_READ_SIZE(tagParentHash)
 					}
 
-					if (m_SwapEndian)
+					if (m_swapEndian)
 					{
 						tagHash			= Endian::swap(tagHash);
 						tagParentHash	= Endian::swap(tagParentHash);
 					}
 
-					AddMemoryTag(tagName,tagHash,tagParentHash);
+					addMemoryTag(tagName,tagHash,tagParentHash);
 				}
 				break;
 
@@ -696,7 +697,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					VERIFY_READ_SIZE(tagHash)
 					VERIFY_READ_SIZE(threadID)
 
-					if (m_SwapEndian)
+					if (m_swapEndian)
 					{
 						tagHash		= Endian::swap(tagHash);
 						threadID	= Endian::swap(threadID);
@@ -715,7 +716,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					VERIFY_READ_SIZE(tagHash)
 					VERIFY_READ_SIZE(threadID)
 
-					if (m_SwapEndian)
+					if (m_swapEndian)
 					{
 						tagHash		= Endian::swap(tagHash);
 						threadID	= Endian::swap(threadID);
@@ -732,11 +733,11 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					uint32_t markerNameHash;
 					uint32_t markerColor;
 
-					ReadString<1024>(markerName, loader, m_SwapEndian);
+					ReadString<1024>(markerName, loader, m_swapEndian);
 					VERIFY_READ_SIZE(markerNameHash)
 					VERIFY_READ_SIZE(markerColor)
 
-					if (m_SwapEndian)
+					if (m_swapEndian)
 					{
 						markerNameHash	= Endian::swap(markerNameHash);
 						markerColor		= Endian::swap(markerColor);
@@ -746,7 +747,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					me.m_color		= markerColor;
 					me.m_name		= markerName;
 					me.m_nameHash	= markerNameHash;
-					m_MemoryMarkers[markerNameHash] = me;
+					m_memoryMarkers[markerNameHash] = me;
 				}
 				break;
 				
@@ -760,7 +761,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					VERIFY_READ_SIZE(threadID)
 					VERIFY_READ_SIZE(time)
 
-					if (m_SwapEndian)
+					if (m_swapEndian)
 					{
 						markerNameHash	= Endian::swap(markerNameHash);
 						threadID		= Endian::swap(threadID);
@@ -770,14 +771,14 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					if (minMarkerTime > time)
 						minMarkerTime = time;
 
-					MemoryMarkerEvent* evt = &m_MemoryMarkers[markerNameHash];
+					MemoryMarkerEvent* evt = &m_memoryMarkers[markerNameHash];
 					RTM_ASSERT(evt != NULL, "");
 
 					MemoryMarkerTime mt;
 					mt.m_threadID	= threadID;
 					mt.m_event		= evt;
 					mt.m_time		= time;
-					m_MemoryMarkerTimes.push_back(mt);
+					m_memoryMarkerTimes.push_back(mt);
 				}
 				break;
 
@@ -791,22 +792,22 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					if (sz == 1)
 					{
 						char modNameC[1024];
-						ReadString<1024>(modNameC, loader, m_SwapEndian);
+						ReadString<1024>(modNameC, loader, m_swapEndian);
 						sprintf_s(modName, "%s", modNameC);
 					}
 					else
-						ReadString<1024>(modName, loader, m_SwapEndian);
+						ReadString<1024>(modName, loader, m_swapEndian);
 
 					VERIFY_READ_SIZE(modBase);
 					VERIFY_READ_SIZE(modSize);
 
-					if (m_SwapEndian)
+					if (m_swapEndian)
 					{
 						modBase = Endian::swap(modBase);
 						modSize = Endian::swap(modSize);
 					}
 
-					AddModule(modName, modBase, modSize);
+					addModule(modName, modBase, modSize);
 				}
 				break;
 
@@ -815,9 +816,9 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					char		allocatorName[1024];
 					uint64_t	allocatorHandle;
 
-					ReadString<1024>(allocatorName, loader, m_SwapEndian);
+					ReadString<1024>(allocatorName, loader, m_swapEndian);
 					VERIFY_READ_SIZE(allocatorHandle);
-					if (m_SwapEndian)
+					if (m_swapEndian)
 						allocatorHandle = Endian::swap(allocatorHandle);
 
 					m_Heaps[allocatorHandle] = allocatorName;
@@ -846,15 +847,15 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 	if (loadSuccess == false)
 	{
-		if (m_LoadProgressCallback)
-			m_LoadProgressCallback(m_LoadProgressCustomData, 100.0f, "Error reading .MTuner file!");
+		if (m_loadProgressCallback)
+			m_loadProgressCallback(m_loadProgressCustomData, 100.0f, "Error reading .MTuner file!");
 
 		clearData();
 		return Capture::LoadFail;
 	}
 
-	if (m_LoadProgressCallback)
-		m_LoadProgressCallback(m_LoadProgressCustomData, 100.0f, "Sorting...");
+	if (m_loadProgressCallback)
+		m_loadProgressCallback(m_loadProgressCustomData, 100.0f, "Sorting...");
 
 #if RTM_PLATFORM_WINDOWS && RTM_COMPILER_MSVC
 	pSortOpsTime psTime(m_operations);
@@ -863,21 +864,21 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 	std::stable_sort(m_operations.begin(), m_operations.end(), psTime);
 #endif
 
-	if (!SetLinksAndRemoveInvalid(minMarkerTime))
+	if (!setLinksAndRemoveInvalid(minMarkerTime))
 	{
-		if (m_LoadProgressCallback)
-			m_LoadProgressCallback(m_LoadProgressCustomData, 100.0f, "Invalid data in .MTuner file!");
+		if (m_loadProgressCallback)
+			m_loadProgressCallback(m_loadProgressCustomData, 100.0f, "Invalid data in .MTuner file!");
 
 		clearData();
 		return Capture::LoadFail;
 	}
 
-	CalculateGlobalStats();
+	calculateGlobalStats();
 
 	if (!verifyGlobalStats())
 	{
-		if (m_LoadProgressCallback)
-			m_LoadProgressCallback(m_LoadProgressCustomData, 100.0f, "Invalid data in .MTuner file!");
+		if (m_loadProgressCallback)
+			m_loadProgressCallback(m_loadProgressCustomData, 100.0f, "Invalid data in .MTuner file!");
 
 		clearData();
 		return Capture::LoadFail;
@@ -891,9 +892,9 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 //--------------------------------------------------------------------------
 void Capture::setFilteringEnabled(bool inState)
 {
-	m_FilteringEnabled = inState;
-	if (m_FilteringEnabled)
-		CalculateFilteredData();
+	m_filteringEnabled = inState;
+	if (m_filteringEnabled)
+		calculateFilteredData();
 }
 
 //--------------------------------------------------------------------------
@@ -901,25 +902,25 @@ void Capture::setFilteringEnabled(bool inState)
 //--------------------------------------------------------------------------
 bool Capture::isInFilter(MemoryOperation* _op)
 {
-	if (!m_FilteringEnabled)
+	if (!m_filteringEnabled)
 		return true;
 
-	if ((m_CurrentHeap != (uint64_t)-1) && (_op->m_allocatorHandle != m_CurrentHeap))
+	if ((m_currentHeap != (uint64_t)-1) && (_op->m_allocatorHandle != m_currentHeap))
 		return false;
 
-	if ((m_SelectedHistogramIndex != (uint32_t)-1) && (m_SelectedHistogramIndex != getHistogramBinIndex(_op->m_allocSize)))
+	if ((m_filter.m_histogramIndex != (uint32_t)-1) && (m_filter.m_histogramIndex != getHistogramBinIndex(_op->m_allocSize)))
 		return false;
 
-	if ((m_SelectedTagHash != 0) && (m_SelectedTagHash != _op->m_tag))
+	if ((m_filter.m_tagHash != 0) && (m_filter.m_tagHash != _op->m_tag))
 		return false;
 
-	if ((m_SelectedThreadId != 0) && (m_SelectedThreadId != _op->m_threadID))
+	if ((m_filter.m_threadID != 0) && (m_filter.m_threadID != _op->m_threadID))
 		return false;
 
-	if (_op->m_operationTime < m_MinTimeSnapshot)
+	if (_op->m_operationTime < m_filter.m_minTimeSnapshot)
 		return false;
 
-	if (_op->m_operationTime > m_MaxTimeSnapshot)
+	if (_op->m_operationTime > m_filter.m_maxTimeSnapshot)
 		return false;
 
 	return true;
@@ -928,12 +929,12 @@ bool Capture::isInFilter(MemoryOperation* _op)
 //--------------------------------------------------------------------------
 /// Selects the bin for snapshot filtering
 //--------------------------------------------------------------------------
-void Capture::selectHistogramBin( uint32_t _index )
+void Capture::selectHistogramBin(uint32_t _index)
 {
-	if (_index != m_SelectedHistogramIndex)
+	if (_index != m_filter.m_histogramIndex)
 	{
-		m_SelectedHistogramIndex = _index;
-		CalculateSnapshotStats();
+		m_filter.m_histogramIndex = _index;
+		calculateSnapshotStats();
 	}
 }
 
@@ -942,22 +943,22 @@ void Capture::selectHistogramBin( uint32_t _index )
 //--------------------------------------------------------------------------
 void Capture::deselectHistogramBin()
 {
-	if (m_SelectedHistogramIndex != 0xffffffff)
+	if (m_filter.m_histogramIndex != 0xffffffff)
 	{
-		m_SelectedHistogramIndex = 0xffffffff;
-		CalculateSnapshotStats();
+		m_filter.m_histogramIndex = 0xffffffff;
+		calculateSnapshotStats();
 	}
 }
 
 //--------------------------------------------------------------------------
 /// Selects the tag for snapshot filtering
 //--------------------------------------------------------------------------
-void Capture::selectTag( uint32_t _tagHash )
+void Capture::selectTag(uint32_t _tagHash)
 {
-	if (_tagHash != m_SelectedHistogramIndex)
+	if (_tagHash != m_filter.m_tagHash)
 	{
-		m_SelectedTagHash = _tagHash;
-		CalculateSnapshotStats();
+		m_filter.m_tagHash = _tagHash;
+		calculateSnapshotStats();
 	}
 }
 
@@ -966,10 +967,10 @@ void Capture::selectTag( uint32_t _tagHash )
 //--------------------------------------------------------------------------
 void Capture::deselectTag()
 {
-	if (m_SelectedTagHash != 0xffffffff)
+	if (m_filter.m_tagHash != 0xffffffff)
 	{
-		m_SelectedTagHash = 0xffffffff;
-		CalculateSnapshotStats();
+		m_filter.m_tagHash = 0xffffffff;
+		calculateSnapshotStats();
 	}
 }
 
@@ -978,10 +979,10 @@ void Capture::deselectTag()
 //--------------------------------------------------------------------------
 void Capture::selectThread( uint64_t inThread )
 {
-	if (inThread != m_SelectedThreadId)
+	if (inThread != m_filter.m_threadID)
 	{
-		m_SelectedThreadId = inThread;
-		CalculateSnapshotStats();
+		m_filter.m_threadID = inThread;
+		calculateSnapshotStats();
 	}
 }
 
@@ -990,10 +991,10 @@ void Capture::selectThread( uint64_t inThread )
 //--------------------------------------------------------------------------
 void Capture::deselectThread()
 {
-	if (m_SelectedThreadId != 0)
+	if (m_filter.m_threadID != 0)
 	{
-		m_SelectedThreadId = 0;
-		CalculateSnapshotStats();
+		m_filter.m_threadID = 0;
+		calculateSnapshotStats();
 	}
 }
 
@@ -1002,19 +1003,19 @@ void Capture::deselectThread()
 //--------------------------------------------------------------------------
 void Capture::setSnapshot(uint64_t _minTime, uint64_t _maxTime)
 {
-	if (_minTime < m_MinTime)
+	if (_minTime < m_minTime)
 		return;
 
-	if (_maxTime > m_MaxTime)
+	if (_maxTime > m_maxTime)
 		return;
 
-	if ((m_MinTimeSnapshot != _minTime) ||
-		(m_MaxTimeSnapshot != _maxTime))
+	if ((m_filter.m_minTimeSnapshot != _minTime) ||
+		(m_filter.m_maxTimeSnapshot != _maxTime))
 	{
-		m_MinTimeSnapshot = _minTime;
-		m_MaxTimeSnapshot = _maxTime;
+		m_filter.m_minTimeSnapshot = _minTime;
+		m_filter.m_maxTimeSnapshot = _maxTime;
 
-		CalculateSnapshotStats();
+		calculateSnapshotStats();
 	}
 }
 
@@ -1025,18 +1026,18 @@ void Capture::getGraphAtTime(uint64_t _time, GraphEntry& _entry)
 {
 	uint32_t tIdx;
 	uint32_t idx = getIndexBefore(_time,tIdx);
-	_entry = m_UsageGraph[idx];
+	_entry = m_usageGraph[idx];
 }
 
 //--------------------------------------------------------------------------
 /// Loads symbol information
 //--------------------------------------------------------------------------
-bool Capture::LoadSymbolInfo(BinLoader& _loader, uint64_t _fileSize)
+bool Capture::loadSymbolInfo(BinLoader& _loader, uint64_t _fileSize)
 {
 	uint32_t symbolInfoSize;
 	_loader.readVar(symbolInfoSize);
 
-	if (m_SwapEndian)
+	if (m_swapEndian)
 		symbolInfoSize = Endian::swap(symbolInfoSize);
 
 	int64_t symSize = (int64_t)symbolInfoSize;
@@ -1047,7 +1048,7 @@ bool Capture::LoadSymbolInfo(BinLoader& _loader, uint64_t _fileSize)
 		uint64_t modSize; 
 		
 		size_t bytesRead = 0;
-		bytesRead += ReadString<1024>(exePath, _loader, m_SwapEndian, 0x23);
+		bytesRead += ReadString<1024>(exePath, _loader, m_swapEndian, 0x23);
 		if (bytesRead == sizeof(uint32_t))
 			break;
 		bytesRead += sizeof(uint64_t) * _loader.readVar(modBase);
@@ -1056,15 +1057,15 @@ bool Capture::LoadSymbolInfo(BinLoader& _loader, uint64_t _fileSize)
 		rtm::WideToMulti executablePath(exePath);
 		rtm::pathRemoveRelative(executablePath);
 		
-		if (m_SwapEndian)
+		if (m_swapEndian)
 		{
 			modBase = Endian::swap(modBase);
 			modSize = Endian::swap(modSize);
 		}
 
-		AddModule(executablePath, modBase, modSize);
+		addModule(executablePath, modBase, modSize);
 
-		if (m_LoadProgressCallback)
+		if (m_loadProgressCallback)
 		{
 			uint64_t pos = _loader.tell();
 
@@ -1072,7 +1073,7 @@ bool Capture::LoadSymbolInfo(BinLoader& _loader, uint64_t _fileSize)
 			char message[2048];
 			strcpy(message, "Loading symbols ");
 			strcat(message, executablePath);
-			m_LoadProgressCallback(m_LoadProgressCustomData, percent, message);
+			m_loadProgressCallback(m_loadProgressCustomData, percent, message);
 		}
 
 		symSize -= bytesRead;
@@ -1089,10 +1090,10 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 	RTM_ASSERT(_symResolver != 0, "Invalid symbol resolver!");
 
 	// get stack traces unique IDs
-	StackTraceHashType::iterator it  = m_StackTraces.begin();
-	StackTraceHashType::iterator end = m_StackTraces.end();
+	StackTraceHashType::iterator it  = m_stackTraces.begin();
+	StackTraceHashType::iterator end = m_stackTraces.end();
 
-	const uint32_t numStackTraces = (uint32_t)m_StackTraces.size();
+	const uint32_t numStackTraces = (uint32_t)m_stackTraces.size();
 	uint32_t nextProgressPoint = 0;
 	uint32_t numOpsOver100 = numStackTraces/100;
 	uint32_t idx = 0;
@@ -1135,11 +1136,11 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 		st->m_addedToTree[0] = 0;
 		++it;
 
-		if ((idx > nextProgressPoint) && m_LoadProgressCallback)
+		if ((idx > nextProgressPoint) && m_loadProgressCallback)
 		{
 			nextProgressPoint += numOpsOver100;
 			float percent = float(idx) / float(numOpsOver100);
-			m_LoadProgressCallback(m_LoadProgressCustomData, percent, "Generating unique symbol IDs...");
+			m_loadProgressCallback(m_loadProgressCustomData, percent, "Generating unique symbol IDs...");
 		}
 		++idx;
 	}
@@ -1152,11 +1153,11 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 	
 	for (uint32_t i=0; i<numOps; i++)
 	{
-		if ((i > nextProgressPoint) && m_LoadProgressCallback)
+		if ((i > nextProgressPoint) && m_loadProgressCallback)
 		{
 			nextProgressPoint += numOpsOver100;
 			float percent = float(i) / float(numOpsOver100);
-			m_LoadProgressCallback(m_LoadProgressCustomData, percent, "Building analysis data...");
+			m_loadProgressCallback(m_loadProgressCustomData, percent, "Building analysis data...");
 		}
 
 		MemoryOperation* op = m_operations[i];
@@ -1173,30 +1174,30 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 			isFreed = isFreed || ((op->m_operationType == rmem::LogMarkers::OpReallocAligned) && (op->m_allocSize == 0));
 
 			if (!isFreed)
-				m_MemoryLeaks.push_back(op);
+				m_memoryLeaks.push_back(op);
 		}
 
 		// add to memory groups
-		addToMemoryGroups(m_OperationGroups, op);
+		addToMemoryGroups(m_operationGroups, op);
 
 		// add to call stack tree
- 		addToStackTraceTree(m_StackTraceTree, op, StackTrace::GlobalOffset);
+ 		addToStackTraceTree(m_stackTraceTree, op, StackTrace::GlobalOffset);
 
 		// add to tag tree
-		tagAddOp(m_TagTreeGlobal, op, prevTag);
+		tagAddOp(m_tagTree, op, prevTag);
 
 		// add to heaps list
 		addHeap(m_Heaps, op->m_allocatorHandle);
 	}
 
-	if (m_LoadProgressCallback)
-		m_LoadProgressCallback(m_LoadProgressCustomData, 100.0f, "Done!");
+	if (m_loadProgressCallback)
+		m_loadProgressCallback(m_loadProgressCustomData, 100.0f, "Done!");
 }
 
 //--------------------------------------------------------------------------
 /// Links operations that are performed on the same address/memory block
 //--------------------------------------------------------------------------
-bool Capture::SetLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
+bool Capture::setLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 {
 	rtm_unordered_map<uint64_t, MemoryOperation*> opMap;
 	uint32_t numOps = (uint32_t)m_operations.size();
@@ -1207,11 +1208,11 @@ bool Capture::SetLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 	{
 		MemoryOperation* op = m_operations[i];
 
-		if ((i > nextProgressPoint) && m_LoadProgressCallback)
+		if ((i > nextProgressPoint) && m_loadProgressCallback)
 		{
 			nextProgressPoint += numOpsOver100;
 			float percent = float(i) / float(numOpsOver100);
-			m_LoadProgressCallback(m_LoadProgressCustomData, percent, "Processing...");
+			m_loadProgressCallback(m_loadProgressCustomData, percent, "Processing...");
 		}
 
 		RTM_ASSERT(op->m_chainPrev == NULL, "");
@@ -1318,16 +1319,16 @@ bool Capture::SetLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 	if (numOps == 0)
 		return false;
 
-	m_MinTime = m_operations[0]->m_operationTime;
-	if (m_MinTime > inMinMarkerTime)
-		m_MinTime = inMinMarkerTime;
-	m_MaxTime = m_operations[numOps-1]->m_operationTime;
+	m_minTime = m_operations[0]->m_operationTime;
+	if (m_minTime > inMinMarkerTime)
+		m_minTime = inMinMarkerTime;
+	m_maxTime = m_operations[numOps-1]->m_operationTime;
 
-	m_MinTimeSnapshot = m_MinTime;
-	m_MaxTimeSnapshot = m_MaxTime;
+	m_filter.m_minTimeSnapshot = m_minTime;
+	m_filter.m_maxTimeSnapshot = m_maxTime;
 
-	if (m_LoadProgressCallback)
-		m_LoadProgressCallback(m_LoadProgressCustomData, 100.0f, "Processing...");
+	if (m_loadProgressCallback)
+		m_loadProgressCallback(m_loadProgressCustomData, 100.0f, "Processing...");
 
 	return true;
 }
@@ -1335,7 +1336,7 @@ bool Capture::SetLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 //--------------------------------------------------------------------------
 /// Find module information corresponding to the given address
 //--------------------------------------------------------------------------
-bool Capture::FindModule( uint64_t inAddress, rdebug::ModuleInfo& outInfo )
+bool Capture::findModule(uint64_t inAddress, rdebug::ModuleInfo& outInfo)
 {
 	size_t numModules = m_moduleInfos.size();
 	for (size_t i=0; i<numModules; i++)
@@ -1354,7 +1355,7 @@ bool Capture::FindModule( uint64_t inAddress, rdebug::ModuleInfo& outInfo )
 //--------------------------------------------------------------------------
 /// Adds module to list of infos
 //--------------------------------------------------------------------------
-void Capture::AddModule(const char* _path, uint64_t inModBase, uint64_t inModSize)
+void Capture::addModule(const char* _path, uint64_t inModBase, uint64_t inModSize)
 {
 	char exePath[1024];
 	strcpy(exePath, _path);
@@ -1408,12 +1409,12 @@ void Capture::AddModule(const char* _path, uint64_t inModBase, uint64_t inModSiz
 //--------------------------------------------------------------------------
 /// Calculates statistics for entire binary
 //--------------------------------------------------------------------------
-void Capture::CalculateGlobalStats()
+void Capture::calculateGlobalStats()
 {
-	if (m_LoadProgressCallback)
-		m_LoadProgressCallback(m_LoadProgressCustomData, 100.0f, "Calculating stats...");
+	if (m_loadProgressCallback)
+		m_loadProgressCallback(m_loadProgressCustomData, 100.0f, "Calculating stats...");
 
-	memset(&m_StatsGlobal, 0, sizeof(MemoryStats));
+	memset(&m_statsGlobal, 0, sizeof(MemoryStats));
 	
 	MemoryStatsLocalPeak localPeak;
 	memset(&localPeak, 0, sizeof(MemoryStatsLocalPeak));
@@ -1432,14 +1433,14 @@ void Capture::CalculateGlobalStats()
 			st.m_time			= op->m_operationTime;
 			st.m_operationIndex	= (uint32_t)i;
 			st.m_localPeak		= localPeak;
-			st.m_stats			= m_StatsGlobal;
-			m_TimedStats.emplace_back(st);
+			st.m_stats			= m_statsGlobal;
+			m_timedStats.emplace_back(st);
 
 			// reset local peak structure
 			memset(&localPeak, 0, sizeof(MemoryStatsLocalPeak));
 		}
 
-		++m_StatsGlobal.m_numberOfOperations;
+		++m_statsGlobal.m_numberOfOperations;
 
 		switch (op->m_operationType)
 		{
@@ -1447,79 +1448,79 @@ void Capture::CalculateGlobalStats()
 		case rmem::LogMarkers::OpCalloc:
 		case rmem::LogMarkers::OpAllocAligned:
 			{
-				const uint32_t binIdx = fillStats_Alloc(op, m_StatsGlobal);
+				const uint32_t binIdx = fillStats_Alloc(op, m_statsGlobal);
 
 				// update local peak struct
-				localPeak.m_memoryUsagePeak							= Max(localPeak.m_memoryUsagePeak, m_StatsGlobal.m_memoryUsage);
-				localPeak.m_overheadPeak							= Max(localPeak.m_overheadPeak, m_StatsGlobal.m_overhead);
-				localPeak.m_numberOfLiveBlocksPeak					= Max(localPeak.m_numberOfLiveBlocksPeak, m_StatsGlobal.m_numberOfLiveBlocks);
-				localPeak.m_HistogramPeak[binIdx].m_sizePeak		= Max(localPeak.m_HistogramPeak[binIdx].m_sizePeak, m_StatsGlobal.m_histogram[binIdx].m_size);
-				localPeak.m_HistogramPeak[binIdx].m_overheadPeak	= Max(localPeak.m_HistogramPeak[binIdx].m_overheadPeak, m_StatsGlobal.m_histogram[binIdx].m_overhead);
-				localPeak.m_HistogramPeak[binIdx].m_countPeak		= Max(localPeak.m_HistogramPeak[binIdx].m_countPeak, m_StatsGlobal.m_histogram[binIdx].m_count);
+				localPeak.m_memoryUsagePeak							= Max(localPeak.m_memoryUsagePeak, m_statsGlobal.m_memoryUsage);
+				localPeak.m_overheadPeak							= Max(localPeak.m_overheadPeak, m_statsGlobal.m_overhead);
+				localPeak.m_numberOfLiveBlocksPeak					= Max(localPeak.m_numberOfLiveBlocksPeak, m_statsGlobal.m_numberOfLiveBlocks);
+				localPeak.m_HistogramPeak[binIdx].m_sizePeak		= Max(localPeak.m_HistogramPeak[binIdx].m_sizePeak, m_statsGlobal.m_histogram[binIdx].m_size);
+				localPeak.m_HistogramPeak[binIdx].m_overheadPeak	= Max(localPeak.m_HistogramPeak[binIdx].m_overheadPeak, m_statsGlobal.m_histogram[binIdx].m_overhead);
+				localPeak.m_HistogramPeak[binIdx].m_countPeak		= Max(localPeak.m_HistogramPeak[binIdx].m_countPeak, m_statsGlobal.m_histogram[binIdx].m_count);
 			}
 			break;
 
 		case rmem::LogMarkers::OpRealloc:
 		case rmem::LogMarkers::OpReallocAligned:
 			{
-				const uint32_t binIdx = fillStats_ReAlloc(op, m_StatsGlobal);
+				const uint32_t binIdx = fillStats_ReAlloc(op, m_statsGlobal);
 
 				// update local peak struct
-				localPeak.m_memoryUsagePeak							= Max(localPeak.m_memoryUsagePeak, m_StatsGlobal.m_memoryUsage);
-				localPeak.m_overheadPeak							= Max(localPeak.m_overheadPeak, m_StatsGlobal.m_overhead);
-				localPeak.m_numberOfLiveBlocksPeak					= Max(localPeak.m_numberOfLiveBlocksPeak, m_StatsGlobal.m_numberOfLiveBlocks);
-				localPeak.m_HistogramPeak[binIdx].m_sizePeak		= Max(localPeak.m_HistogramPeak[binIdx].m_sizePeak, m_StatsGlobal.m_histogram[binIdx].m_size);
-				localPeak.m_HistogramPeak[binIdx].m_overheadPeak	= Max(localPeak.m_HistogramPeak[binIdx].m_overheadPeak, m_StatsGlobal.m_histogram[binIdx].m_overhead);
-				localPeak.m_HistogramPeak[binIdx].m_countPeak		= Max(localPeak.m_HistogramPeak[binIdx].m_countPeak, m_StatsGlobal.m_histogram[binIdx].m_count);
+				localPeak.m_memoryUsagePeak							= Max(localPeak.m_memoryUsagePeak, m_statsGlobal.m_memoryUsage);
+				localPeak.m_overheadPeak							= Max(localPeak.m_overheadPeak, m_statsGlobal.m_overhead);
+				localPeak.m_numberOfLiveBlocksPeak					= Max(localPeak.m_numberOfLiveBlocksPeak, m_statsGlobal.m_numberOfLiveBlocks);
+				localPeak.m_HistogramPeak[binIdx].m_sizePeak		= Max(localPeak.m_HistogramPeak[binIdx].m_sizePeak, m_statsGlobal.m_histogram[binIdx].m_size);
+				localPeak.m_HistogramPeak[binIdx].m_overheadPeak	= Max(localPeak.m_HistogramPeak[binIdx].m_overheadPeak, m_statsGlobal.m_histogram[binIdx].m_overhead);
+				localPeak.m_HistogramPeak[binIdx].m_countPeak		= Max(localPeak.m_HistogramPeak[binIdx].m_countPeak, m_statsGlobal.m_histogram[binIdx].m_count);
 			}
 			break;
 
 		case rmem::LogMarkers::OpFree:
 			{
-				fillStats_Free(op, m_StatsGlobal);
+				fillStats_Free(op, m_statsGlobal);
 			}
 			break;
 		};
 
 		GraphEntry entry;
-		entry.m_usage			= m_StatsGlobal.m_memoryUsage;
-		entry.m_numLiveBlocks	= m_StatsGlobal.m_numberOfLiveBlocks;
-		m_UsageGraph.emplace_back(entry);
+		entry.m_usage			= m_statsGlobal.m_memoryUsage;
+		entry.m_numLiveBlocks	= m_statsGlobal.m_numberOfLiveBlocks;
+		m_usageGraph.emplace_back(entry);
 	}
 
 	MemoryStatsTimed st;
 	st.m_time		= m_operations[m_operations.size()-1]->m_operationTime;
 	st.m_operationIndex	= (uint32_t)(m_operations.size()-1);
 	st.m_localPeak	= localPeak;
-	st.m_stats		= m_StatsGlobal;
-	m_TimedStats.push_back(st);
+	st.m_stats		= m_statsGlobal;
+	m_timedStats.push_back(st);
 
-	m_StatsSnapshot = m_StatsGlobal;
+	m_statsSnapshot = m_statsGlobal;
 
-	if (m_LoadProgressCallback)
-		m_LoadProgressCallback(m_LoadProgressCustomData, 100.0f, "Loading complete!");
+	if (m_loadProgressCallback)
+		m_loadProgressCallback(m_loadProgressCustomData, 100.0f, "Loading complete!");
 }
 
 bool Capture::verifyGlobalStats()
 {
-	if (m_StatsGlobal.m_memoryUsage		& UINT64_C(0x8000000000000000)) return false;
-	if (m_StatsGlobal.m_memoryUsagePeak	& UINT64_C(0x8000000000000000))	return false;
-	if (m_StatsGlobal.m_overhead				& UINT32_C(0x80000000))	return false;
-	if (m_StatsGlobal.m_overheadPeak			& UINT32_C(0x80000000))	return false;
-	if (m_StatsGlobal.m_numberOfOperations		& UINT32_C(0x80000000))	return false;
-	if (m_StatsGlobal.m_numberOfAllocations		& UINT32_C(0x80000000))	return false;
-	if (m_StatsGlobal.m_numberOfReAllocations	& UINT32_C(0x80000000))	return false;
-	if (m_StatsGlobal.m_numberOfFrees			& UINT32_C(0x80000000))	return false;
-	if (m_StatsGlobal.m_numberOfLiveBlocks		& UINT32_C(0x80000000))	return false;
+	if (m_statsGlobal.m_memoryUsage		& UINT64_C(0x8000000000000000)) return false;
+	if (m_statsGlobal.m_memoryUsagePeak	& UINT64_C(0x8000000000000000))	return false;
+	if (m_statsGlobal.m_overhead				& UINT32_C(0x80000000))	return false;
+	if (m_statsGlobal.m_overheadPeak			& UINT32_C(0x80000000))	return false;
+	if (m_statsGlobal.m_numberOfOperations		& UINT32_C(0x80000000))	return false;
+	if (m_statsGlobal.m_numberOfAllocations		& UINT32_C(0x80000000))	return false;
+	if (m_statsGlobal.m_numberOfReAllocations	& UINT32_C(0x80000000))	return false;
+	if (m_statsGlobal.m_numberOfFrees			& UINT32_C(0x80000000))	return false;
+	if (m_statsGlobal.m_numberOfLiveBlocks		& UINT32_C(0x80000000))	return false;
 
 	for (unsigned i=0; i<MemoryStats::NUM_HISTOGRAM_BINS; ++i)
 	{
-		if (m_StatsGlobal.m_histogram[i].m_size		& UINT64_C(0x8000000000000000)) return false;
-		if (m_StatsGlobal.m_histogram[i].m_sizePeak	& UINT64_C(0x8000000000000000)) return false;
-		if (m_StatsGlobal.m_histogram[i].m_overhead			& UINT32_C(0x80000000))	return false;
-		if (m_StatsGlobal.m_histogram[i].m_overheadPeak		& UINT32_C(0x80000000))	return false;
-		if (m_StatsGlobal.m_histogram[i].m_count			& UINT32_C(0x80000000))	return false;
-		if (m_StatsGlobal.m_histogram[i].m_countPeak		& UINT32_C(0x80000000))	return false;
+		if (m_statsGlobal.m_histogram[i].m_size		& UINT64_C(0x8000000000000000)) return false;
+		if (m_statsGlobal.m_histogram[i].m_sizePeak	& UINT64_C(0x8000000000000000)) return false;
+		if (m_statsGlobal.m_histogram[i].m_overhead			& UINT32_C(0x80000000))	return false;
+		if (m_statsGlobal.m_histogram[i].m_overheadPeak		& UINT32_C(0x80000000))	return false;
+		if (m_statsGlobal.m_histogram[i].m_count			& UINT32_C(0x80000000))	return false;
+		if (m_statsGlobal.m_histogram[i].m_countPeak		& UINT32_C(0x80000000))	return false;
 	}
 
 	return true;
@@ -1528,12 +1529,12 @@ bool Capture::verifyGlobalStats()
 //--------------------------------------------------------------------------
 /// Calculates filtered data
 //--------------------------------------------------------------------------
-void Capture::CalculateFilteredData()
+void Capture::calculateFilteredData()
 {
-	StackTraceHashType::iterator it  = m_StackTraces.begin();
-	StackTraceHashType::iterator end = m_StackTraces.end();
+	StackTraceHashType::iterator it  = m_stackTraces.begin();
+	StackTraceHashType::iterator end = m_stackTraces.end();
 
-	const uint32_t numStackTraces = (uint32_t)m_StackTraces.size();
+	const uint32_t numStackTraces = (uint32_t)m_stackTraces.size();
 	uint32_t nextProgressPoint = 0;
 	uint32_t numOpsOver100 = numStackTraces/100;
 	uint32_t idx = 0;
@@ -1546,11 +1547,11 @@ void Capture::CalculateFilteredData()
 
 		++it;
 
-		if ((idx > nextProgressPoint) && m_LoadProgressCallback)
+		if ((idx > nextProgressPoint) && m_loadProgressCallback)
 		{
 			nextProgressPoint += numOpsOver100;
 			float percent = float(idx) / float(numOpsOver100);
-			m_LoadProgressCallback(m_LoadProgressCustomData, percent, "Fixing up stack traces...");
+			m_loadProgressCallback(m_loadProgressCustomData, percent, "Fixing up stack traces...");
 		}
 		++idx;
 	}
@@ -1558,15 +1559,15 @@ void Capture::CalculateFilteredData()
 
 	uint32_t minTimedIdx;
 	uint32_t maxTimedIdx;
-	const uint32_t minTimeOpIndex = getIndexBefore(m_MinTimeSnapshot,minTimedIdx);
-	const uint32_t maxTimeOpIndex = getIndexBefore(m_MaxTimeSnapshot,maxTimedIdx) + 1;
+	const uint32_t minTimeOpIndex = getIndexBefore(m_filter.m_minTimeSnapshot,minTimedIdx);
+	const uint32_t maxTimeOpIndex = getIndexBefore(m_filter.m_maxTimeSnapshot,maxTimedIdx) + 1;
 	
-	m_OperationsFiltered.clear();
-	m_OperationsFiltered.reserve(maxTimeOpIndex - minTimeOpIndex);
+	m_filter.m_operations.clear();
+	m_filter.m_operations.reserve(maxTimeOpIndex - minTimeOpIndex);
 
-	m_OperationGroupsFiltered.clear();
+	m_filter.m_operationGroups.clear();
 
-	destroyStackTree(m_StackTraceTreeFiltered);
+	destroyStackTree(m_filter.m_stackTraceTree);
 
 	const uint32_t numOps = maxTimeOpIndex - minTimeOpIndex;
 	nextProgressPoint = minTimeOpIndex;
@@ -1578,39 +1579,39 @@ void Capture::CalculateFilteredData()
 	{
 		MemoryOperation* op = m_operations[i];
 		
-		if ((i > nextProgressPoint) && m_LoadProgressCallback)
+		if ((i > nextProgressPoint) && m_loadProgressCallback)
 		{
 			float percent = float(i-minTimedIdx) / float(numOpsOver100);
-			m_LoadProgressCallback(m_LoadProgressCustomData, percent, "Building filtered data...");
+			m_loadProgressCallback(m_loadProgressCustomData, percent, "Building filtered data...");
 		}
 		
 		if (!isInFilter(op))
 			continue;
 
-		m_OperationsFiltered.push_back(op);
+		m_filter.m_operations.push_back(op);
 
 		// add to memory groups
-		addToMemoryGroups(m_OperationGroupsFiltered, op);
+		addToMemoryGroups(m_filter.m_operationGroups, op);
 
 		// add to call stack tree
-		addToStackTraceTree(m_StackTraceTreeFiltered, op, StackTrace::FilterOffset);
+		addToStackTraceTree(m_filter.m_stackTraceTree, op, StackTrace::FilterOffset);
 
 		// add to tag tree
-		tagAddOp(m_TagTreeFiltered, op, prevTag);
+		tagAddOp(m_filter.m_tagTree, op, prevTag);
 	}
 
-	if (m_LoadProgressCallback)
-		m_LoadProgressCallback(m_LoadProgressCustomData, 100.0f, "Done!");
+	if (m_loadProgressCallback)
+		m_loadProgressCallback(m_loadProgressCustomData, 100.0f, "Done!");
 }
 
 //--------------------------------------------------------------------------
 /// Returns the index of first operation before the given time
 //--------------------------------------------------------------------------
-uint32_t Capture::getIndexBefore(uint64_t _time, uint32_t& outTimedIndex) const
+uint32_t Capture::getIndexBefore(uint64_t _time, uint32_t& _outTimedIndex) const
 {
 	uint32_t tsIdx = 0;
 	int32_t tsIdxMin = 0;
-	int32_t tsIdxMax = (uint32_t)m_TimedStats.size()-1;
+	int32_t tsIdxMax = (uint32_t)m_timedStats.size()-1;
 	
 	if (tsIdxMax == 1)
 		tsIdx = 1;
@@ -1620,7 +1621,7 @@ uint32_t Capture::getIndexBefore(uint64_t _time, uint32_t& outTimedIndex) const
 		{
 			uint32_t tsIdxMid = (tsIdxMin + tsIdxMax) / 2;
 
-			if (m_TimedStats[tsIdxMid].m_time < _time)
+			if (m_timedStats[tsIdxMid].m_time < _time)
 				tsIdxMin = tsIdxMid;
 			else
 				tsIdxMax = tsIdxMid;
@@ -1633,10 +1634,10 @@ uint32_t Capture::getIndexBefore(uint64_t _time, uint32_t& outTimedIndex) const
 		}
 	}
 
-	uint32_t startIdx = m_TimedStats[tsIdx-1].m_operationIndex;
-	uint32_t endIdx = m_TimedStats[tsIdx].m_operationIndex + 1;
+	uint32_t startIdx = m_timedStats[tsIdx-1].m_operationIndex;
+	uint32_t endIdx = m_timedStats[tsIdx].m_operationIndex + 1;
 	
-	outTimedIndex = tsIdx - 1;
+	_outTimedIndex = tsIdx - 1;
 
 	while (endIdx > startIdx)
 	{
@@ -1660,17 +1661,17 @@ uint32_t Capture::getIndexBefore(uint64_t _time, uint32_t& outTimedIndex) const
 	return 0;
 }
 
-uint32_t Capture::GetIndexAfter( uint64_t _time, uint32_t& outTimedIndex ) const
+uint32_t Capture::getIndexAfter(uint64_t _time, uint32_t& _outTimedIndex) const
 {
 	uint32_t tsIdx = 0;
 	int32_t tsIdxMin = 0;
-	int32_t tsIdxMax = (uint32_t)m_TimedStats.size()-1;
+	int32_t tsIdxMax = (uint32_t)m_timedStats.size()-1;
 	
 	while (tsIdxMax > tsIdxMin)
 	{
 		uint32_t tsIdxMid = (tsIdxMin + tsIdxMax) / 2;
 
-		if (m_TimedStats[tsIdxMid].m_time < _time)
+		if (m_timedStats[tsIdxMid].m_time < _time)
 			tsIdxMin = tsIdxMid;
 		else
 			tsIdxMax = tsIdxMid;
@@ -1682,10 +1683,10 @@ uint32_t Capture::GetIndexAfter( uint64_t _time, uint32_t& outTimedIndex ) const
 		}
 	}
 
-	uint32_t startIdx = m_TimedStats[tsIdx-1].m_operationIndex;
-	uint32_t endIdx = m_TimedStats[tsIdx].m_operationIndex + 1;
+	uint32_t startIdx = m_timedStats[tsIdx-1].m_operationIndex;
+	uint32_t endIdx = m_timedStats[tsIdx].m_operationIndex + 1;
 	
-	outTimedIndex = tsIdx - 1;
+	_outTimedIndex = tsIdx - 1;
 
 	while (endIdx > startIdx)
 	{
@@ -1712,55 +1713,55 @@ uint32_t Capture::GetIndexAfter( uint64_t _time, uint32_t& outTimedIndex ) const
 //--------------------------------------------------------------------------
 /// Calculates statistics for the selected time slice
 //--------------------------------------------------------------------------
-void Capture::CalculateSnapshotStats()
+void Capture::calculateSnapshotStats()
 {
 	uint32_t minTimedIdx;
 	uint32_t maxTimedIdx;
-	uint32_t minTimeOpIndex = getIndexBefore(m_MinTimeSnapshot,minTimedIdx);
-	uint32_t maxTimeOpIndex = GetIndexAfter(m_MaxTimeSnapshot,maxTimedIdx);
+	uint32_t minTimeOpIndex = getIndexBefore(m_filter.m_minTimeSnapshot, minTimedIdx);
+	uint32_t maxTimeOpIndex = getIndexAfter(m_filter.m_maxTimeSnapshot, maxTimedIdx);
 	
 	if (minTimeOpIndex != 0)
 		minTimeOpIndex++;
 
-	MemoryStats startStats = m_TimedStats[minTimedIdx].m_stats; 
-	m_StatsSnapshot = startStats;
+	MemoryStats startStats = m_timedStats[minTimedIdx].m_stats; 
+	m_statsSnapshot = startStats;
 
 	// check if it's fully manual 
 	if (maxTimedIdx - minTimedIdx < 2)
 	{
-		const uint32_t startIndex = m_TimedStats[minTimedIdx].m_operationIndex;
-		GetRangedStats(m_StatsSnapshot, startIndex, minTimeOpIndex);
-		m_StatsSnapshot.setPeaksToCurrent();
+		const uint32_t startIndex = m_timedStats[minTimedIdx].m_operationIndex;
+		GetRangedStats(m_statsSnapshot, startIndex, minTimeOpIndex);
+		m_statsSnapshot.setPeaksToCurrent();
 
-		GetRangedStats(m_StatsSnapshot, minTimeOpIndex, maxTimeOpIndex);
+		GetRangedStats(m_statsSnapshot, minTimeOpIndex, maxTimeOpIndex);
 
-		m_StatsSnapshot.m_numberOfOperations	-= startStats.m_numberOfOperations;
-		m_StatsSnapshot.m_numberOfAllocations	-= startStats.m_numberOfAllocations;
-		m_StatsSnapshot.m_numberOfFrees			-= startStats.m_numberOfFrees;
-		m_StatsSnapshot.m_numberOfReAllocations	-= startStats.m_numberOfReAllocations;
+		m_statsSnapshot.m_numberOfOperations	-= startStats.m_numberOfOperations;
+		m_statsSnapshot.m_numberOfAllocations	-= startStats.m_numberOfAllocations;
+		m_statsSnapshot.m_numberOfFrees			-= startStats.m_numberOfFrees;
+		m_statsSnapshot.m_numberOfReAllocations	-= startStats.m_numberOfReAllocations;
 	}
 	else
 	{
-		const uint32_t startIndex1	= m_TimedStats[minTimedIdx].m_operationIndex;
+		const uint32_t startIndex1	= m_timedStats[minTimedIdx].m_operationIndex;
 		RTM_ASSERT(startIndex1 <= minTimeOpIndex, "");
 		GetRangedStats(startStats, startIndex1, minTimeOpIndex);
-		m_StatsSnapshot = startStats;
-		m_StatsSnapshot.setPeaksToCurrent();
-		GetRangedStats(m_StatsSnapshot, minTimeOpIndex, m_TimedStats[minTimedIdx+1].m_operationIndex);
+		m_statsSnapshot = startStats;
+		m_statsSnapshot.setPeaksToCurrent();
+		GetRangedStats(m_statsSnapshot, minTimeOpIndex, m_timedStats[minTimedIdx+1].m_operationIndex);
 
 		MemoryStatsLocalPeak localPeak;
-		localPeak.m_memoryUsagePeak = m_StatsSnapshot.m_memoryUsage;
-		localPeak.m_overheadPeak	= m_StatsSnapshot.m_overhead;
+		localPeak.m_memoryUsagePeak = m_statsSnapshot.m_memoryUsage;
+		localPeak.m_overheadPeak	= m_statsSnapshot.m_overhead;
 		for (uint32_t i=0; i<MemoryStats::NUM_HISTOGRAM_BINS; i++)
 		{
-			localPeak.m_HistogramPeak[i].m_sizePeak		= m_StatsSnapshot.m_histogram[i].m_sizePeak;
-			localPeak.m_HistogramPeak[i].m_overheadPeak	= m_StatsSnapshot.m_histogram[i].m_overheadPeak;
-			localPeak.m_HistogramPeak[i].m_countPeak	= m_StatsSnapshot.m_histogram[i].m_countPeak;
+			localPeak.m_HistogramPeak[i].m_sizePeak		= m_statsSnapshot.m_histogram[i].m_sizePeak;
+			localPeak.m_HistogramPeak[i].m_overheadPeak	= m_statsSnapshot.m_histogram[i].m_overheadPeak;
+			localPeak.m_HistogramPeak[i].m_countPeak	= m_statsSnapshot.m_histogram[i].m_countPeak;
 		}
 		
 		for (uint32_t t=minTimedIdx+2; t<=maxTimedIdx; t++)
 		{
-			MemoryStatsLocalPeak& peakT = m_TimedStats[t].m_localPeak;
+			MemoryStatsLocalPeak& peakT = m_timedStats[t].m_localPeak;
 
 			localPeak.m_memoryUsagePeak	= Max(localPeak.m_memoryUsagePeak, peakT.m_memoryUsagePeak);
 			localPeak.m_overheadPeak	= Max(localPeak.m_overheadPeak, peakT.m_overheadPeak);
@@ -1773,58 +1774,58 @@ void Capture::CalculateSnapshotStats()
 			}
 		}
 
-		m_StatsSnapshot.setPeaksFrom(localPeak);
-		MemoryStatsTimed& ts = m_TimedStats[maxTimedIdx];
+		m_statsSnapshot.setPeaksFrom(localPeak);
+		MemoryStatsTimed& ts = m_timedStats[maxTimedIdx];
 		const uint32_t startIndex2	= ts.m_operationIndex;
 
-		m_StatsSnapshot.m_memoryUsage			= ts.m_stats.m_memoryUsage;
-		m_StatsSnapshot.m_overhead				= ts.m_stats.m_overhead;
-		m_StatsSnapshot.m_numberOfOperations	= ts.m_stats.m_numberOfOperations - startStats.m_numberOfOperations;
-		m_StatsSnapshot.m_numberOfAllocations	= ts.m_stats.m_numberOfAllocations - startStats.m_numberOfAllocations;
-		m_StatsSnapshot.m_numberOfFrees			= ts.m_stats.m_numberOfFrees - startStats.m_numberOfFrees;
-		m_StatsSnapshot.m_numberOfReAllocations	= ts.m_stats.m_numberOfReAllocations - startStats.m_numberOfReAllocations;
-		m_StatsSnapshot.m_numberOfLiveBlocks	= ts.m_stats.m_numberOfLiveBlocks;
+		m_statsSnapshot.m_memoryUsage			= ts.m_stats.m_memoryUsage;
+		m_statsSnapshot.m_overhead				= ts.m_stats.m_overhead;
+		m_statsSnapshot.m_numberOfOperations	= ts.m_stats.m_numberOfOperations - startStats.m_numberOfOperations;
+		m_statsSnapshot.m_numberOfAllocations	= ts.m_stats.m_numberOfAllocations - startStats.m_numberOfAllocations;
+		m_statsSnapshot.m_numberOfFrees			= ts.m_stats.m_numberOfFrees - startStats.m_numberOfFrees;
+		m_statsSnapshot.m_numberOfReAllocations	= ts.m_stats.m_numberOfReAllocations - startStats.m_numberOfReAllocations;
+		m_statsSnapshot.m_numberOfLiveBlocks	= ts.m_stats.m_numberOfLiveBlocks;
 
 		for (uint32_t i=0; i<MemoryStats::NUM_HISTOGRAM_BINS; i++)
 		{
-			m_StatsSnapshot.m_histogram[i].m_size		= ts.m_stats.m_histogram[i].m_size;
-			m_StatsSnapshot.m_histogram[i].m_overhead	= ts.m_stats.m_histogram[i].m_overhead;
-			m_StatsSnapshot.m_histogram[i].m_count		= ts.m_stats.m_histogram[i].m_count;
+			m_statsSnapshot.m_histogram[i].m_size		= ts.m_stats.m_histogram[i].m_size;
+			m_statsSnapshot.m_histogram[i].m_overhead	= ts.m_stats.m_histogram[i].m_overhead;
+			m_statsSnapshot.m_histogram[i].m_count		= ts.m_stats.m_histogram[i].m_count;
 		}
 
-		GetRangedStats(m_StatsSnapshot, startIndex2, maxTimeOpIndex+1);
+		GetRangedStats(m_statsSnapshot, startIndex2, maxTimeOpIndex+1);
 	}
 }
 
 //--------------------------------------------------------------------------
 /// Calculates the stats inside the given range
 //--------------------------------------------------------------------------
-void Capture::GetRangedStats( MemoryStats& ioStats, uint32_t inMinIdx, uint32_t inMaxIdx )
+void Capture::GetRangedStats(MemoryStats& _stats, uint32_t _minIdx, uint32_t _maxIdx)
 {
-	const uint32_t minIdx = inMinIdx;
-	const uint32_t maxIdx = inMaxIdx;
+	const uint32_t minIdx = _minIdx;
+	const uint32_t maxIdx = _maxIdx;
 
 	for (size_t i=minIdx; i<maxIdx; i++)
 	{
 		MemoryOperation* op = m_operations[i];
 		
-		++ioStats.m_numberOfOperations;
+		++_stats.m_numberOfOperations;
 
 		switch (op->m_operationType)
 		{
 		case rmem::LogMarkers::OpAlloc:
 		case rmem::LogMarkers::OpCalloc:
 		case rmem::LogMarkers::OpAllocAligned:
-			fillStats_Alloc( op, ioStats );
+			fillStats_Alloc( op, _stats );
 			break;
 
 		case rmem::LogMarkers::OpRealloc:
 		case rmem::LogMarkers::OpReallocAligned:
-			fillStats_ReAlloc(op, ioStats);
+			fillStats_ReAlloc(op, _stats);
 			break;
 
 		case rmem::LogMarkers::OpFree:
-			fillStats_Free(op, ioStats);
+			fillStats_Free(op, _stats);
 			break;
 		};
 	}
@@ -1833,19 +1834,19 @@ void Capture::GetRangedStats( MemoryStats& ioStats, uint32_t inMinIdx, uint32_t 
 //--------------------------------------------------------------------------
 /// Registers memory tag with the loader
 //--------------------------------------------------------------------------
-void Capture::AddMemoryTag( char* inTagName, uint32_t _tagHash, uint32_t _parentTagHash )
+void Capture::addMemoryTag(char* _tagName, uint32_t _tagHash, uint32_t _parentTagHash)
 {
 	MemoryTagTree* mtt = new MemoryTagTree();
 	mtt->m_hash		= _tagHash;
-	mtt->m_name		= inTagName;
-	if (!tagInsert(&m_TagTreeGlobal, mtt, _parentTagHash))
+	mtt->m_name		= _tagName;
+	if (!tagInsert(&m_tagTree, mtt, _parentTagHash))
 		delete mtt;
 }
 
 //--------------------------------------------------------------------------
 /// Adds operation to memory groups
 //--------------------------------------------------------------------------
-void Capture::addToMemoryGroups( rtm_unordered_map<uint32_t, MemoryOperationGroup,uint32_t_hash,uint32_t_equal>& ioGroups, MemoryOperation* _op )
+void Capture::addToMemoryGroups(rtm_unordered_map<uint32_t, MemoryOperationGroup,uint32_t_hash,uint32_t_equal>& _groups, MemoryOperation* _op)
 {
 	switch (_op->m_operationType)
 	{
@@ -1854,7 +1855,7 @@ void Capture::addToMemoryGroups( rtm_unordered_map<uint32_t, MemoryOperationGrou
 		case rmem::LogMarkers::OpAllocAligned:
 			{
 				uint32_t groupHash = calcGroupHash(_op);
-				MemoryOperationGroup& group = ioGroups[groupHash];
+				MemoryOperationGroup& group = _groups[groupHash];
 				group.m_operations.push_back(_op);
 				group.m_count++;
 				group.m_liveCount++;
@@ -1869,11 +1870,11 @@ void Capture::addToMemoryGroups( rtm_unordered_map<uint32_t, MemoryOperationGrou
 				if (isInFilter(prevOp))
 				{
 					groupHash = calcGroupHash(prevOp);
-					MemoryOperationGroup& prevGroup = ioGroups[groupHash];
+					MemoryOperationGroup& prevGroup = _groups[groupHash];
 					prevGroup.m_liveCount--;
 				}
 				groupHash = calcGroupHash(_op);
-				MemoryOperationGroup& group = ioGroups[groupHash];
+				MemoryOperationGroup& group = _groups[groupHash];
 				group.m_operations.push_back(_op);
 				group.m_count++;
 			}
@@ -1889,12 +1890,12 @@ void Capture::addToMemoryGroups( rtm_unordered_map<uint32_t, MemoryOperationGrou
 					if (isInFilter(prevOp))
 					{
 						groupHash = calcGroupHash(prevOp);
-						MemoryOperationGroup& prevGroup = ioGroups[groupHash];
+						MemoryOperationGroup& prevGroup = _groups[groupHash];
 						prevGroup.m_liveCount--;
 					}
 				}
 				groupHash = calcGroupHash(_op);
-				MemoryOperationGroup& group = ioGroups[groupHash];
+				MemoryOperationGroup& group = _groups[groupHash];
 				group.m_operations.push_back(_op);
 				group.m_count++;
 				group.m_liveCount++;
@@ -1984,7 +1985,7 @@ static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, 
 	}
 }
 
-void Capture::addToStackTraceTree(StackTraceTree& ioTree, MemoryOperation* _op, StackTrace::Enum _offset)
+void Capture::addToStackTraceTree(StackTraceTree& _tree, MemoryOperation* _op, StackTrace::Enum _offset)
 {
 	switch (_op->m_operationType)
 	{
@@ -1992,7 +1993,7 @@ void Capture::addToStackTraceTree(StackTraceTree& ioTree, MemoryOperation* _op, 
 		case rmem::LogMarkers::OpCalloc:
 		case rmem::LogMarkers::OpAllocAligned:
 			{
-				addToTree(&ioTree, _op->m_stackTrace, _op->m_allocSize, _op->m_overhead, _offset, StackTraceTree::ALLOC);
+				addToTree(&_tree, _op->m_stackTrace, _op->m_allocSize, _op->m_overhead, _offset, StackTraceTree::ALLOC);
 			}
 			break;
 
@@ -2002,9 +2003,9 @@ void Capture::addToStackTraceTree(StackTraceTree& ioTree, MemoryOperation* _op, 
 				RTM_ASSERT(prevOp != NULL, "");
 
 				if (isInFilter(prevOp))
-					addToTree(&ioTree, prevOp->m_stackTrace, -(int64_t)prevOp->m_allocSize, -(int32_t)prevOp->m_overhead, _offset, StackTraceTree::FREE);
+					addToTree(&_tree, prevOp->m_stackTrace, -(int64_t)prevOp->m_allocSize, -(int32_t)prevOp->m_overhead, _offset, StackTraceTree::FREE);
 				else
-					addToTree(&ioTree, prevOp->m_stackTrace, 0, 0, _offset, StackTraceTree::FREE);
+					addToTree(&_tree, prevOp->m_stackTrace, 0, 0, _offset, StackTraceTree::FREE);
 			}
 			break;
 
@@ -2015,9 +2016,9 @@ void Capture::addToStackTraceTree(StackTraceTree& ioTree, MemoryOperation* _op, 
 				if (prevOp)
 				{
 					if (isInFilter(prevOp))
-						addToTree(&ioTree, prevOp->m_stackTrace, -(int64_t)prevOp->m_allocSize, -(int32_t)prevOp->m_overhead, _offset, StackTraceTree::COUNT);
+						addToTree(&_tree, prevOp->m_stackTrace, -(int64_t)prevOp->m_allocSize, -(int32_t)prevOp->m_overhead, _offset, StackTraceTree::COUNT);
 				}
-				addToTree(&ioTree, _op->m_stackTrace, _op->m_allocSize, _op->m_overhead, _offset, StackTraceTree::REALLOC);
+				addToTree(&_tree, _op->m_stackTrace, _op->m_allocSize, _op->m_overhead, _offset, StackTraceTree::REALLOC);
 			}
 			break;
 	};

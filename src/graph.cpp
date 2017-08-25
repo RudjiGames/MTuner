@@ -81,8 +81,8 @@ bool Graph::isAutoZoomSet() const
 
 void Graph::snapshotSelected()
 {
-	if ((m_context->m_capture->getMinTime() != m_context->m_capture->getMinTimeSnapshot()) ||
-		(m_context->m_capture->getMaxTime() != m_context->m_capture->getMaxTimeSnapshot()))
+	if ((m_context->m_capture->getMinTime() != m_context->m_capture->getSnapshotTimeMin()) ||
+		(m_context->m_capture->getMaxTime() != m_context->m_capture->getSnapshotTimeMax()))
 	{
 		m_buttonZoomSelect->setEnabled(true);
 	}
