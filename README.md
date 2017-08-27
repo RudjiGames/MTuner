@@ -37,11 +37,17 @@ DIA (Debug Interface Access) SDK - **Windows only**
 
 	git clone https://github.com/milostosic/DIA.git 
 
-Status
+Download
 ======
 
-To download the official release, please go to [MTuner website](http://mtuner.net)  
-Documentation is available [here](http://mtuner.net/documentation.html)
+[zip <img src="http://mtuner.net/zip.png" width=32 height=32>](http://mtuner.net/mtuner64.zip)  
+[msi <img src="http://mtuner.net/msi.png" width=32 height=32>](http://mtuner.net/mtuner64.msi)  
+
+Documentation
+======
+
+Documentation is currently hosted on [MTuner website](http://mtuner.net).  
+Starting page of documentation is [here](http://mtuner.net/documentation.html)  
 
 Support development
 ======
