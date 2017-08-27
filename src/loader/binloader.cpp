@@ -122,7 +122,7 @@ bool BinLoader::loadChunk()
 
 	if (m_srcDataSize < (int32_t)size)
 	{
-		if (m_srcData) delete[] m_srcData;
+		delete[] m_srcData;
 		m_srcData = new uint8_t[size];
 		m_srcDataSize = size;
 	}
