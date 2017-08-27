@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_GRAPHWIDGET_H__
-#define __RTM_MTUNER_GRAPHWIDGET_H__
+#ifndef RTM_MTUNER_GRAPHWIDGET_H
+#define RTM_MTUNER_GRAPHWIDGET_H
 
 class Graph;
 class GraphCurve;
@@ -120,4 +120,4 @@ Q_SIGNALS:
 	void minMaxChanged();
 };
 
-#endif // __RTM_MTUNER_GRAPHWIDGET_H__
+#endif // RTM_MTUNER_GRAPHWIDGET_H

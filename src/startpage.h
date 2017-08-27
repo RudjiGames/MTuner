@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_STARTPAGEWIDGET_H__
-#define __RTM_MTUNER_STARTPAGEWIDGET_H__
+#ifndef RTM_MTUNER_STARTPAGEWIDGET_H
+#define RTM_MTUNER_STARTPAGEWIDGET_H
 
 #include <mtuner/.qt/qt_ui/startpage_ui.h>
 
@@ -21,4 +21,4 @@ private:
 	Ui::StartPageWidget ui;
 };
 
-#endif // __RTM_MTUNER_STARTPAGEWIDGET_H__
+#endif // RTM_MTUNER_STARTPAGEWIDGET_H

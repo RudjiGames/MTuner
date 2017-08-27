@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_TREEMAPVIEW_H__
-#define __RTM_MTUNER_TREEMAPVIEW_H__
+#ifndef RTM_MTUNER_TREEMAPVIEW_H
+#define RTM_MTUNER_TREEMAPVIEW_H
 
 class TreeMapWidget;
 class TreeMapGraphicsItem;
@@ -85,4 +85,4 @@ public:
 	virtual void			paint(QPainter* _painter, const QStyleOptionGraphicsItem* _option, QWidget* _widget);
 };
 
-#endif // __RTM_MTUNER_TREEMAPVIEW_H__
+#endif // RTM_MTUNER_TREEMAPVIEW_H

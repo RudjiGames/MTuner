@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_MTUNER_H__
-#define __RTM_MTUNER_MTUNER_H__
+#ifndef RTM_MTUNER_MTUNER_H
+#define RTM_MTUNER_MTUNER_H
 
 #include <mtuner/src/stats.h>
 #include <mtuner/.qt/qt_ui/mtuner_ui.h>
@@ -127,4 +127,4 @@ private:
 	Ui::MTunerClass ui;
 };
 
-#endif // __RTM_MTUNER_MTUNER_H__
+#endif // RTM_MTUNER_MTUNER_H

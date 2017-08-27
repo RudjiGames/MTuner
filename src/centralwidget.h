@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_CENTRALWIDGET_H__
-#define __RTM_MTUNER_CENTRALWIDGET_H__
+#ifndef RTM_MTUNER_CENTRALWIDGET_H
+#define RTM_MTUNER_CENTRALWIDGET_H
 
 #include <mtuner/.qt/qt_ui/centralwidget_ui.h>
 
@@ -43,4 +43,4 @@ private:
 	Ui::CentralWidget ui;
 };
 
-#endif // __RTM_MTUNER_CENTRALWIDGET_H__
+#endif // RTM_MTUNER_CENTRALWIDGET_H

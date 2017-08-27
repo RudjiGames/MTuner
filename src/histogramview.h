@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_HISTOGRAMVIEW_H__
-#define __RTM_MTUNER_HISTOGRAMVIEW_H__
+#ifndef RTM_MTUNER_HISTOGRAMVIEW_H
+#define RTM_MTUNER_HISTOGRAMVIEW_H
 
 class Histogram;
 struct CaptureContext;
@@ -47,4 +47,4 @@ Q_SIGNALS:
 	void binClicked();
 };
 
-#endif // __RTM_MTUNER_HISTOGRAMVIEW_H__
+#endif // RTM_MTUNER_HISTOGRAMVIEW_H

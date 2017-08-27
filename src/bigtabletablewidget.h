@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_BIGTABLETABLEWIDGET_H__
-#define __RTM_MTUNER_BIGTABLETABLEWIDGET_H__
+#ifndef RTM_MTUNER_BIGTABLETABLEWIDGET_H
+#define RTM_MTUNER_BIGTABLETABLEWIDGET_H
 
 class BigTableTableWidget : public QTableWidget
 {
@@ -21,4 +21,4 @@ Q_SIGNALS:
 	void itemContextMenu(QTableWidgetItem*, const QPoint&);
 };
 
-#endif // __RTM_MTUNER_BIGTABLETABLEWIDGET_H__
+#endif // RTM_MTUNER_BIGTABLETABLEWIDGET_H

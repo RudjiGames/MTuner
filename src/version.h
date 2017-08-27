@@ -3,9 +3,9 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_VERSION_H__
-#define __RTM_MTUNER_VERSION_H__
+#ifndef RTM_MTUNER_VERSION_H
+#define RTM_MTUNER_VERSION_H
 
 static const char* MTunerVersion = "3.6.8";
 
-#endif // __RTM_MTUNER_VERSION_H__
+#endif // RTM_MTUNER_VERSION_H

@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_OPERATIONSEARCH_H__
-#define __RTM_MTUNER_OPERATIONSEARCH_H__
+#ifndef RTM_MTUNER_OPERATIONSEARCH_H
+#define RTM_MTUNER_OPERATIONSEARCH_H
 
 #include <mtuner/.qt/qt_ui/operationsearch_ui.h>
 
@@ -42,4 +42,4 @@ private:
 	Ui::OperationSearchWidget ui;
 };
 
-#endif // __RTM_MTUNER_OPERATIONSEARCH_H__
+#endif // RTM_MTUNER_OPERATIONSEARCH_H

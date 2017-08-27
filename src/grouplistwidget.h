@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_GROUPLISTWIDGET_H__
-#define __RTM_MTUNER_GROUPLISTWIDGET_H__
+#ifndef RTM_MTUNER_GROUPLISTWIDGET_H
+#define RTM_MTUNER_GROUPLISTWIDGET_H
 
 #include <mtuner/.qt/qt_ui/GroupList_ui.h>
 
@@ -70,4 +70,4 @@ private:
 	Ui::GroupListWidget ui;
 };
 
-#endif // __RTM_MTUNER_GROUPLISTWIDGET_H__
+#endif // RTM_MTUNER_GROUPLISTWIDGET_H

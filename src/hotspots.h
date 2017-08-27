@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_HOTSPOTS_H__
-#define __RTM_MTUNER_HOTSPOTS_H__
+#ifndef RTM_MTUNER_HOTSPOTS_H
+#define RTM_MTUNER_HOTSPOTS_H
 
 #include <mtuner/src/grouplistwidget.h>
 #include <mtuner/.qt/qt_ui/hotspot_ui.h>
@@ -41,4 +41,4 @@ private:
 	Ui::hotspotWidget ui;
 };
 
-#endif // __RTM_MTUNER_HOTSPOTS_H__
+#endif // RTM_MTUNER_HOTSPOTS_H

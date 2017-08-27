@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_TREEMAP_H__
-#define __RTM_MTUNER_TREEMAP_H__
+#ifndef RTM_MTUNER_TREEMAP_H
+#define RTM_MTUNER_TREEMAP_H
 
 #include <mtuner/src/treemapview.h>
 #include <mtuner/.qt/qt_ui/treemap_ui.h>
@@ -37,4 +37,4 @@ private:
 	Ui::TreeMap ui;
 };
 
-#endif // __RTM_MTUNER_TREEMAP_H__
+#endif // RTM_MTUNER_TREEMAP_H

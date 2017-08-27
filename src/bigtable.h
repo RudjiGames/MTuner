@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_BIGTABLE_H__
-#define __RTM_MTUNER_BIGTABLE_H__
+#ifndef RTM_MTUNER_BIGTABLE_H
+#define RTM_MTUNER_BIGTABLE_H
 
 #include <mtuner/.qt/qt_ui/bigTable_ui.h>
 
@@ -66,4 +66,4 @@ private:
 	Ui::BigTableWidget ui;
 };
 
-#endif // __RTM_MTUNER_BIGTABLE_H__
+#endif // RTM_MTUNER_BIGTABLE_H

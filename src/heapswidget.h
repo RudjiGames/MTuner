@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_HEAPSWIDGET_H__
-#define __RTM_MTUNER_HEAPSWIDGET_H__
+#ifndef RTM_MTUNER_HEAPSWIDGET_H
+#define RTM_MTUNER_HEAPSWIDGET_H
 
 #include <mtuner/.qt/qt_ui/heapswidget_ui.h>
 
@@ -35,4 +35,4 @@ private:
 	Ui::HeapsWidget ui;
 };
 
-#endif // __RTM_MTUNER_HEAPSWIDGET_H__
+#endif // RTM_MTUNER_HEAPSWIDGET_H

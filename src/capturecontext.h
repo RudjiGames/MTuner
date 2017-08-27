@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_CAPTURE_CONTEXT_H__
-#define __RTM_MTUNER_CAPTURE_CONTEXT_H__
+#ifndef RTM_MTUNER_CAPTURE_CONTEXT_H
+#define RTM_MTUNER_CAPTURE_CONTEXT_H
 
 #include <MTuner/src/loader/capture.h>
 
@@ -29,4 +29,4 @@ struct CaptureContext
 	void		resolveStackFrame(uint64_t _address, rdebug::StackFrame& ioFrame);
 };
 
-#endif // __RTM_MTUNER_CAPTURE_CONTEXT_H__
+#endif // RTM_MTUNER_CAPTURE_CONTEXT_H

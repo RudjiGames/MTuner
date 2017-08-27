@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_PCH_H__
-#define __RTM_MTUNER_PCH_H__
+#ifndef RTM_MTUNER_PCH_H
+#define RTM_MTUNER_PCH_H
 
 #define RBASE_NAMESPACE rtm
 #define RTM_DEFINE_STL_TYPES
@@ -82,4 +82,4 @@
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QToolTip>
 
-#endif // __RTM_MTUNER_PCH_H__
+#endif // RTM_MTUNER_PCH_H

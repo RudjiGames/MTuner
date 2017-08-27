@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_EXTERNALEDITOR_H__
-#define __RTM_MTUNER_EXTERNALEDITOR_H__
+#ifndef RTM_MTUNER_EXTERNALEDITOR_H
+#define RTM_MTUNER_EXTERNALEDITOR_H
 
 #include <mtuner/.qt/qt_ui/external_editor_ui.h>
 
@@ -32,4 +32,4 @@ private:
 	Ui::ExternalEditor ui;
 };
 
-#endif // __RTM_MTUNER_EXTERNALEDITOR_H__
+#endif // RTM_MTUNER_EXTERNALEDITOR_H

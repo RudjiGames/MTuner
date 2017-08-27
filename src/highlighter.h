@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_HIGHLIGHTER_H__
-#define __RTM_MTUNER_HIGHLIGHTER_H__
+#ifndef RTM_MTUNER_HIGHLIGHTER_H
+#define RTM_MTUNER_HIGHLIGHTER_H
 
 class QTextDocument;
 
@@ -43,4 +43,4 @@ private:
 	QTextCharFormat				m_preprocessorFormat3;
 };
 
-#endif // __RTM_MTUNER_HIGHLIGHTER_H__
+#endif // RTM_MTUNER_HIGHLIGHTER_H

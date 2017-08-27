@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_STACKTREEWIDGET_H__
-#define __RTM_MTUNER_STACKTREEWIDGET_H__
+#ifndef RTM_MTUNER_STACKTREEWIDGET_H
+#define RTM_MTUNER_STACKTREEWIDGET_H
 
 #include <mtuner/.qt/qt_ui/stacktree_ui.h>
 
@@ -93,4 +93,4 @@ private:
 	Ui::stackTree ui;
 };
 
-#endif // __RTM_MTUNER_STACKTREEWIDGET_H__
+#endif // RTM_MTUNER_STACKTREEWIDGET_H

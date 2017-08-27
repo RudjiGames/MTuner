@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_GRAPHCURVE_H__
-#define __RTM_MTUNER_GRAPHCURVE_H__
+#ifndef RTM_MTUNER_GRAPHCURVE_H
+#define RTM_MTUNER_GRAPHCURVE_H
 
 class Graph;
 class GraphWidget;
@@ -44,4 +44,4 @@ public:
 	
 };
 
-#endif // __RTM_MTUNER_GRAPHCURVE_H__
+#endif // RTM_MTUNER_GRAPHCURVE_H

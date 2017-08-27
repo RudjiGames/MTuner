@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_STACKTRACE_H__
-#define __RTM_MTUNER_STACKTRACE_H__
+#ifndef RTM_MTUNER_STACKTRACE_H
+#define RTM_MTUNER_STACKTRACE_H
 
 #include <mtuner/.qt/qt_ui/stacktrace_ui.h>
 
@@ -52,4 +52,4 @@ private:
 	Ui::StackTrace ui;
 };
 
-#endif // __RTM_MTUNER_STACKTRACE_H__
+#endif // RTM_MTUNER_STACKTRACE_H

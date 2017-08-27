@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_PROJECTSMANAGER_H__
-#define __RTM_MTUNER_PROJECTSMANAGER_H__
+#ifndef RTM_MTUNER_PROJECTSMANAGER_H
+#define RTM_MTUNER_PROJECTSMANAGER_H
 
 #include <mtuner/.qt/qt_ui/projectsmanager_ui.h>
 
@@ -71,4 +71,4 @@ private:
 	Ui::ProjectsDialog ui;
 };
 
-#endif // __RTM_MTUNER_PROJECTSMANAGER_H__
+#endif // RTM_MTUNER_PROJECTSMANAGER_H

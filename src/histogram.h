@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_HISTOGRAM_H__
-#define __RTM_MTUNER_HISTOGRAM_H__
+#ifndef RTM_MTUNER_HISTOGRAM_H
+#define RTM_MTUNER_HISTOGRAM_H
 
 class HistogramView;
 
@@ -78,4 +78,4 @@ private:
 	QString		getTypeString(HistogramType::Enum _type, uint64_t _val, bool _peak);
 };
 
-#endif // __RTM_MTUNER_HISTOGRAM_H__
+#endif // RTM_MTUNER_HISTOGRAM_H

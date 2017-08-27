@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_GRAPH_H__
-#define __RTM_MTUNER_GRAPH_H__
+#ifndef RTM_MTUNER_GRAPH_H
+#define RTM_MTUNER_GRAPH_H
 
 #include <mtuner/.qt/qt_ui/graph_ui.h>
 
@@ -45,4 +45,4 @@ private:
 	Ui::Graph ui;
 };
 
-#endif // __RTM_MTUNER_GRAPH_H__
+#endif // RTM_MTUNER_GRAPH_H

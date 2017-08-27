@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_SYMBOLSTORE_H__
-#define __RTM_MTUNER_SYMBOLSTORE_H__
+#ifndef RTM_MTUNER_SYMBOLSTORE_H
+#define RTM_MTUNER_SYMBOLSTORE_H
 
 #include <mtuner/.qt/qt_ui/symbolstore_ui.h>
 
@@ -51,4 +51,4 @@ private:
 	Ui::SymbolStoreDialog ui;
 };
 
-#endif // __RTM_MTUNER_SYMBOLSTORE_H__
+#endif // RTM_MTUNER_SYMBOLSTORE_H
