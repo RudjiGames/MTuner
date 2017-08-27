@@ -59,8 +59,7 @@ void BinLoaderView::changeEvent(QEvent* _event)
 
 BinLoaderView::~BinLoaderView()
 {
-	if (m_context)
-		delete m_context;
+	delete m_context;
 }
 
 void BinLoaderView::setContext(CaptureContext* _context)

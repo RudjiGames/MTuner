@@ -436,8 +436,7 @@ OperationsList::OperationsList(QWidget* _parent, Qt::WindowFlags _flags) :
 
 OperationsList::~OperationsList()
 {
-	if (m_tableSource)
-		delete m_tableSource;
+	delete m_tableSource;
 }
 
 void OperationsList::changeEvent(QEvent* _event)
