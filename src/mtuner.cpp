@@ -90,8 +90,12 @@ void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSet
 			// gui
 			QString dir = getDirFromFile(_file);
 			QString fileName = _fileDialog->getOpenFileName(_mtuner, QObject::tr("select symbol source"), dir, extensions);
+#if 0
 			rtm::WideToMulti execM((wchar_t*)fileName.utf16());
 			executable = execM.m_ptr;
+#else
+			executable = stringDup(fileName.toUtf8());
+#endif
 		}
 		else
 			if (!symSrcFound)
@@ -201,7 +205,7 @@ void MTuner::show()
 	showWelcomeDialog();
 }
 
-void MTuner::setLoadingProgress(float _progress, const wchar_t* _message)
+void MTuner::setLoadingProgress(float _progress, const QString &_message)
 {
 	if (_progress == 100.0f)
 		m_loadingProgressBar->setVisible(false);
@@ -213,7 +217,7 @@ void MTuner::setLoadingProgress(float _progress, const wchar_t* _message)
 	if (newVal != value)
 	{
 		m_loadingProgressBar->setValue(newVal);
-		setStatusBarText(QString::fromUtf16((const ushort*)_message));
+		setStatusBarText(_message);
 		QApplication::processEvents(QEventLoop::AllEvents,1);
 	}
 }
@@ -419,7 +423,7 @@ void MTuner::setupDockWindows()
 	m_tagTreeDock->setVisible(true);
 	m_stackAndSourceDock->setVisible(true);
 	m_heapsDock->setVisible(true);
-	
+
 	connect(m_graphDock,			SIGNAL(visibilityChanged(bool)), ui.action_View_Memory_Graph,		SLOT(setChecked(bool)));
 	connect(m_statsDock,			SIGNAL(visibilityChanged(bool)), ui.action_View_Memory_Stats,		SLOT(setChecked(bool)));
 	connect(m_histogramDock,		SIGNAL(visibilityChanged(bool)), ui.action_View_Histograms,			SLOT(setChecked(bool)));
@@ -460,7 +464,7 @@ void MTuner::setupDockWindows()
 	m_stackAndSourceDock->setWidget(m_stackAndSource);
 
 	connect(m_centralWidget, SIGNAL(setStackTrace(rtm::StackTrace**,int)), m_stackAndSource, SLOT(setStackTrace(rtm::StackTrace**,int)));
-	
+
 	connect(m_heapsWidget,SIGNAL(heapSelected(uint64_t)), this, SLOT(heapSelected(uint64_t)));
 
 	connect(graphWidget,SIGNAL(snapshotSelected()), m_histogramWidget, SLOT(updateUI()));
@@ -486,7 +490,7 @@ void MTuner::setWidgetSources(CaptureContext* _context)
 	m_tagTree->setContext(ctx);
 	m_heapsWidget->setContext(ctx);
 	m_stackAndSource->setContext(ctx);
-	
+
 	if (binView)
 	{
 		connect(binView, SIGNAL(highlightTime(uint64_t)), m_graph, SLOT(highlightTime(uint64_t)));
@@ -564,8 +568,12 @@ void MTuner::tryOpeWatchedFile()
 	m_statusBarRedDot->setVisible(!m_statusBarRedDot->isVisible());
 
 	FILE* file;
+#if RTM_PLATFORM_WINDOWS
 	std::wstring name = (wchar_t*)m_watchedFile.utf16();
 	_wfopen_s(&file,name.c_str(),L"r");
+#else
+	file = fopen(m_watchedFile.toUtf8().constData(), "r");
+#endif
 	if (file)
 	{
 		m_projectsManager->close();
@@ -745,8 +753,12 @@ void MTuner::writeSettings()
 void loadProgression(void* _customData, float _progress, const char* _message)
 {
 	MTuner* mt = (MTuner*)_customData;
+#if 0
 	rtm::MultiToWide message(_message);
 	mt->setLoadingProgress(_progress, message);
+#else
+	mt->setLoadingProgress(_progress, QString::fromUtf8(_message));
+#endif
 }
 
 void MTuner::openFileFromPath(const QString& _file)

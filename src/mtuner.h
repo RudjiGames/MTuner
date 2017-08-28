@@ -55,12 +55,12 @@ private:
 	bool					m_closeStartPageWidgetOnOpen;
 
 	TagTreeWidget*			m_tagTree;
-	
+
 public:
 	MTuner(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
 
 	void show();
-	void setLoadingProgress(float _progress, const wchar_t* _message);
+	void setLoadingProgress(float _progress, const QString &_message);
 	void changeEvent(QEvent* _event);
 	void closeEvent(QCloseEvent* _event);
 	void openFileFromPath(const QString& _file);
