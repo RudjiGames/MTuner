@@ -66,7 +66,7 @@ public:
 	int		getNumToolchains() const { return m_toolchains.length(); }
 	const Toolchain& getToolchain(int _index) const { return m_toolchains[_index]; }
 	rdebug::Toolchain getToolchainInfo(rmem::ToolChain::Enum _toolchain, bool _64bit);
-		
+
 public Q_SLOTS:
 	void toolchainSelected(int _index);
 	void toolchainRenamed(QString);
