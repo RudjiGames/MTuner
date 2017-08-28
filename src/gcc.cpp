@@ -219,8 +219,13 @@ bool GCCSetup::resolveToolchain(Toolchain& _toolchain, bool _64bit, rdebug::Tool
 	if (envVar.length())
 	{
 		std::wstring env = (wchar_t*)envVar.utf16();
+#if RTM_PLATFORM_WINDOWS
 		wchar_t* envData = _wgetenv(env.c_str());
 		basePath = QString::fromUtf16((const ushort*)envData) + "/";
+#else
+		const char *const envData = getenv(env.c_str());
+		basePath = QString::fromUtf8(envData) + "/";
+#endif
 		basePath += tcPath + "/";
 		fullPath = basePath + prefix;
 
