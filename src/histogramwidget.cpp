@@ -5,7 +5,7 @@
 
 #include <MTuner_pch.h>
 #include <MTuner/src/histogramwidget.h>
-#include <MTuner/src/binLoaderview.h>
+#include <MTuner/src/binloaderview.h>
 #include <MTuner/src/histogram.h>
 #include <MTuner/src/capturecontext.h>
 
@@ -16,7 +16,7 @@ HistogramWidget::HistogramWidget(QWidget* _parent, Qt::WindowFlags _flags) :
 
 	m_histogramView	= findChild<HistogramView*>("graphicsView");
 	connect(m_histogramView, SIGNAL(binClicked()), this, SIGNAL(binClicked()));
-	
+
 	m_comboType = findChild<QComboBox*>("comboType");
 	connect(m_comboType, SIGNAL(activated(int)), this, SLOT(displayTypeChanged(int)));
 
