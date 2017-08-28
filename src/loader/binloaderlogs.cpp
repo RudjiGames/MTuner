@@ -313,7 +313,7 @@ bool Capture::saveGroupsLogXML(const char* _path, eGroupSort _sorting, uintptr_t
 	fprintf(f, "        <Leaks>");
 	fprintf(f,FormatNumber(m_statsGlobal.m_numberOfLiveBlocks,buffer));
 	fprintf(f, "</Leaks>\n");
-	
+
 	fprintf(f, "    </Stats>\n");
 
 	uint32_t size = (uint32_t)sortedGroups.size();
@@ -328,12 +328,12 @@ bool Capture::saveGroupsLogXML(const char* _path, eGroupSort _sorting, uintptr_t
 		const char* opType = gGetStringFromOperation(opEx->m_operationType);
 
 		fprintf(f, "    <Group>\n");
-		fprintf(f, "        <Type>%hs</Type>\n",opType);
+		fprintf(f, "        <Type>%s</Type>\n",opType);
 		fprintf(f, "        <Size>%d</Size>\n",opEx->m_allocSize);
 		fprintf(f, "        <GroupSize>%d</GroupSize>\n",opEx->m_allocSize*numOps);
 
 		StackTrace* trace = opEx->m_stackTrace;
-	
+
 		if (!trace)
 			continue;
 
@@ -342,7 +342,7 @@ bool Capture::saveGroupsLogXML(const char* _path, eGroupSort _sorting, uintptr_t
 		{
 			rdebug::StackFrame st;
 			symbolResolverGetFrame(_symResolver, trace->m_entries[e], &st);
-		
+
 			fprintf(f, "        <Frame>\n");
 			fprintf(f, "            <Module>%s</Module>\n", st.m_moduleName);
 			fprintf(f, "            <Func>%s</Func>\n", st.m_func);
