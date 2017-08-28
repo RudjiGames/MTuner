@@ -797,7 +797,11 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					{
 						char modNameC[1024];
 						ReadString<1024>(modNameC, loader, m_swapEndian);
+#if RTM_PLATFORM_WINDOWS && __cplusplus < 201103L
 						sprintf_s(modName, "%s", modNameC);
+#else
+						snprintf(modName, 1024, "%s", modNameC);
+#endif
 					}
 					else
 						ReadString<1024>(modName, loader, m_swapEndian);
@@ -1066,8 +1070,8 @@ bool Capture::loadSymbolInfo(BinLoader& _loader, uint64_t _fileSize)
 		rtm::WideToMulti executablePath(exePath);
 		rtm::pathRemoveRelative(executablePath);
 #else
-		QString executablePath = QString::fromUtf16(exePath);
-		rtm::pathRemoveRelative(executablePath.toUtf8().data());
+		auto executablePath = QString::fromUtf16(exePath).toUtf8();
+		rtm::pathRemoveRelative(executablePath.data());
 #endif
 
 		if (m_swapEndian)
@@ -1076,7 +1080,11 @@ bool Capture::loadSymbolInfo(BinLoader& _loader, uint64_t _fileSize)
 			modSize = Endian::swap(modSize);
 		}
 
+#if 0
 		addModule(executablePath, modBase, modSize);
+#else
+		addModule(executablePath.constData(), modBase, modSize);
+#endif
 
 		if (m_loadProgressCallback)
 		{
@@ -1085,7 +1093,11 @@ bool Capture::loadSymbolInfo(BinLoader& _loader, uint64_t _fileSize)
 			float percent = float(pos)*100.0f / float(_fileSize);
 			char message[2048];
 			strcpy(message, "Loading symbols ");
+#if 0
 			strcat(message, executablePath);
+#else
+			strcat(message, executablePath.constData());
+#endif
 			m_loadProgressCallback(m_loadProgressCustomData, percent, message);
 		}
 
