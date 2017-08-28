@@ -772,9 +772,13 @@ void MTuner::openFileFromPath(const QString& _file)
 		ctx->m_capture->setLoadProgressCallback(this, loadProgression);
 		rtm_string fn;
 
+#if 0
 		rtm::WideToMulti file((wchar_t*)_file.utf16());
 		fn += file;
-		
+#else
+		fn += _file.toUtf8().constData();
+#endif
+
 		// pass symbol store
 		QString symStore = m_symbolStore->getSymbolStoreString();
 
@@ -798,8 +802,12 @@ void MTuner::openFileFromPath(const QString& _file)
 
 			QString ld(tr("Loaded "));
 
+#if 0
 			rtm::MultiToWide fileName(fn.c_str());
 			statusBar()->showMessage(ld + QString::fromUtf16((ushort*)(wchar_t*)fileName),3000);
+#else
+			statusBar()->showMessage(ld + QString::fromUtf8(fn.c_str()),3000);
+#endif
 			m_centralWidget->addTab(ctx, name);
 		}
 		else
