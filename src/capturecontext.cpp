@@ -3,7 +3,7 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#include <mtuner_pch.h>
+#include <MTuner_pch.h>
 #include <MTuner/src/capturecontext.h>
 #include <rbase/inc/winchar.h>
 #include <rdebug/inc/rdebug.h>

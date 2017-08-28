@@ -3,7 +3,7 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#include <mtuner_pch.h>
+#include <MTuner_pch.h>
 #include <MTuner/src/histogramwidget.h>
 #include <MTuner/src/binLoaderview.h>
 #include <MTuner/src/histogram.h>

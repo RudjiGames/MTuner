@@ -3,7 +3,7 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#include <mtuner_pch.h>
+#include <MTuner_pch.h>
 #include <MTuner/src/operationsearch.h>
 
 OperationSearch::OperationSearch(QWidget* _parent, Qt::WindowFlags _flags)	: 

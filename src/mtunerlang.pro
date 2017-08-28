@@ -34,7 +34,7 @@ SOURCES +=  about.cpp               \
             langmanager.cpp         \
             mtuner.cpp              \
             mtunermain.cpp          \
-            mtuner_pch.cpp          \
+            MTuner_pch.cpp          \
             new_version.cpp         \
             operationsearch.cpp     \
             operationslist.cpp      \
@@ -81,7 +81,7 @@ HEADERS  += about.h                 \
             hotspots.h              \
             langmanager.h           \
             mtuner.h                \
-            mtuner_pch.h            \
+            MTuner_pch.h            \
             new_version.h           \
             operationsearch.h       \
             operationslist.h        \
