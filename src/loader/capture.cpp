@@ -11,6 +11,7 @@
 #include <rbase/inc/path.h>
 #include <rbase/inc/winchar.h>
 #include <rdebug/inc/rdebug.h>
+#include <type_traits>
 
 #if RTM_PLATFORM_WINDOWS && RTM_COMPILER_MSVC
 
@@ -95,7 +96,8 @@ inline uint32_t	ReadString(char ioString[Len], BinLoader& _loader, bool inSwapEn
 	return sizeof(len);
 }
 
-template <uint32_t Len, typename utf16_t>
+template <uint32_t Len, typename utf16_t, typename = typename std::enable_if<std::is_same<utf16_t, wchar_t>::value ||
+	std::is_same<utf16_t, char16_t>::value>::type>
 inline uint32_t	ReadString(utf16_t *const ioString, BinLoader& _loader, bool inSwapEndian, uint8_t inXor = 0)
 {
 	uint32_t len;
