@@ -57,6 +57,8 @@
     <addaction name="separator"/>
     <addaction name="actionOpen_capture_storage"/>
     <addaction name="separator"/>
+    <addaction name="action_Manage_projects"/>
+    <addaction name="separator"/>
     <addaction name="action_Exit"/>
    </widget>
    <widget class="QMenu" name="menu_Help">
@@ -75,7 +77,6 @@
     </property>
     <addaction name="action_Symbols"/>
     <addaction name="action_External_editor"/>
-    <addaction name="action_Manage_projects"/>
     <addaction name="action_GCC_toolchains"/>
     <addaction name="separator"/>
     <addaction name="action_Save_capture_window_layout"/>
@@ -483,7 +484,7 @@
    <sender>action_Contents</sender>
    <signal>triggered()</signal>
    <receiver>MTunerClass</receiver>
-   <slot>contents()</slot>
+   <slot>readDocumentation()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
