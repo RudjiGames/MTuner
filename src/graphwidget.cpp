@@ -270,14 +270,14 @@ void GraphWidget::animateRange(uint64_t _min, uint64_t _max)
 
 void GraphWidget::zoomIn()
 {
-	zoomIn((uint64_t)-1);
+	zoomIn(UINT64_MAX);
 }
 
 void GraphWidget::zoomIn(uint64_t _time)
 {
 	int64_t timeSpan = (m_maxTime - m_minTime) / 2;
 	int64_t middle = (m_maxTime + m_minTime) / 2;
-	if (_time != -1)
+	if (_time != UINT64_MAX)
 	{
 		middle = _time;
 	}
@@ -308,14 +308,14 @@ void GraphWidget::zoomIn(uint64_t _time)
 
 void GraphWidget::zoomOut()
 {
-	zoomOut((uint64_t)-1);
+	zoomOut(UINT64_MAX);
 }
 
 void GraphWidget::zoomOut(uint64_t _time)
 {
 	int64_t timeSpan = (m_maxTime - m_minTime) / 2;
 	int64_t middle   = (m_maxTime + m_minTime) / 2;
-	if (_time != -1)
+	if (_time != UINT64_MAX)
 	{
 		middle = _time;
 	}
@@ -392,7 +392,7 @@ void GraphWidget::markerSelectFrom()
 {
 	m_markerSelectFromTime = m_hoverMarkerTime;
 
-	if ((m_markerSelectFromTime != -1) && (m_markerSelectToTime != -1))
+	if ((m_markerSelectFromTime != UINT64_MAX) && (m_markerSelectToTime != UINT64_MAX))
 		selectFromTimes(m_markerSelectFromTime,m_markerSelectToTime);
 	else
 		invalidateScene();
@@ -402,7 +402,7 @@ void GraphWidget::markerSelectTo()
 {
 	m_markerSelectToTime = m_hoverMarkerTime;
 
-	if ((m_markerSelectFromTime != -1) && (m_markerSelectToTime != -1))
+	if ((m_markerSelectFromTime != UINT64_MAX) && (m_markerSelectToTime != UINT64_MAX))
 		selectFromTimes(m_markerSelectFromTime,m_markerSelectToTime);
 	else
 		invalidateScene();
