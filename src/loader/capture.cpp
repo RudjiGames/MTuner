@@ -95,8 +95,8 @@ inline uint32_t	ReadString(char ioString[Len], BinLoader& _loader, bool inSwapEn
 	return sizeof(len);
 }
 
-template <uint32_t Len>
-inline uint32_t	ReadString(wchar_t ioString[Len], BinLoader& _loader, bool inSwapEndian, uint8_t inXor = 0)
+template <uint32_t Len, typename utf16_t>
+inline uint32_t	ReadString(utf16_t *const ioString, BinLoader& _loader, bool inSwapEndian, uint8_t inXor = 0)
 {
 	uint32_t len;
 	if (_loader.readVar(len) != 1)
@@ -107,14 +107,14 @@ inline uint32_t	ReadString(wchar_t ioString[Len], BinLoader& _loader, bool inSwa
 
 	if (len < Len)
 	{
-		_loader.read(ioString, sizeof(wchar_t) * len);
+		_loader.read(ioString, sizeof(utf16_t) * len);
 		uint8_t* xBuff = (uint8_t*)ioString;
-		for (uint32_t i=0; i<sizeof(wchar_t)*len; i++)
+		for (uint32_t i=0; i<sizeof(utf16_t)*len; i++)
 			xBuff[i] = xBuff[i] ^ inXor;
-		ioString[len] = (wchar_t)'\0';
-		return (uint32_t)(len*sizeof(wchar_t) + sizeof(uint32_t));
+		ioString[len] = (utf16_t)'\0';
+		return (uint32_t)(len*sizeof(utf16_t) + sizeof(uint32_t));
 	}
-	ioString[0] = (wchar_t)'\0';
+	ioString[0] = (utf16_t)'\0';
 	return sizeof(len);
 }
 
@@ -1047,10 +1047,14 @@ bool Capture::loadSymbolInfo(BinLoader& _loader, uint64_t _fileSize)
 	int64_t symSize = (int64_t)symbolInfoSize;
 	while (symSize > 0)
 	{
+#if RTM_PLATFORM_WINDOWS
 		wchar_t exePath[1024];
+#else
+		char16_t exePath[1024];
+#endif
 		uint64_t modBase;
-		uint64_t modSize; 
-		
+		uint64_t modSize;
+
 		size_t bytesRead = 0;
 		bytesRead += ReadString<1024>(exePath, _loader, m_swapEndian, 0x23);
 		if (bytesRead == sizeof(uint32_t))
@@ -1058,9 +1062,14 @@ bool Capture::loadSymbolInfo(BinLoader& _loader, uint64_t _fileSize)
 		bytesRead += sizeof(uint64_t) * _loader.readVar(modBase);
 		bytesRead += sizeof(uint64_t) * _loader.readVar(modSize);
 
+#if 0
 		rtm::WideToMulti executablePath(exePath);
 		rtm::pathRemoveRelative(executablePath);
-		
+#else
+		QString executablePath = QString::fromUtf16(exePath);
+		rtm::pathRemoveRelative(executablePath.toUtf8().data());
+#endif
+
 		if (m_swapEndian)
 		{
 			modBase = Endian::swap(modBase);
