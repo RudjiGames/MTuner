@@ -77,6 +77,9 @@ void BigTable::changeEvent(QEvent* _event)
 				m_tree->setHorizontalHeaderLabels(m_header);
 			}
 			break;
+		// This silences warnings about cases not handled by the switch statement
+		default:
+			break;
 	};
 }
 

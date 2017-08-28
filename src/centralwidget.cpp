@@ -38,6 +38,9 @@ void CentralWidget::changeEvent(QEvent* _event)
 				}
 			}
 			break;
+		// This silences warnings from the compiler about unhandled cases
+		default:
+			break;
 	};
 }
 
