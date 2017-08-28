@@ -42,7 +42,7 @@ QString getDirFromFile(const QString& _file)
 	return workdir;
 }
 
-void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSetup* _gccSetup, 
+void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSetup* _gccSetup,
 						  QFileDialog* _fileDialog, MTuner* _mtuner, const QString& _symSource)
 {
 	rdebug::Toolchain tc;
@@ -72,8 +72,12 @@ void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSet
 			const char* exe = _context->m_capture->getModuleInfos()[0].m_modulePath;
 			if (strstr(exe, ".exe"))
 			{
+#if 0
 				rtm::MultiToWide exec(exe);
 				if (QFileInfo(QString::fromUtf16((const ushort*)exec.m_ptr)).exists())
+#else
+				if (QFileInfo(QString::fromUtf8(exe)).exists())
+#endif
 				{
 					executable = exe;
 					symSrcFound = true;
@@ -93,8 +97,12 @@ void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSet
 			if (!symSrcFound)
 			{
 				// cmd
+#if 0
 				rtm::WideToMulti symSourceM((wchar_t*)_symSource.utf16());
 				executable = symSourceM;
+#else
+				executable = stringDup(_symSource.toUtf8());
+#endif
 				if (executable.length() == 0)
 					rtm::Console::info("No symbol source specified, symbols will not be resolved!\n");
 			}
@@ -125,8 +133,12 @@ void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSet
 	else
 	{
 		tc.m_type = rdebug::Toolchain::MSVC;
+#if 0
 		rtm::WideToMulti tcPathM((wchar_t*)_symSource.utf16());
 		tc.m_toolchainPath	= tcPathM;
+#else
+		tc.m_toolchainPath = stringDup(_symSource.toUtf8());
+#endif
 		executable = _context->m_capture->getModuleInfos()[0].m_modulePath;
 	}
 
@@ -135,7 +147,7 @@ void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSet
 }
 
 MTuner::MTuner(QWidget* _parent, Qt::WindowFlags _flags) :
-	QMainWindow(_parent, _flags)	
+	QMainWindow(_parent, _flags)
 {
 	ui.setupUi(this);
 	emit setFilterButtonEnabled(false);
@@ -159,7 +171,7 @@ MTuner::MTuner(QWidget* _parent, Qt::WindowFlags _flags) :
 	m_fileDialog	= new QFileDialog(this);
 	m_symbolStore	= new SymbolStore(this);
 	m_gccSetup		= new GCCSetup(this);
-	
+
 	m_centralWidget = new CentralWidget();
 	connect(m_centralWidget, SIGNAL(contextChanged(CaptureContext*)), this, SLOT(setWidgetSources(CaptureContext*)));
 	connect(m_centralWidget, SIGNAL(changeWindowTitle(const QString&)), this, SLOT(setWindowTitle(const QString&)));
