@@ -218,12 +218,13 @@ bool GCCSetup::resolveToolchain(Toolchain& _toolchain, bool _64bit, rdebug::Tool
 	// try to match environment variable + relative path + postfix
 	if (envVar.length())
 	{
-		std::wstring env = (wchar_t*)envVar.utf16();
 #if RTM_PLATFORM_WINDOWS
+		std::wstring env = (wchar_t*)envVar.utf16();
 		wchar_t* envData = _wgetenv(env.c_str());
 		basePath = QString::fromUtf16((const ushort*)envData) + "/";
 #else
-		const char *const envData = getenv(env.c_str());
+		auto env = envVar.toUtf8();
+		const char *const envData = getenv(env.constData());
 		basePath = QString::fromUtf8(envData) + "/";
 #endif
 		basePath += tcPath + "/";
