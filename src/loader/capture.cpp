@@ -175,14 +175,14 @@ void Capture::clearData()
 	m_filteringEnabled = false;
 	m_swapEndian	= false;
 	m_64bit			= false;
-	
+
 	m_loadedFile.clear();
 	m_operationPool.Reset();
 	m_stackPool.Reset();
 	m_operations.clear();
 	m_statsGlobal.Reset();
 	m_statsSnapshot.Reset();
-	
+
 	// symbols
 
 	m_moduleInfos.clear();
@@ -209,11 +209,11 @@ void Capture::clearData()
 	m_filter.m_threadID			= 0;
 
 	m_usageGraph.clear();
-	
+
 	m_memoryMarkers.clear();
 	m_memoryMarkerTimes.clear();
 
-	m_Heaps.clear(); 
+	m_Heaps.clear();
 	m_currentHeap = (uint64_t)-1;
 
 
@@ -293,8 +293,8 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 	headerItems += loader.readVar(verHigh);
 	headerItems += loader.readVar(verLow);
 	headerItems += loader.readVar(toolChain);
-	headerItems += loader.readVar(cpuFrequency);	
-	
+	headerItems += loader.readVar(cpuFrequency);
+
 	if (headerItems != 6)
 		return Capture::LoadFail;
 
@@ -317,9 +317,9 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 		cpuFrequency = Endian::swap(cpuFrequency);
 	m_CPUFrequency = cpuFrequency;
 
-	printf("Load bin:\n  version %d.%d\n  %s endian\n  %sbit\n", 
-			verHigh, 
-			verLow, 
+	printf("Load bin:\n  version %d.%d\n  %s endian\n  %sbit\n",
+			verHigh,
+			verLow,
 			m_swapEndian ? "Big" : "Little",
 			m_64bit ? "64" : "32" );
 
@@ -558,7 +558,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 						stackTraceHash = Endian::swap(stackTraceHash);
 
 					StackTrace* st = NULL;
-					
+
 					if (readFullStack)
 					{
 						if (m_64bit)
@@ -569,7 +569,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 									loadSuccess = false;
 									break;
 								}
-		
+
 							if (!loadSuccess)
 								break;
 
@@ -588,7 +588,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 									loadSuccess = false;
 									break;
 								}
-		
+
 							if (!loadSuccess)
 								break;
 
@@ -638,7 +638,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 						loadSuccess = false;
 						break;
 					}
-									
+
 					// get tag for this operation
 					uint32_t tag = 0;
 					if (isAlloc(op->m_operationType))
@@ -655,7 +655,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					op->m_chainNext			= NULL;
 					op->m_tag				= (uint16_t)(tag & 0xffff);
 					op->m_isValid			= 1;
-					
+
 					m_operations.push_back(op);
 
 					HeapsType::iterator it = m_Heaps.find(op->m_allocatorHandle);
@@ -697,7 +697,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 				{
 					uint32_t tagHash;
 					uint64_t threadID;
-					
+
 					VERIFY_READ_SIZE(tagHash)
 					VERIFY_READ_SIZE(threadID)
 
@@ -716,7 +716,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 				{
 					uint32_t tagHash;
 					uint64_t threadID;
-					
+
 					VERIFY_READ_SIZE(tagHash)
 					VERIFY_READ_SIZE(threadID)
 
@@ -754,7 +754,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					m_memoryMarkers[markerNameHash] = me;
 				}
 				break;
-				
+
 			case rmem::LogMarkers::Marker:
 				{
 					uint32_t markerNameHash;
