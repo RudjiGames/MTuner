@@ -4,9 +4,9 @@
 //--------------------------------------------------------------------------//
 
 #include <mtuner_pch.h>
-#include <mtuner/src/operationslist.h>
-#include <mtuner/src/bigtable.h>
-#include <mtuner/src/capturecontext.h>
+#include <MTuner/src/operationslist.h>
+#include <MTuner/src/bigtable.h>
+#include <MTuner/src/capturecontext.h>
 
 struct Mapping
 {

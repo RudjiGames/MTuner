@@ -6,7 +6,7 @@
 #ifndef RTM_MTUNER_GCC_H
 #define RTM_MTUNER_GCC_H
 
-#include <mtuner/.qt/qt_ui/gcc_ui.h>
+#include <MTuner/.qt/qt_ui/gcc_ui.h>
 
 struct Toolchain
 {

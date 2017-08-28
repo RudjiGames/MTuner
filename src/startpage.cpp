@@ -4,8 +4,8 @@
 //--------------------------------------------------------------------------//
 
 #include <mtuner_pch.h>
-#include <mtuner/src/startpage.h>
-#include <mtuner/src/version.h>
+#include <MTuner/src/startpage.h>
+#include <MTuner/src/version.h>
 
 static QString getMessage(const QString& _string)
 {

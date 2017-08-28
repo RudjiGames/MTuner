@@ -3,7 +3,7 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#include <MTuner_pch.h>
+#include <mtuner_pch.h>
 #include <MTuner/src/loader/binloader.h>
 #include <rmem/src/rmem_hook.h>
 #include <rbase/inc/endianswap.h>

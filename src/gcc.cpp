@@ -4,7 +4,7 @@
 //--------------------------------------------------------------------------//
 
 #include <mtuner_pch.h>
-#include <mtuner/src/gcc.h>
+#include <MTuner/src/gcc.h>
 #include <rbase/inc/winchar.h>
 
 GCCSetup::GCCSetup(QWidget* _parent, Qt::WindowFlags _flags) :

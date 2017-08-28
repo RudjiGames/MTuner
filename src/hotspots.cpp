@@ -4,7 +4,7 @@
 //--------------------------------------------------------------------------//
 
 #include <mtuner_pch.h>
-#include <mtuner/src/hotspots.h>
+#include <MTuner/src/hotspots.h>
 
 static const uint32_t s_numRows = 6;
 

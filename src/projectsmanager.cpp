@@ -4,7 +4,7 @@
 //--------------------------------------------------------------------------//
 
 #include <mtuner_pch.h>
-#include <mtuner/src/projectsmanager.h>
+#include <MTuner/src/projectsmanager.h>
 
 ProjectsManager::ProjectsManager(QWidget* _parent, Qt::WindowFlags _flags)
 	: QDialog(_parent, Qt::WindowSystemMenuHint | Qt::WindowTitleHint)

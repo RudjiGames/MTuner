@@ -4,8 +4,8 @@
 //--------------------------------------------------------------------------//
 
 #include <mtuner_pch.h>
-#include <mtuner/src/mtuner.h>
-#include <mtuner/src/welcome.h>
+#include <MTuner/src/mtuner.h>
+#include <MTuner/src/welcome.h>
 
 WelcomeDialog::WelcomeDialog(QWidget* _parent, Qt::WindowFlags _flags) :
 	QDialog(_parent, Qt::WindowSystemMenuHint | Qt::WindowTitleHint)

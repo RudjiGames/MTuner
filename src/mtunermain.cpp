@@ -4,10 +4,10 @@
 //--------------------------------------------------------------------------//
 
 #include <mtuner_pch.h>
-#include <mtuner/src/mtuner.h>
-#include <mtuner/src/gcc.h>
-#include <mtuner/src/version.h>
-#include <mtuner/src/capturecontext.h>
+#include <MTuner/src/mtuner.h>
+#include <MTuner/src/gcc.h>
+#include <MTuner/src/version.h>
+#include <MTuner/src/capturecontext.h>
 #include <rbase/inc/cmdline.h>
 #include <rbase/inc/console.h>
 #include <rbase/inc/hash.h>

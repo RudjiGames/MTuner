@@ -4,8 +4,8 @@
 //--------------------------------------------------------------------------//
 
 #include <mtuner_pch.h>
-#include <mtuner/src/stackandsource.h>
-#include <mtuner/src/binloaderview.h>
+#include <MTuner/src/stackandsource.h>
+#include <MTuner/src/binloaderview.h>
 
 StackAndSource::StackAndSource(ExternalEditor* _editorDlg, QWidget* _parent, Qt::WindowFlags _flags) :
 	m_editorDialog(_editorDlg),

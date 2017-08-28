@@ -6,8 +6,8 @@
 #ifndef RTM_MTUNER_MTUNER_H
 #define RTM_MTUNER_MTUNER_H
 
-#include <mtuner/src/stats.h>
-#include <mtuner/.qt/qt_ui/mtuner_ui.h>
+#include <MTuner/src/stats.h>
+#include <MTuner/.qt/qt_ui/mtuner_ui.h>
 
 class ProjectsManager;
 class SymbolStore;

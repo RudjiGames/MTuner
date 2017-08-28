@@ -6,7 +6,7 @@
 #ifndef RTM_MTUNER_STACKANDSOURCE_H
 #define RTM_MTUNER_STACKANDSOURCE_H
 
-#include <mtuner/.qt/qt_ui/stackandsource_ui.h>
+#include <MTuner/.qt/qt_ui/stackandsource_ui.h>
 
 class BinLoaderView;
 class ExternalEditor;

@@ -4,9 +4,9 @@
 //--------------------------------------------------------------------------//
 
 #include <mtuner_pch.h>
-#include <mtuner/src/histogram.h>
-#include <mtuner/src/histogramview.h>
-#include <mtuner/src/capturecontext.h>
+#include <MTuner/src/histogram.h>
+#include <MTuner/src/histogramview.h>
+#include <MTuner/src/capturecontext.h>
 
 static bool shouldHighlight(QRect& _rect, QPoint& _highlight, int _highlightBin)
 {

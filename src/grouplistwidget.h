@@ -6,7 +6,7 @@
 #ifndef RTM_MTUNER_GROUPLISTWIDGET_H
 #define RTM_MTUNER_GROUPLISTWIDGET_H
 
-#include <mtuner/.qt/qt_ui/GroupList_ui.h>
+#include <MTuner/.qt/qt_ui/grouplist_ui.h>
 
 class GroupTableSource;
 struct CaptureContext;

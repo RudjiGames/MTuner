@@ -4,10 +4,10 @@
 //--------------------------------------------------------------------------//
 
 #include <mtuner_pch.h>
-#include <mtuner/src/graphcurve.h>
-#include <mtuner/src/graphmarkers.h>
-#include <mtuner/src/graphwidget.h>
-#include <mtuner/src/capturecontext.h>
+#include <MTuner/src/graphcurve.h>
+#include <MTuner/src/graphmarkers.h>
+#include <MTuner/src/graphwidget.h>
+#include <MTuner/src/capturecontext.h>
 
 GraphMarkers::GraphMarkers(GraphWidget* _graphWidget)
 {

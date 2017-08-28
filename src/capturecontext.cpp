@@ -4,7 +4,7 @@
 //--------------------------------------------------------------------------//
 
 #include <mtuner_pch.h>
-#include <mtuner/src/capturecontext.h>
+#include <MTuner/src/capturecontext.h>
 #include <rbase/inc/winchar.h>
 #include <rdebug/inc/rdebug.h>
 

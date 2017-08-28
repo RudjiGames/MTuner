@@ -6,7 +6,7 @@
 #ifndef RTM_MTUNER_EXTERNALEDITOR_H
 #define RTM_MTUNER_EXTERNALEDITOR_H
 
-#include <mtuner/.qt/qt_ui/external_editor_ui.h>
+#include <MTuner/.qt/qt_ui/external_editor_ui.h>
 
 class ExternalEditor : public QDialog
 {

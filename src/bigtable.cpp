@@ -4,8 +4,8 @@
 //--------------------------------------------------------------------------//
 
 #include <mtuner_pch.h>
-#include <mtuner/src/bigtable.h>
-#include <mtuner/src/bigtabletablewidget.h>
+#include <MTuner/src/bigtable.h>
+#include <MTuner/src/bigtabletablewidget.h>
 
 class ForegroundColorItemDelegate : public QItemDelegate
 {

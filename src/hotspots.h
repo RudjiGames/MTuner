@@ -6,8 +6,8 @@
 #ifndef RTM_MTUNER_HOTSPOTS_H
 #define RTM_MTUNER_HOTSPOTS_H
 
-#include <mtuner/src/grouplistwidget.h>
-#include <mtuner/.qt/qt_ui/hotspot_ui.h>
+#include <MTuner/src/grouplistwidget.h>
+#include <MTuner/.qt/qt_ui/hotspot_ui.h>
 
 class HotspotsWidget : public QWidget
 {

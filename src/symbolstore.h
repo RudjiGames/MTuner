@@ -6,7 +6,7 @@
 #ifndef RTM_MTUNER_SYMBOLSTORE_H
 #define RTM_MTUNER_SYMBOLSTORE_H
 
-#include <mtuner/.qt/qt_ui/symbolstore_ui.h>
+#include <MTuner/.qt/qt_ui/symbolstore_ui.h>
 
 class SymbolStore : public QDialog
 {

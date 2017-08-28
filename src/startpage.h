@@ -6,7 +6,7 @@
 #ifndef RTM_MTUNER_STARTPAGEWIDGET_H
 #define RTM_MTUNER_STARTPAGEWIDGET_H
 
-#include <mtuner/.qt/qt_ui/startpage_ui.h>
+#include <MTuner/.qt/qt_ui/startpage_ui.h>
 
 class StartPageWidget : public QWidget
 {

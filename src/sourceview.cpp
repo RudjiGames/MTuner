@@ -4,11 +4,11 @@
 //--------------------------------------------------------------------------//
 
 #include <mtuner_pch.h>
-#include <mtuner/src/mtuner.h>
-#include <mtuner/src/sourceview.h>
-#include <mtuner/src/highlighter.h>
-#include <mtuner/src/external_editor.h>
-#include <mtuner/src/capturecontext.h>
+#include <MTuner/src/mtuner.h>
+#include <MTuner/src/sourceview.h>
+#include <MTuner/src/highlighter.h>
+#include <MTuner/src/external_editor.h>
+#include <MTuner/src/capturecontext.h>
 
 SourceView::SourceView(QWidget* _parent) : 
 	QPlainTextEdit(_parent)

@@ -6,7 +6,7 @@
 #ifndef RTM_MTUNER_GRAPH_H
 #define RTM_MTUNER_GRAPH_H
 
-#include <mtuner/.qt/qt_ui/graph_ui.h>
+#include <MTuner/.qt/qt_ui/graph_ui.h>
 
 class GraphWidget;
 class BinLoaderView;

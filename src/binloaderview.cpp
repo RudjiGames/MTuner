@@ -4,9 +4,9 @@
 //--------------------------------------------------------------------------//
 
 #include <mtuner_pch.h>
-#include <mtuner/src/binloaderview.h>
-#include <mtuner/src/operationslist.h>
-#include <mtuner/src/capturecontext.h>
+#include <MTuner/src/binloaderview.h>
+#include <MTuner/src/operationslist.h>
+#include <MTuner/src/capturecontext.h>
 
 BinLoaderView::BinLoaderView(QWidget* _parent, Qt::WindowFlags _flags) :
 	QWidget(_parent, _flags)

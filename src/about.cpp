@@ -4,8 +4,8 @@
 //--------------------------------------------------------------------------//
 
 #include <mtuner_pch.h>
-#include <mtuner/src/about.h>
-#include <mtuner/src/version.h>
+#include <MTuner/src/about.h>
+#include <MTuner/src/version.h>
 
 AboutDialog::AboutDialog(QWidget* _parent, Qt::WindowFlags _flags) :
 	QDialog(_parent, Qt::WindowSystemMenuHint | Qt::WindowTitleHint)

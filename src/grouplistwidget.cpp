@@ -4,8 +4,8 @@
 //--------------------------------------------------------------------------//
 
 #include <mtuner_pch.h>
-#include <mtuner/src/grouplistwidget.h>
-#include <mtuner/src/capturecontext.h>
+#include <MTuner/src/grouplistwidget.h>
+#include <MTuner/src/capturecontext.h>
 
 struct GroupColumn
 {

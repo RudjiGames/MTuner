@@ -4,7 +4,7 @@
 //--------------------------------------------------------------------------//
 
 #include <mtuner_pch.h>
-#include <mtuner/src/external_editor.h>
+#include <MTuner/src/external_editor.h>
 
 ExternalEditor::ExternalEditor(QWidget* _parent, Qt::WindowFlags _flags) : 
 	QDialog(_parent, Qt::WindowSystemMenuHint | Qt::WindowTitleHint)

@@ -6,7 +6,7 @@
 #ifndef RTM_MTUNER_ABOUT_H
 #define RTM_MTUNER_ABOUT_H
 
-#include <mtuner/.qt/qt_ui/about_ui.h>
+#include <MTuner/.qt/qt_ui/about_ui.h>
 
 class AboutDialog : public QDialog
 {

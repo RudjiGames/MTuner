@@ -6,7 +6,7 @@
 #ifndef RTM_MTUNER_CENTRALWIDGET_H
 #define RTM_MTUNER_CENTRALWIDGET_H
 
-#include <mtuner/.qt/qt_ui/centralwidget_ui.h>
+#include <MTuner/.qt/qt_ui/centralwidget_ui.h>
 
 class StackTrace;
 class SourceView;

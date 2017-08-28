@@ -4,7 +4,7 @@
 //--------------------------------------------------------------------------//
 
 #include <mtuner_pch.h>
-#include <mtuner/src/highlighter.h>
+#include <MTuner/src/highlighter.h>
 
 Highlighter::Highlighter(QTextDocument* _parent)
     : QSyntaxHighlighter(_parent)

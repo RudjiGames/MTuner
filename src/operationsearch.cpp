@@ -4,7 +4,7 @@
 //--------------------------------------------------------------------------//
 
 #include <mtuner_pch.h>
-#include <mtuner/src/operationsearch.h>
+#include <MTuner/src/operationsearch.h>
 
 OperationSearch::OperationSearch(QWidget* _parent, Qt::WindowFlags _flags)	: 
 	QWidget(_parent, _flags)

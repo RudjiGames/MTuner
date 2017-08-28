@@ -6,7 +6,7 @@
 #ifndef RTM_MTUNER_HISTOGRAMWIDGET_H
 #define RTM_MTUNER_HISTOGRAMWIDGET_H
 
-#include <mtuner/.qt/qt_ui/histogram_ui.h>
+#include <MTuner/.qt/qt_ui/histogram_ui.h>
 
 class HistogramView;
 class BinLoaderView;

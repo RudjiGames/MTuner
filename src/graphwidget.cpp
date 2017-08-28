@@ -4,13 +4,13 @@
 //--------------------------------------------------------------------------//
 
 #include <mtuner_pch.h>
-#include <mtuner/src/graphwidget.h>
-#include <mtuner/src/binloaderview.h>
-#include <mtuner/src/graphgrid.h>
-#include <mtuner/src/graphcurve.h>
-#include <mtuner/src/graphselect.h>
-#include <mtuner/src/graphmarkers.h>
-#include <mtuner/src/capturecontext.h>
+#include <MTuner/src/graphwidget.h>
+#include <MTuner/src/binloaderview.h>
+#include <MTuner/src/graphgrid.h>
+#include <MTuner/src/graphcurve.h>
+#include <MTuner/src/graphselect.h>
+#include <MTuner/src/graphmarkers.h>
+#include <MTuner/src/capturecontext.h>
 
 #define REALTIME_UPDATE 1
 

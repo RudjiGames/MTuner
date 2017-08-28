@@ -6,7 +6,7 @@
 #ifndef RTM_MTUNER_TAGTREEWIDGET_H
 #define RTM_MTUNER_TAGTREEWIDGET_H
 
-#include <mtuner/.qt/qt_ui/tagtree_ui.h>
+#include <MTuner/.qt/qt_ui/tagtree_ui.h>
 
 class TagTreeItem;
 struct CaptureContext;

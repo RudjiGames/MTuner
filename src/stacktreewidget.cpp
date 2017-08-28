@@ -4,8 +4,8 @@
 //--------------------------------------------------------------------------//
 
 #include <mtuner_pch.h>
-#include <mtuner/src/stacktreewidget.h>
-#include <mtuner/src/capturecontext.h>
+#include <MTuner/src/stacktreewidget.h>
+#include <MTuner/src/capturecontext.h>
 
 struct Header
 {

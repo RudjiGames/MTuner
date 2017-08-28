@@ -4,25 +4,25 @@
 //--------------------------------------------------------------------------//
 
 #include <mtuner_pch.h>
-#include <mtuner/src/mtuner.h>
-#include <mtuner/src/about.h>
-#include <mtuner/src/projectsmanager.h>
-#include <mtuner/src/symbolstore.h>
-#include <mtuner/src/centralwidget.h>
-#include <mtuner/src/external_editor.h>
-#include <mtuner/src/graphwidget.h>
-#include <mtuner/src/heapswidget.h>
-#include <mtuner/src/histogramwidget.h>
-#include <mtuner/src/stackandsource.h>
-#include <mtuner/src/stats.h>
-#include <mtuner/src/binloaderview.h>
-#include <mtuner/src/sourceview.h>
-#include <mtuner/src/graph.h>
-#include <mtuner/src/gcc.h>
-#include <mtuner/src/welcome.h>
-#include <mtuner/src/tagtreewidget.h>
-#include <mtuner/src/capturecontext.h>
-#include <mtuner/src/version.h>
+#include <MTuner/src/mtuner.h>
+#include <MTuner/src/about.h>
+#include <MTuner/src/projectsmanager.h>
+#include <MTuner/src/symbolstore.h>
+#include <MTuner/src/centralwidget.h>
+#include <MTuner/src/external_editor.h>
+#include <MTuner/src/graphwidget.h>
+#include <MTuner/src/heapswidget.h>
+#include <MTuner/src/histogramwidget.h>
+#include <MTuner/src/stackandsource.h>
+#include <MTuner/src/stats.h>
+#include <MTuner/src/binloaderview.h>
+#include <MTuner/src/sourceview.h>
+#include <MTuner/src/graph.h>
+#include <MTuner/src/gcc.h>
+#include <MTuner/src/welcome.h>
+#include <MTuner/src/tagtreewidget.h>
+#include <MTuner/src/capturecontext.h>
+#include <MTuner/src/version.h>
 #include <rbase/inc/console.h>
 #include <rmem/src/rmem_enums.h>
 

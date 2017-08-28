@@ -4,10 +4,10 @@
 //--------------------------------------------------------------------------//
 
 #include <mtuner_pch.h>
-#include <mtuner/src/histogramwidget.h>
-#include <mtuner/src/binLoaderview.h>
-#include <mtuner/src/histogram.h>
-#include <mtuner/src/capturecontext.h>
+#include <MTuner/src/histogramwidget.h>
+#include <MTuner/src/binLoaderview.h>
+#include <MTuner/src/histogram.h>
+#include <MTuner/src/capturecontext.h>
 
 HistogramWidget::HistogramWidget(QWidget* _parent, Qt::WindowFlags _flags) :
 	QWidget(_parent, _flags)

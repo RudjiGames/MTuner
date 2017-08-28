@@ -4,7 +4,7 @@
 //--------------------------------------------------------------------------//
 
 #include <mtuner_pch.h>
-#include <mtuner/src/treemap.h>
+#include <MTuner/src/treemap.h>
 
 TreeMapWidget::TreeMapWidget(QWidget* _parent, Qt::WindowFlags _flags) :
 	QWidget(_parent, _flags)
