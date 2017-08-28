@@ -242,13 +242,17 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 	m_loadedFile = _path;
 
+#if RTM_PLATFORM_WINDOWS
 	rtm::MultiToWide path(_path);
 #if RTM_COMPILER_MSVC
 	FILE* f  = _wfopen(path.m_ptr, L"rb");
 #else
 	FILE* f = fopen(path.m_ptr,"rb");
 #endif
-	
+#else
+	FILE *f = fopen(_path, "r");
+#endif
+
 	if (!f)
 		return Capture::LoadFail;
 
@@ -257,7 +261,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 	uint64_t fileSize = (uint64_t)_ftelli64(f);
 	_fseeki64(f, 0, SEEK_SET);
 #elif RTM_PLATFORM_LINUX
-	fseeko64(f, 0, SEEK_END); 
+	fseeko64(f, 0, SEEK_END);
 	uint64_t fileSize = (uint64_t)ftello64(f);
 	fseeko64(f, 0, SEEK_SET);
 #endif
