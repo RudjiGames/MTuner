@@ -182,10 +182,6 @@ MTuner::MTuner(QWidget* _parent, Qt::WindowFlags _flags) :
 	emit binLoaded(false);
 }
 
-MTuner::~MTuner()
-{
-}
-
 void MTuner::show()
 {
 	QMainWindow::show();

@@ -58,7 +58,6 @@ private:
 	
 public:
 	MTuner(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
-	~MTuner();
 
 	void show();
 	void setLoadingProgress(float _progress, const wchar_t* _message);
