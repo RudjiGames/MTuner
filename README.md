@@ -52,9 +52,16 @@ Starting page of documentation is [here](http://mtuner.net/documentation.html)
 Support development
 ======
 
-Consider donating to support the development and maintenance of **MTuner**
+**MTuner** is free and will remain so but there's plenty more features and polish to do.  
+Consider donating to support the ongoing development and maintenance of **MTuner**
 
+Monthly donations:  
+[<img src="https://s3-us-west-1.amazonaws.com/patreon-reward-images/1537701.png" height=70>](https://www.patreon.com/MTuner)
+
+One time donations:  
 [<img src="https://www.paypalobjects.com/webstatic/mktg/merchant_portal/button/donate.en.png" width=228 height=44>](https://www.paypal.me/MTuner)
+
+For private support and similar requests, please contact the author - see below.
 
 Author
 ======
