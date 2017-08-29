@@ -6,7 +6,7 @@
 #ifndef RTM_MTUNER_OPERATIONSEARCH_H
 #define RTM_MTUNER_OPERATIONSEARCH_H
 
-#include <mtuner/.qt/qt_ui/operationsearch_ui.h>
+#include <MTuner/.qt/qt_ui/operationsearch_ui.h>
 
 class OperationSearch : public QWidget
 {

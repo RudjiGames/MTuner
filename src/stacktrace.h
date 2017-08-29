@@ -6,7 +6,7 @@
 #ifndef RTM_MTUNER_STACKTRACE_H
 #define RTM_MTUNER_STACKTRACE_H
 
-#include <mtuner/.qt/qt_ui/stacktrace_ui.h>
+#include <MTuner/.qt/qt_ui/stacktrace_ui.h>
 
 class QSpinBox;
 struct CaptureContext;

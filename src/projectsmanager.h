@@ -6,7 +6,7 @@
 #ifndef RTM_MTUNER_PROJECTSMANAGER_H
 #define RTM_MTUNER_PROJECTSMANAGER_H
 
-#include <mtuner/.qt/qt_ui/projectsmanager_ui.h>
+#include <MTuner/.qt/qt_ui/projectsmanager_ui.h>
 
 struct Project
 {

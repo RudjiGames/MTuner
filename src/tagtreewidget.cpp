@@ -3,9 +3,9 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#include <mtuner_pch.h>
-#include <mtuner/src/tagtreewidget.h>
-#include <mtuner/src/capturecontext.h>
+#include <MTuner_pch.h>
+#include <MTuner/src/tagtreewidget.h>
+#include <MTuner/src/capturecontext.h>
 
 class TagTreeItem
 {

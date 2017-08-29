@@ -6,8 +6,8 @@
 #ifndef RTM_MTUNER_BINLOADERVIEW_H
 #define RTM_MTUNER_BINLOADERVIEW_H
 
-#include <mtuner/.qt/qt_ui/BinLoaderView_ui.h>
-#include <mtuner/src/treemap.h>
+#include <MTuner/.qt/qt_ui/binloaderview_ui.h>
+#include <MTuner/src/treemap.h>
 
 class Hotspots;
 class OperationsList;

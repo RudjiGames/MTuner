@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#include <mtuner_pch.h>
-#include <mtuner/src/highlighter.h>
+#include <MTuner_pch.h>
+#include <MTuner/src/highlighter.h>
 
 Highlighter::Highlighter(QTextDocument* _parent)
     : QSyntaxHighlighter(_parent)

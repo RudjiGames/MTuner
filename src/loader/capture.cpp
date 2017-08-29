@@ -11,6 +11,7 @@
 #include <rbase/inc/path.h>
 #include <rbase/inc/winchar.h>
 #include <rdebug/inc/rdebug.h>
+#include <type_traits>
 
 #if RTM_PLATFORM_WINDOWS && RTM_COMPILER_MSVC
 
@@ -95,8 +96,9 @@ inline uint32_t	ReadString(char ioString[Len], BinLoader& _loader, bool inSwapEn
 	return sizeof(len);
 }
 
-template <uint32_t Len>
-inline uint32_t	ReadString(wchar_t ioString[Len], BinLoader& _loader, bool inSwapEndian, uint8_t inXor = 0)
+template <uint32_t Len, typename utf16_t, typename = typename std::enable_if<std::is_same<utf16_t, wchar_t>::value ||
+	std::is_same<utf16_t, char16_t>::value>::type>
+inline uint32_t	ReadString(utf16_t *const ioString, BinLoader& _loader, bool inSwapEndian, uint8_t inXor = 0)
 {
 	uint32_t len;
 	if (_loader.readVar(len) != 1)
@@ -107,14 +109,14 @@ inline uint32_t	ReadString(wchar_t ioString[Len], BinLoader& _loader, bool inSwa
 
 	if (len < Len)
 	{
-		_loader.read(ioString, sizeof(wchar_t) * len);
+		_loader.read(ioString, sizeof(utf16_t) * len);
 		uint8_t* xBuff = (uint8_t*)ioString;
-		for (uint32_t i=0; i<sizeof(wchar_t)*len; i++)
+		for (uint32_t i=0; i<sizeof(utf16_t)*len; i++)
 			xBuff[i] = xBuff[i] ^ inXor;
-		ioString[len] = (wchar_t)'\0';
-		return (uint32_t)(len*sizeof(wchar_t) + sizeof(uint32_t));
+		ioString[len] = (utf16_t)'\0';
+		return (uint32_t)(len*sizeof(utf16_t) + sizeof(uint32_t));
 	}
-	ioString[0] = (wchar_t)'\0';
+	ioString[0] = (utf16_t)'\0';
 	return sizeof(len);
 }
 
@@ -175,14 +177,14 @@ void Capture::clearData()
 	m_filteringEnabled = false;
 	m_swapEndian	= false;
 	m_64bit			= false;
-	
+
 	m_loadedFile.clear();
 	m_operationPool.Reset();
 	m_stackPool.Reset();
 	m_operations.clear();
 	m_statsGlobal.Reset();
 	m_statsSnapshot.Reset();
-	
+
 	// symbols
 
 	m_moduleInfos.clear();
@@ -209,11 +211,11 @@ void Capture::clearData()
 	m_filter.m_threadID			= 0;
 
 	m_usageGraph.clear();
-	
+
 	m_memoryMarkers.clear();
 	m_memoryMarkerTimes.clear();
 
-	m_Heaps.clear(); 
+	m_Heaps.clear();
 	m_currentHeap = (uint64_t)-1;
 
 
@@ -242,13 +244,17 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 	m_loadedFile = _path;
 
+#if RTM_PLATFORM_WINDOWS
 	rtm::MultiToWide path(_path);
 #if RTM_COMPILER_MSVC
 	FILE* f  = _wfopen(path.m_ptr, L"rb");
 #else
 	FILE* f = fopen(path.m_ptr,"rb");
 #endif
-	
+#else
+	FILE *f = fopen(_path, "r");
+#endif
+
 	if (!f)
 		return Capture::LoadFail;
 
@@ -257,7 +263,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 	uint64_t fileSize = (uint64_t)_ftelli64(f);
 	_fseeki64(f, 0, SEEK_SET);
 #elif RTM_PLATFORM_LINUX
-	fseeko64(f, 0, SEEK_END); 
+	fseeko64(f, 0, SEEK_END);
 	uint64_t fileSize = (uint64_t)ftello64(f);
 	fseeko64(f, 0, SEEK_SET);
 #endif
@@ -289,8 +295,8 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 	headerItems += loader.readVar(verHigh);
 	headerItems += loader.readVar(verLow);
 	headerItems += loader.readVar(toolChain);
-	headerItems += loader.readVar(cpuFrequency);	
-	
+	headerItems += loader.readVar(cpuFrequency);
+
 	if (headerItems != 6)
 		return Capture::LoadFail;
 
@@ -313,9 +319,9 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 		cpuFrequency = Endian::swap(cpuFrequency);
 	m_CPUFrequency = cpuFrequency;
 
-	printf("Load bin:\n  version %d.%d\n  %s endian\n  %sbit\n", 
-			verHigh, 
-			verLow, 
+	printf("Load bin:\n  version %d.%d\n  %s endian\n  %sbit\n",
+			verHigh,
+			verLow,
 			m_swapEndian ? "Big" : "Little",
 			m_64bit ? "64" : "32" );
 
@@ -554,7 +560,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 						stackTraceHash = Endian::swap(stackTraceHash);
 
 					StackTrace* st = NULL;
-					
+
 					if (readFullStack)
 					{
 						if (m_64bit)
@@ -565,7 +571,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 									loadSuccess = false;
 									break;
 								}
-		
+
 							if (!loadSuccess)
 								break;
 
@@ -584,7 +590,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 									loadSuccess = false;
 									break;
 								}
-		
+
 							if (!loadSuccess)
 								break;
 
@@ -634,7 +640,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 						loadSuccess = false;
 						break;
 					}
-									
+
 					// get tag for this operation
 					uint32_t tag = 0;
 					if (isAlloc(op->m_operationType))
@@ -651,7 +657,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					op->m_chainNext			= NULL;
 					op->m_tag				= (uint16_t)(tag & 0xffff);
 					op->m_isValid			= 1;
-					
+
 					m_operations.push_back(op);
 
 					HeapsType::iterator it = m_Heaps.find(op->m_allocatorHandle);
@@ -693,7 +699,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 				{
 					uint32_t tagHash;
 					uint64_t threadID;
-					
+
 					VERIFY_READ_SIZE(tagHash)
 					VERIFY_READ_SIZE(threadID)
 
@@ -712,7 +718,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 				{
 					uint32_t tagHash;
 					uint64_t threadID;
-					
+
 					VERIFY_READ_SIZE(tagHash)
 					VERIFY_READ_SIZE(threadID)
 
@@ -750,7 +756,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					m_memoryMarkers[markerNameHash] = me;
 				}
 				break;
-				
+
 			case rmem::LogMarkers::Marker:
 				{
 					uint32_t markerNameHash;
@@ -793,7 +799,11 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					{
 						char modNameC[1024];
 						ReadString<1024>(modNameC, loader, m_swapEndian);
+#if RTM_PLATFORM_WINDOWS && __cplusplus < 201103L
 						sprintf_s(modName, "%s", modNameC);
+#else
+						snprintf(modName, 1024, "%s", modNameC);
+#endif
 					}
 					else
 						ReadString<1024>(modName, loader, m_swapEndian);
@@ -1043,10 +1053,14 @@ bool Capture::loadSymbolInfo(BinLoader& _loader, uint64_t _fileSize)
 	int64_t symSize = (int64_t)symbolInfoSize;
 	while (symSize > 0)
 	{
+#if RTM_PLATFORM_WINDOWS
 		wchar_t exePath[1024];
+#else
+		char16_t exePath[1024];
+#endif
 		uint64_t modBase;
-		uint64_t modSize; 
-		
+		uint64_t modSize;
+
 		size_t bytesRead = 0;
 		bytesRead += ReadString<1024>(exePath, _loader, m_swapEndian, 0x23);
 		if (bytesRead == sizeof(uint32_t))
@@ -1054,16 +1068,25 @@ bool Capture::loadSymbolInfo(BinLoader& _loader, uint64_t _fileSize)
 		bytesRead += sizeof(uint64_t) * _loader.readVar(modBase);
 		bytesRead += sizeof(uint64_t) * _loader.readVar(modSize);
 
+#if 0
 		rtm::WideToMulti executablePath(exePath);
 		rtm::pathRemoveRelative(executablePath);
-		
+#else
+		auto executablePath = QString::fromUtf16(exePath).toUtf8();
+		rtm::pathRemoveRelative(executablePath.data());
+#endif
+
 		if (m_swapEndian)
 		{
 			modBase = Endian::swap(modBase);
 			modSize = Endian::swap(modSize);
 		}
 
+#if 0
 		addModule(executablePath, modBase, modSize);
+#else
+		addModule(executablePath.constData(), modBase, modSize);
+#endif
 
 		if (m_loadProgressCallback)
 		{
@@ -1072,7 +1095,11 @@ bool Capture::loadSymbolInfo(BinLoader& _loader, uint64_t _fileSize)
 			float percent = float(pos)*100.0f / float(_fileSize);
 			char message[2048];
 			strcpy(message, "Loading symbols ");
+#if 0
 			strcat(message, executablePath);
+#else
+			strcat(message, executablePath.constData());
+#endif
 			m_loadProgressCallback(m_loadProgressCustomData, percent, message);
 		}
 

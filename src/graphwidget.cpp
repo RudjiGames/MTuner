@@ -3,14 +3,14 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#include <mtuner_pch.h>
-#include <mtuner/src/graphwidget.h>
-#include <mtuner/src/binloaderview.h>
-#include <mtuner/src/graphgrid.h>
-#include <mtuner/src/graphcurve.h>
-#include <mtuner/src/graphselect.h>
-#include <mtuner/src/graphmarkers.h>
-#include <mtuner/src/capturecontext.h>
+#include <MTuner_pch.h>
+#include <MTuner/src/graphwidget.h>
+#include <MTuner/src/binloaderview.h>
+#include <MTuner/src/graphgrid.h>
+#include <MTuner/src/graphcurve.h>
+#include <MTuner/src/graphselect.h>
+#include <MTuner/src/graphmarkers.h>
+#include <MTuner/src/capturecontext.h>
 
 #define REALTIME_UPDATE 1
 
@@ -255,29 +255,29 @@ void GraphWidget::animateRange(uint64_t _min, uint64_t _max)
 {
 	QPropertyAnimation* animation = new QPropertyAnimation(this, "minTime");
 	animation->setDuration(150);
-	animation->setStartValue(m_minTime);
-	animation->setEndValue(_min);
+	animation->setStartValue(qulonglong(m_minTime));
+	animation->setEndValue(qulonglong(_min));
 	animation->start();
 
 	connect(animation, SIGNAL(valueChanged(const QVariant&)), this, SLOT(zoomAnimEvent()));
 
 	animation = new QPropertyAnimation(this, "maxTime");
 	animation->setDuration(150);
-	animation->setStartValue(m_maxTime);
-	animation->setEndValue(_max);
+	animation->setStartValue(qulonglong(m_maxTime));
+	animation->setEndValue(qulonglong(_max));
 	animation->start();
 }
 
 void GraphWidget::zoomIn()
 {
-	zoomIn((uint64_t)-1);
+	zoomIn(UINT64_MAX);
 }
 
 void GraphWidget::zoomIn(uint64_t _time)
 {
 	int64_t timeSpan = (m_maxTime - m_minTime) / 2;
 	int64_t middle = (m_maxTime + m_minTime) / 2;
-	if (_time != -1)
+	if (_time != UINT64_MAX)
 	{
 		middle = _time;
 	}
@@ -308,14 +308,14 @@ void GraphWidget::zoomIn(uint64_t _time)
 
 void GraphWidget::zoomOut()
 {
-	zoomOut((uint64_t)-1);
+	zoomOut(UINT64_MAX);
 }
 
 void GraphWidget::zoomOut(uint64_t _time)
 {
 	int64_t timeSpan = (m_maxTime - m_minTime) / 2;
 	int64_t middle   = (m_maxTime + m_minTime) / 2;
-	if (_time != -1)
+	if (_time != UINT64_MAX)
 	{
 		middle = _time;
 	}
@@ -392,7 +392,7 @@ void GraphWidget::markerSelectFrom()
 {
 	m_markerSelectFromTime = m_hoverMarkerTime;
 
-	if ((m_markerSelectFromTime != -1) && (m_markerSelectToTime != -1))
+	if ((m_markerSelectFromTime != UINT64_MAX) && (m_markerSelectToTime != UINT64_MAX))
 		selectFromTimes(m_markerSelectFromTime,m_markerSelectToTime);
 	else
 		invalidateScene();
@@ -402,7 +402,7 @@ void GraphWidget::markerSelectTo()
 {
 	m_markerSelectToTime = m_hoverMarkerTime;
 
-	if ((m_markerSelectFromTime != -1) && (m_markerSelectToTime != -1))
+	if ((m_markerSelectFromTime != UINT64_MAX) && (m_markerSelectToTime != UINT64_MAX))
 		selectFromTimes(m_markerSelectFromTime,m_markerSelectToTime);
 	else
 		invalidateScene();
@@ -419,7 +419,7 @@ void GraphWidget::resizeEvent(QResizeEvent* _event)
 		m_grid->parentResized();
 
 	Q_FOREACH( GraphCurve* it, m_curves ) {
-		it->parentResized(); 
+		it->parentResized();
 	}
 
 	fitInView(m_scene->sceneRect());
@@ -493,7 +493,7 @@ void GraphWidget::mouseMovement(const QPoint& _position, Qt::MouseButtons _butto
 			break;
 		}
 	}
-	
+
 	if (rect().contains(pos) && m_LButtonDown && !m_inContextMenu)
 	{
 		uint64_t pL = mapPosToTime(m_dragStartPos.x());
@@ -507,9 +507,9 @@ void GraphWidget::mouseMovement(const QPoint& _position, Qt::MouseButtons _butto
 		float startTimeF = m_context->m_capture->getFloatTime(startTime);
 		float endTimeF = m_context->m_capture->getFloatTime(endTime);
 
-		QString ttip =	tr("Start time") + ": " + getTimeString(startTimeF) + "\n" + tr("End time") + ": " + getTimeString(endTimeF) + "\n" + 
-						tr("Duration") + ": " + getTimeString(endTimeF-startTimeF) + "\n" + tr("Usage at end") + ": " + m_locale.toString(entry.m_usage) + "\n" + 
-						tr("Live blocks") + ": " + m_locale.toString(entry.m_numLiveBlocks);
+		QString ttip =	tr("Start time") + ": " + getTimeString(startTimeF) + "\n" + tr("End time") + ": " + getTimeString(endTimeF) + "\n" +
+						tr("Duration") + ": " + getTimeString(endTimeF-startTimeF) + "\n" + tr("Usage at end") + ": " + m_locale.toString(qulonglong(entry.m_usage)) + "\n" +
+						tr("Live blocks") + ": " + m_locale.toString(qulonglong(entry.m_numLiveBlocks));
 		QToolTip::showText(gpt,ttip,this,QRect(pos,pos));
 	}
 	else
@@ -517,7 +517,7 @@ void GraphWidget::mouseMovement(const QPoint& _position, Qt::MouseButtons _butto
 		if (dontHideToolTip == false)
 			QToolTip::hideText();
 	}
-	
+
 	if ((_buttons & Qt::LeftButton) && m_LButtonDown && !m_isDragging)
 		m_isDragging = true;
 
@@ -571,7 +571,7 @@ void GraphWidget::mouseMovement(const QPoint& _position, Qt::MouseButtons _butto
 
 			newMaxTime = qMin(newMaxTime, (int64_t)m_context->m_capture->getMaxTime());
 			newMinTime = qMax(newMinTime, (int64_t)m_context->m_capture->getMinTime());
-			
+
 			m_minTime = newMinTime;
 			m_maxTime = newMaxTime;
 
@@ -586,10 +586,10 @@ uint64_t GraphWidget::currentPos()
 {
 	QRect drawRect = getDrawRect();
 	QPoint gpt = QCursor::pos();
-	
+
 	QPoint pos = mapFromGlobal(gpt);
 	QPointF pt = mapToScene(pos);
-	
+
 	if (drawRect.contains(pt.x(),pt.y()) && !m_LButtonDown && !m_inContextMenu)
 	{
 		uint64_t pL = mapPosToTime(pos.x());
@@ -599,8 +599,8 @@ uint64_t GraphWidget::currentPos()
 		QString timeStr = getTimeString(timeF);
 
 		QString ttip =	tr("Time") + ": " + timeStr + "\n" +
-						tr("Usage") + ": " + m_locale.toString(entry.m_usage) + "\n" +
-						tr("Live blocks") + ": " + m_locale.toString(entry.m_numLiveBlocks);
+						tr("Usage") + ": " + m_locale.toString(qulonglong(entry.m_usage)) + "\n" +
+						tr("Live blocks") + ": " + m_locale.toString(qulonglong(entry.m_numLiveBlocks));
 		QToolTip::showText(gpt,ttip,this,QRect(pos,pos));
 		return pL;
 	}

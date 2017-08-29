@@ -6,7 +6,7 @@
 #ifndef RTM_MTUNER_WELCOME_H
 #define RTM_MTUNER_WELCOME_H
 
-#include <mtuner/.qt/qt_ui/welcome_ui.h>
+#include <MTuner/.qt/qt_ui/welcome_ui.h>
 
 class WelcomeDialog : public QDialog
 {

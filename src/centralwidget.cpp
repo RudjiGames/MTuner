@@ -3,11 +3,11 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#include <mtuner_pch.h>
-#include <mtuner/src/centralwidget.h>
-#include <mtuner/src/startpage.h>
-#include <mtuner/src/binloaderview.h>
-#include <mtuner/src/capturecontext.h>
+#include <MTuner_pch.h>
+#include <MTuner/src/centralwidget.h>
+#include <MTuner/src/startpage.h>
+#include <MTuner/src/binloaderview.h>
+#include <MTuner/src/capturecontext.h>
 
 CentralWidget::CentralWidget(QWidget* _parent, Qt::WindowFlags _flags) :
 	QWidget(_parent, _flags)
@@ -37,6 +37,9 @@ void CentralWidget::changeEvent(QEvent* _event)
 					break;
 				}
 			}
+			break;
+		// This silences warnings from the compiler about unhandled cases
+		default:
 			break;
 	};
 }

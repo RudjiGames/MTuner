@@ -3,9 +3,9 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#include <mtuner_pch.h>
-#include <mtuner/src/stats.h>
-#include <mtuner/src/capturecontext.h>
+#include <MTuner_pch.h>
+#include <MTuner/src/stats.h>
+#include <MTuner/src/capturecontext.h>
 
 Stats::Stats(QWidget* _parent, Qt::WindowFlags _flags) :
 	QWidget(_parent, _flags)

@@ -3,11 +3,11 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#include <mtuner_pch.h>
-#include <mtuner/src/histogramwidget.h>
-#include <mtuner/src/binLoaderview.h>
-#include <mtuner/src/histogram.h>
-#include <mtuner/src/capturecontext.h>
+#include <MTuner_pch.h>
+#include <MTuner/src/histogramwidget.h>
+#include <MTuner/src/binloaderview.h>
+#include <MTuner/src/histogram.h>
+#include <MTuner/src/capturecontext.h>
 
 HistogramWidget::HistogramWidget(QWidget* _parent, Qt::WindowFlags _flags) :
 	QWidget(_parent, _flags)
@@ -16,7 +16,7 @@ HistogramWidget::HistogramWidget(QWidget* _parent, Qt::WindowFlags _flags) :
 
 	m_histogramView	= findChild<HistogramView*>("graphicsView");
 	connect(m_histogramView, SIGNAL(binClicked()), this, SIGNAL(binClicked()));
-	
+
 	m_comboType = findChild<QComboBox*>("comboType");
 	connect(m_comboType, SIGNAL(activated(int)), this, SLOT(displayTypeChanged(int)));
 

@@ -6,7 +6,7 @@
 #ifndef RTM_MTUNER_OPERATIONSLIST_H
 #define RTM_MTUNER_OPERATIONSLIST_H
 
-#include <mtuner/.qt/qt_ui/operationslist_ui.h>
+#include <MTuner/.qt/qt_ui/operationslist_ui.h>
 
 struct CaptureContext;
 class OperationTableSource;

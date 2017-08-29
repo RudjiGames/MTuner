@@ -6,7 +6,7 @@
 #ifndef RTM_MTUNER_HEAPSWIDGET_H
 #define RTM_MTUNER_HEAPSWIDGET_H
 
-#include <mtuner/.qt/qt_ui/heapswidget_ui.h>
+#include <MTuner/.qt/qt_ui/heapswidget_ui.h>
 
 struct CaptureContext;
 

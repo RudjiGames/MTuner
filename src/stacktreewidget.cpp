@@ -3,9 +3,9 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#include <mtuner_pch.h>
-#include <mtuner/src/stacktreewidget.h>
-#include <mtuner/src/capturecontext.h>
+#include <MTuner_pch.h>
+#include <MTuner/src/stacktreewidget.h>
+#include <MTuner/src/capturecontext.h>
 
 struct Header
 {

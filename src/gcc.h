@@ -6,7 +6,7 @@
 #ifndef RTM_MTUNER_GCC_H
 #define RTM_MTUNER_GCC_H
 
-#include <mtuner/.qt/qt_ui/gcc_ui.h>
+#include <MTuner/.qt/qt_ui/gcc_ui.h>
 
 struct Toolchain
 {
@@ -66,7 +66,7 @@ public:
 	int		getNumToolchains() const { return m_toolchains.length(); }
 	const Toolchain& getToolchain(int _index) const { return m_toolchains[_index]; }
 	rdebug::Toolchain getToolchainInfo(rmem::ToolChain::Enum _toolchain, bool _64bit);
-		
+
 public Q_SLOTS:
 	void toolchainSelected(int _index);
 	void toolchainRenamed(QString);

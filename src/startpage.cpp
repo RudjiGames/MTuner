@@ -3,9 +3,9 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#include <mtuner_pch.h>
-#include <mtuner/src/startpage.h>
-#include <mtuner/src/version.h>
+#include <MTuner_pch.h>
+#include <MTuner/src/startpage.h>
+#include <MTuner/src/version.h>
 
 static QString getMessage(const QString& _string)
 {

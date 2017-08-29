@@ -3,10 +3,10 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#include <mtuner_pch.h>
-#include <mtuner/src/operationslist.h>
-#include <mtuner/src/bigtable.h>
-#include <mtuner/src/capturecontext.h>
+#include <MTuner_pch.h>
+#include <MTuner/src/operationslist.h>
+#include <MTuner/src/bigtable.h>
+#include <MTuner/src/capturecontext.h>
 
 struct Mapping
 {
@@ -68,6 +68,8 @@ static bool __uncaught_exception() { return true; }
 
 #include <ppl.h>
 
+#endif
+
 struct pSetIndex
 {
 	const rtm_vector<uint32_t>* m_Indices;
@@ -85,7 +87,7 @@ struct pSortThreadID
 	const rtm_vector<rtm::MemoryOperation*>* m_allOps;
 	pSortThreadID(const rtm_vector<rtm::MemoryOperation*>* _ops) : m_allOps(_ops) {}
 
-	inline uint64_t operator()(const uint32_t _val) const { return m_allOps->operator[](_val)->m_threadID; } 
+	inline uint64_t operator()(const uint32_t _val) const { return m_allOps->operator[](_val)->m_threadID; }
 };
 
 // Concurrency::sample::parallel_radix Heap
@@ -94,7 +96,7 @@ struct pSortHeap
 	const rtm_vector<rtm::MemoryOperation*>* m_allOps;
 	pSortHeap(const rtm_vector<rtm::MemoryOperation*>* _ops) : m_allOps(_ops) {}
 
-	inline uint64_t operator()(const uint32_t _val) const { return m_allOps->operator[](_val)->m_allocatorHandle; } 
+	inline uint64_t operator()(const uint32_t _val) const { return m_allOps->operator[](_val)->m_allocatorHandle; }
 };
 
 // Concurrency::sample::parallel_radix Address
@@ -103,7 +105,7 @@ struct pSortAddress
 	const rtm_vector<rtm::MemoryOperation*>* m_allOps;
 	pSortAddress(const rtm_vector<rtm::MemoryOperation*>* _ops) : m_allOps(_ops) {}
 
-	inline uint64_t operator()(const uint32_t _val) const { return m_allOps->operator[](_val)->m_pointer; } 
+	inline uint64_t operator()(const uint32_t _val) const { return m_allOps->operator[](_val)->m_pointer; }
 };
 
 // Concurrency::sample::parallel_radix Type
@@ -112,7 +114,7 @@ struct pSortOpType
 	const rtm_vector<rtm::MemoryOperation*>* m_allOps;
 	pSortOpType(const rtm_vector<rtm::MemoryOperation*>* _ops) : m_allOps(_ops) {}
 
-	inline uint8_t operator()(const uint32_t _val) const { return m_allOps->operator[](_val)->m_operationType; } 
+	inline uint8_t operator()(const uint32_t _val) const { return m_allOps->operator[](_val)->m_operationType; }
 };
 
 // Concurrency::sample::parallel_radix Size
@@ -121,7 +123,7 @@ struct pSortOpSize
 	const rtm_vector<rtm::MemoryOperation*>* m_allOps;
 	pSortOpSize(const rtm_vector<rtm::MemoryOperation*>* _ops) : m_allOps(_ops) {}
 
-	inline uint32_t operator()(const uint32_t _val) const { return m_allOps->operator[](_val)->m_allocSize; } 
+	inline uint32_t operator()(const uint32_t _val) const { return m_allOps->operator[](_val)->m_allocSize; }
 };
 
 // Concurrency::sample::parallel_radix Alignment
@@ -130,7 +132,7 @@ struct pSortOpAlignment
 	const rtm_vector<rtm::MemoryOperation*>* m_allOps;
 	pSortOpAlignment(const rtm_vector<rtm::MemoryOperation*>* _ops) : m_allOps(_ops) {}
 
-	inline uint32_t operator()(const uint32_t _val) const { return m_allOps->operator[](_val)->m_alignment; } 
+	inline uint32_t operator()(const uint32_t _val) const { return m_allOps->operator[](_val)->m_alignment; }
 };
 
 struct pSetOpMappings
@@ -138,7 +140,7 @@ struct pSetOpMappings
 	const rtm_vector<rtm::MemoryOperation*>* m_allOps;
 	const Mapping* m_mapping;
 
-	pSetOpMappings(const rtm_vector<rtm::MemoryOperation*>* _ops, const Mapping& _mapping) : 
+	pSetOpMappings(const rtm_vector<rtm::MemoryOperation*>* _ops, const Mapping& _mapping) :
 		m_allOps(_ops), m_mapping(&_mapping)
 	{}
 
@@ -147,10 +149,8 @@ struct pSetOpMappings
 		uint32_t idx = m_mapping->m_sortedIndex[_index];
 		rtm::MemoryOperation* op = (*m_allOps)[idx];
 		op->m_indexMapping = _index;
-	} 
+	}
 };
-
-#endif
 
 OperationTableSource::OperationTableSource(CaptureContext* _context, OperationsList* _list) :
 	m_context(_context),

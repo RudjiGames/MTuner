@@ -3,10 +3,10 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#include <mtuner_pch.h>
-#include <mtuner/src/graph.h>
-#include <mtuner/src/binloaderview.h>
-#include <mtuner/src/capturecontext.h>
+#include <MTuner_pch.h>
+#include <MTuner/src/graph.h>
+#include <MTuner/src/binloaderview.h>
+#include <MTuner/src/capturecontext.h>
 
 Graph::Graph(QWidget* _parent, Qt::WindowFlags _flags) : 
 	QWidget(_parent, _flags)

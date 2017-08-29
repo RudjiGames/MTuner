@@ -3,9 +3,9 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#include <mtuner_pch.h>
-#include <mtuner/src/graphselect.h>
-#include <mtuner/src/graphwidget.h>
+#include <MTuner_pch.h>
+#include <MTuner/src/graphselect.h>
+#include <MTuner/src/graphwidget.h>
 
 GraphSelect::GraphSelect(GraphWidget* _graphWidget)
 {

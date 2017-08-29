@@ -6,8 +6,8 @@
 #ifndef RTM_MTUNER_TREEMAP_H
 #define RTM_MTUNER_TREEMAP_H
 
-#include <mtuner/src/treemapview.h>
-#include <mtuner/.qt/qt_ui/treemap_ui.h>
+#include <MTuner/src/treemapview.h>
+#include <MTuner/.qt/qt_ui/treemap_ui.h>
 
 class TreeMapWidget : public QWidget
 {

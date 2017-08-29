@@ -3,11 +3,11 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#include <mtuner_pch.h>
-#include <mtuner/src/graphgrid.h>
-#include <mtuner/src/graphcurve.h>
-#include <mtuner/src/graphwidget.h>
-#include <mtuner/src/capturecontext.h>
+#include <MTuner_pch.h>
+#include <MTuner/src/graphgrid.h>
+#include <MTuner/src/graphcurve.h>
+#include <MTuner/src/graphwidget.h>
+#include <MTuner/src/capturecontext.h>
 
 GraphGrid::GraphGrid(GraphWidget* _graphWidget, GraphCurve* _curve)
 {

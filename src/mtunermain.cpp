@@ -3,11 +3,11 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#include <mtuner_pch.h>
-#include <mtuner/src/mtuner.h>
-#include <mtuner/src/gcc.h>
-#include <mtuner/src/version.h>
-#include <mtuner/src/capturecontext.h>
+#include <MTuner_pch.h>
+#include <MTuner/src/mtuner.h>
+#include <MTuner/src/gcc.h>
+#include <MTuner/src/version.h>
+#include <MTuner/src/capturecontext.h>
 #include <rbase/inc/cmdline.h>
 #include <rbase/inc/console.h>
 #include <rbase/inc/hash.h>
@@ -414,32 +414,27 @@ int main(int argc, const char* argv[])
 	}
 #endif
 
-	if (argc == 1)
-		goto GUI;
-
 	//--------------------------------------------------------------------------
 	// Command line
 	//--------------------------------------------------------------------------
 	bool guiMode = true;
-	for (int i=1; i<argc; ++i)
+	if (argc > 1)
 	{
-		char buffer[1024];
-		strcpy(buffer, argv[i]);
-		rtm::strToUpper(buffer);
-		if ((strstr(buffer, ".MTUNER") == 0) && (strstr(buffer, ".EXE") == 0))
+		for (int i=1; i<argc; ++i)
 		{
-			guiMode = false;
-			break;
+			char buffer[1024];
+			strcpy(buffer, argv[i]);
+			rtm::strToUpper(buffer);
+			if ((strstr(buffer, ".MTUNER") == 0) && (strstr(buffer, ".EXE") == 0))
+			{
+				guiMode = false;
+				break;
+			}
 		}
 	}
-
-	if (guiMode)
-		goto GUI;
-
-	ret = handleCommandLine(argc, argv);
-	goto SHUT_DOWN;
-
-GUI:
+	if (!guiMode)
+		ret = handleCommandLine(argc, argv);
+	else
 	//--------------------------------------------------------------------------
 	// GUI
 	//--------------------------------------------------------------------------
@@ -474,8 +469,6 @@ GUI:
 		}
 		ret = app.exec();
 	}
-
-SHUT_DOWN:
 
 	rtm::mtunerLoaderShutDown();
 	rqt::shutDown();

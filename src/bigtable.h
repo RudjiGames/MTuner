@@ -6,7 +6,7 @@
 #ifndef RTM_MTUNER_BIGTABLE_H
 #define RTM_MTUNER_BIGTABLE_H
 
-#include <mtuner/.qt/qt_ui/bigTable_ui.h>
+#include <MTuner/.qt/qt_ui/bigtable_ui.h>
 
 class BigTableTableWidget;
 

@@ -3,9 +3,9 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#include <mtuner_pch.h>
-#include <mtuner/src/bigtable.h>
-#include <mtuner/src/bigtabletablewidget.h>
+#include <MTuner_pch.h>
+#include <MTuner/src/bigtable.h>
+#include <MTuner/src/bigtabletablewidget.h>
 
 class ForegroundColorItemDelegate : public QItemDelegate
 {
@@ -76,6 +76,9 @@ void BigTable::changeEvent(QEvent* _event)
 				m_header = m_source->getHeaderInfo(sortCol, sortOrder);
 				m_tree->setHorizontalHeaderLabels(m_header);
 			}
+			break;
+		// This silences warnings about cases not handled by the switch statement
+		default:
 			break;
 	};
 }

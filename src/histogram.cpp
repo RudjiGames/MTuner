@@ -3,10 +3,10 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#include <mtuner_pch.h>
-#include <mtuner/src/histogram.h>
-#include <mtuner/src/histogramview.h>
-#include <mtuner/src/capturecontext.h>
+#include <MTuner_pch.h>
+#include <MTuner/src/histogram.h>
+#include <MTuner/src/histogramview.h>
+#include <MTuner/src/capturecontext.h>
 
 static bool shouldHighlight(QRect& _rect, QPoint& _highlight, int _highlightBin)
 {
@@ -127,18 +127,18 @@ QString Histogram::getTypeString(HistogramType::Enum _type, uint64_t _val, bool 
 		if (_val == 1)
 			ret = "1 " + QObject::tr("byte used");
 		else
-			ret = m_locale.toString(_val) + " " + QObject::tr("bytes used");
+			ret = m_locale.toString(qulonglong(_val)) + " " + QObject::tr("bytes used");
 		break;
 
 	case HistogramType::Overhead:
-		ret = m_locale.toString(_val) + " " + QObject::tr("bytes of overhead");
+		ret = m_locale.toString(qulonglong(_val)) + " " + QObject::tr("bytes of overhead");
 		break;
 
 	case HistogramType::Count:
 		if (_val == 1)
 			ret = "1 " + QObject::tr("allocation");
 		else
-			ret = m_locale.toString(_val) + " " + QObject::tr("allocations");
+			ret = m_locale.toString(qulonglong(_val)) + " " + QObject::tr("allocations");
 		break;
 	}
 
@@ -154,7 +154,7 @@ static QColor boostColor(const QColor& _color, bool _boost)
 	if (_boost)
 		return QColor(	std::min(_color.red() + boost, 255),
 						std::min(_color.green() + boost, 255),
-						std::min(_color.blue() + boost, 255), 
+						std::min(_color.blue() + boost, 255),
 						_color.alpha());
 	return _color;
 }
@@ -177,20 +177,20 @@ void Histogram::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 	_painter->drawLine(left,top,right,top);
 	_painter->setPen(QPen(Qt::black, 1.0, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 	_painter->drawLine(left,bottom,right,bottom);
-	
+
 	QFont font("Consolas",8,QFont::Normal);
 	_painter->setFont(font);
 
 	int numBins = rtm::MemoryStats::NUM_HISTOGRAM_BINS;
 	int delta = (right-left) / (numBins+1);
-			
+
 	QRectF boundRect = boundingRect();
 	int deltaW = (boundRect.width() - (right-left))/2;
 	int deltaH = (boundRect.height() - (bottom-top))/2;
-	
+
 	int currSize = rtm::MemoryStats::MIN_HISTOGRAM_SIZE;
 	int currPos = deltaW + delta;
-	
+
 	uint32_t selectedBin = ctx->m_capture->getSelectHistogramBin();
 
 	for (int i=0; i<numBins; ++i)
@@ -218,7 +218,7 @@ void Histogram::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 		barsPerBin = 2;
 	if (m_displayMode == DisplayMode::Both)
 		barsPerBin *= 2;
-	
+
 	int thickness = (delta & ~1) - 6;
 
 	while (thickness % barsPerBin)

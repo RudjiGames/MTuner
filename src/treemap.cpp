@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#include <mtuner_pch.h>
-#include <mtuner/src/treemap.h>
+#include <MTuner_pch.h>
+#include <MTuner/src/treemap.h>
 
 TreeMapWidget::TreeMapWidget(QWidget* _parent, Qt::WindowFlags _flags) :
 	QWidget(_parent, _flags)

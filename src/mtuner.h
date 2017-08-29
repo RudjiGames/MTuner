@@ -6,8 +6,8 @@
 #ifndef RTM_MTUNER_MTUNER_H
 #define RTM_MTUNER_MTUNER_H
 
-#include <mtuner/src/stats.h>
-#include <mtuner/.qt/qt_ui/mtuner_ui.h>
+#include <MTuner/src/stats.h>
+#include <MTuner/.qt/qt_ui/mtuner_ui.h>
 
 class ProjectsManager;
 class SymbolStore;
@@ -55,12 +55,12 @@ private:
 	bool					m_closeStartPageWidgetOnOpen;
 
 	TagTreeWidget*			m_tagTree;
-	
+
 public:
 	MTuner(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
 
 	void show();
-	void setLoadingProgress(float _progress, const wchar_t* _message);
+	void setLoadingProgress(float _progress, const QString &_message);
 	void changeEvent(QEvent* _event);
 	void closeEvent(QCloseEvent* _event);
 	void openFileFromPath(const QString& _file);

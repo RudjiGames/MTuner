@@ -3,26 +3,26 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#include <mtuner_pch.h>
-#include <mtuner/src/mtuner.h>
-#include <mtuner/src/about.h>
-#include <mtuner/src/projectsmanager.h>
-#include <mtuner/src/symbolstore.h>
-#include <mtuner/src/centralwidget.h>
-#include <mtuner/src/external_editor.h>
-#include <mtuner/src/graphwidget.h>
-#include <mtuner/src/heapswidget.h>
-#include <mtuner/src/histogramwidget.h>
-#include <mtuner/src/stackandsource.h>
-#include <mtuner/src/stats.h>
-#include <mtuner/src/binloaderview.h>
-#include <mtuner/src/sourceview.h>
-#include <mtuner/src/graph.h>
-#include <mtuner/src/gcc.h>
-#include <mtuner/src/welcome.h>
-#include <mtuner/src/tagtreewidget.h>
-#include <mtuner/src/capturecontext.h>
-#include <mtuner/src/version.h>
+#include <MTuner_pch.h>
+#include <MTuner/src/mtuner.h>
+#include <MTuner/src/about.h>
+#include <MTuner/src/projectsmanager.h>
+#include <MTuner/src/symbolstore.h>
+#include <MTuner/src/centralwidget.h>
+#include <MTuner/src/external_editor.h>
+#include <MTuner/src/graphwidget.h>
+#include <MTuner/src/heapswidget.h>
+#include <MTuner/src/histogramwidget.h>
+#include <MTuner/src/stackandsource.h>
+#include <MTuner/src/stats.h>
+#include <MTuner/src/binloaderview.h>
+#include <MTuner/src/sourceview.h>
+#include <MTuner/src/graph.h>
+#include <MTuner/src/gcc.h>
+#include <MTuner/src/welcome.h>
+#include <MTuner/src/tagtreewidget.h>
+#include <MTuner/src/capturecontext.h>
+#include <MTuner/src/version.h>
 #include <rbase/inc/console.h>
 #include <rmem/src/rmem_enums.h>
 
@@ -42,7 +42,7 @@ QString getDirFromFile(const QString& _file)
 	return workdir;
 }
 
-void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSetup* _gccSetup, 
+void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSetup* _gccSetup,
 						  QFileDialog* _fileDialog, MTuner* _mtuner, const QString& _symSource)
 {
 	rdebug::Toolchain tc;
@@ -72,8 +72,12 @@ void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSet
 			const char* exe = _context->m_capture->getModuleInfos()[0].m_modulePath;
 			if (strstr(exe, ".exe"))
 			{
+#if 0
 				rtm::MultiToWide exec(exe);
 				if (QFileInfo(QString::fromUtf16((const ushort*)exec.m_ptr)).exists())
+#else
+				if (QFileInfo(QString::fromUtf8(exe)).exists())
+#endif
 				{
 					executable = exe;
 					symSrcFound = true;
@@ -86,15 +90,23 @@ void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSet
 			// gui
 			QString dir = getDirFromFile(_file);
 			QString fileName = _fileDialog->getOpenFileName(_mtuner, QObject::tr("select symbol source"), dir, extensions);
+#if 0
 			rtm::WideToMulti execM((wchar_t*)fileName.utf16());
 			executable = execM.m_ptr;
+#else
+			executable = stringDup(fileName.toUtf8());
+#endif
 		}
 		else
 			if (!symSrcFound)
 			{
 				// cmd
+#if 0
 				rtm::WideToMulti symSourceM((wchar_t*)_symSource.utf16());
 				executable = symSourceM;
+#else
+				executable = stringDup(_symSource.toUtf8());
+#endif
 				if (executable.length() == 0)
 					rtm::Console::info("No symbol source specified, symbols will not be resolved!\n");
 			}
@@ -125,8 +137,12 @@ void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSet
 	else
 	{
 		tc.m_type = rdebug::Toolchain::MSVC;
+#if 0
 		rtm::WideToMulti tcPathM((wchar_t*)_symSource.utf16());
 		tc.m_toolchainPath	= tcPathM;
+#else
+		tc.m_toolchainPath = stringDup(_symSource.toUtf8());
+#endif
 		executable = _context->m_capture->getModuleInfos()[0].m_modulePath;
 	}
 
@@ -135,7 +151,7 @@ void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSet
 }
 
 MTuner::MTuner(QWidget* _parent, Qt::WindowFlags _flags) :
-	QMainWindow(_parent, _flags)	
+	QMainWindow(_parent, _flags)
 {
 	ui.setupUi(this);
 	emit setFilterButtonEnabled(false);
@@ -159,7 +175,7 @@ MTuner::MTuner(QWidget* _parent, Qt::WindowFlags _flags) :
 	m_fileDialog	= new QFileDialog(this);
 	m_symbolStore	= new SymbolStore(this);
 	m_gccSetup		= new GCCSetup(this);
-	
+
 	m_centralWidget = new CentralWidget();
 	connect(m_centralWidget, SIGNAL(contextChanged(CaptureContext*)), this, SLOT(setWidgetSources(CaptureContext*)));
 	connect(m_centralWidget, SIGNAL(changeWindowTitle(const QString&)), this, SLOT(setWindowTitle(const QString&)));
@@ -189,7 +205,7 @@ void MTuner::show()
 	showWelcomeDialog();
 }
 
-void MTuner::setLoadingProgress(float _progress, const wchar_t* _message)
+void MTuner::setLoadingProgress(float _progress, const QString &_message)
 {
 	if (_progress == 100.0f)
 		m_loadingProgressBar->setVisible(false);
@@ -201,7 +217,7 @@ void MTuner::setLoadingProgress(float _progress, const wchar_t* _message)
 	if (newVal != value)
 	{
 		m_loadingProgressBar->setValue(newVal);
-		setStatusBarText(QString::fromUtf16((const ushort*)_message));
+		setStatusBarText(_message);
 		QApplication::processEvents(QEventLoop::AllEvents,1);
 	}
 }
@@ -407,7 +423,7 @@ void MTuner::setupDockWindows()
 	m_tagTreeDock->setVisible(true);
 	m_stackAndSourceDock->setVisible(true);
 	m_heapsDock->setVisible(true);
-	
+
 	connect(m_graphDock,			SIGNAL(visibilityChanged(bool)), ui.action_View_Memory_Graph,		SLOT(setChecked(bool)));
 	connect(m_statsDock,			SIGNAL(visibilityChanged(bool)), ui.action_View_Memory_Stats,		SLOT(setChecked(bool)));
 	connect(m_histogramDock,		SIGNAL(visibilityChanged(bool)), ui.action_View_Histograms,			SLOT(setChecked(bool)));
@@ -448,7 +464,7 @@ void MTuner::setupDockWindows()
 	m_stackAndSourceDock->setWidget(m_stackAndSource);
 
 	connect(m_centralWidget, SIGNAL(setStackTrace(rtm::StackTrace**,int)), m_stackAndSource, SLOT(setStackTrace(rtm::StackTrace**,int)));
-	
+
 	connect(m_heapsWidget,SIGNAL(heapSelected(uint64_t)), this, SLOT(heapSelected(uint64_t)));
 
 	connect(graphWidget,SIGNAL(snapshotSelected()), m_histogramWidget, SLOT(updateUI()));
@@ -474,7 +490,7 @@ void MTuner::setWidgetSources(CaptureContext* _context)
 	m_tagTree->setContext(ctx);
 	m_heapsWidget->setContext(ctx);
 	m_stackAndSource->setContext(ctx);
-	
+
 	if (binView)
 	{
 		connect(binView, SIGNAL(highlightTime(uint64_t)), m_graph, SLOT(highlightTime(uint64_t)));
@@ -552,8 +568,12 @@ void MTuner::tryOpeWatchedFile()
 	m_statusBarRedDot->setVisible(!m_statusBarRedDot->isVisible());
 
 	FILE* file;
+#if RTM_PLATFORM_WINDOWS
 	std::wstring name = (wchar_t*)m_watchedFile.utf16();
 	_wfopen_s(&file,name.c_str(),L"r");
+#else
+	file = fopen(m_watchedFile.toUtf8().constData(), "r");
+#endif
 	if (file)
 	{
 		m_projectsManager->close();
@@ -733,8 +753,12 @@ void MTuner::writeSettings()
 void loadProgression(void* _customData, float _progress, const char* _message)
 {
 	MTuner* mt = (MTuner*)_customData;
+#if 0
 	rtm::MultiToWide message(_message);
 	mt->setLoadingProgress(_progress, message);
+#else
+	mt->setLoadingProgress(_progress, QString::fromUtf8(_message));
+#endif
 }
 
 void MTuner::openFileFromPath(const QString& _file)
@@ -748,9 +772,13 @@ void MTuner::openFileFromPath(const QString& _file)
 		ctx->m_capture->setLoadProgressCallback(this, loadProgression);
 		rtm_string fn;
 
+#if 0
 		rtm::WideToMulti file((wchar_t*)_file.utf16());
 		fn += file;
-		
+#else
+		fn += _file.toUtf8().constData();
+#endif
+
 		// pass symbol store
 		QString symStore = m_symbolStore->getSymbolStoreString();
 
@@ -774,8 +802,12 @@ void MTuner::openFileFromPath(const QString& _file)
 
 			QString ld(tr("Loaded "));
 
+#if 0
 			rtm::MultiToWide fileName(fn.c_str());
 			statusBar()->showMessage(ld + QString::fromUtf16((ushort*)(wchar_t*)fileName),3000);
+#else
+			statusBar()->showMessage(ld + QString::fromUtf8(fn.c_str()),3000);
+#endif
 			m_centralWidget->addTab(ctx, name);
 		}
 		else

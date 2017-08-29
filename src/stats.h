@@ -6,7 +6,7 @@
 #ifndef RTM_MTUNER_STATS_H
 #define RTM_MTUNER_STATS_H
 
-#include <mtuner/.qt/qt_ui/stats_ui.h>
+#include <MTuner/.qt/qt_ui/stats_ui.h>
 
 class QTableWidget;
 struct CaptureContext;
