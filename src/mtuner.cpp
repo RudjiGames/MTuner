@@ -42,6 +42,11 @@ QString getDirFromFile(const QString& _file)
 	return workdir;
 }
 
+char* stringDup(const QByteArray& _string)
+{
+	return rtm::strdup(_string.constData());
+}
+
 void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSetup* _gccSetup,
 						  QFileDialog* _fileDialog, MTuner* _mtuner, const QString& _symSource)
 {
@@ -70,14 +75,9 @@ void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSet
 		if (_context->m_capture->getToolchain() == rmem::ToolChain::Win_gcc)
 		{
 			const char* exe = _context->m_capture->getModuleInfos()[0].m_modulePath;
-			if (strstr(exe, ".exe"))
+			if (strstr(exe, ".exe") || strstr(exe, ".elf"))
 			{
-#if 0
-				rtm::MultiToWide exec(exe);
-				if (QFileInfo(QString::fromUtf16((const ushort*)exec.m_ptr)).exists())
-#else
 				if (QFileInfo(QString::fromUtf8(exe)).exists())
-#endif
 				{
 					executable = exe;
 					symSrcFound = true;
@@ -90,23 +90,13 @@ void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSet
 			// gui
 			QString dir = getDirFromFile(_file);
 			QString fileName = _fileDialog->getOpenFileName(_mtuner, QObject::tr("select symbol source"), dir, extensions);
-#if 0
-			rtm::WideToMulti execM((wchar_t*)fileName.utf16());
-			executable = execM.m_ptr;
-#else
-			executable = stringDup(fileName.toUtf8());
-#endif
+			executable = fileName.toUtf8();
 		}
 		else
 			if (!symSrcFound)
 			{
 				// cmd
-#if 0
-				rtm::WideToMulti symSourceM((wchar_t*)_symSource.utf16());
-				executable = symSourceM;
-#else
-				executable = stringDup(_symSource.toUtf8());
-#endif
+				executable = _symSource.toUtf8();
 				if (executable.length() == 0)
 					rtm::Console::info("No symbol source specified, symbols will not be resolved!\n");
 			}
@@ -137,12 +127,7 @@ void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSet
 	else
 	{
 		tc.m_type = rdebug::Toolchain::MSVC;
-#if 0
-		rtm::WideToMulti tcPathM((wchar_t*)_symSource.utf16());
-		tc.m_toolchainPath	= tcPathM;
-#else
-		tc.m_toolchainPath = stringDup(_symSource.toUtf8());
-#endif
+		strcpy(tc.m_toolchainPath, _symSource.toUtf8());
 		executable = _context->m_capture->getModuleInfos()[0].m_modulePath;
 	}
 
@@ -753,12 +738,7 @@ void MTuner::writeSettings()
 void loadProgression(void* _customData, float _progress, const char* _message)
 {
 	MTuner* mt = (MTuner*)_customData;
-#if 0
-	rtm::MultiToWide message(_message);
-	mt->setLoadingProgress(_progress, message);
-#else
 	mt->setLoadingProgress(_progress, QString::fromUtf8(_message));
-#endif
 }
 
 void MTuner::openFileFromPath(const QString& _file)
@@ -772,12 +752,7 @@ void MTuner::openFileFromPath(const QString& _file)
 		ctx->m_capture->setLoadProgressCallback(this, loadProgression);
 		rtm_string fn;
 
-#if 0
-		rtm::WideToMulti file((wchar_t*)_file.utf16());
-		fn += file;
-#else
 		fn += _file.toUtf8().constData();
-#endif
 
 		// pass symbol store
 		QString symStore = m_symbolStore->getSymbolStoreString();
@@ -802,12 +777,8 @@ void MTuner::openFileFromPath(const QString& _file)
 
 			QString ld(tr("Loaded "));
 
-#if 0
-			rtm::MultiToWide fileName(fn.c_str());
-			statusBar()->showMessage(ld + QString::fromUtf16((ushort*)(wchar_t*)fileName),3000);
-#else
 			statusBar()->showMessage(ld + QString::fromUtf8(fn.c_str()),3000);
-#endif
+
 			m_centralWidget->addTab(ctx, name);
 		}
 		else

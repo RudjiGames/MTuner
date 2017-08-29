@@ -415,7 +415,7 @@ int main(int argc, const char* argv[])
 #endif
 
 	//--------------------------------------------------------------------------
-	// Command line
+	// Check in which mode to run
 	//--------------------------------------------------------------------------
 	bool guiMode = true;
 	if (argc > 1)
@@ -432,12 +432,10 @@ int main(int argc, const char* argv[])
 			}
 		}
 	}
+
 	if (!guiMode)
 		ret = handleCommandLine(argc, argv);
 	else
-	//--------------------------------------------------------------------------
-	// GUI
-	//--------------------------------------------------------------------------
 	{
 		QStringList list;
 		list << "resources/fonts/Maven Pro Bold.otf" << "resources/fonts/Maven Pro Medium.otf" << "resources/fonts/Maven Pro Regular.otf";

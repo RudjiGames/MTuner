@@ -201,16 +201,9 @@ bool GCCSetup::resolveToolchain(Toolchain& _toolchain, bool _64bit, rdebug::Tool
 		(QFileInfo(fullPath + append2).exists()) &&
 		(QFileInfo(fullPath + append3).exists()))
 	{
-#if 0
-		rtm::WideToMulti tcPathM((wchar_t*)fullPath.utf16());
-		rtm::WideToMulti tcPrefM((wchar_t*)prefix.utf16());
+		strcpy(_tc.m_toolchainPath,		fullPath.toUtf8());
+		strcpy(_tc.m_toolchainPrefix,	prefix.toUtf8());
 
-		_tc.m_toolchainPath		= tcPathM.m_ptr;
-		_tc.m_toolchainPrefix	= tcPrefM.m_ptr;
-#else
-		_tc.m_toolchainPath		= stringDup(fullPath.toUtf8());
-		_tc.m_toolchainPrefix	= stringDup(prefix.toUtf8());
-#endif
 		_tc.m_type				= getTCType(_toolchain.m_toolchain);
 		return true;
 	}
@@ -237,16 +230,9 @@ bool GCCSetup::resolveToolchain(Toolchain& _toolchain, bool _64bit, rdebug::Tool
 			(QFileInfo(fullPath + append2).exists()) &&
 			(QFileInfo(fullPath + append3).exists()))
 		{
-#if 0
-			rtm::WideToMulti tcPathM((wchar_t*)basePath.utf16());
-			rtm::WideToMulti tcPrefM((wchar_t*)prefix.utf16());
+			strcpy(_tc.m_toolchainPath,		basePath.toUtf8());
+			strcpy(_tc.m_toolchainPrefix,	prefix.toUtf8());
 
-			_tc.m_toolchainPath		= tcPathM.m_ptr;
-			_tc.m_toolchainPrefix	= tcPrefM.m_ptr;
-#else
-			_tc.m_toolchainPath		= stringDup(basePath.toUtf8());
-			_tc.m_toolchainPrefix	= stringDup(prefix.toUtf8());
-#endif
 			_tc.m_type				= getTCType(_toolchain.m_toolchain);
 			return true;
 		}

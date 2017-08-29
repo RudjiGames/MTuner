@@ -11,6 +11,7 @@
 #include <rbase/inc/path.h>
 #include <rbase/inc/winchar.h>
 #include <rdebug/inc/rdebug.h>
+
 #include <type_traits>
 
 #if RTM_PLATFORM_WINDOWS && RTM_COMPILER_MSVC
@@ -58,12 +59,12 @@ static inline bool stackTraceCompare(uint64_t* _e1, uint64_t _c1, uint64_t* _e2,
 	return true;
 }
 
-static uint32_t getGranularityMask(uint64_t inOps)
+static uint32_t getGranularityMask(uint64_t _ops)
 {
 	uint32_t granularity = 2048;
-	if (inOps > 1024*1024)
+	if (_ops > 1024*1024)
 		granularity = 4096;
-	if (inOps > 10*1024*1024)
+	if (_ops > 10*1024*1024)
 		granularity = 8192;
 	return granularity - 1;
 }
@@ -74,49 +75,48 @@ inline bool psTime(MemoryOperation* inOp1, MemoryOperation* inOp2)
 }
 
 template <uint32_t Len>
-inline uint32_t	ReadString(char ioString[Len], BinLoader& _loader, bool inSwapEndian, uint8_t inXor = 0)
+inline uint32_t	ReadString(char _string[Len], BinLoader& _loader, bool _swapEndian, uint8_t _xor = 0)
 {
 	uint32_t len;
 	if (_loader.readVar(len) != 1)
 		return 0;
 
-	if (inSwapEndian)
+	if (_swapEndian)
 		len = Endian::swap(len);
 
 	if (len < Len)
 	{
-		_loader.read(ioString, sizeof(char) * len);
-		uint8_t* xBuff = (uint8_t*)ioString;
+		_loader.read(_string, sizeof(char) * len);
+		uint8_t* xBuff = (uint8_t*)_string;
 		for (uint32_t i=0; i<sizeof(char)*len; i++)
-			xBuff[i] = xBuff[i] ^ inXor;
-		ioString[len] = (char)'\0';
+			xBuff[i] = xBuff[i] ^ _xor;
+		_string[len] = (char)'\0';
 		return (uint32_t)(len*sizeof(char) + sizeof(uint32_t));
 	}
-	ioString[0] = (char)'\0';
+	_string[0] = (char)'\0';
 	return sizeof(len);
 }
 
-template <uint32_t Len, typename utf16_t, typename = typename std::enable_if<std::is_same<utf16_t, wchar_t>::value ||
-	std::is_same<utf16_t, char16_t>::value>::type>
-inline uint32_t	ReadString(utf16_t *const ioString, BinLoader& _loader, bool inSwapEndian, uint8_t inXor = 0)
+template <uint32_t Len>
+inline uint32_t	ReadString(char16_t _string[Len], BinLoader& _loader, bool _swapEndian, uint8_t _xor = 0)
 {
 	uint32_t len;
 	if (_loader.readVar(len) != 1)
 		return 0;
 
-	if (inSwapEndian)
+	if (_swapEndian)
 		len = Endian::swap(len);
 
 	if (len < Len)
 	{
-		_loader.read(ioString, sizeof(utf16_t) * len);
-		uint8_t* xBuff = (uint8_t*)ioString;
-		for (uint32_t i=0; i<sizeof(utf16_t)*len; i++)
-			xBuff[i] = xBuff[i] ^ inXor;
-		ioString[len] = (utf16_t)'\0';
-		return (uint32_t)(len*sizeof(utf16_t) + sizeof(uint32_t));
+		_loader.read(_string, sizeof(char16_t) * len);
+		uint8_t* xBuff = (uint8_t*)_string;
+		for (uint32_t i=0; i<sizeof(char16_t)*len; i++)
+			xBuff[i] = xBuff[i] ^ _xor;
+		_string[len] = (char16_t)'\0';
+		return (uint32_t)(len*sizeof(char16_t) + sizeof(uint32_t));
 	}
-	ioString[0] = (utf16_t)'\0';
+	_string[0] = (char16_t)'\0';
 	return sizeof(len);
 }
 
@@ -799,11 +799,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					{
 						char modNameC[1024];
 						ReadString<1024>(modNameC, loader, m_swapEndian);
-#if RTM_PLATFORM_WINDOWS && __cplusplus < 201103L
-						sprintf_s(modName, "%s", modNameC);
-#else
 						snprintf(modName, 1024, "%s", modNameC);
-#endif
 					}
 					else
 						ReadString<1024>(modName, loader, m_swapEndian);
@@ -1053,11 +1049,8 @@ bool Capture::loadSymbolInfo(BinLoader& _loader, uint64_t _fileSize)
 	int64_t symSize = (int64_t)symbolInfoSize;
 	while (symSize > 0)
 	{
-#if RTM_PLATFORM_WINDOWS
-		wchar_t exePath[1024];
-#else
 		char16_t exePath[1024];
-#endif
+
 		uint64_t modBase;
 		uint64_t modSize;
 
@@ -1065,16 +1058,12 @@ bool Capture::loadSymbolInfo(BinLoader& _loader, uint64_t _fileSize)
 		bytesRead += ReadString<1024>(exePath, _loader, m_swapEndian, 0x23);
 		if (bytesRead == sizeof(uint32_t))
 			break;
+
 		bytesRead += sizeof(uint64_t) * _loader.readVar(modBase);
 		bytesRead += sizeof(uint64_t) * _loader.readVar(modSize);
 
-#if 0
-		rtm::WideToMulti executablePath(exePath);
-		rtm::pathRemoveRelative(executablePath);
-#else
-		auto executablePath = QString::fromUtf16(exePath).toUtf8();
+		QByteArray executablePath = QString::fromUtf16((const ushort*)exePath).toUtf8();
 		rtm::pathRemoveRelative(executablePath.data());
-#endif
 
 		if (m_swapEndian)
 		{
@@ -1082,11 +1071,7 @@ bool Capture::loadSymbolInfo(BinLoader& _loader, uint64_t _fileSize)
 			modSize = Endian::swap(modSize);
 		}
 
-#if 0
-		addModule(executablePath, modBase, modSize);
-#else
 		addModule(executablePath.constData(), modBase, modSize);
-#endif
 
 		if (m_loadProgressCallback)
 		{
@@ -1095,11 +1080,7 @@ bool Capture::loadSymbolInfo(BinLoader& _loader, uint64_t _fileSize)
 			float percent = float(pos)*100.0f / float(_fileSize);
 			char message[2048];
 			strcpy(message, "Loading symbols ");
-#if 0
-			strcat(message, executablePath);
-#else
 			strcat(message, executablePath.constData());
-#endif
 			m_loadProgressCallback(m_loadProgressCustomData, percent, message);
 		}
 
