@@ -83,6 +83,6 @@
 #include <QtWidgets/QToolTip>
 
 inline char *stringDup(const QByteArray &string)
-	{ return stringDup(string.constData()); }
+	{ return rtm::stringDup(string.constData()); }
 
 #endif // RTM_MTUNER_PCH_H
