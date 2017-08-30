@@ -54,15 +54,13 @@ void CaptureContext::setToolchain(rdebug::Toolchain& _tc)
 					m_symbolStoreFName = "Unknown";
 					m_symbolStoreDName = "";
 				}
-
-				const char* symStore = 0;
-				if (strlen(_tc.m_toolchainPath))
-					symStore = _tc.m_toolchainPath;
 			}
 			break;
 		case rdebug::Toolchain::GCC:
 			break;
 		case rdebug::Toolchain::PS3SNC:
+			break;
+		case rdebug::Toolchain::Unknown:
 			break;
 	};
 

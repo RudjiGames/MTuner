@@ -42,6 +42,7 @@ class GroupTableSource : public BigTableSource
 
 	public:
 		GroupTableSource(CaptureContext* _capture, GroupList* _list);
+		virtual ~GroupTableSource() {}
 
 		void prepareData();
 

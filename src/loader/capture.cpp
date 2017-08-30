@@ -246,11 +246,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 #if RTM_PLATFORM_WINDOWS
 	rtm::MultiToWide path(_path);
-#if RTM_COMPILER_MSVC
 	FILE* f  = _wfopen(path.m_ptr, L"rb");
-#else
-	FILE* f = fopen(path.m_ptr,"rb");
-#endif
 #else
 	FILE *f = fopen(_path, "r");
 #endif

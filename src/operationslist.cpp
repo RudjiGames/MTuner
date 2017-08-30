@@ -8,6 +8,26 @@
 #include <MTuner/src/bigtable.h>
 #include <MTuner/src/capturecontext.h>
 
+
+#if RTM_PLATFORM_WINDOWS && RTM_COMPILER_MSVC
+#pragma warning(push)
+#pragma warning(disable: 4211)	// nonstandard extension used: redefined extern to static
+static bool __uncaught_exception() { return true; }
+#pragma warning(pop)
+#include <ppl.h>
+
+#define RTM_PARALLEL_FOR_EACH	Concurrency::parallel_for_each
+#define RTM_PARALLEL_SORT		Concurrency::parallel_sort
+//radixsort
+#endif // RTM_PLATFORM_WINDOWS && RTM_COMPILER_MSVC
+
+#if RTM_COMPILER_GCC
+#include <parallel/algorithm>
+
+#define RTM_PARALLEL_FOR_EACH	__gnu_parallel::for_each
+#define RTM_PARALLEL_SORT		__gnu_parallel::sort
+#endif // RTM_COMPILER_GCC
+
 struct Mapping
 {
 	rtm_vector<uint32_t>						m_sortedIndex;
@@ -44,6 +64,7 @@ class OperationTableSource : public BigTableSource
 
 	public:
 		OperationTableSource(CaptureContext* _context, OperationsList* _list);
+		virtual ~OperationTableSource() {}
 
 		void prepareData();
 
@@ -60,16 +81,6 @@ class OperationTableSource : public BigTableSource
 		void saveState(QSettings& _settings);
 };
 
-#if RTM_PLATFORM_WINDOWS && RTM_COMPILER_MSVC
-#pragma warning(push)
-#pragma warning(disable: 4211)	// nonstandard extension used: redefined extern to static
-static bool __uncaught_exception() { return true; }
-#pragma warning(pop)
-
-#include <ppl.h>
-
-#endif
-
 struct pSetIndex
 {
 	const rtm_vector<uint32_t>* m_Indices;
@@ -81,58 +92,76 @@ struct pSetIndex
 	}
 };
 
-// Concurrency::sample::parallel_radix ThreadID
+// ThreadID
 struct pSortThreadID
 {
 	const rtm_vector<rtm::MemoryOperation*>* m_allOps;
 	pSortThreadID(const rtm_vector<rtm::MemoryOperation*>* _ops) : m_allOps(_ops) {}
 
-	inline uint64_t operator()(const uint32_t _val) const { return m_allOps->operator[](_val)->m_threadID; }
+	inline uint64_t operator()(const uint32_t _val1, const uint32_t _val2) const 
+	{
+		return m_allOps->operator[](_val1)->m_threadID < m_allOps->operator[](_val2)->m_threadID; 
+	}
 };
 
-// Concurrency::sample::parallel_radix Heap
+// Heap
 struct pSortHeap
 {
 	const rtm_vector<rtm::MemoryOperation*>* m_allOps;
 	pSortHeap(const rtm_vector<rtm::MemoryOperation*>* _ops) : m_allOps(_ops) {}
 
-	inline uint64_t operator()(const uint32_t _val) const { return m_allOps->operator[](_val)->m_allocatorHandle; }
+	inline uint64_t operator()(const uint32_t _val1, const uint32_t _val2) const
+	{
+		return m_allOps->operator[](_val1)->m_allocatorHandle < m_allOps->operator[](_val2)->m_allocatorHandle; 
+	}
 };
 
-// Concurrency::sample::parallel_radix Address
+// Address
 struct pSortAddress
 {
 	const rtm_vector<rtm::MemoryOperation*>* m_allOps;
 	pSortAddress(const rtm_vector<rtm::MemoryOperation*>* _ops) : m_allOps(_ops) {}
 
-	inline uint64_t operator()(const uint32_t _val) const { return m_allOps->operator[](_val)->m_pointer; }
+	inline uint64_t operator()(const uint32_t _val1, const uint32_t _val2) const
+	{
+		return m_allOps->operator[](_val1)->m_pointer < m_allOps->operator[](_val2)->m_pointer; 
+	}
 };
 
-// Concurrency::sample::parallel_radix Type
+// Type
 struct pSortOpType
 {
 	const rtm_vector<rtm::MemoryOperation*>* m_allOps;
 	pSortOpType(const rtm_vector<rtm::MemoryOperation*>* _ops) : m_allOps(_ops) {}
 
-	inline uint8_t operator()(const uint32_t _val) const { return m_allOps->operator[](_val)->m_operationType; }
+	inline uint8_t operator()(const uint32_t _val1, const uint32_t _val2) const
+	{
+		return m_allOps->operator[](_val1)->m_operationType < m_allOps->operator[](_val2)->m_operationType;
+	}
 };
 
-// Concurrency::sample::parallel_radix Size
+// Size
 struct pSortOpSize
 {
 	const rtm_vector<rtm::MemoryOperation*>* m_allOps;
 	pSortOpSize(const rtm_vector<rtm::MemoryOperation*>* _ops) : m_allOps(_ops) {}
 
-	inline uint32_t operator()(const uint32_t _val) const { return m_allOps->operator[](_val)->m_allocSize; }
+	inline uint32_t operator()(const uint32_t _val1, const uint32_t _val2) const
+	{
+		return m_allOps->operator[](_val1)->m_allocSize < m_allOps->operator[](_val2)->m_allocSize;
+	}
 };
 
-// Concurrency::sample::parallel_radix Alignment
+// Alignment
 struct pSortOpAlignment
 {
 	const rtm_vector<rtm::MemoryOperation*>* m_allOps;
 	pSortOpAlignment(const rtm_vector<rtm::MemoryOperation*>* _ops) : m_allOps(_ops) {}
 
-	inline uint32_t operator()(const uint32_t _val) const { return m_allOps->operator[](_val)->m_alignment; }
+	inline uint32_t operator()(const uint32_t _val1, const uint32_t _val2) const
+	{
+		return m_allOps->operator[](_val1)->m_alignment < m_allOps->operator[](_val2)->m_alignment;
+	}
 };
 
 struct pSetOpMappings
@@ -176,10 +205,10 @@ void OperationTableSource::prepareData()
 	m_mapping.m_allOps = m_allOps;
 
 	pSetIndex psSetIdx(m_mapping.m_sortedIndex);
-	Concurrency::parallel_for_each(m_mapping.m_sortedIndex.begin(), m_mapping.m_sortedIndex.end(), psSetIdx);
+	RTM_PARALLEL_FOR_EACH(m_mapping.m_sortedIndex.begin(), m_mapping.m_sortedIndex.end(), psSetIdx);
 
 	pSetOpMappings psMap(m_allOps, m_mapping);
-	Concurrency::parallel_for_each(m_mapping.m_sortedIndex.begin(), m_mapping.m_sortedIndex.end(), psMap);
+	RTM_PARALLEL_FOR_EACH(m_mapping.m_sortedIndex.begin(), m_mapping.m_sortedIndex.end(), psMap);
 
 	m_currentColumn = OperationColumn::Time;
 }
@@ -307,53 +336,50 @@ uint32_t OperationTableSource::getItemIndex(void* _item)
 
 void OperationTableSource::sortColumn(uint32_t _columnIndex, Qt::SortOrder _sortOrder)
 {
-	// sort index arrays
-#if RTM_PLATFORM_WINDOWS && RTM_COMPILER_MSVC
-
 	pSetIndex psSetIdx(m_mapping.m_sortedIndex);
-	Concurrency::parallel_for_each(m_mapping.m_sortedIndex.begin(), m_mapping.m_sortedIndex.end(), psSetIdx);
+	RTM_PARALLEL_FOR_EACH(m_mapping.m_sortedIndex.begin(), m_mapping.m_sortedIndex.end(), psSetIdx);
 
 	switch (_columnIndex)
 	{
 		case OperationColumn::ThreadID:
 		{
 			pSortThreadID psThreadID(m_allOps);
-			Concurrency::parallel_radixsort(m_mapping.m_sortedIndex.begin(), m_mapping.m_sortedIndex.end(), psThreadID);
+			RTM_PARALLEL_SORT(m_mapping.m_sortedIndex.begin(), m_mapping.m_sortedIndex.end(), psThreadID);
 		}
 		break;
 			
 		case OperationColumn::Heap:
 		{
 			pSortHeap psHeap(m_allOps);
-			Concurrency::parallel_radixsort(m_mapping.m_sortedIndex.begin(), m_mapping.m_sortedIndex.end(), psHeap);
+			RTM_PARALLEL_SORT(m_mapping.m_sortedIndex.begin(), m_mapping.m_sortedIndex.end(), psHeap);
 		}
 		break;
 			
 		case OperationColumn::Address:
 		{
 			pSortAddress psAddress(m_allOps);
-			Concurrency::parallel_radixsort(m_mapping.m_sortedIndex.begin(), m_mapping.m_sortedIndex.end(), psAddress);
+			RTM_PARALLEL_SORT(m_mapping.m_sortedIndex.begin(), m_mapping.m_sortedIndex.end(), psAddress);
 		}
 		break;
 
 		case OperationColumn::Type:
 		{
 			pSortOpType psType(m_allOps);
-			Concurrency::parallel_radixsort(m_mapping.m_sortedIndex.begin(), m_mapping.m_sortedIndex.end(), psType );
+			RTM_PARALLEL_SORT(m_mapping.m_sortedIndex.begin(), m_mapping.m_sortedIndex.end(), psType );
 		}
 		break;
 
 		case OperationColumn::Size:
 		{
 			pSortOpSize psSize(m_allOps);
-			Concurrency::parallel_radixsort(m_mapping.m_sortedIndex.begin(), m_mapping.m_sortedIndex.end(), psSize );
+			RTM_PARALLEL_SORT(m_mapping.m_sortedIndex.begin(), m_mapping.m_sortedIndex.end(), psSize );
 		}
 		break;
 
 		case OperationColumn::Alignment:
 		{
 			pSortOpAlignment psAlignment(m_allOps);
-			Concurrency::parallel_radixsort(m_mapping.m_sortedIndex.begin(), m_mapping.m_sortedIndex.end(), psAlignment );
+			RTM_PARALLEL_SORT(m_mapping.m_sortedIndex.begin(), m_mapping.m_sortedIndex.end(), psAlignment );
 		}
 		break;
 
@@ -364,16 +390,7 @@ void OperationTableSource::sortColumn(uint32_t _columnIndex, Qt::SortOrder _sort
 	};
 
 	pSetOpMappings psMap(m_allOps, m_mapping);
-	Concurrency::parallel_for_each(m_mapping.m_sortedIndex.begin(), m_mapping.m_sortedIndex.end(), psMap);
-
-#elif RTM_COMPILER_GCC
-	__gnu_parallel::sort
-
-#else
-
-#error
-
-#endif
+	RTM_PARALLEL_FOR_EACH(m_mapping.m_sortedIndex.begin(), m_mapping.m_sortedIndex.end(), psMap);
 
 	m_currentColumn	= _columnIndex;
 	m_sortOrder		= _sortOrder;

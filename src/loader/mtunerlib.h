@@ -177,7 +177,7 @@ struct StackTrace
 
 	StackTrace**	m_next;
 	uint64_t		m_numEntries;
-	uint64_t		m_addedToTree[2];
+	int32_t			m_addedToTree[2];
 	uint64_t		m_entries[1];
 };
 

@@ -8,8 +8,8 @@
 #include <MTuner/src/binloaderview.h>
 
 StackAndSource::StackAndSource(ExternalEditor* _editorDlg, QWidget* _parent, Qt::WindowFlags _flags) :
-	m_editorDialog(_editorDlg),
-	QWidget(_parent, _flags)
+	QWidget(_parent, _flags),
+	m_editorDialog(_editorDlg)
 {
 	ui.setupUi(this);
 

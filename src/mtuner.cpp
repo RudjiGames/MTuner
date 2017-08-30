@@ -22,14 +22,12 @@
 #include <MTuner/src/welcome.h>
 #include <MTuner/src/tagtreewidget.h>
 #include <MTuner/src/capturecontext.h>
-#include <MTuner/src/version.h>
 #include <rbase/inc/console.h>
 #include <rmem/src/rmem_enums.h>
 
 #if RTM_PLATFORM_WINDOWS
 #define WIN32_LEAN_AND_MEAN
 #include <Shlobj.h>
-#pragma comment(lib, "Shell32.lib")
 #endif
 
 QString getDirFromFile(const QString& _file)
@@ -90,13 +88,13 @@ void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSet
 			// gui
 			QString dir = getDirFromFile(_file);
 			QString fileName = _fileDialog->getOpenFileName(_mtuner, QObject::tr("select symbol source"), dir, extensions);
-			executable = fileName.toUtf8();
+			executable = fileName.toUtf8().constData();
 		}
 		else
 			if (!symSrcFound)
 			{
 				// cmd
-				executable = _symSource.toUtf8();
+				executable = _symSource.toUtf8().constData();
 				if (executable.length() == 0)
 					rtm::Console::info("No symbol source specified, symbols will not be resolved!\n");
 			}
@@ -554,8 +552,8 @@ void MTuner::tryOpeWatchedFile()
 
 	FILE* file;
 #if RTM_PLATFORM_WINDOWS
-	std::wstring name = (wchar_t*)m_watchedFile.utf16();
-	_wfopen_s(&file,name.c_str(),L"r");
+	rtm::MultiToWide path(m_watchedFile.toUtf8().constData());
+	file = _wfopen(path.m_ptr, L"r");
 #else
 	file = fopen(m_watchedFile.toUtf8().constData(), "r");
 #endif
