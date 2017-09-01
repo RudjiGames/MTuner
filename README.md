@@ -21,6 +21,8 @@ You can get the latest source code by cloning it from github:
 Dependencies
 ======
 
+MTuner uses [Qt](https://www.qt.io/) framework for user interface.
+
 Dependencies can be obtained by cloning the following repositories:
 
 	git clone https://github.com/milostosic/build.git
@@ -39,8 +41,27 @@ DIA (Debug Interface Access) SDK - **Windows only**
 Download
 ======
 
-[zip <img src="http://mtuner.net/zip.png" width=32 height=32>](http://mtuner.net/mtuner64.zip)  
-[msi <img src="http://mtuner.net/msi.png" width=32 height=32>](http://mtuner.net/mtuner64.msi)  
+[<img src="http://mtuner.net/zip.png" width=32 height=32> **zip**](http://mtuner.net/mtuner64.zip)  
+[<img src="http://mtuner.net/msi.png" width=32 height=32> **msi**](http://mtuner.net/mtuner64.msi)  
+
+Build
+======
+
+After cloning the repository and dependencies, here are the steps to build MTuner.
+
+**MinGW**
+
+	$ cd MTuner/genie
+	$ genie --gcc=mingw-gcc gmake
+	$ cd ../../.build/windows/mingw-gcc/projects/MTuner
+	$ make
+MINGW environment variable must be set and point to the MinGW installation directory.
+
+**Visual Studio**
+
+	> cd MTuner/genie
+	> genie vs2015
+Solution will be located here: *{Clone root}/.build/windows/vs2015/projects/MTuner/MTuner.sln*
 
 Documentation
 ======
