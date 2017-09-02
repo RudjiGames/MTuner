@@ -111,28 +111,22 @@ void StackTrace::updateView()
 		rdebug::StackFrame frame;
 		m_context->resolveStackFrame(address, frame);
 
-		rtm::MultiToWide sourcefile(frame.m_file);
-		rtm::MultiToWide module(frame.m_moduleName);
-		rtm::MultiToWide func(frame.m_func);
-		rtm::MultiToWide symStoreDir(m_context->getSymbolStoreDir().c_str());
+		QString sourcefile	= QString::fromUtf8(frame.m_file);
+		QString module		= QString::fromUtf8(frame.m_moduleName);
+		QString func		= QString::fromUtf8(frame.m_func);
+		QString symStoreDir	= QString::fromUtf8(m_context->getSymbolStoreDir().c_str());
 
-		QString symPath = QString::fromUtf16((const ushort*)(wchar_t*)symStoreDir);
-		QString fileName = QString::fromUtf16((const ushort*)(wchar_t*)sourcefile);
-
-		QFileInfo info(QDir(symPath), fileName);
+		QFileInfo info(QDir(symStoreDir), sourcefile);
 		if (info.exists())
-			fileName = info.absoluteFilePath();
+			sourcefile = info.absoluteFilePath();
 
 		// module, file, line, function
-
-		QString function = QString::fromUtf16((const ushort*)(wchar_t*)func);
-
-		m_table->setItem(i, 0, new QTableWidgetItem(QString::fromUtf16((const ushort*)(wchar_t*)module)));
-		m_table->setItem(i, 1, new QTableWidgetItem(fileName));
+		m_table->setItem(i, 0, new QTableWidgetItem(module));
+		m_table->setItem(i, 1, new QTableWidgetItem(sourcefile));
 		m_table->setItem(i, 2, new QTableWidgetItem(QString::number(frame.m_line)));
-		m_table->setItem(i, 3, new QTableWidgetItem(function));
+		m_table->setItem(i, 3, new QTableWidgetItem(func));
 
-		if (m_selectedFunc.compare(function) == 0)
+		if (m_selectedFunc.compare(func) == 0)
 			selectedRow = i;
 	}
 

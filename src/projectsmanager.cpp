@@ -144,12 +144,12 @@ void ProjectsManager::run(const QString& _executable, const QString& _cmd, const
 
 	bool runSuccess = true;
 	QString cmdLine;
-	if (rdebug::processIs64bitBinary(rtm::WideToMulti((wchar_t*)_executable.utf16())))
+	if (rdebug::processIs64bitBinary(_executable.toUtf8()))
 		cmdLine = exepath64 + " " + cmdLine64;
 	else
 		cmdLine = exepath32 + " " + cmdLine32;
 
-	if (!rdebug::processRun(rtm::WideToMulti((wchar_t*)cmdLine.utf16())))
+	if (!rdebug::processRun(cmdLine.toUtf8()))
 		runSuccess = false;
 
 	if (!runSuccess)

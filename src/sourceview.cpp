@@ -130,8 +130,8 @@ void SourceView::openFile(const QString& _file, int _row, int _col)
 		bool set = false;
 		if (m_context)
 		{
-			rtm::MultiToWide symDirW(m_context->getSymbolStoreDir().c_str());
-			QDir symD = QString::fromUtf16((const ushort*)symDirW.m_ptr);
+			QString symDir(QString::fromUtf8(m_context->getSymbolStoreDir().c_str()));
+			QDir symD = symDir;
 
 			QFileInfo info(symD, _file);
 			if (info.exists())

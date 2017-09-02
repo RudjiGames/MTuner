@@ -354,19 +354,16 @@ QVariant TreeItem::data(int _column) const
 			rdebug::StackFrame frame;
 			m_context->resolveStackFrame(m_tree->m_stackTraceList->m_entries[m_tree->m_stackTraceList->m_numEntries - m_depth], frame);
 
-			rtm::MultiToWide file(frame.m_file);
+			QString file = QString::fromUtf8(frame.m_file);
 
-			QString srcpath = QDir(QString::fromUtf16((const ushort*)(wchar_t*)file)).path();
+			QString srcpath = QDir(file).path();
 			if (!QDir::isRelativePath(srcpath))
 				m_file = QDir(srcpath).absolutePath();
 			else
 				m_file = srcpath;
 
-			rtm::MultiToWide module(frame.m_moduleName);
-			rtm::MultiToWide func(frame.m_func);
-
-			m_module= QString::fromUtf16((const ushort*)(wchar_t*)module);
-			m_func	= QString::fromUtf16((const ushort*)(wchar_t*)func);
+			m_module= QString::fromUtf8(frame.m_moduleName);
+			m_func	= QString::fromUtf8(frame.m_func);
 			m_line	= frame.m_line;
 			m_resolved = true;
 		}
