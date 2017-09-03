@@ -59,11 +59,6 @@
 #include <QtGui/QSyntaxHighlighter>
 #include <QtGui/QTextCharFormat>
 
-#include <QtNetwork/QHttpMultiPart>
-#include <QtNetwork/QNetworkAccessManager>
-#include <QtNetwork/QNetworkReply>
-#include <QtNetwork/QNetworkRequest>
-
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDockWidget>
