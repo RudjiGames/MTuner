@@ -46,7 +46,7 @@ bool mtunerLoaderShutDown()
 
 #else // RTM_PLATFORM_WINDOWS
 
-bool mtunerLoaderInit(bool _MTuner)		{ return true; }
+bool mtunerLoaderInit(bool /*_MTuner*/)		{ return true; }
 bool mtunerLoaderShutDown()				{ return true; }
 
 #endif // RTM_PLATFORM_WINDOWS

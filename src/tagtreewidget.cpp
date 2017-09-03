@@ -86,10 +86,10 @@ QVariant TagTreeItem::data(int _column) const
 						return QString(QObject::tr("Root"));
 					else
 						return QString(m_tree->m_name.c_str());
-			case 1: return locale.toString(m_tree->m_usage);
-			case 2: return locale.toString(m_tree->m_usagePeak);
-			case 3:	return locale.toString(m_tree->m_overhead);
-			case 4: return locale.toString(m_tree->m_overhead);
+			case 1: return locale.toString(qulonglong(m_tree->m_usage));
+			case 2: return locale.toString(qulonglong(m_tree->m_usagePeak));
+			case 3:	return locale.toString(qulonglong(m_tree->m_overhead));
+			case 4: return locale.toString(qulonglong(m_tree->m_overheadPeak));
 		};
 	}
 	return "";

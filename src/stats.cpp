@@ -43,8 +43,8 @@ void Stats::updateUI()
 
 	const rtm::MemoryStats& globalStats		= m_context->m_capture->getGlobalStats();
 
-	m_table->item(0,0)->setText(locale.toString(globalStats.m_memoryUsage));
-	m_table->item(1,0)->setText(locale.toString(globalStats.m_memoryUsagePeak));
+	m_table->item(0,0)->setText(locale.toString(qulonglong(globalStats.m_memoryUsage)));
+	m_table->item(1,0)->setText(locale.toString(qulonglong(globalStats.m_memoryUsagePeak)));
 	m_table->item(2,0)->setText(locale.toString(globalStats.m_numberOfOperations));
 	m_table->item(3,0)->setText(locale.toString(globalStats.m_numberOfAllocations));
 	m_table->item(4,0)->setText(locale.toString(globalStats.m_numberOfReAllocations));
@@ -55,8 +55,8 @@ void Stats::updateUI()
 
 	const rtm::MemoryStats& snapshotStats	= m_context->m_capture->getSnapshotStats();
 
-	m_table->item(0,1)->setText(locale.toString(snapshotStats.m_memoryUsage));
-	m_table->item(1,1)->setText(locale.toString(snapshotStats.m_memoryUsagePeak));
+	m_table->item(0,1)->setText(locale.toString(qulonglong(snapshotStats.m_memoryUsage)));
+	m_table->item(1,1)->setText(locale.toString(qulonglong(snapshotStats.m_memoryUsagePeak)));
 	m_table->item(2,1)->setText(locale.toString(snapshotStats.m_numberOfOperations));
 	m_table->item(3,1)->setText(locale.toString(snapshotStats.m_numberOfAllocations));
 	m_table->item(4,1)->setText(locale.toString(snapshotStats.m_numberOfReAllocations));

@@ -273,45 +273,45 @@ bool Capture::saveGroupsLogXML(const char* _path, eGroupSort _sorting, uintptr_t
 
 	fprintf(f, "<?xml version=\"1.0\"?>\n");
 	fprintf(f, "<MTuner File=\"");
-	fprintf(f,m_loadedFile.c_str());
+	fprintf(f, "%s", m_loadedFile.c_str());
 	fprintf(f, "\">\n");
 
 	char buffer[128];
 	fprintf(f, "    <Stats>\n");
 	fprintf(f, "        <Usage>");
-	fprintf(f, FormatNumber(m_statsGlobal.m_memoryUsage,buffer));
+	fprintf(f, "%s", FormatNumber(m_statsGlobal.m_memoryUsage,buffer));
 	fprintf(f, "</Usage>\n");
 
 	fprintf(f, "        <Peak>");
-	fprintf(f,FormatNumber(m_statsGlobal.m_memoryUsagePeak,buffer));
+	fprintf(f, "%s", FormatNumber(m_statsGlobal.m_memoryUsagePeak,buffer));
 	fprintf(f, "</Peak>\n");
 
 	fprintf(f, "        <Overhead>");
-	fprintf(f,FormatNumber(m_statsGlobal.m_overhead,buffer));
+	fprintf(f, "%s", FormatNumber(m_statsGlobal.m_overhead,buffer));
 	fprintf(f, "</Overhead>\n");
 
 	fprintf(f, "        <OverheadPeak>");
-	fprintf(f,FormatNumber(m_statsGlobal.m_overheadPeak,buffer));
+	fprintf(f, "%s", FormatNumber(m_statsGlobal.m_overheadPeak,buffer));
 	fprintf(f, "</OverheadPeak>\n");
 
 	fprintf(f, "        <Operations>");
-	fprintf(f,FormatNumber(m_statsGlobal.m_numberOfOperations,buffer));
+	fprintf(f, "%s", FormatNumber(m_statsGlobal.m_numberOfOperations,buffer));
 	fprintf(f, "</Operations>\n");
 
 	fprintf(f, "        <Allocations>");
-	fprintf(f,FormatNumber(m_statsGlobal.m_numberOfAllocations,buffer));
+	fprintf(f, "%s", FormatNumber(m_statsGlobal.m_numberOfAllocations,buffer));
 	fprintf(f, "</Allocations>\n");
 
 	fprintf(f, "        <Reallocations>");
-	fprintf(f,FormatNumber(m_statsGlobal.m_numberOfReAllocations,buffer));
+	fprintf(f, "%s", FormatNumber(m_statsGlobal.m_numberOfReAllocations,buffer));
 	fprintf(f, "</Reallocations>\n");
 
 	fprintf(f, "        <Frees>");
-	fprintf(f,FormatNumber(m_statsGlobal.m_numberOfFrees,buffer));
+	fprintf(f, "%s", FormatNumber(m_statsGlobal.m_numberOfFrees,buffer));
 	fprintf(f, "</Frees>\n");
 
 	fprintf(f, "        <Leaks>");
-	fprintf(f,FormatNumber(m_statsGlobal.m_numberOfLiveBlocks,buffer));
+	fprintf(f, "%s", FormatNumber(m_statsGlobal.m_numberOfLiveBlocks,buffer));
 	fprintf(f, "</Leaks>\n");
 
 	fprintf(f, "    </Stats>\n");

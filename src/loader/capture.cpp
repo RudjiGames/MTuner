@@ -660,7 +660,11 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					if (it == m_Heaps.end())
 					{
 						char buff[512];
+#if RTM_COMPILER_MSVC
 						sprintf(buff, "0x%llx", op->m_allocatorHandle);
+#else
+						sprintf(buff, "0x%lux", op->m_allocatorHandle);
+#endif
 						m_Heaps[op->m_allocatorHandle] = buff;
 					}
 				}

@@ -256,7 +256,7 @@ void TreeMapView::mouseMoveEvent(QMouseEvent* _event)
 	{
 		QLocale locale;
 		QPoint globalPos = mapToGlobal(_event->pos());
-		QToolTip::showText(globalPos, QObject::tr("Size: ") + locale.toString(tt->m_size) + QString("\n") + QObject::tr("Click to see call stack") + tt->m_text, this, QRect(globalPos,globalPos));
+		QToolTip::showText(globalPos, QObject::tr("Size: ") + locale.toString(qulonglong(tt->m_size)) + QString("\n") + QObject::tr("Click to see call stack") + tt->m_text, this, QRect(globalPos,globalPos));
 		QGraphicsView::mouseMoveEvent(_event);
 		return;
 	}
@@ -409,7 +409,7 @@ void TreeMapGraphicsItem::paint(QPainter* _painter, const QStyleOptionGraphicsIt
 		if (info.m_tree->m_children.empty())
 		{
 			QLocale locale;
-			drawBlockText(locale.toString(info.m_size), _painter, fontHeight, textWidth, info.m_rect, &info == highlight);
+			drawBlockText(locale.toString(qulonglong(info.m_size)), _painter, fontHeight, textWidth, info.m_rect, &info == highlight);
 		}
 	}
 }
