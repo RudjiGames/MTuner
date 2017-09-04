@@ -45,7 +45,7 @@ void HotspotsWidget::changeEvent(QEvent* _event)
 		ui.retranslateUi(this);
 }
 
-static QString	typeName[rmem::LogMarkers::OpCount] = {
+static QString	s_typeName[rmem::LogMarkers::OpCount] = {
 	"Alloc",
 	"Alloc aligned",
 	"Calloc",
@@ -82,7 +82,7 @@ void HotspotsWidget::usageSortingDone(GroupMapping* _group)
 		QLocale loc;
 		m_usageTable->insertRow(i);
 
-		m_usageTable->setItem(i, 0, new QTableWidgetItem(typeName[group->m_operations[0]->m_operationType]));
+		m_usageTable->setItem(i, 0, new QTableWidgetItem(s_typeName[group->m_operations[0]->m_operationType]));
 		m_usageTable->setItem(i, 1, new QTableWidgetItem(loc.toString(group->m_operations[0]->m_allocSize)));
 		m_usageTable->setItem(i, 2, new QTableWidgetItem((group->m_operations[0]->m_alignment == 255) ? QString("Default") :
 															QString::number(1 << group->m_operations[0]->m_alignment)));
@@ -114,7 +114,7 @@ void HotspotsWidget::peakUsageSortingDone(GroupMapping* _group)
 
 		QLocale loc;
 		m_peakUsageTable->insertRow(i);
-		m_peakUsageTable->setItem(i, 0, new QTableWidgetItem(typeName[group->m_operations[0]->m_operationType]));
+		m_peakUsageTable->setItem(i, 0, new QTableWidgetItem(s_typeName[group->m_operations[0]->m_operationType]));
 		m_peakUsageTable->setItem(i, 1, new QTableWidgetItem(loc.toString(group->m_operations[0]->m_allocSize)));
 		m_peakUsageTable->setItem(i, 2, new QTableWidgetItem((group->m_operations[0]->m_alignment == 255) ? QString("Default") :
 															QString::number(1 << group->m_operations[0]->m_alignment)));
@@ -146,7 +146,7 @@ void HotspotsWidget::peakCountSortingDone(GroupMapping* _group)
 
 		QLocale loc;
 		m_peakCountTable->insertRow(i);
-		m_peakCountTable->setItem(i, 0, new QTableWidgetItem(typeName[group->m_operations[0]->m_operationType]));
+		m_peakCountTable->setItem(i, 0, new QTableWidgetItem(s_typeName[group->m_operations[0]->m_operationType]));
 		m_peakCountTable->setItem(i, 1, new QTableWidgetItem(loc.toString(group->m_operations[0]->m_allocSize)));
 		m_peakCountTable->setItem(i, 2, new QTableWidgetItem((group->m_operations[0]->m_alignment == 255) ? QString("Default") :
 															QString::number(1 << group->m_operations[0]->m_alignment)));
@@ -178,7 +178,7 @@ void HotspotsWidget::leaksSortingDone(GroupMapping* _group)
 
 		QLocale loc;
 		m_leaksTable->insertRow(i);
-		m_leaksTable->setItem(i, 0, new QTableWidgetItem(typeName[group->m_operations[0]->m_operationType]));
+		m_leaksTable->setItem(i, 0, new QTableWidgetItem(s_typeName[group->m_operations[0]->m_operationType]));
 		m_leaksTable->setItem(i, 1, new QTableWidgetItem(loc.toString(group->m_operations[0]->m_allocSize)));
 		m_leaksTable->setItem(i, 2, new QTableWidgetItem((group->m_operations[0]->m_alignment == 255) ? QString("Default") :
 															QString::number(1 << group->m_operations[0]->m_alignment)));

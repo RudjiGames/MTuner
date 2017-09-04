@@ -426,8 +426,8 @@ void GraphWidget::wheelEvent(QWheelEvent* _event)
 {
 	RTM_UNUSED(_event);
 	int delta = _event->delta();
-	QPoint pos = _event->pos();
-	uint64_t relTime = mapPosToTime(pos.x());
+	QPoint position = _event->pos();
+	uint64_t relTime = mapPosToTime(position.x());
 	if (delta < 0)
 		zoomOut(relTime);
 	else
