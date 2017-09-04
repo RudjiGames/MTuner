@@ -1,0 +1,53 @@
+language: cpp
+dist: trusty
+matrix:
+  include:
+    - compiler: gcc
+      os: linux
+#   - compiler: clang
+#     os: osx
+
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    - sourceline: 'ppa:beineri/opt-qt591-trusty'
+    packages:
+    - gcc-4.8
+    - g++-4.8
+    - clang
+    - qt59tools
+    - qt59base
+
+before_install:
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-add-repository ppa:beineri/opt-qt591-trusty -y; fi
+
+install:
+    - sudo apt-get install -qq qt59base; source /opt/qt59/bin/qt59-env.sh;
+    - export QTDIR_GMAKE_x86=/opt/qt59
+    - export QTDIR_GMAKE_x64=/opt/qt59
+    - export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/opt/qt59/lib/pkgconfig
+    - sudo apt-get install luarocks
+    - sudo luarocks install luafilesystem
+
+before_script:
+    - git clone --depth 1 https://github.com/milostosic/build  ../build
+    - git clone --depth 1 https://github.com/milostosic/rbase  ../rbase
+    - git clone --depth 1 https://github.com/milostosic/rdebug ../rdebug
+    - git clone --depth 1 https://github.com/milostosic/rmem   ../rmem
+    - git clone --depth 1 https://github.com/milostosic/rqt    ../rqt
+
+script:
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install libc6-dev-i386 gcc-multilib g++-multilib; fi
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then make linux CXX="g++-4.8" CC="gcc-4.8"; fi
+#    - if [ "$TRAVIS_OS_NAME" == "osx" ]; then make test; fi
+
+branches:
+  only:
+    - master
+
+notifications:
+  email: false
+
+#osx_image: xcode7.3
+
