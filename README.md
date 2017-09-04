@@ -42,7 +42,6 @@ Download
 ======
 
 [<img src="http://mtuner.net/zip.png" width=32 height=32> **zip**](http://mtuner.net/mtuner64.zip)  
-[<img src="http://mtuner.net/msi.png" width=32 height=32> **msi**](http://mtuner.net/mtuner64.msi)  
 
 Build
 ======
