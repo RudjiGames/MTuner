@@ -67,7 +67,7 @@ void GraphCurve::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _opti
 
 	uint64_t displayTime = maxTime - minTime;
 
-	int x = left;
+	int xcoord = left;
 	rtm::GraphEntry entry;
 	ctx->m_capture->getGraphAtTime(minTime, entry);
 	const uint64_t startUsage	= entry.m_usage;
@@ -102,10 +102,10 @@ void GraphCurve::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _opti
 		double timeDelta =  double(displayTime) / double(right-left-1);
 		double time = double(minTime);
 
-		for (;x<right;)
+		for (;xcoord<right;)
 		{
-			if (x + pixelDelta >= right)
-				x = right;
+			if (xcoord + pixelDelta >= right)
+				xcoord = right;
 
 			ctx->m_capture->getGraphAtTime((uint64_t)time, entry);
 			
@@ -120,11 +120,11 @@ void GraphCurve::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _opti
 				minLive		= qMin(entry.m_numLiveBlocks, minLive);
 			}
 
-			x += pixelDelta;
-			if (x >= right)
+			xcoord += pixelDelta;
+			if (xcoord >= right)
 			{
 				time = maxTime;
-				x = right;
+				xcoord = right;
 			}
 			else
 			{
@@ -155,7 +155,7 @@ void GraphCurve::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _opti
 	m_prevLeft		= left;
 	m_prevRight		= right;
 
-	x = left;
+	xcoord = left;
 	index = 0;
 
 	int yUsage	= bottom - (bottom-top)/2;
@@ -175,32 +175,32 @@ void GraphCurve::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _opti
 
 	QPainterPath pathUsage;
 	pathUsage.moveTo(left, bottom);
-	pathUsage.lineTo(x, yUsage);
+	pathUsage.lineTo(xcoord, yUsage);
 	QPainterPath pathUsageCurve;
-	pathUsageCurve.moveTo(x, yUsage);
+	pathUsageCurve.moveTo(xcoord, yUsage);
 
 	QPainterPath pathLive;
 	pathLive.moveTo(left, bottom);
-	pathLive.lineTo(x, yLive);
+	pathLive.lineTo(xcoord, yLive);
 	QPainterPath pathLiveCurve;
-	pathLiveCurve.moveTo(x, yLive);
+	pathLiveCurve.moveTo(xcoord, yLive);
 
-	for (;x<right;)
+	for (;xcoord<right;)
 	{
-		x += pixelDelta;
-		if (x >= right)
-			x = right;
+		xcoord += pixelDelta;
+		if (xcoord >= right)
+			xcoord = right;
 
 		rtm::GraphEntry& entry_graph = m_graphValues[index++];
 
 		yUsage	= bottom - ((entry_graph.m_usage			- minUsage) * (bottom-top))/peakUsage;
 		yLive	= bottom - ((entry_graph.m_numLiveBlocks  - minLive)  * (bottom-top))/peakLive;
 
-		pathUsage.lineTo(x, yUsage);
-		pathLive.lineTo(x, yLive);
+		pathUsage.lineTo(xcoord, yUsage);
+		pathLive.lineTo(xcoord, yLive);
 
-		pathUsageCurve.lineTo(x, yUsage);
-		pathLiveCurve.lineTo(x, yLive);
+		pathUsageCurve.lineTo(xcoord, yUsage);
+		pathLiveCurve.lineTo(xcoord, yLive);
 	}
 
 	pathUsage.lineTo(right, bottom);

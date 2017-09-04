@@ -149,8 +149,8 @@ void HistogramView::mouseReleaseEvent(QMouseEvent* _event)
 void HistogramView::leaveEvent(QEvent* _event)
 {
 	RTM_UNUSED(_event);
-	QRect rect = getDrawRect();
-	int left = rect.x() - 1;
-	int top  = rect.y() - 1;
-	m_histogram->setHighlight(QPoint(left,top),-1);
+	QRect drawRect = getDrawRect();
+	int left = drawRect.x() - 1;
+	int top  = drawRect.y() - 1;
+	m_histogram->setHighlight(QPoint(left, top), -1);
 }

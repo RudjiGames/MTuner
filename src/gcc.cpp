@@ -75,8 +75,8 @@ void GCCSetup::readSettings(QSettings& _settings)
 	if (_settings.childGroups().contains("GCCToolchains_3"))
 	{
 		_settings.beginGroup("GCCToolchains_3");
-		int size = _settings.beginReadArray("GCCToolchainsArray");
-		for (int i=0; i<size; ++i)
+		int numToolchains = _settings.beginReadArray("GCCToolchainsArray");
+		for (int i=0; i<numToolchains; ++i)
 		{
 			_settings.setArrayIndex(i);
 

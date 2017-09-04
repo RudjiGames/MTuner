@@ -133,14 +133,14 @@ void GraphGrid::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 		if (maxSize < minSize)
 			break;
 
-		int y = bottom - ((bottom - top) * (maxSize-min) / max);
-		if (y - prevY < 10)
+		int ycoord = bottom - ((bottom - top) * (maxSize-min) / max);
+		if (ycoord - prevY < 10)
 			break;
 	
-		prevY = y;
+		prevY = ycoord;
 
-		_painter->drawLine(left, y, right, y);
-		QRectF txtR(left-39,y-7,36,10);
+		_painter->drawLine(left, ycoord, right, ycoord);
+		QRectF txtR(left-39, ycoord-7, 36, 10);
 		_painter->drawText(txtR, Qt::AlignCenter, getTextFromSize(maxSize));
 		maxSize >>= 1;
 	}

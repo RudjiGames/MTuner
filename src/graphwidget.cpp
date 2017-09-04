@@ -153,8 +153,6 @@ uint64_t GraphWidget::mapPosToTime(int _x) const
 	if (!m_context)
 		return 0;
 	
-	uint64_t minTime = m_minTime;
-	uint64_t maxTime = m_maxTime;
 	QPointF scenePos = mapToScene(QPoint(_x,0));
 	QRectF drawRect = getDrawRect();
 		
@@ -163,8 +161,8 @@ uint64_t GraphWidget::mapPosToTime(int _x) const
 		
 	float offset = scenePos.x() - float(drawRect.x());
 	float w = drawRect.width();
-	uint64_t time = ((offset) * (maxTime - minTime)) / w;
-	time += minTime;
+	uint64_t time = ((offset) * (m_maxTime - m_minTime)) / w;
+	time += m_minTime;
 	return time;
 }
 
@@ -173,10 +171,8 @@ int	GraphWidget::mapTimeToPos(uint64_t _x) const
 	if (!m_context)
 		return 0;
 	
-	uint64_t minTime = m_minTime;
-	uint64_t maxTime = m_maxTime;
 	QRectF drawRect = getDrawRect();
-	uint64_t offset = ((_x - minTime) * drawRect.width()) / (maxTime - minTime);
+	uint64_t offset = ((_x - m_minTime) * drawRect.width()) / (m_maxTime - m_minTime);
 	
 	return drawRect.x() + offset;	
 }
@@ -474,9 +470,8 @@ void GraphWidget::mouseMovement(const QPoint& _position, Qt::MouseButtons _butto
 	if (!m_context)
 		return;
 
-	QPoint pos = _position;
-	QPoint gpt = mapToGlobal(pos);
-	QPointF spt = mapToScene(pos);
+	QPoint gpt = mapToGlobal(_position);
+	QPointF spt = mapToScene(_position);
 
 	bool dontHideToolTip = false;
 	const QVector<MarkerToolTip>&	toolTips = m_markers->getTooltips();
@@ -487,17 +482,17 @@ void GraphWidget::mouseMovement(const QPoint& _position, Qt::MouseButtons _butto
 			QString text(toolTips[i].m_text);
 			text += "\n" + tr("Time") + ": " + QString::number(m_context->m_capture->getFloatTime(toolTips[i].m_time),'f');
 			text += "\n" + tr("Thread") + ": 0x" + QString::number(toolTips[i].m_threadID, 16);
-			QToolTip::showText(gpt, text, this, QRect(pos,pos));
+			QToolTip::showText(gpt, text, this, QRect(_position, _position));
 			dontHideToolTip = true;
 			m_hoverMarkerTime = toolTips[i].m_time;
 			break;
 		}
 	}
 
-	if (rect().contains(pos) && m_LButtonDown && !m_inContextMenu)
+	if (rect().contains(_position) && m_LButtonDown && !m_inContextMenu)
 	{
 		uint64_t pL = mapPosToTime(m_dragStartPos.x());
-		uint64_t pR = mapPosToTime(pos.x());
+		uint64_t pR = mapPosToTime(_position.x());
 		uint64_t startTime = qMin(pL,pR);
 		uint64_t endTime = qMax(pL,pR);
 
@@ -510,7 +505,7 @@ void GraphWidget::mouseMovement(const QPoint& _position, Qt::MouseButtons _butto
 		QString ttip =	tr("Start time") + ": " + getTimeString(startTimeF) + "\n" + tr("End time") + ": " + getTimeString(endTimeF) + "\n" +
 						tr("Duration") + ": " + getTimeString(endTimeF-startTimeF) + "\n" + tr("Usage at end") + ": " + m_locale.toString(qulonglong(entry.m_usage)) + "\n" +
 						tr("Live blocks") + ": " + m_locale.toString(qulonglong(entry.m_numLiveBlocks));
-		QToolTip::showText(gpt,ttip,this,QRect(pos,pos));
+		QToolTip::showText(gpt,ttip,this,QRect(_position, _position));
 	}
 	else
 	{
@@ -587,12 +582,12 @@ uint64_t GraphWidget::currentPos()
 	QRect drawRect = getDrawRect();
 	QPoint gpt = QCursor::pos();
 
-	QPoint pos = mapFromGlobal(gpt);
-	QPointF pt = mapToScene(pos);
+	QPoint position = mapFromGlobal(gpt);
+	QPointF pt = mapToScene(position);
 
 	if (drawRect.contains(pt.x(),pt.y()) && !m_LButtonDown && !m_inContextMenu)
 	{
-		uint64_t pL = mapPosToTime(pos.x());
+		uint64_t pL = mapPosToTime(position.x());
 		float timeF = m_context->m_capture->getFloatTime(pL);
 		rtm::GraphEntry entry;
 		m_context->m_capture->getGraphAtTime(pL, entry);
@@ -601,7 +596,7 @@ uint64_t GraphWidget::currentPos()
 		QString ttip =	tr("Time") + ": " + timeStr + "\n" +
 						tr("Usage") + ": " + m_locale.toString(qulonglong(entry.m_usage)) + "\n" +
 						tr("Live blocks") + ": " + m_locale.toString(qulonglong(entry.m_numLiveBlocks));
-		QToolTip::showText(gpt,ttip,this,QRect(pos,pos));
+		QToolTip::showText(gpt,ttip,this,QRect(position, position));
 		return pL;
 	}
 
@@ -626,8 +621,7 @@ void GraphWidget::mouseReleaseEvent(QMouseEvent* _event)
 	{
 		if (m_isDragging)
 		{
-			QPoint pos = _event->pos();
-			uint64_t time1 = mapPosToTime(pos.x());
+			uint64_t time1 = mapPosToTime(_event->pos().x());
 			uint64_t time2 = mapPosToTime(m_dragStartPos.x());
 			if (m_context->m_capture->getFilteringEnabled())
 			{

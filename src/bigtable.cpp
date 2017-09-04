@@ -37,8 +37,8 @@ BigTableTableWidget::BigTableTableWidget(QWidget* _parent) :
 
 void BigTableTableWidget::contextMenuEvent(QContextMenuEvent* _event)
 {
-    QTableWidgetItem* item = itemAt(_event->pos());
-	emit itemContextMenu(item, _event->globalPos());
+    QTableWidgetItem* itemHover = itemAt(_event->pos());
+	emit itemContextMenu(itemHover, _event->globalPos());
 }
 
 BigTable::BigTable(QWidget* _parent, Qt::WindowFlags _flags) :
