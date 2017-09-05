@@ -123,7 +123,7 @@ int handleCommandLine(int argc, char const* argv[])
 
 	if (cmdLine.hasArg("help"))
 	{
-		rtm::Console::info("Analyzes the memory tracker binary and outputs the results to a file\n"
+		rtm::Console::info(
 			"\nUsage: MTuner.com [OPTION] -i <input file> -o <output file>\nOptions:\n"
 			"   -help       Prints this message\n"
 			"   -p [EXE]    Specify executable to instrument and start profiling for\n"
