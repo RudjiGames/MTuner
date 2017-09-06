@@ -1,0 +1,319 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+
+	<Product 	Id='##GUID1##' 
+				Name='MTuner ##BUILD_VERSION##'
+				Language='1033' 
+				Version='1.0.0' 
+				Manufacturer='Milos Tosic'
+				UpgradeCode='##GUID2##'
+				Codepage='1252' 
+				>
+
+	<Package 	Id='*'
+				Keywords='Installer'
+				Description="MTuner ##BUILD_VERSION## Installer"
+				Comments='MTuner - C/C++ memory profiler by Milos Tosic'
+				Manufacturer='Milos Tosic'
+				InstallerVersion='300' 
+				Languages='1033'
+				Compressed='yes'
+				SummaryCodepage='1252'
+	/>
+
+	<MajorUpgrade
+		Schedule="afterInstallInitialize"
+		AllowDowngrades="no" DowngradeErrorMessage="A later version of MTuner is already installed. Setup will now exit."
+	    AllowSameVersionUpgrades="no"
+	/>
+
+	<Media Id="1" Cabinet="MTuner.cab" EmbedCab="yes" />
+
+
+	<Directory Id="TARGETDIR" Name="SourceDir">
+		<Directory Id="ProgramFiles64Folder">
+			<Directory Id="INSTALLLOCATION" Name="MTuner">
+
+			<Component Id="MTunerExeComponent" Guid="##GUID3##">
+				<File Id="MTunerExe" Name="MTuner.exe" Source="MTuner/MTuner.exe" Vital="yes"/>
+			</Component>
+
+			<Component Id="MTunerComponent" Guid="##GUID4##">
+				
+ 		        <!-- Qt DLLs -->
+				<File Id="Qt5Core" Name="Qt5Core.dll" Source="MTuner/Qt5Core.dll" Vital="yes"/>
+				<File Id="Qt5Gui" Name="Qt5Gui.dll" Source="MTuner/Qt5Gui.dll" Vital="yes"/>
+				<File Id="Qt5Network" Name="Qt5Network.dll" Source="MTuner/Qt5Network.dll" Vital="yes"/>
+				<File Id="Qt5Widgets" Name="Qt5Widgets.dll" Source="MTuner/Qt5Widgets.dll" Vital="yes"/>
+				<File Id="libEGL" Name="libEGL.dll" Source="MTuner/libEGL.dll" Vital="yes"/>
+				<File Id="libGLESv2" Name="libGLESv2.dll" Source="MTuner/libGLESv2.dll" Vital="yes"/>
+				<File Id="MTunerCmdExe" Name="MTuner.com" Source="MTuner/MTuner.com" Vital="yes"/>
+
+				<!-- Symbol resolve files -->
+				<File Id="dbghelp" Name="dbghelp.dll" Source="MTuner/dbghelp.dll" Vital="yes"/>
+				<File Id="SymbolCheck" Name="SymbolCheck.dll" Source="MTuner/SymbolCheck.dll" Vital="yes"/>
+				<File Id="symchk" Name="symchk.exe" Source="MTuner/symchk.exe" Vital="yes"/>
+				<File Id="symsrv" Name="symsrv.dll" Source="MTuner/symsrv.dll" Vital="yes"/>
+
+				<!-- MTuner inject files -->
+				<File Id="MTunerInject32" Name="MTunerInject32.exe" Source="MTuner/MTunerInject32.exe" Vital="yes"/>
+				<File Id="MTunerInject64" Name="MTunerInject64.exe" Source="MTuner/MTunerInject64.exe" Vital="yes"/>
+				<File Id="MTunerDLL32" Name="MTunerDLL32.dll" Source="MTuner/MTunerDLL32.dll" Vital="yes"/>
+				<File Id="MTunerDLL64" Name="MTunerDLL64.dll" Source="MTuner/MTunerDLL64.dll" Vital="yes"/>
+
+                <File Id="filB926D33446177185D504063FF7C6602E" KeyPath="yes" Source="MTuner/msdia120.dll">
+                    <Class Id="{B86AE24D-BF2F-4AC9-B5A2-34B14E4CE11D}" Context="InprocServer32" Description="Debug Information Accessor" ThreadingModel="both" />
+                    <Class Id="{E3E90253-8E14-49A5-AA30-2E7B798AB839}" Context="InprocServer32" Description="Debug Information Accessor w/o Global Memory Usage" ThreadingModel="both" />
+                    <Class Id="{EBA05B6F-BD22-490E-A7B0-32D821C9046C}" Context="InprocServer32" Description="Generic StackWalker" ThreadingModel="both" />
+                    <TypeLib Id="{106173A0-0173-4E5C-84E7-E915422BE997}" Description="dia 2.0 Type Library" HelpDirectory="INSTALLLOCATION" Language="0" MajorVersion="2" MinorVersion="0" />
+                </File>
+                <RegistryValue Root="HKLM" Key="Software\Microsoft\VisualStudio\10.0\CLSID\{B86AE24D-BF2F-4AC9-B5A2-34B14E4CE11D}" Value="Debug Information Accessor" Type="string" Action="write" />
+                <RegistryValue Root="HKLM" Key="Software\Microsoft\VisualStudio\10.0\CLSID\{B86AE24D-BF2F-4AC9-B5A2-34B14E4CE11D}" Name="InprocServer32" Value="[#filB926D33446177185D504063FF7C6602E]" Type="string" Action="write" />
+                <RegistryValue Root="HKLM" Key="Software\Microsoft\VisualStudio\10.0\CLSID\{B86AE24D-BF2F-4AC9-B5A2-34B14E4CE11D}" Name="ThreadingModel" Value="Both" Type="string" Action="write" />
+                <RegistryValue Root="HKLM" Key="Software\Microsoft\VisualStudio\10.0\CLSID\{E3E90253-8E14-49A5-AA30-2E7B798AB839}" Value="Debug Information Accessor w/o Global Memory Usage" Type="string" Action="write" />
+                <RegistryValue Root="HKLM" Key="Software\Microsoft\VisualStudio\10.0\CLSID\{E3E90253-8E14-49A5-AA30-2E7B798AB839}" Name="InprocServer32" Value="[#filB926D33446177185D504063FF7C6602E]" Type="string" Action="write" />
+                <RegistryValue Root="HKLM" Key="Software\Microsoft\VisualStudio\10.0\CLSID\{E3E90253-8E14-49A5-AA30-2E7B798AB839}" Name="ThreadingModel" Value="Both" Type="string" Action="write" />
+                <RegistryValue Root="HKLM" Key="Software\Microsoft\VisualStudio\10.0\CLSID\{EBA05B6F-BD22-490E-A7B0-32D821C9046C}" Value="Generic StackWalker" Type="string" Action="write" />
+                <RegistryValue Root="HKLM" Key="Software\Microsoft\VisualStudio\10.0\CLSID\{EBA05B6F-BD22-490E-A7B0-32D821C9046C}" Name="InprocServer32" Value="[#filB926D33446177185D504063FF7C6602E]" Type="string" Action="write" />
+                <RegistryValue Root="HKLM" Key="Software\Microsoft\VisualStudio\10.0\CLSID\{EBA05B6F-BD22-490E-A7B0-32D821C9046C}" Name="ThreadingModel" Value="Both" Type="string" Action="write" />
+            </Component>
+
+			<Directory Id="Platforms" Name="platforms">
+				<Component Id="MTunerComponentPlatform" Guid="##GUID5##">
+					<File Id="qwindows" Name="qwindows.dll" Source="MTuner/platforms/qwindows.dll" Vital="yes"/>
+					<File Id="qminimal" Name="qminimal.dll" Source="MTuner/platforms/qminimal.dll" Vital="yes"/>
+				</Component>
+			</Directory>
+			
+			<!-- Translation files -->
+			<Directory Id="Localization" Name="translation">
+				<Component Id="MTunerLocalization" Guid="##GUID6##">
+					<File Id="MTuner_en" Name="MTuner_en.qm" Source="MTuner/translation/mtuner_en.qm" Vital="yes"/>
+					<File Id="MTuner_rs" Name="MTuner_rs.qm" Source="MTuner/translation/mtuner_rs.qm" Vital="yes"/>					
+					<File Id="MTuner_de" Name="MTuner_de.qm" Source="MTuner/translation/mtuner_de.qm" Vital="yes"/>
+					<File Id="MTuner_it" Name="MTuner_it.qm" Source="MTuner/translation/mtuner_it.qm" Vital="yes"/>
+				</Component>
+			</Directory>
+
+			<Directory Id="SDK" Name="SDK">
+			<Directory Id="SDKHeaders" Name="inc">
+				<Component Id="MTunerSDKHeaders" Guid="##GUID7##">
+          <File Id="rmem.h" Name="rmem.h" Source="MTuner/SDK/inc/rmem.h" Vital="yes"/>
+		  <File Id="rmem_entry.h" Name="rmem_entry.h" Source="MTuner/SDK/inc/rmem_entry.h" Vital="yes"/>
+        </Component>
+			</Directory>
+			<Directory Id="SDKSources" Name="src">
+				<Component Id="MTunerSDKSources" Guid="##GUID8##">
+					<File Id="rmem_config.h" Name="rmem_config.h" Source="MTuner/SDK/src/rmem_config.h" Vital="yes"/>
+          <File Id="rmem_enums.h" Name="rmem_enums.h" Source="MTuner/SDK/src/rmem_enums.h" Vital="yes"/>
+          <File Id="rmem_get_symbol_info.cpp" Name="rmem_get_symbol_info.cpp" Source="MTuner/SDK/src/rmem_get_symbol_info.cpp" Vital="yes"/>
+          <File Id="rmem_hook.cpp" Name="rmem_hook.cpp" Source="MTuner/SDK/src/rmem_hook.cpp" Vital="yes"/>
+          <File Id="rmem_hook.h" Name="rmem_hook.h" Source="MTuner/SDK/src/rmem_hook.h" Vital="yes"/>
+          <File Id="rmem_lib.cpp" Name="rmem_lib.cpp" Source="MTuner/SDK/src/rmem_lib.cpp" Vital="yes"/>
+          <File Id="rmem_mutex.h" Name="rmem_mutex.h" Source="MTuner/SDK/src/rmem_mutex.h" Vital="yes"/>
+          <File Id="rmem_platform.h" Name="rmem_platform.h" Source="MTuner/SDK/src/rmem_platform.h" Vital="yes"/>
+          <File Id="rmem_utils.h" Name="rmem_utils.h" Source="MTuner/SDK/src/rmem_utils.h" Vital="yes"/>
+          <File Id="rmem_wrap_win.cpp" Name="rmem_wrap_win.cpp" Source="MTuner/SDK/src/rmem_wrap_win.cpp" Vital="yes"/>
+          <File Id="uint32_t.h" Name="uint32_t.h" Source="MTuner/SDK/src/uint32_t.h" Vital="yes"/>
+        </Component>
+			</Directory>
+			<Directory Id="SDKGenie" Name="genie">
+				<Component Id="MTunerSDKGenie" Guid="##GUID9##">
+          <File Id="genie.exe" Name="genie.exe" Source="MTuner/SDK/genie/genie.exe" Vital="yes"/>
+          <File Id="genie.lua" Name="genie.lua" Source="MTuner/SDK/genie/genie.lua" Vital="yes"/>
+          <File Id="readme.txt" Name="readme.txt" Source="MTuner/SDK/genie/readme.txt" Vital="yes"/>
+          <File Id="set_env_android.bat" Name="set_env_android.bat" Source="MTuner/SDK/genie/set_env_android.bat" Vital="yes"/>
+				</Component>
+			</Directory>
+			<Directory Id="SDKExamples" Name="samples">
+				<Directory Id="SDKExamplesLinker" Name="linker">
+					<Component Id="MTunerSDKExamplesLinker" Guid="##GUID10##">
+						<File Id="MTunerLinkerExample.cpp" Name="MTunerLinkerExample.cpp" Source="MTuner/SDK/examples/linker/MTunerLinkerExample.cpp" Vital="yes"/>
+					</Component>
+				</Directory>
+				<Directory Id="SDKExamplesManual" Name="manual">
+					<Component Id="MTunerSDKExamplesManual" Guid="##GUID11##">
+						<File Id="MTunerManualExample.cpp" Name="MTunerManualExample.cpp" Source="MTuner/SDK/examples/manual/MTunerManualExample.cpp" Vital="yes"/>
+					</Component>
+				</Directory>
+			</Directory>
+			<Directory Id="SDKThirdParty" Name="3rd">
+				<Directory Id="SDKThirdParty_minhook" Name="minhook">
+					<Component Id="MTunerSDKThirdParty_minhook" Guid="##GUID12##">
+						<File Id="AUTHORS.txt" Name="AUTHORS.txt" Source="MTuner/SDK/3rd/minhook/AUTHORS.txt" Vital="yes"/>
+						<File Id="LICENSE.txt" Name="LICENSE.txt" Source="MTuner/SDK/3rd/minhook/LICENSE.txt" Vital="yes"/>
+					</Component>
+						<Directory Id="minhook_inc" Name="include">
+							<Component Id="MTunerSDKThirdParty_minhook_include" Guid="##GUID22##">
+								<File Id="MinHook.h" Name="MinHook.h" Source="MTuner/SDK/3rd/minhook/include/MinHook.h" Vital="yes"/>
+							</Component>
+						</Directory>
+						<Directory Id="minhook_src" Name="src">
+
+							<Component Id="MTunerSDKThirdParty_minhook_src" Guid="##GUID23##">
+								<File Id="buffer.c" Name="buffer.c" Source="MTuner/SDK/3rd/minhook/src/buffer.c" Vital="yes"/>
+								<File Id="buffer.h" Name="buffer.h" Source="MTuner/SDK/3rd/minhook/src/buffer.h" Vital="yes"/>
+								<File Id="hook.c" Name="hook.c" Source="MTuner/SDK/3rd/minhook/src/hook.c" Vital="yes"/>
+								<File Id="trampoline.c" Name="trampoline.c" Source="MTuner/SDK/3rd/minhook/src/trampoline.c" Vital="yes"/>
+								<File Id="trampoline.h" Name="trampoline.h" Source="MTuner/SDK/3rd/minhook/src/trampoline.h" Vital="yes"/>
+							</Component>
+
+							<Directory Id="minhook_hde" Name="hde">
+								<Component Id="MTunerSDKThirdParty_minhook_src_hde" Guid="##GUID24##">
+									<File Id="hde32.c" Name="hde32.c" Source="MTuner/SDK/3rd/minhook/src/hde/hde32.c" Vital="yes"/>
+									<File Id="hde32.h" Name="hde32.h" Source="MTuner/SDK/3rd/minhook/src/hde/hde32.h" Vital="yes"/>
+									<File Id="hde64.c" Name="hde64.c" Source="MTuner/SDK/3rd/minhook/src/hde/hde64.c" Vital="yes"/>
+									<File Id="hde64.h" Name="hde64.h" Source="MTuner/SDK/3rd/minhook/src/hde/hde64.h" Vital="yes"/>
+									<File Id="pstdint.h" Name="pstdint.h" Source="MTuner/SDK/3rd/minhook/src/hde/pstdint.h" Vital="yes"/>
+									<File Id="table32.h" Name="table32.h" Source="MTuner/SDK/3rd/minhook/src/hde/table32.h" Vital="yes"/>
+									<File Id="table64.h" Name="table64.h" Source="MTuner/SDK/3rd/minhook/src/hde/table64.h" Vital="yes"/>
+								</Component>
+							</Directory>
+						</Directory>
+				</Directory>
+				<Directory Id="SDKThirdParty_msvc" Name="msvc">
+					<Component Id="MTunerSDKThirdParty_msvc" Guid="##GUID13##">
+						<File Id="inttypes.h" Name="inttypes.h" Source="MTuner/SDK/3rd/msvc/inttypes.h" Vital="yes"/>
+						<File Id="stdint.h" Name="stdint.h" Source="MTuner/SDK/3rd/msvc/stdint.h" Vital="yes"/>
+					</Component>
+				</Directory>
+        <Directory Id="SDKThirdParty_lz4" Name="lz4-r173">
+          <Component Id="MTunerSDKThirdParty_lz4" Guid="##GUID14##">
+            <File Id="lz4.c" Name="lz4.c" Source="MTuner/SDK/3rd/lz4-r173/lz4.c" Vital="yes"/>
+            <File Id="lz4.h" Name="lz4.h" Source="MTuner/SDK/3rd/lz4-r173/lz4.h" Vital="yes"/>
+          </Component>
+        </Directory>
+      </Directory>
+			</Directory>
+
+			</Directory>
+		</Directory>
+
+		<!-- These directories used for Shortcuts -->
+		<Directory Id="ProgramMenuFolder" Name="PMenu">
+			<Directory Id="ProgramMenuDirLev1" Name="MTuner">
+				<Component Id="MTunerFolderRemover" Guid="##GUID17##">
+					<RemoveFolder Id="ProgramMenuDirLev1" On="uninstall" />
+					<RegistryKey Root="HKCU" Key="Software\MTuner\Uninstall">
+						<RegistryValue Value="MTuner uninstall." Type="string" KeyPath="yes" />
+					</RegistryKey> 
+				</Component>
+			</Directory>
+			<Directory Id="StartupFolder" Name="Startup" />
+		</Directory>
+		<Directory Id="DesktopFolder" Name="Desktop" />
+
+		<!-- Shortcuts -->
+		<Component Id="MTunerShortcutComponent1" Guid="##GUID18##">
+			<Shortcut	Id="MTunerShortcut1"
+						Directory="ProgramMenuDirLev1"
+						Name="MTuner"
+						Target="[INSTALLLOCATION]\MTuner.exe"
+						WorkingDirectory="INSTALLDIR"
+						Icon="MTuner.ico" />
+			<Condition>1</Condition>
+			<RegistryKey Root="HKCU" Key="Software\MTuner\Shortcuts">
+				<RegistryValue Value="MTuner program folder shortcut." Type="string" KeyPath="yes" />
+			</RegistryKey> 
+		</Component>
+   
+		<Component Id="MTunerShortcutComponent2" Guid="##GUID19##">
+			<Shortcut	Id="MTunerShortcut2"
+						Directory="StartupFolder"
+						Name="MTuner"
+						Target="[INSTALLLOCATION]\MTuner.exe"
+						WorkingDirectory="INSTALLDIR"
+						Icon="MTuner.ico" />
+			<Condition>0</Condition>
+			<RegistryKey Root="HKCU" Key="Software\MTuner\Shortcuts">
+				<RegistryValue Value="MTuner start menu shortcut." Type="string" KeyPath="yes" />
+			</RegistryKey> 
+		</Component>
+   
+		<Component Id="MTunerShortcutComponent3" Guid="##GUID20##">
+			<Shortcut	Id="MTunerShortcut3"
+						Directory="DesktopFolder"
+						Name="MTuner"
+						Target="[INSTALLLOCATION]\MTuner.exe"
+						WorkingDirectory="INSTALLDIR"
+						Icon="MTuner.ico" />
+			<Condition>INSTALLDESKTOPSHORTCUT</Condition>
+			<RegistryKey Root="HKCU" Key="Software\MTuner\Shortcuts">
+				<RegistryValue Value="MTuner desktop shortcut." Type="string" KeyPath="yes" />
+			</RegistryKey> 
+		</Component>
+
+		<Component Id="UninstallShortcutComponent" Guid="##GUID21##">
+			<Shortcut	Id="UninstallProduct" 
+						Name="Uninstall MTuner"
+						Target="[System64Folder]msiexec.exe"
+						Arguments="/x [ProductCode]"
+						Directory="ProgramMenuDirLev1"
+						Description="Uninstalls MTuner" /> 
+			<Condition>1</Condition>
+			<RegistryKey Root="HKCU" Key="Software\MTuner\Uninstall">
+				<RegistryValue Value="MTuner uninstall." Type="string" KeyPath="yes" />
+			</RegistryKey> 
+		</Component>
+
+	</Directory>
+	
+	<Feature 	Id="MTunerApp"
+				Title="MTuner"
+				Description="MTuner application and related files."
+				Level="1">
+		<ComponentRef Id="MTunerExeComponent"/>
+		<ComponentRef Id="MTunerComponent"/>
+		<ComponentRef Id="MTunerComponentPlatform"/>
+		<ComponentRef Id="MTunerLocalization"/>
+		<ComponentRef Id="MTunerShortcutComponent1"/>
+		<ComponentRef Id="MTunerShortcutComponent2"/>
+		<ComponentRef Id="MTunerShortcutComponent3"/>
+		<ComponentRef Id="MTunerFolderRemover"/>
+		<ComponentRef Id="UninstallShortcutComponent"/>
+	</Feature>
+
+	<Feature	Id="MTunerSDK"
+				Title="MTuner SDK"
+				Description="MTuner SDK allows to do customized instrumentation of your applications."
+				Level='1'>
+		<ComponentRef Id="MTunerSDKHeaders"/>
+		<ComponentRef Id="MTunerSDKSources"/>
+		<ComponentRef Id="MTunerSDKGenie"/>
+		<ComponentRef Id="MTunerSDKExamplesLinker"/>
+		<ComponentRef Id="MTunerSDKExamplesManual"/>
+		<ComponentRef Id="MTunerSDKThirdParty_minhook"/>
+		<ComponentRef Id="MTunerSDKThirdParty_minhook_include"/>
+		<ComponentRef Id="MTunerSDKThirdParty_minhook_src"/>
+		<ComponentRef Id="MTunerSDKThirdParty_minhook_src_hde"/>
+		<ComponentRef Id="MTunerSDKThirdParty_msvc"/>
+    <ComponentRef Id="MTunerSDKThirdParty_lz4"/>
+  </Feature>
+
+	<Icon Id="MTuner.ico" SourceFile="../resources/icons/Icon256.ico"/>
+
+    <!-- Include a user interface -->
+	<Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION"/>
+	<UI>
+		<Property Id="INSTALLDESKTOPSHORTCUT" Value="1" />
+		<UIRef Id="MTunerWixUI_InstallDir" />
+		<UIRef Id="WixUI_ErrorProgressText" />		
+        <Publish Dialog="MTunerExitDialog" 
+            Control="Finish" 
+            Event="DoAction" 
+			Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
+    </UI>
+	
+	<!-- Launch after install -->
+	<Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch MTuner" />
+	<Property Id="WixShellExecTarget" Value="[#MTunerExe]" />
+	<CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
+
+	<!-- Custom graphics -->
+	<WixVariable Id="WixUILicenseRtf" Value="data\license.rtf" />
+	<WixVariable Id="WixUIBannerBmp" Value="data\banner.bmp" />
+	<WixVariable Id="WixUIDialogBmp" Value="data\dialog.bmp" />
+
+	</Product>
+</Wix>
+
