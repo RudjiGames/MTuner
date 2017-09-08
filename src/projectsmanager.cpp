@@ -39,7 +39,8 @@ ProjectsManager::ProjectsManager(QWidget* _parent, Qt::WindowFlags _flags)
 
 void ProjectsManager::save()
 {
-	m_savedProjects = m_projects;
+	m_savedProjects			= m_projects;
+	m_projectListModified	= false;
 }
 
 void ProjectsManager::changeEvent(QEvent* _event)
@@ -95,6 +96,24 @@ void ProjectsManager::dropEvent(QDropEvent* _event)
 	}
 }
 
+void ProjectsManager::reject()
+{
+	bool shouldReject = true;
+	if (m_projectListModified)
+	{
+		QMessageBox::StandardButton reply =
+			QMessageBox::question(	this,
+									tr("Are you sure?"),
+									tr("Project list was modified, if you close project manager it will not be saved."),
+									QMessageBox::Yes | QMessageBox::No);
+		if (reply == QMessageBox::No)
+			shouldReject = false;
+	}
+
+	if (shouldReject)
+		QDialog::reject();
+}
+
 void ProjectsManager::buttonAdd()
 {
 	Project p;
@@ -102,6 +121,7 @@ void ProjectsManager::buttonAdd()
 	p.m_cmdArgs = m_txtCommandLine->text();
 	p.m_workingDir = m_txtWorkingDir->text();
 	m_projects.append(p);
+	m_projectListModified = true;
 	updateProjectList();
 }
 
@@ -109,6 +129,7 @@ void ProjectsManager::buttonRemove()
 {
 	int row = m_listProjects->currentIndex().row();
 	m_projects.erase(m_projects.begin() + row);
+	m_projectListModified = true;
 	m_listProjects->setCurrentIndex(QModelIndex());
 	updateProjectList();
 }

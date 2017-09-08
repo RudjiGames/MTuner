@@ -13,6 +13,18 @@ struct Project
 	QString m_executablePath;
 	QString m_cmdArgs;
 	QString m_workingDir;
+
+	bool operator == (const Project& _other)
+	{
+		return !(*this != _other);
+	}
+
+	bool operator != (const Project& _other)
+	{
+		return ((m_executablePath	!= _other.m_executablePath)	||
+				(m_cmdArgs			!= _other.m_cmdArgs)		||
+				(m_workingDir		!= _other.m_workingDir));
+	}
 };
 
 class ProjectsManager : public QDialog
@@ -22,6 +34,7 @@ class ProjectsManager : public QDialog
 public:
 	QVector<Project>	m_savedProjects;
 	QVector<Project>	m_projects;
+	bool				m_projectListModified;
 	QLineEdit*			m_txtExecutable;
 	QLineEdit*			m_txtCommandLine;
 	QLineEdit*			m_txtWorkingDir;
@@ -66,6 +79,7 @@ protected:
 	void dragMoveEvent(QDragMoveEvent* _event);
 	void dragLeaveEvent(QDragLeaveEvent* _event);
 	void dropEvent(QDropEvent* _event);
+	void reject();	// QDialog
 
 private:
 	Ui::ProjectsDialog ui;
