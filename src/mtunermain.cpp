@@ -17,6 +17,10 @@
 #include <rqt/inc/rqt.h>
 #include <rqt/inc/rqt_widget_assert.h>
 
+#if RTM_PLATFORM_WINDOWS
+#include "shellapi.h"
+#endif // RTM_PLATFORM_WINDOWS
+
 static const char* g_banner = "Copyright (c) 2017 by Milos Tosic. All rights reserved.\n";
 
 void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSetup* inGCCSetup, 
@@ -401,16 +405,34 @@ int main(int argc, const char* argv[])
 	dir.cdUp();
 	QString mtuner_dir = dir.absolutePath();
 	
-	QString diaPath = mtuner_dir + "/msdia140.dll";
-	QFileInfo info(diaPath);
+	QString regArg = mtuner_dir + "/msdia140.dll";
+	QFileInfo info(regArg);
 
 	if (info.exists())
 	{
-		diaPath.replace("/","\\");
-		QString regDiaCmd = "regsvr32 /s \"" + diaPath + "\"";
-		QProcess proc;
-		proc.start(regDiaCmd);
-		proc.waitForFinished();
+		regArg.replace("/","\\");
+		regArg = "/s \"" + regArg + "\"";
+
+		SHELLEXECUTEINFOW shExecInfo;
+		shExecInfo.cbSize = sizeof(SHELLEXECUTEINFOW);
+
+		wchar_t diaPathW[512];
+		regArg.toWCharArray(diaPathW);
+		diaPathW[regArg.length()] = 0;
+
+		shExecInfo.fMask		= NULL;
+		shExecInfo.hwnd			= NULL;
+		shExecInfo.lpVerb		= L"runas";
+		shExecInfo.lpFile		= L"regsvr32";
+		shExecInfo.lpParameters	= diaPathW;
+		shExecInfo.lpDirectory	= NULL;
+		shExecInfo.nShow		= SW_MAXIMIZE;
+		shExecInfo.hInstApp		= NULL;
+
+		if (!ShellExecuteExW(&shExecInfo))
+		{
+			QMessageBox regFail(QMessageBox::Warning, QObject::tr("Failed to register DIA dll!"), QObject::tr("Debug symbols may not be loaded correctly"));
+		}
 	}
 #endif
 

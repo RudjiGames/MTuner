@@ -141,18 +141,14 @@ void ProjectsManager::run(const QString& _executable, const QString& _cmd, const
 	getStoragePath( watchPath );
 	wcscat(watchPath, L"\\MTuner\\");
 	m_watcher->addPath(QString::fromWCharArray(watchPath));
-
-	bool runSuccess = true;
+	
 	QString cmdLine;
 	if (rdebug::processIs64bitBinary(_executable.toUtf8()))
-		cmdLine = exepath64 + " " + cmdLine64;
+		cmdLine = cmdLine64;
 	else
-		cmdLine = exepath32 + " " + cmdLine32;
+		cmdLine = cmdLine32;
 
 	if (!rdebug::processRun(cmdLine.toUtf8()))
-		runSuccess = false;
-
-	if (!runSuccess)
 		QMessageBox::critical(NULL, tr("Error!"), tr("Failed to launch ") + _executable);
 }
 

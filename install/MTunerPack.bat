@@ -18,7 +18,7 @@ copy ..\..\..\..\..\..\3rd\DIA\bin\x64\dbghelp.dll                              
 copy ..\..\..\..\..\..\3rd\DIA\bin\x64\SymbolCheck.dll                                      SymbolCheck.dll
 copy ..\..\..\..\..\..\3rd\DIA\bin\x64\symchk.exe                                           symchk.exe
 copy ..\..\..\..\..\..\3rd\DIA\bin\x64\symsrv.dll                                           symsrv.dll
-copy ..\..\..\..\..\..\3rd\DIA\bin\x64\msdia120.dll                                         msdia120.dll
+copy ..\..\..\..\..\..\3rd\DIA\bin\x64\msdia140.dll                                         msdia140.dll
 
 copy ..\..\..\..\..\..\.build\windows\vs2017\x32\retail\mtuner\bin\MTunerInject_retail.exe   MTunerInject32.exe
 copy ..\..\..\..\..\..\.build\windows\vs2017\x64\retail\mtuner\bin\MTunerInject_retail.exe   MTunerInject64.exe
