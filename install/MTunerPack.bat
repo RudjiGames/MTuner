@@ -38,7 +38,7 @@ cd SDK
 mkdir inc
 mkdir src
 mkdir genie
-mkdir examples
+mkdir samples
 mkdir 3rd
 cd ..
 
@@ -58,22 +58,21 @@ copy ..\..\..\..\..\libs\rmem\src\rmem_mutex.h              SDK\src\rmem_mutex.h
 copy ..\..\..\..\..\libs\rmem\src\rmem_platform.h           SDK\src\rmem_platform.h           
 copy ..\..\..\..\..\libs\rmem\src\rmem_utils.h              SDK\src\rmem_utils.h              
 copy ..\..\..\..\..\libs\rmem\src\rmem_wrap_win.cpp         SDK\src\rmem_wrap_win.cpp         
+copy ..\..\..\..\..\libs\rmem\src\rmem_wrap_win.h	        SDK\src\rmem_wrap_win.h
 copy ..\..\..\..\..\libs\rmem\src\uint32_t.h                SDK\src\uint32_t.h                
 
-copy ..\..\..\..\..\libs\rmem\genie\genie.exe               SDK\genie\genie.exe    
-copy ..\..\..\..\..\libs\rmem\genie\genie_stand_alone.lua   SDK\genie\genie.lua
-copy ..\..\..\..\..\libs\rmem\genie\readme.txt              SDK\genie\readme.txt
-copy ..\..\..\..\..\libs\rmem\genie\set_env_android.bat     SDK\genie\set_env_android.bat
+copy ..\..\..\..\..\libs\rmem\genie\genie.lua               SDK\genie\genie.lua
+copy ..\..\..\..\..\libs\rmem\genie\rmem.lua				SDK\genie\rmem.lua
 
 cd SDK
-cd examples
+cd samples
 mkdir linker
 mkdir manual
 cd ..
 cd ..
 
-copy ..\..\..\..\..\libs\rmem\samples\linker\rmem_linker_sample.cpp SDK\examples\linker\MTunerLinkerExample.cpp
-copy ..\..\..\..\..\libs\rmem\samples\manual\rmem_manual_sample.cpp SDK\examples\manual\MTunerManualExample.cpp
+copy ..\..\..\..\..\libs\rmem\samples\linker\rmem_linker_sample.cpp SDK\samples\linker\MTunerLinkerExample.cpp
+copy ..\..\..\..\..\libs\rmem\samples\manual\rmem_manual_sample.cpp SDK\samples\manual\MTunerManualExample.cpp
 
 cd SDK
 cd 3rd
