@@ -61,7 +61,7 @@
 				<File Id="MTunerDLL32" Name="MTunerDLL32.dll" Source="MTuner/MTunerDLL32.dll" Vital="yes"/>
 				<File Id="MTunerDLL64" Name="MTunerDLL64.dll" Source="MTuner/MTunerDLL64.dll" Vital="yes"/>
 
-                <File Id="filB926D33446177185D504063FF7C6602E" KeyPath="yes" Source="MTuner/msdia120.dll">
+                <File Id="filB926D33446177185D504063FF7C6602E" KeyPath="yes" Source="MTuner/msdia140.dll">
                     <Class Id="{B86AE24D-BF2F-4AC9-B5A2-34B14E4CE11D}" Context="InprocServer32" Description="Debug Information Accessor" ThreadingModel="both" />
                     <Class Id="{E3E90253-8E14-49A5-AA30-2E7B798AB839}" Context="InprocServer32" Description="Debug Information Accessor w/o Global Memory Usage" ThreadingModel="both" />
                     <Class Id="{EBA05B6F-BD22-490E-A7B0-32D821C9046C}" Context="InprocServer32" Description="Generic StackWalker" ThreadingModel="both" />
@@ -114,26 +114,25 @@
           <File Id="rmem_platform.h" Name="rmem_platform.h" Source="MTuner/SDK/src/rmem_platform.h" Vital="yes"/>
           <File Id="rmem_utils.h" Name="rmem_utils.h" Source="MTuner/SDK/src/rmem_utils.h" Vital="yes"/>
           <File Id="rmem_wrap_win.cpp" Name="rmem_wrap_win.cpp" Source="MTuner/SDK/src/rmem_wrap_win.cpp" Vital="yes"/>
-          <File Id="uint32_t.h" Name="uint32_t.h" Source="MTuner/SDK/src/uint32_t.h" Vital="yes"/>
+ 		  <File Id="rmem_wrap_win.h" Name="rmem_wrap_win.h" Source="MTuner/SDK/src/rmem_wrap_win.h" Vital="yes"/>
+		  <File Id="uint32_t.h" Name="uint32_t.h" Source="MTuner/SDK/src/uint32_t.h" Vital="yes"/>
         </Component>
 			</Directory>
 			<Directory Id="SDKGenie" Name="genie">
 				<Component Id="MTunerSDKGenie" Guid="##GUID9##">
-          <File Id="genie.exe" Name="genie.exe" Source="MTuner/SDK/genie/genie.exe" Vital="yes"/>
-          <File Id="genie.lua" Name="genie.lua" Source="MTuner/SDK/genie/genie.lua" Vital="yes"/>
-          <File Id="readme.txt" Name="readme.txt" Source="MTuner/SDK/genie/readme.txt" Vital="yes"/>
-          <File Id="set_env_android.bat" Name="set_env_android.bat" Source="MTuner/SDK/genie/set_env_android.bat" Vital="yes"/>
+    		      <File Id="genie.lua" Name="genie.exe" Source="MTuner/SDK/genie/genie.lua" Vital="yes"/>
+		          <File Id="rmem.lua" Name="rmrm.lua" Source="MTuner/SDK/genie/rmem.lua" Vital="yes"/>
 				</Component>
 			</Directory>
 			<Directory Id="SDKExamples" Name="samples">
 				<Directory Id="SDKExamplesLinker" Name="linker">
 					<Component Id="MTunerSDKExamplesLinker" Guid="##GUID10##">
-						<File Id="MTunerLinkerExample.cpp" Name="MTunerLinkerExample.cpp" Source="MTuner/SDK/examples/linker/MTunerLinkerExample.cpp" Vital="yes"/>
+						<File Id="MTunerLinkerExample.cpp" Name="MTunerLinkerExample.cpp" Source="MTuner/SDK/samples/linker/MTunerLinkerExample.cpp" Vital="yes"/>
 					</Component>
 				</Directory>
 				<Directory Id="SDKExamplesManual" Name="manual">
 					<Component Id="MTunerSDKExamplesManual" Guid="##GUID11##">
-						<File Id="MTunerManualExample.cpp" Name="MTunerManualExample.cpp" Source="MTuner/SDK/examples/manual/MTunerManualExample.cpp" Vital="yes"/>
+						<File Id="MTunerManualExample.cpp" Name="MTunerManualExample.cpp" Source="MTuner/SDK/samples/manual/MTunerManualExample.cpp" Vital="yes"/>
 					</Component>
 				</Directory>
 			</Directory>
