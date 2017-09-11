@@ -238,7 +238,7 @@ void ProjectsManager::dirChanged(const QString& _dir)
 	if (list.size())
 	{
 		QString name = list.at(0);
-		emit MTunerFileCreated(QDir::toNativeSeparators(_dir + "\\" + name));
+		emit MTunerFileCreated(QDir::toNativeSeparators(_dir + name));
 	}
 }
 

@@ -115,7 +115,7 @@ bool handleInject(rtm::CommandLine& _cmdLine)
 
 int handleCommandLine(int argc, char const* argv[])
 {
-	rtm::Console::info("%s\n",g_banner);
+	rtm::Console::info("%s",g_banner);
 
 	rtm::CommandLine cmdLine(argc, argv);
 
