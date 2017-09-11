@@ -580,10 +580,14 @@ void MTuner::setFilteringState(bool _checked, bool _enabled)
 
 void MTuner::showWelcomeDialog()
 {
-	WelcomeDialog w(this);
-	connect(&w, &WelcomeDialog::setupSymbols,		this, &MTuner::setupSymbols);
-	connect(&w, &WelcomeDialog::readDocumentation,	this, &MTuner::readDocumentation);
-	w.exec();
+	if (m_showWelcomeDialog)
+	{
+		WelcomeDialog w(this);
+		connect(&w, &WelcomeDialog::setupSymbols, this, &MTuner::setupSymbols);
+		connect(&w, &WelcomeDialog::readDocumentation, this, &MTuner::readDocumentation);
+		w.exec();
+		m_showWelcomeDialog = w.shouldShowNextTime();
+	}
 }
 
 void MTuner::readSettings()
@@ -601,6 +605,11 @@ void MTuner::readSettings()
 	m_stackAndSourceDock->restoreGeometry(settings.value("geometry4").toByteArray());
 	m_heapsDock->restoreGeometry(settings.value("geometry5").toByteArray());
 	m_fileDialog->restoreState(settings.value("fileDialog").toByteArray());
+
+	if (settings.contains("ShowWelcome"))
+		m_showWelcomeDialog = settings.value("ShowWelcome").toBool();
+	else
+		m_showWelcomeDialog = true;
 
 	if (settings.contains("geometry6"))
 		m_symbolStore->restoreGeometry(settings.value("geometry6").toByteArray());
@@ -686,6 +695,8 @@ void MTuner::writeSettings()
 	settings.setValue("geometry5", m_heapsDock->saveGeometry());
 	settings.setValue("geometry6", m_symbolStore->saveGeometry());
 	settings.setValue("fileDialog",m_fileDialog->saveState());
+
+	settings.setValue("ShowWelcome", m_showWelcomeDialog);
 
 	StackAndSource* ss = (StackAndSource*)m_stackAndSourceDock->widget();
 	StackTrace* st = ss->getStackTrace();

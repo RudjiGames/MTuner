@@ -51,7 +51,7 @@ private:
 	ExternalEditor*			m_externalEditor;
 
 	Stats*					m_stats;
-	bool					m_showStartPageWidget;
+	bool					m_showWelcomeDialog;
 	bool					m_closeStartPageWidgetOnOpen;
 
 	TagTreeWidget*			m_tagTree;

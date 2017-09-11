@@ -23,3 +23,8 @@ void WelcomeDialog::changeEvent(QEvent* _event)
 	if (_event->type() == QEvent::LanguageChange)
 		ui.retranslateUi(this);
 }
+
+bool WelcomeDialog::shouldShowNextTime() const
+{
+	return ui.checkBox->isChecked();
+}
