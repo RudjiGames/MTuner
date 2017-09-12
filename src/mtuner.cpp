@@ -554,13 +554,20 @@ void MTuner::captureSetProcessID(uint64_t _pid)
 	m_watchedFile = "";
 }
 
-BOOL IsProcessRunning(DWORD pid)
+#if RTM_PLATFORM_WINDOWS
+bool isProcessRunning(uint64_t _pid)
 {
-	HANDLE process = OpenProcess(SYNCHRONIZE, FALSE, pid);
+	HANDLE process = OpenProcess(SYNCHRONIZE, FALSE, (DWORD)_pid);
 	DWORD ret = WaitForSingleObject(process, 0);
 	CloseHandle(process);
 	return ret == WAIT_TIMEOUT;
 }
+#else
+bool isProcessRunning(uint64_t pid)
+{
+	return false;
+}
+#endif
 
 void MTuner::checkCaptureStatus()
 {
@@ -568,7 +575,7 @@ void MTuner::checkCaptureStatus()
 
 	m_statusBarRedDot->setVisible(!m_statusBarRedDot->isVisible());
 
-	if (m_capturePid && (!IsProcessRunning(m_capturePid)))
+	if (m_capturePid && (!isProcessRunning(m_capturePid)))
 	{
 		m_capturePid = 0;
 		m_projectsManager->close();

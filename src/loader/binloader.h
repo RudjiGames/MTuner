@@ -10,15 +10,15 @@ namespace rtm {
 
 class BinLoader
 {
-	FILE*		m_file;
-	bool		m_compressed;
 	uint8_t*	m_srcData;
-	int32_t		m_srcDataSize;
 	uint8_t*	m_data;
+	int32_t		m_srcDataSize;
 	int32_t		m_dataSize;
 	int32_t		m_dataAvailable;
 	int32_t		m_dataPos;
 	uint64_t	m_bytesRead;
+	FILE*		m_file;
+	bool		m_compressed;
 
 public:
 	BinLoader(FILE* _file, bool _compressed);

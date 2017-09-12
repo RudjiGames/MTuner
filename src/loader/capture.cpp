@@ -468,10 +468,10 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 							}
 							itemsRead += loader.readVar(op->m_operationTime);
 							itemsRead += loader.readVar(bitIndex);
-							op->m_alignment = bitIndex;
 							itemsRead += loader.readVar(op->m_allocSize);
 							itemsRead += loader.readVar(op->m_overhead);
 
+							op->m_alignment = bitIndex;
 							loadSuccess = itemsRead == 7;
 							break;
 					};

@@ -10,6 +10,10 @@
 #include <rmem/3rd/lz4-r173/lz4.h>
 #include <rmem/3rd/lz4-r173/lz4.c>
 
+#if RTM_COMPILER_MSVC
+#pragma intrinsic (memcpy)
+#endif // RTM_COMPILER_MSVC
+
 namespace rtm {
 
 BinLoader::BinLoader(FILE* _file, bool _compressed) :
@@ -72,7 +76,7 @@ int BinLoader::read(void* _ptr, size_t _size)
 			m_bytesRead	+= bytesLeft;
 		}
 
-		dst			+= bytesLeft;
+		dst	+= bytesLeft;
 
 		RTM_ASSERT(m_dataPos <= m_dataAvailable, "");
 
