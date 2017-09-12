@@ -797,12 +797,14 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					char modName[1024];
 					if (sz == 1)
 					{
-						char modNameC[1024];
-						ReadString<1024>(modNameC, loader, m_swapEndian);
-						snprintf(modName, 1024, "%s", modNameC);
+						ReadString<1024>(modName, loader, m_swapEndian);
 					}
 					else
-						ReadString<1024>(modName, loader, m_swapEndian);
+					{
+						char16_t modNameC[1024];
+						ReadString<1024>(modNameC, loader, m_swapEndian);
+						strcpy(modName, QString::fromUtf16(modNameC).toUtf8().constData());
+					}
 
 					VERIFY_READ_SIZE(modBase);
 					VERIFY_READ_SIZE(modSize);
