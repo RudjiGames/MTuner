@@ -43,6 +43,8 @@ public:
 	QPushButton*		m_buttonRemove;
 	QPushButton*		m_buttonRun;
 	QFileSystemWatcher*	m_watcher;
+	QProcess*			m_process;
+	QString				m_currentCaptureFile;
 
 public:
 	ProjectsManager(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
@@ -64,9 +66,11 @@ public Q_SLOTS:
 	void browseWorkingDir();
 	void dirChanged(const QString&);
 	void restore();
+	void processFinished(int _exitCode, QProcess::ExitStatus _status);
 
 Q_SIGNALS:
-	void MTunerFileCreated(const QString&);
+	void captureCreated(const QString& _path);
+	void captureSetProcessID(uint64_t _pid);
 
 private:
 	void updateProjectList();

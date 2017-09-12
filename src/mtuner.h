@@ -30,6 +30,7 @@ private:
 	ProjectsManager*		m_projectsManager;
 	QString					m_watchedFile;
 	QTimer*					m_watchTimer;
+	uint64_t				m_capturePid;
 	SymbolStore*			m_symbolStore;
 	GCCSetup*				m_gccSetup;
 	QDockWidget*			m_graphDock;
@@ -98,8 +99,9 @@ public Q_SLOTS:
 	void showHeaps(bool);
 
 	void setStatusBarText(const QString&);
-	void watchFile(const QString&);
-	void tryOpeWatchedFile();
+	void checkCaptureStatus();
+	void captureStarted(const QString&);
+	void captureSetProcessID(uint64_t);
 
 	void setFilteringState(bool,bool);
 

@@ -14,6 +14,7 @@
 #include <rbase/inc/winchar.h>
 #include <rbase/inc/libhandler.h>
 #include <rbase/inc/chunkallocator.h>
+#include <rbase/inc/console.h>
 
 #include <rmem/inc/rmem.h>
 

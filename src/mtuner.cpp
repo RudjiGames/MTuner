@@ -22,8 +22,6 @@
 #include <MTuner/src/welcome.h>
 #include <MTuner/src/tagtreewidget.h>
 #include <MTuner/src/capturecontext.h>
-#include <rbase/inc/console.h>
-#include <rmem/src/rmem_enums.h>
 
 #if RTM_PLATFORM_WINDOWS
 #define WIN32_LEAN_AND_MEAN
@@ -140,8 +138,10 @@ MTuner::MTuner(QWidget* _parent, Qt::WindowFlags _flags) :
 	emit setFilterButtonEnabled(false);
 
 	m_projectsManager = new ProjectsManager(this);
-	connect(m_projectsManager, SIGNAL(MTunerFileCreated(const QString&)), this, SLOT(watchFile(const QString&)));
+	connect(m_projectsManager, SIGNAL(captureCreated(const QString&)), this, SLOT(captureStarted(const QString&)));
+	connect(m_projectsManager, SIGNAL(captureSetProcessID(uint64_t)), this, SLOT(captureSetProcessID(uint64_t)));
 	m_watchTimer = NULL;
+	m_capturePid = 0;
 
 	m_loadingProgressBar = new QProgressBar();
 	m_loadingProgressBar->setRange(0,10000);
@@ -530,37 +530,48 @@ void MTuner::setStatusBarText(const QString& _text)
 
 static const uint32_t g_watchInterval = 460;
 
-void MTuner::watchFile(const QString& _file)
+void MTuner::captureStarted(const QString& _file)
 {
 	setStatusBarText(QString(tr("Created ")) + _file);
 	if (m_watchTimer)
 		m_watchTimer->stop();
 
-	m_watchedFile = _file;
+	m_watchedFile		= _file;
 
-	m_watchTimer = new QTimer();
+	m_watchTimer = new QTimer(this);
 	m_watchTimer->setInterval(g_watchInterval);
-	connect(m_watchTimer, SIGNAL(timeout()), this, SLOT(tryOpeWatchedFile()));
+	connect(m_watchTimer, SIGNAL(timeout()), this, SLOT(checkCaptureStatus()));
 	m_watchTimer->start();
 }
 
-void MTuner::tryOpeWatchedFile()
+void MTuner::captureSetProcessID(uint64_t _pid)
+{
+	m_capturePid = _pid;
+	m_projectsManager->close();
+
+	m_statusBarRedDot->setVisible(false);
+	openFileFromPath(m_watchedFile);
+	m_watchedFile = "";
+}
+
+BOOL IsProcessRunning(DWORD pid)
+{
+	HANDLE process = OpenProcess(SYNCHRONIZE, FALSE, pid);
+	DWORD ret = WaitForSingleObject(process, 0);
+	CloseHandle(process);
+	return ret == WAIT_TIMEOUT;
+}
+
+void MTuner::checkCaptureStatus()
 {
 	statusBar()->showMessage(tr("Capture in progress") + " - " + m_watchedFile, g_watchInterval);
 
 	m_statusBarRedDot->setVisible(!m_statusBarRedDot->isVisible());
 
-	FILE* file;
-#if RTM_PLATFORM_WINDOWS
-	rtm::MultiToWide path(m_watchedFile.toUtf8().constData());
-	file = _wfopen(path.m_ptr, L"r");
-#else
-	file = fopen(m_watchedFile.toUtf8().constData(), "r");
-#endif
-	if (file)
+	if (m_capturePid && (!IsProcessRunning(m_capturePid)))
 	{
+		m_capturePid = 0;
 		m_projectsManager->close();
-		fclose(file);
 		m_statusBarRedDot->setVisible(false);
 		openFileFromPath(m_watchedFile);
 		m_watchedFile = "";
@@ -853,5 +864,13 @@ void MTuner::handleFile(const QString& _file)
 		openFileFromPath(_file);
 
 	if (_file.toLower().endsWith(".exe"))
-		m_projectsManager->run(_file);
+	{
+		if (m_capturePid)
+		{
+			QMessageBox message(QMessageBox::Information, tr("Capture in progress"), tr("Cannot start a new capture while capture is in progress"));
+			message.exec();
+		}
+		else
+			m_projectsManager->run(_file);
+	}
 }

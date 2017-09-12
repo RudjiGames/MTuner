@@ -258,4 +258,5 @@ void SourceView::openInEditor()
 			openInEditor();
 		}
 	}
+	launchEditor->close();
 }

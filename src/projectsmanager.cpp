@@ -35,6 +35,8 @@ ProjectsManager::ProjectsManager(QWidget* _parent, Qt::WindowFlags _flags)
 	connect(m_listProjects, SIGNAL(itemSelectionChanged()), this, SLOT(projectSelectionChanged()));
 
 	connect(this, SIGNAL(rejected()), this, SLOT(restore()));
+
+	m_process = 0;
 }
 
 void ProjectsManager::save()
@@ -139,11 +141,6 @@ extern void getStoragePath(wchar_t _path[512]);
 void ProjectsManager::run(const QString& _executable, const QString& _cmd, const QString& _workingDir)
 {
 	QString currpath = QDir(QCoreApplication::applicationDirPath()).absolutePath();
-	QString exepath32 = currpath + "/MTunerInject32.exe";
-	QString exepath64 = currpath + "/MTunerInject64.exe";
-
-	QString cmdLine32 = exepath32 + " #23#" + _executable + "#23# #23#" + _cmd + "#23# #23#" + _workingDir + "#23#";
-	QString cmdLine64 = exepath64 + " #23#" + _executable + "#23# #23#" + _cmd + "#23# #23#" + _workingDir + "#23#";
 
 	QString watchDir;
 	if (_workingDir.length() == 0)
@@ -155,22 +152,28 @@ void ProjectsManager::run(const QString& _executable, const QString& _cmd, const
 	else
 		watchDir = _workingDir;
 
-	m_watcher = new QFileSystemWatcher();
+	m_watcher = new QFileSystemWatcher(this);
 	connect(m_watcher, SIGNAL(directoryChanged(const QString&)), this, SLOT(dirChanged(const QString&)));
 
 	wchar_t watchPath[512];
 	getStoragePath( watchPath );
 	wcscat(watchPath, L"\\MTuner\\");
 	m_watcher->addPath(QString::fromWCharArray(watchPath));
-	
-	QString cmdLine;
-	if (rdebug::processIs64bitBinary(_executable.toUtf8()))
-		cmdLine = cmdLine64;
-	else
-		cmdLine = cmdLine32;
 
-	if (!rdebug::processRun(cmdLine.toUtf8()))
-		QMessageBox::critical(NULL, tr("Error!"), tr("Failed to launch ") + _executable);
+	QString arguments = " #23#" + _executable + "#23# #23#" + _cmd + "#23# #23#" + _workingDir + "#23#";
+
+	QString exePath;
+	if (rdebug::processIs64bitBinary(_executable.toUtf8()))
+		exePath = currpath + "/MTunerInject64.exe";
+	else
+		exePath = currpath + "/MTunerInject32.exe";
+
+	m_process = new QProcess(this);
+	m_process->setProgram(exePath);
+	m_process->setWorkingDirectory(_workingDir);
+	m_process->setArguments(QStringList() << arguments);
+	connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
+	m_process->start();
 }
 
 void ProjectsManager::buttonRun()
@@ -237,8 +240,12 @@ void ProjectsManager::dirChanged(const QString& _dir)
 	QStringList list = dir.entryList(QStringList() << "*.MTuner", QDir::Files, QDir::Time);
 	if (list.size())
 	{
+		m_watcher->deleteLater();
+		m_watcher = 0;
 		QString name = list.at(0);
-		emit MTunerFileCreated(QDir::toNativeSeparators(_dir + name));
+		QString captureFile = QDir::toNativeSeparators(_dir + name);
+		m_currentCaptureFile = captureFile;
+		emit captureCreated(captureFile);
 	}
 }
 
@@ -297,4 +304,12 @@ void ProjectsManager::restore()
 {
 	m_projects = m_savedProjects;
 	updateProjectList();
+}
+
+void ProjectsManager::processFinished(int _exitCode, QProcess::ExitStatus /*_status*/)
+{
+	RTM_ASSERT(m_process, "");
+	emit captureSetProcessID((uint64_t)_exitCode);
+	m_process->deleteLater();
+	m_process = 0;
 }

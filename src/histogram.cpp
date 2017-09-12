@@ -152,9 +152,9 @@ static QColor boostColor(const QColor& _color, bool _boost)
 {
 	static int boost = 60;
 	if (_boost)
-		return QColor(	std::min(_color.red() + boost, 255),
-						std::min(_color.green() + boost, 255),
-						std::min(_color.blue() + boost, 255),
+		return QColor(	min(_color.red() + boost, 255),
+						min(_color.green() + boost, 255),
+						min(_color.blue() + boost, 255),
 						_color.alpha());
 	return _color;
 }
