@@ -1461,12 +1461,12 @@ void Capture::calculateGlobalStats()
 				const uint32_t binIdx = fillStats_Alloc(op, m_statsGlobal);
 
 				// update local peak struct
-				localPeak.m_memoryUsagePeak							= Max(localPeak.m_memoryUsagePeak, m_statsGlobal.m_memoryUsage);
-				localPeak.m_overheadPeak							= Max(localPeak.m_overheadPeak, m_statsGlobal.m_overhead);
-				localPeak.m_numberOfLiveBlocksPeak					= Max(localPeak.m_numberOfLiveBlocksPeak, m_statsGlobal.m_numberOfLiveBlocks);
-				localPeak.m_HistogramPeak[binIdx].m_sizePeak		= Max(localPeak.m_HistogramPeak[binIdx].m_sizePeak, m_statsGlobal.m_histogram[binIdx].m_size);
-				localPeak.m_HistogramPeak[binIdx].m_overheadPeak	= Max(localPeak.m_HistogramPeak[binIdx].m_overheadPeak, m_statsGlobal.m_histogram[binIdx].m_overhead);
-				localPeak.m_HistogramPeak[binIdx].m_countPeak		= Max(localPeak.m_HistogramPeak[binIdx].m_countPeak, m_statsGlobal.m_histogram[binIdx].m_count);
+				localPeak.m_memoryUsagePeak							= qMax(localPeak.m_memoryUsagePeak, m_statsGlobal.m_memoryUsage);
+				localPeak.m_overheadPeak							= qMax(localPeak.m_overheadPeak, m_statsGlobal.m_overhead);
+				localPeak.m_numberOfLiveBlocksPeak					= qMax(localPeak.m_numberOfLiveBlocksPeak, m_statsGlobal.m_numberOfLiveBlocks);
+				localPeak.m_HistogramPeak[binIdx].m_sizePeak		= qMax(localPeak.m_HistogramPeak[binIdx].m_sizePeak, m_statsGlobal.m_histogram[binIdx].m_size);
+				localPeak.m_HistogramPeak[binIdx].m_overheadPeak	= qMax(localPeak.m_HistogramPeak[binIdx].m_overheadPeak, m_statsGlobal.m_histogram[binIdx].m_overhead);
+				localPeak.m_HistogramPeak[binIdx].m_countPeak		= qMax(localPeak.m_HistogramPeak[binIdx].m_countPeak, m_statsGlobal.m_histogram[binIdx].m_count);
 			}
 			break;
 
@@ -1476,12 +1476,12 @@ void Capture::calculateGlobalStats()
 				const uint32_t binIdx = fillStats_ReAlloc(op, m_statsGlobal);
 
 				// update local peak struct
-				localPeak.m_memoryUsagePeak							= Max(localPeak.m_memoryUsagePeak, m_statsGlobal.m_memoryUsage);
-				localPeak.m_overheadPeak							= Max(localPeak.m_overheadPeak, m_statsGlobal.m_overhead);
-				localPeak.m_numberOfLiveBlocksPeak					= Max(localPeak.m_numberOfLiveBlocksPeak, m_statsGlobal.m_numberOfLiveBlocks);
-				localPeak.m_HistogramPeak[binIdx].m_sizePeak		= Max(localPeak.m_HistogramPeak[binIdx].m_sizePeak, m_statsGlobal.m_histogram[binIdx].m_size);
-				localPeak.m_HistogramPeak[binIdx].m_overheadPeak	= Max(localPeak.m_HistogramPeak[binIdx].m_overheadPeak, m_statsGlobal.m_histogram[binIdx].m_overhead);
-				localPeak.m_HistogramPeak[binIdx].m_countPeak		= Max(localPeak.m_HistogramPeak[binIdx].m_countPeak, m_statsGlobal.m_histogram[binIdx].m_count);
+				localPeak.m_memoryUsagePeak							= qMax(localPeak.m_memoryUsagePeak, m_statsGlobal.m_memoryUsage);
+				localPeak.m_overheadPeak							= qMax(localPeak.m_overheadPeak, m_statsGlobal.m_overhead);
+				localPeak.m_numberOfLiveBlocksPeak					= qMax(localPeak.m_numberOfLiveBlocksPeak, m_statsGlobal.m_numberOfLiveBlocks);
+				localPeak.m_HistogramPeak[binIdx].m_sizePeak		= qMax(localPeak.m_HistogramPeak[binIdx].m_sizePeak, m_statsGlobal.m_histogram[binIdx].m_size);
+				localPeak.m_HistogramPeak[binIdx].m_overheadPeak	= qMax(localPeak.m_HistogramPeak[binIdx].m_overheadPeak, m_statsGlobal.m_histogram[binIdx].m_overhead);
+				localPeak.m_HistogramPeak[binIdx].m_countPeak		= qMax(localPeak.m_HistogramPeak[binIdx].m_countPeak, m_statsGlobal.m_histogram[binIdx].m_count);
 			}
 			break;
 
@@ -1773,14 +1773,14 @@ void Capture::calculateSnapshotStats()
 		{
 			MemoryStatsLocalPeak& peakT = m_timedStats[t].m_localPeak;
 
-			localPeak.m_memoryUsagePeak	= Max(localPeak.m_memoryUsagePeak, peakT.m_memoryUsagePeak);
-			localPeak.m_overheadPeak	= Max(localPeak.m_overheadPeak, peakT.m_overheadPeak);
+			localPeak.m_memoryUsagePeak	= qMax(localPeak.m_memoryUsagePeak, peakT.m_memoryUsagePeak);
+			localPeak.m_overheadPeak	= qMax(localPeak.m_overheadPeak, peakT.m_overheadPeak);
 
 			for (uint32_t i=0; i<MemoryStats::NUM_HISTOGRAM_BINS; i++)
 			{
-				localPeak.m_HistogramPeak[i].m_sizePeak		= Max(localPeak.m_HistogramPeak[i].m_sizePeak, peakT.m_HistogramPeak[i].m_sizePeak);
-				localPeak.m_HistogramPeak[i].m_overheadPeak	= Max(localPeak.m_HistogramPeak[i].m_overheadPeak, peakT.m_HistogramPeak[i].m_overheadPeak);
-				localPeak.m_HistogramPeak[i].m_countPeak	= Max(localPeak.m_HistogramPeak[i].m_countPeak, peakT.m_HistogramPeak[i].m_countPeak);
+				localPeak.m_HistogramPeak[i].m_sizePeak		= qMax(localPeak.m_HistogramPeak[i].m_sizePeak, peakT.m_HistogramPeak[i].m_sizePeak);
+				localPeak.m_HistogramPeak[i].m_overheadPeak	= qMax(localPeak.m_HistogramPeak[i].m_overheadPeak, peakT.m_HistogramPeak[i].m_overheadPeak);
+				localPeak.m_HistogramPeak[i].m_countPeak	= qMax(localPeak.m_HistogramPeak[i].m_countPeak, peakT.m_HistogramPeak[i].m_countPeak);
 			}
 		}
 
@@ -1869,7 +1869,7 @@ void Capture::addToMemoryGroups(rtm_unordered_map<uint32_t, MemoryOperationGroup
 				group.m_operations.push_back(_op);
 				group.m_count++;
 				group.m_liveCount++;
-				group.m_liveCountPeak = Max(group.m_liveCountPeak, group.m_liveCount);
+				group.m_liveCountPeak = qMax(group.m_liveCountPeak, group.m_liveCount);
 			}
 			break;
 
@@ -1909,7 +1909,7 @@ void Capture::addToMemoryGroups(rtm_unordered_map<uint32_t, MemoryOperationGroup
 				group.m_operations.push_back(_op);
 				group.m_count++;
 				group.m_liveCount++;
-				group.m_liveCountPeak = Max(group.m_liveCountPeak, group.m_liveCount);
+				group.m_liveCountPeak = qMax(group.m_liveCountPeak, group.m_liveCount);
 			}
 			break;
 	};
@@ -1922,10 +1922,10 @@ static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, 
 	StackTraceTree* currNode = _root;
 	
 	currNode->m_memUsage		+= _size;
-	currNode->m_memUsagePeak	= Max(currNode->m_memUsage, currNode->m_memUsagePeak);
+	currNode->m_memUsagePeak	= qMax(currNode->m_memUsage, currNode->m_memUsagePeak);
 
 	currNode->m_overhead		+= _overhead;
-	currNode->m_overheadPeak	= Max(currNode->m_overhead, currNode->m_overheadPeak);
+	currNode->m_overheadPeak	= qMax(currNode->m_overhead, currNode->m_overheadPeak);
 
 	if (_opType != StackTraceTree::COUNT)
 		++currNode->m_opCount[_opType];
@@ -1985,10 +1985,10 @@ static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, 
 		}
 
 		currNode->m_memUsage		+= _size;
-		currNode->m_memUsagePeak	= Max(currNode->m_memUsage, currNode->m_memUsagePeak);
+		currNode->m_memUsagePeak	= qMax(currNode->m_memUsage, currNode->m_memUsagePeak);
 
 		currNode->m_overhead		+= _overhead;
-		currNode->m_overheadPeak	= Max(currNode->m_overhead, currNode->m_overheadPeak);
+		currNode->m_overheadPeak	= qMax(currNode->m_overhead, currNode->m_overheadPeak);
 
 		if (_opType != StackTraceTree::COUNT)
 			++currNode->m_opCount[_opType];

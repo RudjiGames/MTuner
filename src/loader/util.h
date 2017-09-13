@@ -49,25 +49,19 @@ static inline uint8_t	getHistogramBinIndex( uint32_t _size )
 	return (uint8_t)(uint32_imin( binIdx, MemoryStats::NUM_HISTOGRAM_BINS - 1 ) & 0xff);
 }
 
-template <typename T>
-static inline T Max( T in1, T in2 )
-{
-	return (in1 > in2) ? in1 : in2;
-}
-
 //--------------------------------------------------------------------------
 /// Fills memory statistics structure for alloc family of functions
 //--------------------------------------------------------------------------
 static inline uint32_t fillStats_Alloc(MemoryOperation* _op, MemoryStats& _stats)
 {
 	_stats.m_memoryUsage		+= _op->m_allocSize;
-	_stats.m_memoryUsagePeak	= Max(_stats.m_memoryUsage, _stats.m_memoryUsagePeak);
+	_stats.m_memoryUsagePeak	= qMax(_stats.m_memoryUsage, _stats.m_memoryUsagePeak);
 
 	_stats.m_overhead			+= _op->m_overhead;
-	_stats.m_overheadPeak		= Max(_stats.m_overhead, _stats.m_overheadPeak);
+	_stats.m_overheadPeak		= qMax(_stats.m_overhead, _stats.m_overheadPeak);
 
 	++_stats.m_numberOfLiveBlocks;
-	_stats.m_numberOfLiveBlocksPeak = Max(_stats.m_numberOfLiveBlocks, _stats.m_numberOfLiveBlocksPeak);
+	_stats.m_numberOfLiveBlocksPeak = qMax(_stats.m_numberOfLiveBlocks, _stats.m_numberOfLiveBlocksPeak);
 
 	++_stats.m_numberOfAllocations;
 
@@ -77,9 +71,9 @@ static inline uint32_t fillStats_Alloc(MemoryOperation* _op, MemoryStats& _stats
 	_stats.m_histogram[binIdx].m_size		+= _op->m_allocSize;
 	_stats.m_histogram[binIdx].m_overhead	+= _op->m_overhead;
 
-	_stats.m_histogram[binIdx].m_countPeak		= Max(_stats.m_histogram[binIdx].m_countPeak, _stats.m_histogram[binIdx].m_count);
-	_stats.m_histogram[binIdx].m_sizePeak		= Max(_stats.m_histogram[binIdx].m_sizePeak, _stats.m_histogram[binIdx].m_size);
-	_stats.m_histogram[binIdx].m_overheadPeak	= Max(_stats.m_histogram[binIdx].m_overheadPeak, _stats.m_histogram[binIdx].m_overhead);
+	_stats.m_histogram[binIdx].m_countPeak		= qMax(_stats.m_histogram[binIdx].m_countPeak, _stats.m_histogram[binIdx].m_count);
+	_stats.m_histogram[binIdx].m_sizePeak		= qMax(_stats.m_histogram[binIdx].m_sizePeak, _stats.m_histogram[binIdx].m_size);
+	_stats.m_histogram[binIdx].m_overheadPeak	= qMax(_stats.m_histogram[binIdx].m_overheadPeak, _stats.m_histogram[binIdx].m_overhead);
 
 	return binIdx;
 }
@@ -94,12 +88,12 @@ static inline uint32_t fillStats_ReAlloc(MemoryOperation* _op, MemoryStats& _sta
 	_stats.m_memoryUsage		+= _op->m_allocSize;
 	if (prevOp)
 		_stats.m_memoryUsage	-= prevOp->m_allocSize;
-	_stats.m_memoryUsagePeak	= Max(_stats.m_memoryUsage, _stats.m_memoryUsagePeak);
+	_stats.m_memoryUsagePeak	= qMax(_stats.m_memoryUsage, _stats.m_memoryUsagePeak);
 
 	_stats.m_overhead			+= _op->m_overhead;
 	if (prevOp)
 		_stats.m_overhead		-= prevOp->m_overhead;
-	_stats.m_overheadPeak		= Max(_stats.m_overhead, _stats.m_overheadPeak);
+	_stats.m_overheadPeak		= qMax(_stats.m_overhead, _stats.m_overheadPeak);
 
 	++_stats.m_numberOfReAllocations;
 
@@ -123,13 +117,13 @@ static inline uint32_t fillStats_ReAlloc(MemoryOperation* _op, MemoryStats& _sta
 		if (_op->m_pointer != 0)
 		{
 			++_stats.m_numberOfLiveBlocks;
-			_stats.m_numberOfLiveBlocksPeak = Max(_stats.m_numberOfLiveBlocks, _stats.m_numberOfLiveBlocksPeak);
+			_stats.m_numberOfLiveBlocksPeak = qMax(_stats.m_numberOfLiveBlocks, _stats.m_numberOfLiveBlocksPeak);
 		}
 	}
 	
-	_stats.m_histogram[binIdx].m_countPeak		= Max(_stats.m_histogram[binIdx].m_countPeak, _stats.m_histogram[binIdx].m_count);
-	_stats.m_histogram[binIdx].m_sizePeak		= Max(_stats.m_histogram[binIdx].m_sizePeak, _stats.m_histogram[binIdx].m_size);
-	_stats.m_histogram[binIdx].m_overheadPeak	= Max(_stats.m_histogram[binIdx].m_overheadPeak, _stats.m_histogram[binIdx].m_overhead);
+	_stats.m_histogram[binIdx].m_countPeak		= qMax(_stats.m_histogram[binIdx].m_countPeak, _stats.m_histogram[binIdx].m_count);
+	_stats.m_histogram[binIdx].m_sizePeak		= qMax(_stats.m_histogram[binIdx].m_sizePeak, _stats.m_histogram[binIdx].m_size);
+	_stats.m_histogram[binIdx].m_overheadPeak	= qMax(_stats.m_histogram[binIdx].m_overheadPeak, _stats.m_histogram[binIdx].m_overhead);
 
 	return binIdx;
 }
