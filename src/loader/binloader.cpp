@@ -49,7 +49,7 @@ bool BinLoader::eof()
 uint64_t BinLoader::tell()
 {
 	if (m_compressed)
-		return m_bytesRead;
+		return m_bytesRead + m_dataPos;
 
 #if RTM_PLATFORM_WINDOWS
 	uint64_t pos = (uint64_t)_ftelli64(m_file);
@@ -64,45 +64,40 @@ int BinLoader::read(void* _ptr, size_t _size)
 	if (!m_compressed)
 		return (int)fread(_ptr, _size, 1, m_file);
 
-	int32_t bytesLeft = m_dataAvailable - m_dataPos;
+	const int32_t bytesLeft = m_dataAvailable - m_dataPos;
 
-	if (bytesLeft <= (int32_t)_size)
+	if (bytesLeft > (int32_t)_size)
+	{
+		memcpy(_ptr, &m_data[m_dataPos], _size);
+		m_dataPos	+= (int32_t)_size;
+		return 1;
+	}
+	else
 	{
 		uint8_t* dst = (uint8_t*)_ptr;
 		if (bytesLeft)
 		{
 			memcpy(dst, &m_data[m_dataPos], bytesLeft);
 			m_dataPos	+= bytesLeft;
-			m_bytesRead	+= bytesLeft;
 		}
 
-		dst	+= bytesLeft;
+		dst += bytesLeft;
 
-		RTM_ASSERT(m_dataPos <= m_dataAvailable, "");
-
-		const int32_t rem = (int32_t)_size - bytesLeft;
+		const int32_t remaining = (int32_t)_size - bytesLeft;
 
 		if (m_dataPos == m_dataAvailable)
 		{
+			m_bytesRead += m_dataAvailable;
 			if (!loadChunk())
-				return (rem == 0) ? 1 : 0;
+				return (remaining == 0) ? 1 : 0;
 			m_dataPos = 0;
 		}
 
-		if (rem > 0)
+		if (remaining > 0)
 		{
-			memcpy(dst, &m_data[m_dataPos], rem);
-			m_dataPos	+= rem;
-			m_bytesRead	+= rem;
+			memcpy(dst, &m_data[m_dataPos], remaining);
+			m_dataPos	+= remaining;
 		}
-
-		return 1;
-	}
-	else
-	{
-		memcpy(_ptr, &m_data[m_dataPos], _size);
-		m_dataPos	+= (int32_t)_size;
-		m_bytesRead	+= (int32_t)_size;
 		return 1;
 	}
 }
