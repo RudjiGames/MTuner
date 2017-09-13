@@ -1653,17 +1653,17 @@ uint32_t Capture::getIndexBefore(uint64_t _time, uint32_t& _outTimedIndex) const
 	{
 		uint32_t idxMid = (startIdx + endIdx) / 2;
 
-		if (m_operations[idxMid]->m_operationTime >= _time)
-			endIdx = idxMid;
-		else
+		if (m_operations[idxMid]->m_operationTime < _time)
 			startIdx = idxMid;
+		else
+			endIdx = idxMid;
 
 		if (endIdx-startIdx == 1)
 		{
 			if (m_operations[startIdx]->m_operationTime >= _time)
 				return (startIdx == 0) ? startIdx : startIdx - 1;
 			else
-				return endIdx - 1;
+				return endIdx;
 		}
 	}
 
@@ -1702,15 +1702,15 @@ uint32_t Capture::getIndexAfter(uint64_t _time, uint32_t& _outTimedIndex) const
 	{
 		uint32_t idxMid = (startIdx + endIdx) / 2;
 
-		if (m_operations[idxMid]->m_operationTime >= _time)
-			endIdx = idxMid;
-		else
+		if (m_operations[idxMid]->m_operationTime < _time)
 			startIdx = idxMid;
-
+		else
+			endIdx = idxMid;
+		
 		if (endIdx-startIdx == 1)
 		{
-			if (m_operations[startIdx]->m_operationTime >= _time)
-				return startIdx + 1;
+			if (m_operations[startIdx]->m_operationTime > _time)
+				return startIdx;
 			else
 				return endIdx;
 		}
