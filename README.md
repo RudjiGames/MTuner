@@ -41,10 +41,7 @@ DIA (Debug Interface Access) SDK - **Windows only**
 Download
 ======
 
-Current version: 4.0.1
-
-[<img src="http://mtuner.net/zip.png" width=32 height=32> **zip**](http://mtuner.net/mtuner64.zip)  
-[<img src="http://mtuner.net/msi.png" width=32 height=32> **msi**](http://mtuner.net/mtuner64.msi)  
+MTuner binaries can be downloaded from [releases](https://github.com/milostosic/MTuner/releases) page  
 
 Build
 ======
@@ -78,10 +75,6 @@ Support development
 **MTuner** is free and will remain so but there's plenty more features and polish to do.  
 Consider donating to support the ongoing development and maintenance of **MTuner**
 
-Monthly donations:  
-[<img src="https://s3-us-west-1.amazonaws.com/patreon-reward-images/1537701.png" height=70>](https://www.patreon.com/MTuner)
-
-One time donations:  
 [<img src="https://www.paypalobjects.com/webstatic/mktg/merchant_portal/button/donate.en.png" width=228 height=44>](https://www.paypal.me/MTuner)
 
 For private support and similar requests, please contact the author - see below.
