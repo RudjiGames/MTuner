@@ -36,7 +36,8 @@ ProjectsManager::ProjectsManager(QWidget* _parent, Qt::WindowFlags _flags)
 
 	connect(this, SIGNAL(rejected()), this, SLOT(restore()));
 
-	m_process = 0;
+	m_process			= 0;
+	m_processRunning	= false;
 }
 
 void ProjectsManager::save()
@@ -174,6 +175,7 @@ void ProjectsManager::run(const QString& _executable, const QString& _cmd, const
 	m_process->setArguments(QStringList() << arguments);
 	connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
 	m_process->start();
+	m_processRunning = true;
 }
 
 void ProjectsManager::buttonRun()
@@ -309,6 +311,23 @@ void ProjectsManager::restore()
 void ProjectsManager::processFinished(int _exitCode, QProcess::ExitStatus /*_status*/)
 {
 	RTM_ASSERT(m_process, "");
+
+	bool tryAnotherArch = m_processRunning && (_exitCode == 0);
+	m_processRunning = false;
+
+	if (tryAnotherArch)
+	{
+		QProcess* proc = qobject_cast<QProcess*>(sender());
+		QString program = proc->program();
+		if (program.endsWith("64.exe"))
+			program.replace("64.exe", "32.exe");
+		else
+			program.replace("32.exe", "64.exe");
+		proc->setProgram(program);
+		proc->start();
+		return;
+	}
+
 	emit captureSetProcessID((uint64_t)_exitCode);
 	m_process->deleteLater();
 	m_process = 0;

@@ -44,6 +44,7 @@ public:
 	QPushButton*		m_buttonRun;
 	QFileSystemWatcher*	m_watcher;
 	QProcess*			m_process;
+	bool				m_processRunning;
 	QString				m_currentCaptureFile;
 
 public:
