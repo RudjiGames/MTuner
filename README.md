@@ -66,8 +66,7 @@ Solution will be located here: *{Clone root}/.build/windows/vs2015/projects/MTun
 Documentation
 ======
 
-Documentation is currently hosted on [MTuner website](http://mtuner.net).  
-Starting page of documentation is [here](http://mtuner.net/documentation.html)  
+MTuner documentation can be found [here](https://milostosic.github.io/MTuner/).  
 
 Support development
 ======
