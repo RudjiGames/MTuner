@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Supported compilers and platforms on MTuner Documentation</title>
+    <link>http://milostosic.github.com/MTuner/overview/compilers/</link>
+    <description>Recent content in Supported compilers and platforms on MTuner Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="http://milostosic.github.com/MTuner/overview/compilers/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+  </channel>
+</rss>
