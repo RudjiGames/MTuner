@@ -118,7 +118,6 @@ void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSet
 		}
 
 		tc = _gccSetup->getToolchainInfo(_context->m_capture->getToolchain(), _context->m_capture->is64bit());
-		//_context->setAddr2Line(name, addr2line, _context->m_capture->getToolchain());
 	}
 	else
 	{
@@ -127,8 +126,7 @@ void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSet
 		executable = _context->m_capture->getModuleInfos()[0].m_modulePath;
 	}
 
-	_context->setToolchain(tc);
-	// TODO free tc.string
+	_context->setToolchain(tc, executable);
 }
 
 MTuner::MTuner(QWidget* _parent, Qt::WindowFlags _flags) :

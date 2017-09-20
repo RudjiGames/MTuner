@@ -25,7 +25,7 @@ CaptureContext::~CaptureContext()
 	}
 }
 
-void CaptureContext::setToolchain(rdebug::Toolchain& _tc)
+void CaptureContext::setToolchain(rdebug::Toolchain& _tc, rtm_string& _executable)
 {
 	switch (_tc.m_type)
 	{
@@ -64,16 +64,11 @@ void CaptureContext::setToolchain(rdebug::Toolchain& _tc)
 			break;
 	};
 
-	m_symbolResolver = rdebug::symbolResolverCreate( m_capture->getModuleInfos().data(), (uint32_t)m_capture->getModuleInfos().size(), &_tc);
+	m_symbolResolver = rdebug::symbolResolverCreate(m_capture->getModuleInfos().data(), (uint32_t)m_capture->getModuleInfos().size(), &_tc, _executable.c_str());
 }
 
 void CaptureContext::resolveStackFrame(uint64_t _address, rdebug::StackFrame& _frame)
 {
-	strcpy(_frame.m_moduleName,	"Unknown");
-	strcpy(_frame.m_file,		"Unknown");
-	strcpy(_frame.m_func,		"Unknown");
-	_frame.m_line = 0;
-
 	if (m_symbolResolver)
 		rdebug::symbolResolverGetFrame(m_symbolResolver, _address, &_frame);
 }

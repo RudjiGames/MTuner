@@ -167,6 +167,14 @@ rdebug::Toolchain::Type getTCType(rmem::ToolChain::Enum _toolchain)
 	};
 }
 
+static void fixSlashes(QString& _path, QString& _slash)
+{
+	_path = _path.replace("/", _slash);
+	_path = _path.replace("//", _slash);
+	_path = _path.replace("\\", _slash);
+	_path = _path.replace("\\\\", _slash);
+}
+
 bool GCCSetup::resolveToolchain(Toolchain& _toolchain, bool _64bit, rdebug::Toolchain& _tc)
 {
 	QString append1 = "nm";
@@ -220,11 +228,18 @@ bool GCCSetup::resolveToolchain(Toolchain& _toolchain, bool _64bit, rdebug::Tool
 		const char *const envData = getenv(env.constData());
 		basePath = QString::fromUtf8(envData) + "/";
 #endif
-		basePath += tcPath + "/";
-		fullPath = basePath + prefix;
 
-		fullPath = fullPath.replace("//","/");
-		fullPath = fullPath.replace("\\","/");
+#if RTM_PLATFORM_WINDOWS
+		QString slash("\\");
+#else
+		QString slash("/");
+#endif
+
+		basePath += tcPath + "/";
+		fixSlashes(basePath, slash);
+
+		fullPath = basePath + prefix;
+		fixSlashes(fullPath, slash);
 
 		if ((QFileInfo(fullPath + append1).exists()) &&
 			(QFileInfo(fullPath + append2).exists()) &&

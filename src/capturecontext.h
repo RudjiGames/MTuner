@@ -24,7 +24,7 @@ struct CaptureContext
 	CaptureContext();
 	~CaptureContext();
 
-	void		setToolchain(rdebug::Toolchain& _tc);
+	void		setToolchain(rdebug::Toolchain& _tc, rtm_string& _executable);
 	rtm_string	getSymbolStoreDir() const { return m_symbolStoreDName; }
 	void		resolveStackFrame(uint64_t _address, rdebug::StackFrame& ioFrame);
 };
