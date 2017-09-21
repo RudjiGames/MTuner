@@ -57,9 +57,8 @@ void CaptureContext::setToolchain(rdebug::Toolchain& _tc, rtm_string& _executabl
 			}
 			break;
 		case rdebug::Toolchain::GCC:
-			break;
 		case rdebug::Toolchain::PS3SNC:
-			break;
+		case rdebug::Toolchain::PS4:
 		case rdebug::Toolchain::Unknown:
 			break;
 	};

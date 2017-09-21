@@ -163,6 +163,7 @@ rdebug::Toolchain::Type getTCType(rmem::ToolChain::Enum _toolchain)
 	{
 		case rmem::ToolChain::Win_MSVC: return rdebug::Toolchain::MSVC;
 		case rmem::ToolChain::PS3_snc:	return rdebug::Toolchain::PS3SNC;
+		case rmem::ToolChain::PS4_clang:return rdebug::Toolchain::PS4;
 		default:						return rdebug::Toolchain::GCC;
 	};
 }
