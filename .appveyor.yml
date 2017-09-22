@@ -27,4 +27,4 @@ install:
     - ..\build\tools\windows\genie --file=genie\genie.lua %TOOLSET%
 
 build:
-  project: ../.build/windows/$(TOOLSET)/projects/MTuner/MTuner.sln
+  project: ../.build/windows/$(TOOLSET)/MTuner/projects/MTuner.sln
