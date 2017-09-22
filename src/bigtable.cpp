@@ -306,6 +306,9 @@ void BigTable::rowSelected(QTableWidgetItem* _item)
 
 void BigTable::rowRightClick(QTableWidgetItem* _item, const QPoint& _pos)
 {
+	if (_item == NULL)
+		return;
+	
 	m_selectedRows = _item->row() + m_firstVisible;
 	void* item = NULL;
 	m_source->getItem(m_selectedRows,&item);
