@@ -71,7 +71,7 @@ static inline double getNormAspect(double _big, double _small, double _a, double
 	return x;
 }
 
-static inline bool sortMapItems(TreeMapNode& _in1, TreeMapNode& _in2)
+static inline bool sortMapItems(const TreeMapNode& _in1, const TreeMapNode& _in2)
 {
 	return _in1.m_size > _in2.m_size;
 }

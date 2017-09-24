@@ -1570,7 +1570,12 @@ void Capture::calculateFilteredData()
 	uint32_t minTimedIdx;
 	uint32_t maxTimedIdx;
 	const uint32_t minTimeOpIndex = getIndexBefore(m_filter.m_minTimeSnapshot,minTimedIdx);
-	const uint32_t maxTimeOpIndex = getIndexBefore(m_filter.m_maxTimeSnapshot,maxTimedIdx) + 1;
+	uint32_t maxTimeOpIndex = getIndexBefore(m_filter.m_maxTimeSnapshot,maxTimedIdx) + 1;
+
+	if (maxTimeOpIndex >= m_operations.size())
+	{
+		maxTimeOpIndex = (uint32_t) m_operations.size() - 1;
+	}
 	
 	m_filter.m_operations.clear();
 	m_filter.m_operations.reserve(maxTimeOpIndex - minTimeOpIndex);
