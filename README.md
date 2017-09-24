@@ -1,5 +1,6 @@
 ![MTuner logo](https://github.com/milostosic/MTuner/blob/master/img/logo.png)
 
+[![Build Status](https://travis-ci.org/milostosic/MTuner.svg?branch=master)](https://travis-ci.org/milostosic/MTuner)
 [![Build status](https://ci.appveyor.com/api/projects/status/fo9uy9h3bcka20kk?svg=true)](https://ci.appveyor.com/project/milostosic/MTuner)
 [![License](https://img.shields.io/badge/license-BSD--2%20clause-blue.svg)](https://github.com/milostosic/MTuner/blob/master/LICENSE)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/milostosic/MTuner.svg)](http://isitmaintained.com/project/milostosic/MTuner "Average time to resolve an issue")
