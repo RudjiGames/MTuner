@@ -648,11 +648,11 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					}
 
 					// fill the rest of mem op struct
-					op->m_stackTrace		= st;
-					op->m_chainPrev			= NULL;
-					op->m_chainNext			= NULL;
-					op->m_tag			= tag;
-					op->m_isValid			= 1;
+					op->m_stackTrace = st;
+					op->m_chainPrev  = NULL;
+					op->m_chainNext  = NULL;
+					op->m_tag        = tag;
+					op->m_isValid    = 1;
 
 					m_operations.push_back(op);
 
