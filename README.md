@@ -6,7 +6,7 @@
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/milostosic/MTuner.svg)](http://isitmaintained.com/project/milostosic/MTuner "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/milostosic/MTuner.svg)](http://isitmaintained.com/project/milostosic/MTuner "Percentage of issues still open")
 
-**MTuner** is a C/C++ memory profiler and memory leak finder for Windows, PS4, PS3, etc.
+**MTuner** is a C/C++ memory profiler and memory leak finder for Windows, PlayStation 4, PlayStation 3, etc.
 
 **MTuner** utilizes a novel approach to memory profiling and analysis, keeping entire time-based history of memory operations. This gives an unique insight in memory related behavior of your software by making queries over the entire data set.
 
