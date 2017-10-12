@@ -6,11 +6,11 @@
 #ifndef RTM_MTUNER_PCH_H
 #define RTM_MTUNER_PCH_H
 
-#define RBASE_NAMESPACE rtm
+#define RBASE_NAMESPACE mtuner
 #define RTM_DEFINE_STL_TYPES
 
 #include <rbase/inc/platform.h>
-#include <rbase/inc/strings.h>
+#include <rbase/inc/stringfn.h>
 #include <rbase/inc/winchar.h>
 #include <rbase/inc/libhandler.h>
 #include <rbase/inc/chunkallocator.h>

@@ -369,8 +369,9 @@ int handleCommandLine(int argc, char const* argv[])
 
 extern void getStoragePath(wchar_t _path[512]);
 
-namespace rtm {
+namespace mtuner {
 bool init(rtmLibInterface* _libInterface);
+void shutDown();
 }
 
 int main(int argc, const char* argv[])
@@ -392,7 +393,7 @@ int main(int argc, const char* argv[])
 
 	QApplication app(argc, (char**)argv);
 	rqt::init(&libInterface);
-	rtm::init(&libInterface);
+	mtuner::init(&libInterface);
 	rqt::appInit(&app, rqt::AppStyle::RTM);
 
 	app.setApplicationName("MTuner");
@@ -491,6 +492,7 @@ int main(int argc, const char* argv[])
 	}
 
 	rtm::mtunerLoaderShutDown();
+	mtuner::shutDown();
 	rqt::shutDown();
 	return ret;
 }

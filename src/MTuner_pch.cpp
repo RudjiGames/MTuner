@@ -5,12 +5,10 @@
 
 #include <MTuner_pch.h>
 
-#define RBASE_NAMESPACE rtm
 #define RTM_LIBHANDLER_DEFINE
-
 #include <rbase/inc/libhandler.h>
 
-namespace rtm {
+namespace mtuner {
 
 bool init(rtmLibInterface* _libInterface)
 {
@@ -23,4 +21,4 @@ void shutDown()
 {
 }
 
-} // namespace rtm 
+} // namespace mtuner
