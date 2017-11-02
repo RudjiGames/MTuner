@@ -69,6 +69,7 @@ bool handleInject(rtm::CommandLine& _cmdLine)
 	}
 	else
 		strcpy(workingDir, profileWorkDir);
+	rtm::pathRemoveRelative(workingDir);
 
 	char cmdArgs[512];
 	if (profileCmdArgs == NULL)
