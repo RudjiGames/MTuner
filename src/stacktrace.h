@@ -39,7 +39,7 @@ public:
 	void loadState(QSettings& _settings);
 
 public Q_SLOTS:
-	void selected(int _row, int _column);
+	void currentCellChanged(int _currentRow, int _currentColumn, int _previousRow, int _previousColumn);
 	void setStackTrace(rtm::StackTrace** _stackTrace, int);
 	void incClicked();
 	void decClicked();

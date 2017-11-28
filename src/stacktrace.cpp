@@ -20,7 +20,7 @@ StackTrace::StackTrace(QWidget* _parent, Qt::WindowFlags _flags) :
 
 	m_table = findChild<QTableWidget*>("tableWidget");
 	m_table->horizontalHeader()->setHighlightSections(false);
-	connect(m_table,SIGNAL(cellClicked(int,int)), this, SLOT(selected(int,int)));
+	connect(m_table, SIGNAL(currentCellChanged(int, int, int, int)), this, SLOT(currentCellChanged(int, int, int, int)));
 
 	m_buttonDec		= findChild<QToolButton*>("button_dec");
 	m_buttonInc		= findChild<QToolButton*>("button_inc");
@@ -51,12 +51,19 @@ void StackTrace::clear()
 	m_table->update();
 }
 
-void StackTrace::selected(int _row, int _col)
+void StackTrace::currentCellChanged(int _currentRow, int _currentColumn, int _previousRow, int _previousColumn)
 {
-	RTM_UNUSED(_col);
-	QString file = m_table->item(_row, 1)->text();
-	int		line = m_table->item(_row, 2)->text().toInt();
-	m_selectedFunc	= m_table->item(_row, 3)->text();
+	RTM_UNUSED_3(_currentColumn, _previousRow, _previousColumn);
+	QTableWidgetItem* item1 = m_table->item(_currentRow, 1);
+	QTableWidgetItem* item2 = m_table->item(_currentRow, 2);
+	QTableWidgetItem* item3 = m_table->item(_currentRow, 3);
+
+	if (!item1 || !item2 || !item3)
+		return;
+
+	QString file = item1->text();
+	int		line = item2->text().toInt();
+	m_selectedFunc	= item3->text();
 	emit openFile(file, line, 0);
 }
 
