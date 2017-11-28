@@ -142,7 +142,7 @@ void StackTrace::updateView()
 	if (selectedRow != rows)
 	{
 		m_table->selectRow(selectedRow);
-		selected(selectedRow, 0);
+		currentCellChanged(selectedRow, 0, 0, 0);
 		return;
 	}
 
