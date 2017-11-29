@@ -26,6 +26,8 @@ static const char* g_banner = "Copyright (c) 2017 by Milos Tosic. All rights res
 void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSetup* inGCCSetup, 
 							QFileDialog* _fileDialog, MTuner* _MTuner, const QString& _symSource);
 
+extern void getStoragePath(wchar_t _path[512]);
+
 void err(const char* _message)
 {
 	rtm::Console::error(_message);
@@ -206,6 +208,10 @@ int handleCommandLine(int argc, char const* argv[])
 	const char* profileExe = NULL;
 	if (cmdLine.getArg('p', profileExe))
 	{
+		wchar_t capturePath[512];
+		getStoragePath( capturePath );
+		wcscat(capturePath, L"\\MTuner\\");
+		rtm::Console::info("\nCapture location: %s\n", rtm::WideToMulti(capturePath));
 		handleInject(cmdLine);
 		return 0;
 	}
@@ -367,8 +373,6 @@ int handleCommandLine(int argc, char const* argv[])
 	rtm::mtunerLoaderShutDown();
 	return 0;
 }
-
-extern void getStoragePath(wchar_t _path[512]);
 
 namespace mtuner {
 bool init(rtmLibInterface* _libInterface);
