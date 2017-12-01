@@ -208,10 +208,12 @@ int handleCommandLine(int argc, char const* argv[])
 	const char* profileExe = NULL;
 	if (cmdLine.getArg('p', profileExe))
 	{
+#if RTM_PLATFORM_WINDOWS
 		wchar_t capturePath[512];
 		getStoragePath( capturePath );
 		wcscat(capturePath, L"\\MTuner\\");
 		rtm::Console::info("\nCapture location: %s\n", rtm::WideToMulti(capturePath));
+#endif
 		handleInject(cmdLine);
 		return 0;
 	}
