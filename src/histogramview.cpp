@@ -125,7 +125,7 @@ void HistogramView::mouseMoveEvent(QMouseEvent* _event)
 
 void HistogramView::mouseReleaseEvent(QMouseEvent* _event)
 {
-	if (_event->button() && Qt::LeftButton)
+	if (_event->button() & Qt::LeftButton)
 	{
 		if (m_context && m_context->m_capture)
 		{
