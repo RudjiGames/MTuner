@@ -53,7 +53,7 @@ After cloning the repository and dependencies, here are the steps to build MTune
 
 	$ cd MTuner/genie
 	$ genie --gcc=mingw-gcc gmake
-	$ cd ../../.build/windows/mingw-gcc/projects/MTuner
+	$ cd ../../.build/windows/mingw-gcc/MTuner/projects/
 	$ make
 MINGW environment variable must be set and point to the MinGW installation directory.  
 Tested with [TDM64 MinGW](http://tdm-gcc.tdragon.net/download) using [OpenMP package](http://sourceforge.net/projects/tdm-gcc/files/TDM-GCC%205%20series/5.1.0-tdm64-1/gcc-5.1.0-tdm64-1-openmp.zip/download)
