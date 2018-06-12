@@ -67,7 +67,16 @@ QString	SymbolStore::getSymbolStoreString() const
 		ret += ";";
 
 	ret += "srv*";
-	ret += m_localStore->text();
+	// http server need a local cache folder to store the symbol
+	if (m_localStore->text().isEmpty() &&
+		m_publicStore->text().contains(QRegExp("https?://")))
+	{
+		ret += QDir::toNativeSeparators(QDir::temp().absoluteFilePath("symbolcache"));
+	}
+	else
+	{
+		ret += m_localStore->text();
+	}
 	ret += "*";
 	ret += m_publicStore->text();
 
@@ -117,8 +126,8 @@ void SymbolStore::selectLocalStore()
 	QString dir = QFileDialog::getExistingDirectory(this, tr("select local symbol store directory"), 
 		"", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
-	if (dir.size() != 0)
-		m_localStore->setText(dir);
+	if (!dir.isEmpty())
+		m_localStore->setText(QDir::toNativeSeparators(dir));
 }
 
 void SymbolStore::defaultSymbolServer()
