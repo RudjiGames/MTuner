@@ -73,6 +73,7 @@ public Q_SLOTS:
 	void openFile();
 	void closeFile();
 	void openCaptureLocation();
+	QString getCaptureLocation();
 	void exit();
 	// Edit
 	void manageProjects();
