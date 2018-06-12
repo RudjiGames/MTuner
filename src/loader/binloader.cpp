@@ -50,7 +50,12 @@ uint64_t BinLoader::tell()
 {
 	if (m_compressed)
 		return m_bytesRead + m_dataPos;
+	else
+		return fileTell();
+}
 
+uint64_t BinLoader::fileTell()
+{
 #if RTM_PLATFORM_WINDOWS
 	uint64_t pos = (uint64_t)_ftelli64(m_file);
 #elif RTM_PLATFORM_LINUX
