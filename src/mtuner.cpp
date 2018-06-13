@@ -230,7 +230,11 @@ void MTuner::closeEvent(QCloseEvent*)
 void MTuner::openFile()
 {
 	m_fileDialog->setFileMode(QFileDialog::ExistingFile);
-	QString fileName = m_fileDialog->getOpenFileName(this,tr("select a capture file"),"","MTuner files (*.MTuner)");
+	QString fileName = m_fileDialog->getOpenFileName(
+		this,
+		tr("select a capture file"),
+		getCaptureLocation(),
+		"MTuner files (*.MTuner)");
 	openFileFromPath(fileName);
 }
 
@@ -293,10 +297,21 @@ void getStoragePath(wchar_t _path[512])
 
 void MTuner::openCaptureLocation()
 {
-	wchar_t capturePath[512];
-	getStoragePath( capturePath );
-	wcscat(capturePath, L"\\MTuner\\");
-	QDesktopServices::openUrl(QUrl::fromLocalFile(QString::fromWCharArray(capturePath)));
+	QDesktopServices::openUrl(QUrl::fromLocalFile(getCaptureLocation()));
+}
+
+
+QString MTuner::getCaptureLocation()
+{
+	static QString s_location;
+	if (s_location.isEmpty())
+	{
+		wchar_t capturePath[512];
+		getStoragePath(capturePath);
+		wcscat(capturePath, L"\\MTuner\\");
+		s_location = QString::fromWCharArray(capturePath);
+	}
+	return s_location;
 }
 
 void MTuner::exit()
@@ -670,7 +685,7 @@ void MTuner::readSettings()
 	// Symbol store
 	QString str;
 	str = settings.value("SymLocalStore").toString();
-	m_symbolStore->setLocalStore(str);
+	m_symbolStore->setLocalStore(QDir::toNativeSeparators(str));
 	str = settings.value("SymPublicStore").toString();
 	m_symbolStore->setPublicStore(str);
 	bool symReg = false;

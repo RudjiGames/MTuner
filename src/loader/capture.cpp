@@ -843,7 +843,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 	Capture::LoadResult loadResult = Capture::LoadSuccess;
 	if (loadSuccess == false)
 	{
-		uint64_t pos = loader.tell();
+		uint64_t pos = loader.fileTell();
 		if ((fileSize - pos < 1000) || (m_operations.size() > 0))
 		{
 			loadResult	= Capture::LoadPartial;

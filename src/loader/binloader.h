@@ -26,6 +26,7 @@ public:
 
 	bool eof();
 	uint64_t tell();
+	uint64_t fileTell();
 	int read(void* _ptr, size_t _size);
 
 	template <typename T>

@@ -407,6 +407,10 @@ int main(int argc, const char* argv[])
 	app.setApplicationVersion(MTunerVersion);
 
 #if RTM_PLATFORM_WINDOWS
+#if RTM_DEBUG
+	// Setup SYMSRV_DBGOUT to enable debug log of symsrv.dll
+	SetEnvironmentVariableW(L"SYMSRV_DBGOUT", L"1");
+#endif
 	// DIA registration hack!
 	QDir dir(QString::fromUtf8(argv[0]));
 	dir.makeAbsolute();
