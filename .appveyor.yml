@@ -1,12 +1,11 @@
 shallow_clone: true
 
 os:
-  - Visual Studio 2015
+  - Visual Studio 2017
 
 environment:
   matrix:
-    - TOOLSET: vs2015
-#  - TOOLSET: vs2017
+    - TOOLSET: vs2017
 
 configuration:
     - Debug
@@ -14,8 +13,8 @@ configuration:
     - Retail
 
 install:
-    - set QTDIR_VS2015_x64=C:\Qt\5.7\msvc2015_64
-    - set QTDIR_VS2015_x86=C:\Qt\5.7\msvc2015
+    - set QTDIR_VS2015_x64=C:\Qt\5.9.5\msvc2017_64
+    - set QTDIR_VS2015_x86=C:\Qt\5.9.5\msvc2017_64
     - set PATH=C:\projects\luaforwindows\files;%QTDIR_VS2015_x64%\bin;%PATH%
     - git clone --depth 1 https://github.com/milostosic/build   ..\build
     - git clone --depth 1 https://github.com/milostosic/rbase   ..\rbase
