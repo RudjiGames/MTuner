@@ -7,6 +7,9 @@ environment:
   matrix:
     - TOOLSET: vs2017
 
+platform:
+  - x64
+
 configuration:
     - Debug
     - Release
