@@ -47,6 +47,8 @@ MTuner binaries can be downloaded from [releases](https://github.com/milostosic/
 Build
 ======
 
+MTuner build system is based on [GENie](https://github.com/bkaradzic/GENie) and [build](https://github.com/milostosic/build) in order to dramatically simplify managing build configurations and dependencies.
+
 After cloning the repository and dependencies, here are the steps to build MTuner.
 
 **MinGW**
