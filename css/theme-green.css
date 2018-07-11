@@ -64,7 +64,7 @@ a:hover {
     -moz-transition: width 0.5s ease;
     -ms-transition: width 0.5s ease;
     transition: width 0.5s ease;
-    background-color: var(--MAIN-HOVER-color);
+    background-color: var(--MAIN-LINK-HOVER-color);
 }
 #sidebar {
 	background-color: var(--MENU-SECTIONS-BG-color);

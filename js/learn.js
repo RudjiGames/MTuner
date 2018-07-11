@@ -236,7 +236,7 @@ jQuery(document).ready(function() {
     });
 
     $('#top-bar a:not(:has(img)):not(.btn)').addClass('highlight');
-    $('#body-inner a:not(:has(img)):not(.btn)').addClass('highlight');
+    $('#body-inner a:not(:has(img)):not(.btn):not(a[rel="footnote"])').addClass('highlight');
 
     var touchsupport = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0)
     if (!touchsupport){ // browser doesn't support touch
