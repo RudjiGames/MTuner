@@ -38,7 +38,7 @@ before_script:
     - git clone --depth 1 https://github.com/milostosic/rqt    ../rqt
 
 script:
-    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install libc6-dev-i386 gcc-multilib g++-multilib; fi
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install libc6-dev-i386 gcc-5-multilib g++-5-multilib; fi
     - if [ "$TRAVIS_OS_NAME" == "linux" ]; then make linux CXX="g++-5" CC="gcc-5"; fi
 #    - if [ "$TRAVIS_OS_NAME" == "osx" ]; then make osx; fi
 
