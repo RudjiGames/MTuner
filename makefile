@@ -6,13 +6,18 @@
 GENIE=../build/tools/$(OS)/genie
 
 all:
-	$(GENIE) vs2012
-	$(GENIE) vs2013
 	$(GENIE) vs2015
 	$(GENIE) vs2017
-	$(GENIE) --gcc=mingw-clang gmake
+	$(GENIE) --gcc=android-arm gmake
+	$(GENIE) --gcc=android-mips gmake
+	$(GENIE) --gcc=android-x86 gmake
 	$(GENIE) --gcc=mingw-gcc gmake
 	$(GENIE) --gcc=linux-gcc gmake
+	$(GENIE) --gcc=osx gmake
+	$(GENIE) --gcc=ios-arm gmake
+	$(GENIE) --gcc=ios-simulator gmake
+	$(GENIE) --gcc=ios-simulator64 gmake
+	$(GENIE) xcode4 
 
 gmake-linux:
 	$(GENIE) --file=genie/genie.lua --gcc=linux-gcc gmake
@@ -50,17 +55,19 @@ mingw-clang-release64: gmake-mingw-clang
 	make -R -C ../.build/windows/mingw-clang/MTuner/projects config=release64
 mingw-clang: mingw-clang-debug64 mingw-clang-release64
 
-vs2012:
-	$(GENIE) --file=genie/genie.lua vs2012
-
-vs2013:
-	$(GENIE) --file=genie/genie.lua vs2013
-
 vs2015:
 	$(GENIE) --file=genie/genie.lua vs2015
 
 vs2017:
 	$(GENIE) --file=genie/genie.lua vs2017
+
+../.build/osx/gcc/MTuner/projects:
+	$(GENIE) --file=genie/genie.lua --gcc=osx gmake
+osx-debug64: ../.build/osx/gcc/MTuner/projects
+	make -C ../.build/osx/gcc/MTuner/projects config=debug64
+osx-release64: ../.build/osx/gcc/MTuner/projects
+	make -C ../.build/osx/gcc/MTuner/projects config=release64
+osx: osx-debug64 osx-release64
 
 clean:
 	@echo Cleaning...
