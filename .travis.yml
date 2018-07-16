@@ -13,8 +13,8 @@ addons:
     - ubuntu-toolchain-r-test
     - sourceline: 'ppa:beineri/opt-qt591-trusty'
     packages:
-    - gcc-4.8
-    - g++-4.8
+    - gcc-5
+    - g++-5
     - clang
     - qt59tools
     - qt59base
@@ -39,7 +39,7 @@ before_script:
 
 script:
     - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install libc6-dev-i386 gcc-multilib g++-multilib; fi
-    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then make linux CXX="g++-4.8" CC="gcc-4.8"; fi
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then make linux CXX="g++-5" CC="gcc-5"; fi
 #    - if [ "$TRAVIS_OS_NAME" == "osx" ]; then make test; fi
 
 branches:
@@ -49,5 +49,5 @@ branches:
 notifications:
   email: false
 
-#osx_image: xcode7.3
+#osx_image: xcode9.3
 
