@@ -13,10 +13,15 @@ function projectExtraConfig_MTuner()
 			"-fopenmp",	
  		}
 
-	configuration { "osx" }
+	configuration {}
+end
+
+function projectExtraConfigExecutable_MTuner()
+	if getTargetOS() == "linux" or getTargetOS() == "osx" then
 		links {	
 			"gomp", 	
 		}
+	end
 
 	configuration {}
 end
