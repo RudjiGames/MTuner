@@ -36,6 +36,8 @@ before_script:
     - git clone --depth 1 https://github.com/milostosic/rdebug ../rdebug
     - git clone --depth 1 https://github.com/milostosic/rmem   ../rmem
     - git clone --depth 1 https://github.com/milostosic/rqt    ../rqt
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then chmod 764  ../build/tools/bin/linux/genie; fi
+    - if [ "$TRAVIS_OS_NAME" == "osx" ];   then chmod 764  ../build/tools/bin/darwin/genie; fi
 
 script:
     - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install libc6-dev-i386 gcc-5-multilib g++-5-multilib; fi

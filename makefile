@@ -3,7 +3,7 @@
 # License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
 #
 
-GENIE=../build/tools/$(OS)/genie
+GENIE=../build/tools/bin/$(OS)/genie
 
 all:
 	$(GENIE) vs2015
