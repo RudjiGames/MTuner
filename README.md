@@ -89,7 +89,7 @@ Author
 ======
 
 The author of **MTuner** is Milos Tosic  
-[ <img src="https://github.com/milostosic/build/blob/master/img/twitter.png">](https://twitter.com/milostosic)[ <img src="https://github.com/milostosic/build/blob/master/img/linkedin.png">](https://www.linkedin.com/in/milostosic/)[ <img src="https://github.com/milostosic/build/blob/master/img/mail.png">](mailto:milostosic77@gmail.com)  
+[ <img src="https://github.com/milostosic/build/raw/gh-pages/images/twitter.png">](https://twitter.com/milostosic)[ <img src="https://github.com/milostosic/build/raw/gh-pages/images/linkedin.png">](https://www.linkedin.com/in/milostosic/)[ <img src="https://github.com/milostosic/build/raw/gh-pages/images/mail.png">](mailto:milostosic77@gmail.com)  
 
 License (BSD 2-clause)
 ======
