@@ -3,8 +3,6 @@
 [![Build Status](https://travis-ci.org/milostosic/MTuner.svg?branch=master)](https://travis-ci.org/milostosic/MTuner)
 [![Build status](https://ci.appveyor.com/api/projects/status/fo9uy9h3bcka20kk?svg=true)](https://ci.appveyor.com/project/milostosic/MTuner)
 [![License](https://img.shields.io/badge/license-BSD--2%20clause-blue.svg)](https://github.com/milostosic/MTuner/blob/master/LICENSE)
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/milostosic/MTuner.svg)](http://isitmaintained.com/project/milostosic/MTuner "Average time to resolve an issue")
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/milostosic/MTuner.svg)](http://isitmaintained.com/project/milostosic/MTuner "Percentage of issues still open")
 
 **MTuner** is a C/C++ memory profiler and memory leak finder for Windows, PlayStation 4, PlayStation 3, etc.
 
