@@ -38,11 +38,6 @@ QString getDirFromFile(const QString& _file)
 	return workdir;
 }
 
-char* stringDup(const QByteArray& _string)
-{
-	return rtm::strdup(_string.constData());
-}
-
 void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSetup* _gccSetup,
 						  QFileDialog* _fileDialog, MTuner* _mtuner, const QString& _symSource)
 {
