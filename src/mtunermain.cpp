@@ -45,7 +45,7 @@ bool handleInject(rtm::CommandLine& _cmdLine)
 
 	char profileExe[1024];
 	strcpy(profileExe, profileExeConst);
-	rtm::pathRemoveRelative(profileExe);
+	rtm::pathMakeAbsolute(profileExe);
 
 	_cmdLine.getArg('w', profileWorkDir);
 	_cmdLine.getArg('c', profileCmdArgs);
@@ -53,7 +53,7 @@ bool handleInject(rtm::CommandLine& _cmdLine)
 	const char* MTunerDirConst = _cmdLine.getArg(0);
 	char MTunerDir[1024];
 	strcpy(MTunerDir, MTunerDirConst);
-	rtm::pathRemoveRelative(MTunerDir);
+	rtm::pathMakeAbsolute(MTunerDir);
 	
 	char* exePos = strstr(MTunerDir, "MTuner.exe");
 	if (!exePos)
@@ -71,7 +71,7 @@ bool handleInject(rtm::CommandLine& _cmdLine)
 	}
 	else
 		strcpy(workingDir, profileWorkDir);
-	rtm::pathRemoveRelative(workingDir);
+	rtm::pathMakeAbsolute(workingDir);
 
 	char cmdArgs[512];
 	if (profileCmdArgs == NULL)
