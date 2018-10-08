@@ -1065,7 +1065,7 @@ bool Capture::loadSymbolInfo(BinLoader& _loader, uint64_t _fileSize)
 		bytesRead += sizeof(uint64_t) * _loader.readVar(modSize);
 
 		QByteArray executablePath = QString::fromUtf16((const ushort*)exePath).toUtf8();
-		rtm::pathMakeAbsolute(executablePath.data());
+		rtm::pathCanonicalize(executablePath.data());
 
 		if (m_swapEndian)
 		{
