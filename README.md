@@ -17,6 +17,16 @@ You can get the latest source code by cloning it from github:
 
       git clone https://github.com/milostosic/MTuner.git 
 
+Download
+======
+
+Binaries can be downloaded from [releases](https://github.com/milostosic/MTuner/releases) page  
+
+Documentation
+======
+
+MTuner documentation can be found [here](https://milostosic.github.io/MTuner/).  
+
 Dependencies
 ======
 
@@ -36,11 +46,6 @@ Dependencies can be obtained by cloning the following repositories:
 DIA (Debug Interface Access) SDK - **Windows only**
 
 	git clone https://github.com/milostosic/DIA.git 
-
-Download
-======
-
-MTuner binaries can be downloaded from [releases](https://github.com/milostosic/MTuner/releases) page  
 
 Build
 ======
@@ -77,11 +82,6 @@ Environment variables are used to locate Qt installation, example:
 Note that Qt deprecated 32bit builds, hence both variables point to same location.
 
 Latest release made with: Visual Studio 2017 Community edition, Qt 5.10 and Lua 5.1.4
-
-Documentation
-======
-
-MTuner documentation can be found [here](https://milostosic.github.io/MTuner/).  
 
 Author
 ======
