@@ -26,6 +26,7 @@
 #if RTM_PLATFORM_WINDOWS
 #define WIN32_LEAN_AND_MEAN
 #include <Shlobj.h>
+#include <versionhelpers.h>
 #endif
 
 QString getDirFromFile(const QString& _file)
@@ -238,23 +239,11 @@ void MTuner::closeFile()
 	m_centralWidget->removeCurrentTab();
 }
 
-#if RTM_PLATFORM_WINDOWS
-bool windowsVersionGreaterOrEqual(DWORD majorVersion)
-{
-    OSVERSIONINFOEX osVersionInfo;
-    ::ZeroMemory(&osVersionInfo, sizeof(OSVERSIONINFOEX));
-    osVersionInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
-    osVersionInfo.dwMajorVersion = majorVersion;
-    ULONGLONG maskCondition = ::VerSetConditionMask(0, VER_MAJORVERSION, VER_GREATER_EQUAL);
-    return ::VerifyVersionInfo(&osVersionInfo, VER_MAJORVERSION, maskCondition) ? true : false;
-}
-#endif
-
 void getStoragePath(wchar_t _path[512])
 {
 #if RTM_PLATFORM_WINDOWS
 
-	bool vistaOrHigher = windowsVersionGreaterOrEqual(6);
+	bool vistaOrHigher = IsWindowsVistaOrGreater();
 	bool pathRetrieved = false;
 
 	if (vistaOrHigher)
