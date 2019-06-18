@@ -18,7 +18,7 @@ configuration:
 install:
     - set QTDIR_VS2017_x64=C:\Qt\5.9.5\msvc2017_64
     - set QTDIR_VS2017_x86=C:\Qt\5.9.5\msvc2017_64
-    - set PATH=C:\projects\luaforwindows\files;%QTDIR_VS2015_x64%\bin;%PATH%
+    - set PATH=C:\projects\luaforwindows\files;%QTDIR_VS2017_x64%\bin;%PATH%
     - git clone --depth 1 https://github.com/milostosic/build   ..\build
     - git clone --depth 1 https://github.com/milostosic/rbase   ..\rbase
     - git clone --depth 1 https://github.com/milostosic/rdebug  ..\rdebug
