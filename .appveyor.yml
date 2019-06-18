@@ -8,7 +8,8 @@ environment:
     - TOOLSET: vs2017
 
 platform:
-  - x64
+    - x64
+    - x86
 
 configuration:
     - Debug
@@ -16,8 +17,8 @@ configuration:
     - Retail
 
 install:
-    - set QTDIR_VS2017_x64=C:\Qt\5.9.7\msvc2017_64
-    - set QTDIR_VS2017_x86=C:\Qt\5.9.7\msvc2017_64
+    - set QTDIR_VS2017_x64=C:\Qt\5.12.2\msvc2017_64
+    - set QTDIR_VS2017_x86=C:\Qt\5.12.2\msvc2017
     - set PATH=C:\projects\luaforwindows\files;%QTDIR_VS2017_x64%\bin;%PATH%
     - git clone --depth 1 https://github.com/milostosic/build   ..\build
     - git clone --depth 1 https://github.com/milostosic/rbase   ..\rbase
