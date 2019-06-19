@@ -139,7 +139,7 @@ int handleCommandLine(int argc, char const* argv[])
 			"   -c [ARGS]   Command line arguments for the instrumented executable\n"
 			"   -i [FILE]   Specify input (.MTuner) file\n"
 			"   -o [FILE]   Specify output file with profile results\n"
-			"   -l          Outputs only live allocations\n"
+			"   -l          Outputs only live allocations (leaks)\n"
 			"   -tag [TAG]  Filter operations by tag\n"
 			"   -h [SIZE]   Filter operations by size, operations are filtered by being\n"
 			"               between the next and previous power of two nearest to given\n"
@@ -297,6 +297,9 @@ int handleCommandLine(int argc, char const* argv[])
 		enableFiltering = true;
 	}
 
+	bool leakedOnly = cmdLine.hasArg("l");
+	enableFiltering = enableFiltering || leakedOnly;
+
 	bool doXML = cmdLine.hasArg("xml");
 	
 	rtm::mtunerLoaderInit(false);
@@ -314,6 +317,8 @@ int handleCommandLine(int argc, char const* argv[])
 			if (enableFiltering)
 			{
 				rtm::Console::debug("Filtering enabled\n");
+
+				context.m_capture->setLeakedOnly(leakedOnly);
 
 				if (binIndex != 0xffffffff)
 					context.m_capture->selectHistogramBin(binIndex);

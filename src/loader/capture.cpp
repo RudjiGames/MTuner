@@ -147,6 +147,14 @@ static inline void addHeap(HeapsType& _heaps, uint64_t _heap)
 		_heaps[_heap] = "";
 }
 
+static inline bool isLeaked(MemoryOperation* _op)
+{
+	bool isFreed = _op->m_operationType == rmem::LogMarkers::OpFree;
+	isFreed = isFreed || ((_op->m_operationType == rmem::LogMarkers::OpRealloc) && (_op->m_allocSize == 0));
+	isFreed = isFreed || ((_op->m_operationType == rmem::LogMarkers::OpReallocAligned) && (_op->m_allocSize == 0));
+	return !isFreed;
+}
+
 //--------------------------------------------------------------------------
 /// Capture constructor
 //--------------------------------------------------------------------------
@@ -174,9 +182,9 @@ Capture::~Capture()
 //--------------------------------------------------------------------------
 void Capture::clearData()
 {
-	m_filteringEnabled = false;
-	m_swapEndian	= false;
-	m_64bit			= false;
+	m_filteringEnabled	= false;
+	m_swapEndian		= false;
+	m_64bit				= false;
 
 	m_loadedFile.clear();
 	m_operationPool.Reset();
@@ -209,6 +217,7 @@ void Capture::clearData()
 	m_filter.m_histogramIndex	= 0xffffffff;
 	m_filter.m_tagHash			= 0;
 	m_filter.m_threadID			= 0;
+	m_filter.m_leakedOnly		= false;
 
 	m_usageGraph.clear();
 
@@ -931,6 +940,9 @@ bool Capture::isInFilter(MemoryOperation* _op)
 	if (_op->m_operationTime > m_filter.m_maxTimeSnapshot)
 		return false;
 
+	if (m_filter.m_leakedOnly && !isLeaked(_op))
+		return false;
+
 	return true;
 }
 
@@ -1004,6 +1016,14 @@ void Capture::deselectThread()
 		m_filter.m_threadID = 0;
 		calculateSnapshotStats();
 	}
+}
+
+//--------------------------------------------------------------------------
+/// Sets leaked ops condition
+//--------------------------------------------------------------------------
+void Capture::setLeakedOnly(bool _leaked)
+{
+	m_filter.m_leakedOnly = _leaked;
 }
 
 //--------------------------------------------------------------------------
@@ -1179,11 +1199,7 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 		}
 		else
 		{
-			bool isFreed = op->m_operationType == rmem::LogMarkers::OpFree;
-			isFreed = isFreed || ((op->m_operationType == rmem::LogMarkers::OpRealloc) && (op->m_allocSize == 0));
-			isFreed = isFreed || ((op->m_operationType == rmem::LogMarkers::OpReallocAligned) && (op->m_allocSize == 0));
-
-			if (!isFreed)
+			if (isLeaked(op))
 				m_memoryLeaks.push_back(op);
 		}
 

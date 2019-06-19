@@ -44,6 +44,7 @@ struct FilterDescription
 	rtm_vector<MemoryOperation*>	m_operations;
 	MemoryGroupsHashType			m_operationGroups;
 	StackTraceTree					m_stackTraceTree;
+	bool							m_leakedOnly;
 };
 
 //--------------------------------------------------------------------------
@@ -124,6 +125,7 @@ class Capture
 		void			deselectTag();
 		void			selectThread(uint64_t _threadID);
 		void			deselectThread();
+		void			setLeakedOnly(bool _leaked);
 		void			setSnapshot(uint64_t _minTime, uint64_t _maxTime);
 		uint64_t		getSnapshotTimeMin() const { return m_filter.m_minTimeSnapshot; }
 		uint64_t		getSnapshotTimeMax() const { return m_filter.m_maxTimeSnapshot; }
