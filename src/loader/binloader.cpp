@@ -7,8 +7,10 @@
 #include <MTuner/src/loader/binloader.h>
 #include <rmem/src/rmem_hook.h>
 #include <rbase/inc/endianswap.h>
-#include <rmem/3rd/lz4-r173/lz4.h>
-#include <rmem/3rd/lz4-r173/lz4.c>
+
+#define LZ4_DISABLE_DEPRECATE_WARNINGS
+#include <rmem/3rd/lz4-r191/lz4.h>
+#include <rmem/3rd/lz4-r191/lz4.c>
 
 #if RTM_COMPILER_MSVC
 #pragma intrinsic (memcpy)

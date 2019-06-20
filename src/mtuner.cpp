@@ -105,6 +105,8 @@ void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSet
 				{
 					_gccSetup->exec();
 				}
+				else
+					QMessageBox::information(0, QObject::tr("Toolchain is not configured"), QObject::tr("No debug symbols can be resolved!"));
 			}
 			else
 			{
