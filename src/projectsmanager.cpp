@@ -141,7 +141,7 @@ extern void getStoragePath(wchar_t _path[512]);
 
 void ProjectsManager::run(const QString& _executable, const QString& _cmd, const QString& _workingDir)
 {
-	QString currpath = QDir(QCoreApplication::applicationDirPath()).absolutePath();
+	QString currpath = QDir::currentPath();
 
 	QString watchDir;
 	if (_workingDir.length() == 0)
@@ -169,6 +169,7 @@ void ProjectsManager::run(const QString& _executable, const QString& _cmd, const
 	else
 		exePath = currpath + "/MTunerInject32.exe";
 
+	qWarning() << exePath;
 	m_process = new QProcess(this);
 	m_process->setProgram(exePath);
 	m_process->setWorkingDirectory(_workingDir);
