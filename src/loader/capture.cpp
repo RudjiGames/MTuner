@@ -846,8 +846,6 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 				loadSuccess = false;
 				break;
 		};
-
-		if (m_operations.size() > 1000000) break;
 	}
 
 	// tolerate invalid data at the end of file
