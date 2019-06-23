@@ -63,23 +63,25 @@ QString	SymbolStore::getSymbolStoreString() const
 #endif
 	}
 
-	if (ret.length() != 0)
-		ret += ";";
-
-	ret += "srv*";
 	// http server need a local cache folder to store the symbol
-	if (m_localStore->text().isEmpty() &&
-		m_publicStore->text().contains(QRegExp("https?://")))
+	if (m_publicStore->text().contains(QRegExp("https?://")))
 	{
-		ret += QDir::toNativeSeparators(QDir::temp().absoluteFilePath("symbolcache"));
-	}
-	else
-	{
-		ret += m_localStore->text();
-	}
-	ret += "*";
-	ret += m_publicStore->text();
+		if (ret.length())
+			ret += ";";
 
+		ret += "SRV*";
+		if (!m_localStore->text().isEmpty())
+		{
+			ret += m_localStore->text();
+		}
+		else
+			ret += QDir::toNativeSeparators(QDir::temp().absoluteFilePath("symbolcache"));
+
+		ret += "*";
+		ret += m_publicStore->text();
+	}
+
+	qWarning() << ret;
 	return ret;
 }
 
