@@ -195,9 +195,9 @@ bool GCCSetup::resolveToolchain(Toolchain& _toolchain, bool _64bit, rdebug::Tool
 	append3 += ".exe";
 #endif
 
-	QString envVar = _64bit ? _toolchain.m_Environment64 : _toolchain.m_Environment32;
-	QString tcPath = _64bit ? _toolchain.m_ToolchainPath64 : _toolchain.m_ToolchainPath32;
-	QString prefix = _64bit ? _toolchain.m_ToolchainPrefix64 : _toolchain.m_ToolchainPrefix32;
+	QString envVar = _64bit ? _toolchain.m_Environment64		: _toolchain.m_Environment32;
+	QString tcPath = _64bit ? _toolchain.m_ToolchainPath64		: _toolchain.m_ToolchainPath32;
+	QString prefix = _64bit ? _toolchain.m_ToolchainPrefix64	: _toolchain.m_ToolchainPrefix32;
 
 	// try to match absolute path + prefix + postfix
 	QString basePath = tcPath + "/";
@@ -261,38 +261,71 @@ bool GCCSetup::resolveToolchain(Toolchain& _toolchain, bool _64bit, rdebug::Tool
 void GCCSetup::setupDefaultTC(QVector<Toolchain>& _toolchains)
 {
 	Toolchain minGW;
-	minGW.m_name				= "MinGW";
-	minGW.m_Environment32		= "MINGW";
-	minGW.m_ToolchainPath32		= "";
-	minGW.m_ToolchainPrefix32	= "";
-	minGW.m_Environment64		= "MINGW64";
-	minGW.m_ToolchainPath64		= "";
-	minGW.m_ToolchainPrefix64	= "";
-	minGW.m_toolchain			= rmem::ToolChain::Win_gcc;
+	minGW.m_name					= "MinGW";
+	minGW.m_Environment32			= "MINGW";
+	minGW.m_ToolchainPath32			= "";
+	minGW.m_ToolchainPrefix32		= "";
+	minGW.m_Environment64			= "MINGW64";
+	minGW.m_ToolchainPath64			= "";
+	minGW.m_ToolchainPrefix64		= "";
+	minGW.m_toolchain				= rmem::ToolChain::Win_gcc;
 
 	Toolchain ps3gcc;
-	ps3gcc.m_name				= "PlayStation 3";
-	ps3gcc.m_Environment32		= "SCE_PS3_ROOT";
-	ps3gcc.m_ToolchainPath32	= "/host-win32/sn/bin/";
-	ps3gcc.m_ToolchainPrefix32	= "";
-	ps3gcc.m_Environment64		= "SCE_PS3_ROOT";
-	ps3gcc.m_ToolchainPath64	= "/host-win32/ppu/bin/";
-	ps3gcc.m_ToolchainPrefix64	= "ppu-lv2-";
-	ps3gcc.m_toolchain			= rmem::ToolChain::PS3_gcc;
+	ps3gcc.m_name					= "PlayStation 3";
+	ps3gcc.m_Environment32			= "SCE_PS3_ROOT";
+	ps3gcc.m_ToolchainPath32		= "/host-win32/sn/bin/";
+	ps3gcc.m_ToolchainPrefix32		= "";
+	ps3gcc.m_Environment64			= "SCE_PS3_ROOT";
+	ps3gcc.m_ToolchainPath64		= "/host-win32/ppu/bin/";
+	ps3gcc.m_ToolchainPrefix64		= "ppu-lv2-";
+	ps3gcc.m_toolchain				= rmem::ToolChain::PS3_gcc;
 
 	Toolchain ps4clang;
-	ps4clang.m_name				= "PlayStation 4";
-	ps4clang.m_Environment32	= "SCE_ORBIS_SDK_DIR";
-	ps4clang.m_ToolchainPath32	= "/host_tools/bin/";
-	ps4clang.m_ToolchainPrefix32= "";
-	ps4clang.m_Environment64	= "SCE_ORBIS_SDK_DIR";
-	ps4clang.m_ToolchainPath64	= "/host_tools/bin/";
-	ps4clang.m_ToolchainPrefix64= "orbis-";
-	ps4clang.m_toolchain		= rmem::ToolChain::PS4_clang;
+	ps4clang.m_name					= "PlayStation 4";
+	ps4clang.m_Environment32		= "SCE_ORBIS_SDK_DIR";
+	ps4clang.m_ToolchainPath32		= "/host_tools/bin/";
+	ps4clang.m_ToolchainPrefix32	= "";
+	ps4clang.m_Environment64		= "SCE_ORBIS_SDK_DIR";
+	ps4clang.m_ToolchainPath64		= "/host_tools/bin/";
+	ps4clang.m_ToolchainPrefix64	= "orbis-";
+	ps4clang.m_toolchain			= rmem::ToolChain::PS4_clang;
+
+	Toolchain androidARM;
+	androidARM.m_name				= "Android ARM";
+	androidARM.m_Environment32		= "";
+	androidARM.m_ToolchainPath32	= "";
+	androidARM.m_ToolchainPrefix32	= "";
+	androidARM.m_Environment64		= "ANDROID_NDK_ROOT";
+	androidARM.m_ToolchainPath64	= "/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64/bin/";
+	androidARM.m_ToolchainPrefix64	= "arm-linux-androideabi-";
+	androidARM.m_toolchain			= rmem::ToolChain::Android_arm;
+
+	Toolchain androidMIPS;
+	androidMIPS.m_name				= "Android MIPS";
+	androidMIPS.m_Environment32		= "";
+	androidMIPS.m_ToolchainPath32	= "";
+	androidMIPS.m_ToolchainPrefix32	= "";
+	androidMIPS.m_Environment64		= "ANDROID_NDK_ROOT";
+	androidMIPS.m_ToolchainPath64	= "/toolchains/mips64el-linux-android-4.9/prebuilt/windows-x86_64/bin/";
+	androidMIPS.m_ToolchainPrefix64	= "mips64el-linux-android-";
+	androidMIPS.m_toolchain			= rmem::ToolChain::Android_mips;
+
+	Toolchain androidX86;
+	androidX86.m_name				= "Android x86";
+	androidX86.m_Environment32		= "";
+	androidX86.m_ToolchainPath32	= "";
+	androidX86.m_ToolchainPrefix32	= "";
+	androidX86.m_Environment64		= "ANDROID_NDK_ROOT";
+	androidX86.m_ToolchainPath64	= "/toolchains/aarch64-linux-android-4.9/prebuilt/windows-x86_64/bin/";
+	androidX86.m_ToolchainPrefix64	= "aarch64-linux-android-";
+	androidX86.m_toolchain			= rmem::ToolChain::Android_x86;
 
 	_toolchains.append(minGW);
 	_toolchains.append(ps3gcc);
 	_toolchains.append(ps4clang);
+	_toolchains.append(androidARM);
+	_toolchains.append(androidMIPS);
+	_toolchains.append(androidX86);
 
 	for (int i=0; i<9; ++i)
 	{

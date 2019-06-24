@@ -40,9 +40,6 @@
              <pointsize>9</pointsize>
             </font>
            </property>
-           <property name="maxVisibleItems">
-            <number>18</number>
-           </property>
            <property name="sizeAdjustPolicy">
             <enum>QComboBox::AdjustToContents</enum>
            </property>
@@ -77,6 +74,33 @@
             <property name="icon">
              <iconset resource="mtuner.qrc">
               <normaloff>:/MTuner/resources/images/toolchain_ps4.png</normaloff>:/MTuner/resources/images/toolchain_ps4.png</iconset>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true"/>
+            </property>
+            <property name="icon">
+             <iconset resource="mtuner.qrc">
+              <normaloff>:/MTuner/resources/images/toolchain_android_arm.png</normaloff>:/MTuner/resources/images/toolchain_android_arm.png</iconset>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true"/>
+            </property>
+            <property name="icon">
+             <iconset resource="mtuner.qrc">
+              <normaloff>:/MTuner/resources/images/toolchain_android_mips.png</normaloff>:/MTuner/resources/images/toolchain_android_mips.png</iconset>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true"/>
+            </property>
+            <property name="icon">
+             <iconset resource="mtuner.qrc">
+              <normaloff>:/MTuner/resources/images/toolchain_android_x86.png</normaloff>:/MTuner/resources/images/toolchain_android_x86.png</iconset>
             </property>
            </item>
            <item>
