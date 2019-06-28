@@ -1071,6 +1071,10 @@ bool Capture::loadSymbolInfo(BinLoader& _loader, uint64_t _fileSize)
 	QByteArray executablePath;
 
 	int64_t symSize = (int64_t)symbolInfoSize;
+
+	uint8_t charSize;
+	_loader.readVar(charSize);
+
 	while (symSize > 0)
 	{
 		char16_t	exePath[1024];
@@ -1078,9 +1082,6 @@ bool Capture::loadSymbolInfo(BinLoader& _loader, uint64_t _fileSize)
 
 		uint64_t modBase = 0;
 		uint64_t modSize = 0;
-
-		uint8_t charSize;
-		_loader.readVar(charSize);
 
 		size_t bytesRead = 0;
 
