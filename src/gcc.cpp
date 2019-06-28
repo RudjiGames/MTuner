@@ -72,6 +72,7 @@ int GCCSetup::exec()
 void GCCSetup::readSettings(QSettings& _settings)
 {
 	setupDefaultTC(m_toolchains);
+
 	if (_settings.childGroups().contains("GCCToolchains_3"))
 	{
 		_settings.beginGroup("GCCToolchains_3");
@@ -292,9 +293,9 @@ void GCCSetup::setupDefaultTC(QVector<Toolchain>& _toolchains)
 
 	Toolchain androidARM;
 	androidARM.m_name				= "Android ARM";
-	androidARM.m_Environment32		= "";
-	androidARM.m_ToolchainPath32	= "";
-	androidARM.m_ToolchainPrefix32	= "";
+	androidARM.m_Environment32		= "ANDROID_NDK_ROOT";
+	androidARM.m_ToolchainPath32	= "/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64/bin/";
+	androidARM.m_ToolchainPrefix32	= "arm-linux-androideabi-";
 	androidARM.m_Environment64		= "ANDROID_NDK_ROOT";
 	androidARM.m_ToolchainPath64	= "/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64/bin/";
 	androidARM.m_ToolchainPrefix64	= "arm-linux-androideabi-";
@@ -302,9 +303,9 @@ void GCCSetup::setupDefaultTC(QVector<Toolchain>& _toolchains)
 
 	Toolchain androidMIPS;
 	androidMIPS.m_name				= "Android MIPS";
-	androidMIPS.m_Environment32		= "";
-	androidMIPS.m_ToolchainPath32	= "";
-	androidMIPS.m_ToolchainPrefix32	= "";
+	androidMIPS.m_Environment32		= "ANDROID_NDK_ROOT";
+	androidMIPS.m_ToolchainPath32	= "/toolchains/mips64el-linux-android-4.9/prebuilt/windows-x86_64/bin/";
+	androidMIPS.m_ToolchainPrefix32	= "mips64el-linux-android-";
 	androidMIPS.m_Environment64		= "ANDROID_NDK_ROOT";
 	androidMIPS.m_ToolchainPath64	= "/toolchains/mips64el-linux-android-4.9/prebuilt/windows-x86_64/bin/";
 	androidMIPS.m_ToolchainPrefix64	= "mips64el-linux-android-";
@@ -312,9 +313,9 @@ void GCCSetup::setupDefaultTC(QVector<Toolchain>& _toolchains)
 
 	Toolchain androidX86;
 	androidX86.m_name				= "Android x86";
-	androidX86.m_Environment32		= "";
-	androidX86.m_ToolchainPath32	= "";
-	androidX86.m_ToolchainPrefix32	= "";
+	androidX86.m_Environment32		= "ANDROID_NDK_ROOT";
+	androidX86.m_ToolchainPath32	= "/toolchains/aarch64-linux-android-4.9/prebuilt/windows-x86_64/bin/";
+	androidX86.m_ToolchainPrefix32	= "aarch64-linux-android-";
 	androidX86.m_Environment64		= "ANDROID_NDK_ROOT";
 	androidX86.m_ToolchainPath64	= "/toolchains/aarch64-linux-android-4.9/prebuilt/windows-x86_64/bin/";
 	androidX86.m_ToolchainPrefix64	= "aarch64-linux-android-";
@@ -332,10 +333,6 @@ void GCCSetup::setupDefaultTC(QVector<Toolchain>& _toolchains)
 		rmem::ToolChain::Enum tc = (rmem::ToolChain::Enum)(rmem::ToolChain::Custom1 + i);
 		Toolchain ctc;
 		ctc.m_name				= "Custom Toolchain " + QString::number(i+1);
-		ctc.m_Environment32		= "";
-		ctc.m_ToolchainPath32	= "";
-		ctc.m_Environment64		= "";
-		ctc.m_ToolchainPath64	= "";
 		ctc.m_toolchain			= tc;
 
 		_toolchains.append(ctc);

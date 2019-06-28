@@ -57,9 +57,9 @@ void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSet
 		case rmem::ToolChain::PS4_clang:	extensions = "Elf files (*.elf)"; break;
 		case rmem::ToolChain::PS3_gcc:		extensions = "Elf files (*.elf)"; break;
 		case rmem::ToolChain::PS3_snc:		extensions = "Self files (*.self)"; break;
-		case rmem::ToolChain::Android_arm:	break;
-		case rmem::ToolChain::Android_mips:	break;
-		case rmem::ToolChain::Android_x86:	break;
+		case rmem::ToolChain::Android_arm:	extensions = "so files (*.so)"; break;
+		case rmem::ToolChain::Android_mips:	extensions = "so files (*.so)"; break;
+		case rmem::ToolChain::Android_x86:	extensions = "so files (*.so)"; break;
 		default: break;
 		};
 

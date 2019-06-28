@@ -1068,23 +1068,38 @@ bool Capture::loadSymbolInfo(BinLoader& _loader, uint64_t _fileSize)
 	if (m_swapEndian)
 		symbolInfoSize = Endian::swap(symbolInfoSize);
 
+	QByteArray executablePath;
+
 	int64_t symSize = (int64_t)symbolInfoSize;
 	while (symSize > 0)
 	{
-		char16_t exePath[1024];
+		char16_t	exePath[1024];
+		char		exePathA[1024];
 
-		uint64_t modBase;
-		uint64_t modSize;
+		uint64_t modBase = 0;
+		uint64_t modSize = 0;
+
+		uint8_t charSize;
+		_loader.readVar(charSize);
 
 		size_t bytesRead = 0;
-		bytesRead += ReadString<1024>(exePath, _loader, m_swapEndian, 0x23);
+
+		if (charSize == 2)
+			bytesRead += ReadString<1024>(exePath, _loader, m_swapEndian, 0x23);
+		else
+			bytesRead += ReadString<1024>(exePathA, _loader, m_swapEndian, 0x23);
+
 		if (bytesRead == sizeof(uint32_t))
 			break;
 
 		bytesRead += sizeof(uint64_t) * _loader.readVar(modBase);
 		bytesRead += sizeof(uint64_t) * _loader.readVar(modSize);
 
-		QByteArray executablePath = QString::fromUtf16((const ushort*)exePath).toUtf8();
+		if (charSize == 2)
+			executablePath = QString::fromUtf16((const ushort*)exePath).toUtf8();
+		else
+			executablePath = QString::fromUtf8((const char*)exePathA).toUtf8();
+
 		rtm::pathCanonicalize(executablePath.data());
 
 		if (m_swapEndian)
@@ -1102,7 +1117,7 @@ bool Capture::loadSymbolInfo(BinLoader& _loader, uint64_t _fileSize)
 			float percent = float(pos)*100.0f / float(_fileSize);
 			char message[2048];
 			strcpy(message, "Loading symbols ");
-			strcat(message, executablePath.constData());
+			strcat_s(message, 2048, executablePath.constData());
 			m_loadProgressCallback(m_loadProgressCustomData, percent, message);
 		}
 
