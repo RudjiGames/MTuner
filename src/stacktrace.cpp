@@ -8,6 +8,14 @@
 #include <MTuner/src/stacktrace.h>
 #include <MTuner/src/capturecontext.h>
 
+enum StackTraceColumns
+{
+	Module,
+	Function,
+	File,
+	Line
+};
+
 StackTrace::StackTrace(QWidget* _parent, Qt::WindowFlags _flags) : 
 	QWidget(_parent, _flags)
 {
@@ -54,16 +62,16 @@ void StackTrace::clear()
 void StackTrace::currentCellChanged(int _currentRow, int _currentColumn, int _previousRow, int _previousColumn)
 {
 	RTM_UNUSED_3(_currentColumn, _previousRow, _previousColumn);
-	QTableWidgetItem* item1 = m_table->item(_currentRow, 1);
-	QTableWidgetItem* item2 = m_table->item(_currentRow, 2);
-	QTableWidgetItem* item3 = m_table->item(_currentRow, 3);
+	QTableWidgetItem* fileItem = m_table->item(_currentRow, StackTraceColumns::File);
+	QTableWidgetItem* lineItem = m_table->item(_currentRow, StackTraceColumns::Line);
+	QTableWidgetItem* funcItem = m_table->item(_currentRow, StackTraceColumns::Function);
 
-	if (!item1 || !item2 || !item3)
+	if (!fileItem || !lineItem || !funcItem)
 		return;
 
-	QString file = item1->text();
-	int		line = item2->text().toInt();
-	m_selectedFunc	= item3->text();
+	QString file = fileItem->text();
+	int		line = lineItem->text().toInt();
+	m_selectedFunc	= funcItem->text();
 	emit openFile(file, line, 0);
 }
 
@@ -128,10 +136,10 @@ void StackTrace::updateView()
 			sourcefile = info.absoluteFilePath();
 
 		// module, file, line, function
-		m_table->setItem(i, 0, new QTableWidgetItem(module));
-		m_table->setItem(i, 1, new QTableWidgetItem(sourcefile));
-		m_table->setItem(i, 2, new QTableWidgetItem(QString::number(frame.m_line)));
-		m_table->setItem(i, 3, new QTableWidgetItem(func));
+		m_table->setItem(i, StackTraceColumns::Module,		new QTableWidgetItem(module));
+		m_table->setItem(i, StackTraceColumns::Function,	new QTableWidgetItem(func));
+		m_table->setItem(i, StackTraceColumns::File,		new QTableWidgetItem(sourcefile));
+		m_table->setItem(i, StackTraceColumns::Line,		new QTableWidgetItem(QString::number(frame.m_line)));
 
 		if (m_selectedFunc.compare(func) == 0)
 			selectedRow = i;

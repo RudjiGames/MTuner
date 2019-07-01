@@ -4,7 +4,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/fo9uy9h3bcka20kk?svg=true)](https://ci.appveyor.com/project/milostosic/MTuner)
 [![License](https://img.shields.io/badge/license-BSD--2%20clause-blue.svg)](https://github.com/milostosic/MTuner/blob/master/LICENSE)
 
-**MTuner** is a C/C++ memory profiler and memory leak finder for Windows, PlayStation 4, PlayStation 3 and other platforms.
+**MTuner** is a C/C++ memory profiler and memory leak finder for Windows, PlayStation 4 and 3, Android and other platforms.
 
 **MTuner** utilizes a novel approach to memory profiling and analysis, keeping entire time-based history of memory operations. This gives an unique insight in memory related behavior of your software by making queries over the entire data set.
 

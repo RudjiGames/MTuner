@@ -330,7 +330,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 			m_swapEndian ? "Big" : "Little",
 			m_64bit ? "64" : "32" );
 
-	if (!loadSymbolInfo(loader, fileSize))
+	if (!loadModuleInfo(loader, fileSize))
 	{
 		clearData();
 		return Capture::LoadFail;
@@ -1060,7 +1060,7 @@ void Capture::getGraphAtTime(uint64_t _time, GraphEntry& _entry)
 //--------------------------------------------------------------------------
 /// Loads symbol information
 //--------------------------------------------------------------------------
-bool Capture::loadSymbolInfo(BinLoader& _loader, uint64_t _fileSize)
+bool Capture::loadModuleInfo(BinLoader& _loader, uint64_t _fileSize)
 {
 	uint32_t symbolInfoSize;
 	_loader.readVar(symbolInfoSize);
@@ -1147,6 +1147,13 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 
 	while (it != end)
 	{
+		if ((idx > nextProgressPoint) && m_loadProgressCallback)
+		{
+			nextProgressPoint += numOpsOver100;
+			float percent = float(idx) / float(numOpsOver100);
+			m_loadProgressCallback(m_loadProgressCustomData, percent, "Generating unique symbol IDs...");
+		}
+
 		StackTrace* st = it->second;
 		
 		int numFrames = (int)st->m_numEntries;
@@ -1182,13 +1189,6 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 	
 		st->m_addedToTree[0] = 0;
 		++it;
-
-		if ((idx > nextProgressPoint) && m_loadProgressCallback)
-		{
-			nextProgressPoint += numOpsOver100;
-			float percent = float(idx) / float(numOpsOver100);
-			m_loadProgressCallback(m_loadProgressCustomData, percent, "Generating unique symbol IDs...");
-		}
 		++idx;
 	}
 

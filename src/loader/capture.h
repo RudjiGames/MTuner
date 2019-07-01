@@ -152,7 +152,7 @@ class Capture
 		void								setCurrentHeap(uint64_t inHandle) { m_currentHeap = inHandle; }
 
 	private:
-		bool		loadSymbolInfo(BinLoader& _loader, uint64_t inFileSize );
+		bool		loadModuleInfo(BinLoader& _loader, uint64_t inFileSize );
 		bool		setLinksAndRemoveInvalid(uint64_t inMinMarkerTime);
 		bool		findModule(uint64_t inAddress, rdebug::ModuleInfo& outInfo);
 		void		addModule(const char* inName, uint64_t inModBase, uint64_t inModSize);

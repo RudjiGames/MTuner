@@ -43,24 +43,29 @@
      <property name="horizontalScrollMode">
       <enum>QAbstractItemView::ScrollPerPixel</enum>
      </property>
-     <attribute name="horizontalHeaderDefaultSectionSize">
-      <number>99</number>
-     </attribute>
      <attribute name="horizontalHeaderMinimumSectionSize">
       <number>21</number>
+     </attribute>
+     <attribute name="horizontalHeaderDefaultSectionSize">
+      <number>99</number>
      </attribute>
      <attribute name="verticalHeaderVisible">
       <bool>false</bool>
      </attribute>
-     <attribute name="verticalHeaderDefaultSectionSize">
+     <attribute name="verticalHeaderMinimumSectionSize">
       <number>21</number>
      </attribute>
-     <attribute name="verticalHeaderMinimumSectionSize">
+     <attribute name="verticalHeaderDefaultSectionSize">
       <number>21</number>
      </attribute>
      <column>
       <property name="text">
        <string>Module</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Function</string>
       </property>
      </column>
      <column>
@@ -71,11 +76,6 @@
      <column>
       <property name="text">
        <string>Line</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Function</string>
       </property>
      </column>
     </widget>
