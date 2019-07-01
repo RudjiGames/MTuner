@@ -812,7 +812,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					{
 						char16_t modNameC[1024];
 						ReadString<1024>(modNameC, loader, m_swapEndian);
-						strcpy(modName, QString::fromUtf16(modNameC).toUtf8().constData());
+						rtm::strlCpy(modName, RTM_NUM_ELEMENTS(modName), QString::fromUtf16(modNameC).toUtf8().constData());
 					}
 
 					VERIFY_READ_SIZE(modBase);
@@ -1118,8 +1118,8 @@ bool Capture::loadModuleInfo(BinLoader& _loader, uint64_t _fileSize)
 
 			float percent = float(pos)*100.0f / float(_fileSize);
 			char message[2048];
-			strcpy(message, "Loading symbols ");
-			strcat_s(message, 2048, executablePath.constData());
+			rtm::strlCpy(message, RTM_NUM_ELEMENTS(message), "Loading symbols ");
+			rtm::strlCat(message, RTM_NUM_ELEMENTS(message), executablePath.constData());
 			m_loadProgressCallback(m_loadProgressCustomData, percent, message);
 		}
 
@@ -1401,11 +1401,12 @@ bool Capture::findModule(uint64_t inAddress, rdebug::ModuleInfo& outInfo)
 void Capture::addModule(const char* _path, uint64_t inModBase, uint64_t inModSize)
 {
 	char exePath[1024];
-	strcpy(exePath, _path);
+	rtm::strlCpy(exePath, RTM_NUM_ELEMENTS(exePath), _path);
 
+	const int modulePathBufferSize = 128 * 1024;
 	if (!m_modulePathBuffer)
 	{
-		m_modulePathBuffer = new char[128*1024];
+		m_modulePathBuffer = new char[modulePathBufferSize];
 		m_modulePathBufferPtr = 0;
 	}
 	
@@ -1413,23 +1414,24 @@ void Capture::addModule(const char* _path, uint64_t inModBase, uint64_t inModSiz
 	for (size_t i=0; i<numModules; i++)
 	{
 		rdebug::ModuleInfo& info = m_moduleInfos[i];
-		if (strcmp(info.m_modulePath, _path) == 0)
+		if (rtm::strCmp(info.m_modulePath, _path) == 0)
 		{
 			if (inModBase == info.m_baseAddress)
 				return;
 		}
 	}
 
-	char* moduleName = strstr(exePath, "/");
+	const char* moduleName = rtm::strStr(exePath, "/");
 	if (!moduleName)
-		moduleName = strstr(exePath, "\\");
-	char* nextSlash = 0;
+		moduleName = rtm::strStr(exePath, "\\");
+
+	const char* nextSlash = 0;
 	do {
 		if (moduleName)
 		{
-			nextSlash = strstr(moduleName, "/");
+			nextSlash = rtm::strStr(moduleName, "/");
 			if (!nextSlash)
-				nextSlash = strstr(moduleName, "\\");
+				nextSlash = rtm::strStr(moduleName, "\\");
 		}
 		if (nextSlash != NULL)
 			moduleName = nextSlash+1;
@@ -1438,12 +1440,12 @@ void Capture::addModule(const char* _path, uint64_t inModBase, uint64_t inModSiz
 	if (moduleName == NULL)
 		return;
 
-	strcpy(&m_modulePathBuffer[m_modulePathBufferPtr], _path);
+	rtm::strlCpy(&m_modulePathBuffer[m_modulePathBufferPtr], modulePathBufferSize - m_modulePathBufferPtr, _path);
 
 	rdebug::ModuleInfo info;
 	info.m_baseAddress	= inModBase;
 	info.m_size			= inModSize;
-	strcpy(info.m_modulePath, &m_modulePathBuffer[m_modulePathBufferPtr]);
+	rtm::strlCpy(info.m_modulePath, RTM_NUM_ELEMENTS(info.m_modulePath), &m_modulePathBuffer[m_modulePathBufferPtr]);
 	m_modulePathBufferPtr += (uint32_t)strlen(_path)+1;
 
 	m_moduleInfos.push_back(info);
