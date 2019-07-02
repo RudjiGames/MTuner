@@ -540,12 +540,6 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 						readFullStack = true;
 					}
 					else
-					if (stackTraceTag == rmem::EntryTags::Full)
-					{
-						VERIFY_READ_SIZE(numFrames16)
-						readFullStack = true;
-					}
-					else
 					{
 						loadSuccess = false;
 						break;
