@@ -20,6 +20,10 @@ private:
 	uint32_t			m_currentTraceCnt;
 	uint32_t			m_currentTraceIdx;
 	QTableWidget*		m_table;
+	QMenu*				m_contextMenu;
+	QAction*			m_actionCopy;
+	QAction*			m_actionCopyAll;
+	int					m_copyIndex;
 	QToolButton*		m_buttonDec;
 	QToolButton*		m_buttonInc;
 	QSpinBox*			m_spinBox;
@@ -32,6 +36,7 @@ public:
 	StackTrace(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
 
 	void changeEvent(QEvent* _event);
+	void contextMenuEvent(QContextMenuEvent* _event);
 	void setContext(CaptureContext* _context);
 	void clear();
 	void updateView();
@@ -43,6 +48,9 @@ public Q_SLOTS:
 	void setStackTrace(rtm::StackTrace** _stackTrace, int);
 	void incClicked();
 	void decClicked();
+	void copy();
+	void copyAll();
+	void copyResetIndex();
 
 Q_SIGNALS:
 	void openFile(const QString& _file, int _row, int _column);

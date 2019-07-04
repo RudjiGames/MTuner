@@ -53,6 +53,7 @@
 
 #include <QtGui/QDesktopServices>
 #include <QtGui/QDragMoveEvent>
+#include <QtGui/QClipboard>
 #include <QtGui/QMouseEvent>
 #include <QtGui/QDropEvent>
 #include <QtGui/QPainter>

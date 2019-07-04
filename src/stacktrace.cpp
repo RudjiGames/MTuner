@@ -35,6 +35,17 @@ StackTrace::StackTrace(QWidget* _parent, Qt::WindowFlags _flags) :
 	m_spinBox		= findChild<QSpinBox*>("spinBox");
 	m_totalTraces	= findChild<QLabel*>("label_total");
 
+	m_actionCopy	= new QAction(QString(tr("Copy")), this);
+	m_actionCopyAll	= new QAction(QString(tr("Copy all")), this);
+
+	m_contextMenu = new QMenu();
+	m_contextMenu->addAction(m_actionCopy);
+	m_contextMenu->addAction(m_actionCopyAll);
+
+	connect(m_actionCopy,		SIGNAL(triggered()), this, SLOT(copy()));
+	connect(m_actionCopyAll,	SIGNAL(triggered()), this, SLOT(copyAll()));
+	copyResetIndex();
+
 	updateView();
 }
 
@@ -43,6 +54,18 @@ void StackTrace::changeEvent(QEvent* _event)
 	QWidget::changeEvent(_event);
 	if (_event->type() == QEvent::LanguageChange)
 		ui.retranslateUi(this);
+}
+
+void StackTrace::contextMenuEvent(QContextMenuEvent* _event)
+{
+	if (!m_context)
+		return;
+
+	QPoint pos = m_table->viewport()->mapFromGlobal(_event->globalPos());
+	m_copyIndex = m_table->indexAt(pos).row();
+
+	if (m_copyIndex != -1)
+		m_contextMenu->exec(mapToGlobal(_event->pos()));
 }
 
 void StackTrace::setContext(CaptureContext* _context)
@@ -183,4 +206,44 @@ void StackTrace::decClicked()
 		return;
 	--m_currentTraceIdx;
 	updateView();
+}
+
+void StackTrace::copy()
+{
+	QString text;
+	text += m_table->item(m_copyIndex, StackTraceColumns::Module)->text()	+ '\t';
+	text += m_table->item(m_copyIndex, StackTraceColumns::Function)->text()	+ '\t';
+	text += m_table->item(m_copyIndex, StackTraceColumns::File)->text()		+ '\t';
+	text += m_table->item(m_copyIndex, StackTraceColumns::Line)->text()		+ '\n';
+
+	QApplication::clipboard()->setText(text);
+
+	qWarning() << text;
+
+	copyResetIndex();
+}
+
+void StackTrace::copyAll()
+{
+	const uint32_t rows = m_currentTrace[m_currentTraceIdx]->m_numEntries;
+
+	QString text;
+	for (uint32_t i=0; i<rows; ++i)
+	{
+		text += m_table->item(i, StackTraceColumns::Module)->text()		+ '\t';
+		text += m_table->item(i, StackTraceColumns::Function)->text()	+ '\t';
+		text += m_table->item(i, StackTraceColumns::File)->text()		+ '\t';
+		text += m_table->item(i, StackTraceColumns::Line)->text()		+ '\n';
+	}
+
+	QApplication::clipboard()->setText(text);
+
+	qWarning() << text;
+
+	copyResetIndex();
+}
+
+void StackTrace::copyResetIndex()
+{
+	m_copyIndex = -1;
 }
