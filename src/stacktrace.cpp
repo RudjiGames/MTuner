@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------//
-/// Copyright (c) 2018 by Milos Tosic. All Rights Reserved.                ///
+/// Copyright (c) 2019 by Milos Tosic. All Rights Reserved.                ///
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
@@ -217,9 +217,6 @@ void StackTrace::copy()
 	text += m_table->item(m_copyIndex, StackTraceColumns::Line)->text()		+ '\n';
 
 	QApplication::clipboard()->setText(text);
-
-	qWarning() << text;
-
 	copyResetIndex();
 }
 
@@ -237,9 +234,6 @@ void StackTrace::copyAll()
 	}
 
 	QApplication::clipboard()->setText(text);
-
-	qWarning() << text;
-
 	copyResetIndex();
 }
 

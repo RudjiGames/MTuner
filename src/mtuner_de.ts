@@ -25,8 +25,8 @@
     </message>
     <message>
         <location filename="about.ui" line="89"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Copyright © 2018 by Milos Tosic.&lt;br/&gt;All Rights Reserved&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Copyright © 2015 von Milos Tosic.&lt;br/&gt; Alle Rechte vorbehalten&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Copyright © 2019 by Milos Tosic.&lt;br/&gt;All Rights Reserved&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Copyright © 2019 von Milos Tosic.&lt;br/&gt; Alle Rechte vorbehalten&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="about.ui" line="116"/>
@@ -35,7 +35,168 @@
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Arial,sans-serif&apos;; font-size:9pt; font-weight:600; color:#636363;&quot;&gt;Open source software used in development of MTuner&lt;/span&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2,sans-serif&apos;; font-size:5pt; color:#636363;&quot;&gt; &lt;/span&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2,sans-serif&apos;; font-size:5pt; color:#636363;&quot;&gt;&#xa0;&lt;/span&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a name=&quot;openssl_bsd&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Arial,sans-serif&apos;; font-size:8pt; font-weight:600; color:#636363;&quot;&gt;Q&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Arial,sans-serif&apos;; font-size:8pt; font-weight:600; color:#636363;&quot;&gt;t (LGPL)&lt;/span&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Arial,sans-serif&apos;; font-size:8pt; color:#636363;&quot;&gt;Qt - Cross-platform application and UI framework.&lt;/span&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://qt-project.org/doc/qt-5-snapshot/lgpl.html&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#78a078;&quot;&gt;&lt;br /&gt;https://qt-project.org/&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt; color:#78a078;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8.25pt; color:#636363;&quot;&gt;&lt;br /&gt;Qt is available under the LGPL (version 3).&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8.25pt; color:#636363;&quot;&gt;The Qt Toolkit is Copyright (c) 2019 The Qt Company Ltd.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8.25pt; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600; color:#636363;&quot;&gt;MinHook - The Minimalistic API Hooking Library for x64/x86&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;Copyright (C) 2009-2016 Tsuda Kageyu.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;All rights reserved.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;Redistribution and use in source and binary forms, with or without&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;modification, are permitted provided that the following conditions&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;are met:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt; 1. Redistributions of source code must retain the above copyright&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;    notice, this list of conditions and the following disclaimer.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt; 2. Redistributions in binary form must reproduce the above copyright&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;    notice, this list of conditions and the following disclaimer in the&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;    documentation and/or other materials provided with the distribution.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;&amp;quot;AS IS&amp;quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;=====================================================================&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;Portions of this software are Copyright (c) 2008-2009, Vyacheslav Patkov.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;=====================================================================&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;Hacker Disassembler Engine 32 C&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;Copyright (c) 2008-2009, Vyacheslav Patkov.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;All rights reserved.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;Redistribution and use in source and binary forms, with or without&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;modification, are permitted provided that the following conditions&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;are met:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt; 1. Redistributions of source code must retain the above copyright&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;    notice, this list of conditions and the following disclaimer.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt; 2. Redistributions in binary form must reproduce the above copyright&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;    notice, this list of conditions and the following disclaimer in the&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;    documentation and/or other materials provided with the distribution.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;&amp;quot;AS IS&amp;quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;-------------------------------------------------------------------------------&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;Hacker Disassembler Engine 64 C&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;Copyright (c) 2008-2009, Vyacheslav Patkov.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;All rights reserved.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;Redistribution and use in source and binary forms, with or without&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;modification, are permitted provided that the following conditions&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;are met:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt; 1. Redistributions of source code must retain the above copyright&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;    notice, this list of conditions and the following disclaimer.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt; 2. Redistributions in binary form must reproduce the above copyright&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;    notice, this list of conditions and the following disclaimer in the&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;    documentation and/or other materials provided with the distribution.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;&amp;quot;AS IS&amp;quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600; color:#636363;&quot;&gt;LZ4 - Fast LZ compression algorithm&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt; font-weight:600; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt;Copyright (C) 2011-2014, Yann Collet.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;BSD 2-Clause License (http://www.opensource.org/licenses/bsd-license.php)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;Redistribution and use in source and binary forms, with or without&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;modification, are permitted provided that the following conditions are&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;met:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;    * Redistributions of source code must retain the above copyright&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;notice, this list of conditions and the following disclaimer.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;    * Redistributions in binary form must reproduce the above&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;copyright notice, this list of conditions and the following disclaimer&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;in the documentation and/or other materials provided with the&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;distribution.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; color:#000000;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;&amp;quot;AS IS&amp;quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;You can contact the author at :&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;- LZ4 source repository : http://code.google.com/p/lz4/&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;- LZ4 public forum : https://groups.google.com/forum/#!forum/lz4c &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Arial,sans-serif&apos;; font-size:8pt; font-weight:600; color:#636363;&quot;&gt;GENie&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;Copyright (c) 2014-2016 Branimir Karadžić, Neil Richardson, Mike Popoloski,&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;Drew Solomon, Ted de Munnik, Miodrag Milanović, Brett Vickers, Bill Freist,&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;Terry Hendrix II, Ryan Juckett, Andrew Johnson, Johan Sköld,&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;Alastair Murray, Patrick Munns, Jan-Eric Duden, Phil Stevens, Stuart Carnie,&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;Nikolay Aleksiev.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;All rights reserved.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#78a078;&quot;&gt;&lt;br /&gt;https://github.com/bkaradzic/GENie &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;span style=&quot; color:#636363;&quot;&gt;Redistribution and use in source and binary forms, with or without modification,&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;are permitted provided that the following conditions are met:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;1. Redistributions of source code must retain the above copyright notice,&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;    this list of conditions and the following disclaimer.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;2. Redistributions in binary form must reproduce the above copyright notice,&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;    this list of conditions and the following disclaimer in the documentation&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;    and/or other materials provided with the distribution.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;3. Neither the name of the GENie nor the names of its contributors may be &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;    used to endorse or promote products derived from this software without&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;    specific prior written permission.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &amp;quot;AS IS&amp;quot; AND&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <oldsource>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Arial,sans-serif&apos;; font-size:9pt; font-weight:600; color:#636363;&quot;&gt;Open source software used in development of MTuner&lt;/span&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;MS Shell Dlg 2,sans-serif&apos;; font-size:5pt; color:#636363;&quot;&gt;&#xa0;&lt;/span&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a name=&quot;openssl_bsd&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Arial,sans-serif&apos;; font-size:8pt; font-weight:600; color:#636363;&quot;&gt;Q&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Arial,sans-serif&apos;; font-size:8pt; font-weight:600; color:#636363;&quot;&gt;t (LGPL)&lt;/span&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Arial,sans-serif&apos;; font-size:8pt; color:#636363;&quot;&gt;Qt - Cross-platform application and UI framework.&lt;/span&gt;&lt;span style=&quot; font-size:8pt; color:#636363;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
@@ -190,8 +351,13 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="about.ui" line="283"/>
+        <source>Italian translation by - Marco Bellan</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -287,151 +453,151 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="gcc.ui" line="84"/>
+        <location filename="gcc.ui" line="108"/>
         <source>Custom toolchain 1</source>
         <translation>Benutzerdefinierte Toolchain 1</translation>
     </message>
     <message>
-        <location filename="gcc.ui" line="89"/>
+        <location filename="gcc.ui" line="113"/>
         <source>Custom toolchain 2</source>
         <translation>Benutzerdefinierte Toolchain 2</translation>
     </message>
     <message>
-        <location filename="gcc.ui" line="94"/>
+        <location filename="gcc.ui" line="118"/>
         <source>Custom toolchain 3</source>
         <translation>Benutzerdefinierte Toolchain 3</translation>
     </message>
     <message>
-        <location filename="gcc.ui" line="99"/>
+        <location filename="gcc.ui" line="123"/>
         <source>Custom toolchain 4</source>
         <translation>Benutzerdefinierte Toolchain 4</translation>
     </message>
     <message>
-        <location filename="gcc.ui" line="104"/>
+        <location filename="gcc.ui" line="128"/>
         <source>Custom toolchain 5</source>
         <translation>Benutzerdefinierte Toolchain 5</translation>
     </message>
     <message>
-        <location filename="gcc.ui" line="109"/>
+        <location filename="gcc.ui" line="133"/>
         <source>Custom toolchain 6</source>
         <translation>Benutzerdefinierte Toolchain 6</translation>
     </message>
     <message>
-        <location filename="gcc.ui" line="114"/>
+        <location filename="gcc.ui" line="138"/>
         <source>Custom toolchain 7</source>
         <translation>Benutzerdefinierte Toolchain 7</translation>
     </message>
     <message>
-        <location filename="gcc.ui" line="119"/>
+        <location filename="gcc.ui" line="143"/>
         <source>Custom toolchain 8</source>
         <translation>Benutzerdefinierte Toolchain 8</translation>
     </message>
     <message>
-        <location filename="gcc.ui" line="124"/>
+        <location filename="gcc.ui" line="148"/>
         <source>Custom toolchain 9</source>
         <translation>Benutzerdefinierte Toolchain 9</translation>
     </message>
     <message>
-        <location filename="gcc.ui" line="134"/>
+        <location filename="gcc.ui" line="158"/>
         <source>Toolchain name:</source>
         <translation>Toolchain-name:</translation>
     </message>
     <message>
-        <location filename="gcc.ui" line="148"/>
+        <location filename="gcc.ui" line="172"/>
         <source>64 bit</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="gcc.ui" line="163"/>
-        <location filename="gcc.ui" line="265"/>
-        <location filename="gcc.ui" line="365"/>
+        <location filename="gcc.ui" line="187"/>
+        <location filename="gcc.ui" line="289"/>
+        <location filename="gcc.ui" line="389"/>
         <source>Environment variable</source>
         <translation>Umgebungsvariable</translation>
     </message>
     <message>
-        <location filename="gcc.ui" line="170"/>
-        <location filename="gcc.ui" line="272"/>
-        <location filename="gcc.ui" line="372"/>
+        <location filename="gcc.ui" line="194"/>
+        <location filename="gcc.ui" line="296"/>
+        <location filename="gcc.ui" line="396"/>
         <source>Binutils path</source>
         <translation>Binutils-Pfad</translation>
     </message>
     <message>
-        <location filename="gcc.ui" line="177"/>
-        <location filename="gcc.ui" line="279"/>
+        <location filename="gcc.ui" line="201"/>
+        <location filename="gcc.ui" line="303"/>
         <source>Toolchain prefix</source>
         <translation>Toolchain-Präfix</translation>
     </message>
     <message>
-        <location filename="gcc.ui" line="196"/>
-        <location filename="gcc.ui" line="298"/>
-        <location filename="gcc.ui" line="391"/>
+        <location filename="gcc.ui" line="220"/>
+        <location filename="gcc.ui" line="322"/>
+        <location filename="gcc.ui" line="415"/>
         <source>...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="gcc.ui" line="214"/>
-        <location filename="gcc.ui" line="316"/>
-        <location filename="gcc.ui" line="406"/>
+        <location filename="gcc.ui" line="238"/>
+        <location filename="gcc.ui" line="340"/>
+        <location filename="gcc.ui" line="430"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="gcc.ui" line="250"/>
+        <location filename="gcc.ui" line="274"/>
         <source>32 bit</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="gcc.ui" line="350"/>
+        <location filename="gcc.ui" line="374"/>
         <source>SN ProDG</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="gcc.cpp" line="360"/>
-        <location filename="gcc.cpp" line="388"/>
+        <location filename="gcc.cpp" line="415"/>
+        <location filename="gcc.cpp" line="443"/>
         <source>Select folder with binutils</source>
         <translation>Wählen Sie Ordner mit binutils</translation>
     </message>
     <message>
-        <location filename="gcc.cpp" line="391"/>
+        <location filename="gcc.cpp" line="446"/>
         <source>Select folder with orbis-bin.exe</source>
         <translation>Wählen Sie Ordner mit Orbis-bin.exe</translation>
     </message>
     <message>
-        <location filename="gcc.cpp" line="421"/>
+        <location filename="gcc.cpp" line="476"/>
         <source>Select folder with ps3bin.exe</source>
         <translation>Wählen Sie Ordner mit ps3bin.exe</translation>
     </message>
     <message>
-        <location filename="gcc.cpp" line="446"/>
-        <location filename="gcc.cpp" line="447"/>
+        <location filename="gcc.cpp" line="501"/>
+        <location filename="gcc.cpp" line="502"/>
         <source>orbis tools found!</source>
         <translation>Orbis-Werkzeuge gefunden!</translation>
     </message>
     <message>
-        <location filename="gcc.cpp" line="446"/>
-        <location filename="gcc.cpp" line="447"/>
+        <location filename="gcc.cpp" line="501"/>
+        <location filename="gcc.cpp" line="502"/>
         <source>orbis tools not found!</source>
         <translation>Orbis-Werkzeuge nicht gefunden!</translation>
     </message>
     <message>
-        <location filename="gcc.cpp" line="451"/>
-        <location filename="gcc.cpp" line="452"/>
+        <location filename="gcc.cpp" line="506"/>
+        <location filename="gcc.cpp" line="507"/>
         <source>toolchain found!</source>
         <translation>Toolchain gefunden!</translation>
     </message>
     <message>
-        <location filename="gcc.cpp" line="451"/>
-        <location filename="gcc.cpp" line="452"/>
+        <location filename="gcc.cpp" line="506"/>
+        <location filename="gcc.cpp" line="507"/>
         <source>toolchain not found!</source>
         <translation>Toolchain nicht gefunden!</translation>
     </message>
     <message>
-        <location filename="gcc.cpp" line="455"/>
+        <location filename="gcc.cpp" line="510"/>
         <source>ps3 tools found!</source>
         <translation>PS3-Tools gefunden!</translation>
     </message>
     <message>
-        <location filename="gcc.cpp" line="455"/>
+        <location filename="gcc.cpp" line="510"/>
         <source>ps3 tools not found!</source>
         <translation>PS3-Tools nicht gefunden!</translation>
     </message>
@@ -498,44 +664,44 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>GraphWidget</name>
     <message>
-        <location filename="graphwidget.cpp" line="481"/>
-        <location filename="graphwidget.cpp" line="595"/>
+        <location filename="graphwidget.cpp" line="483"/>
+        <location filename="graphwidget.cpp" line="596"/>
         <source>Time</source>
         <translation>Zeit</translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="482"/>
+        <location filename="graphwidget.cpp" line="484"/>
         <source>Thread</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="504"/>
+        <location filename="graphwidget.cpp" line="505"/>
         <source>Start time</source>
         <translation>Startzeit</translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="504"/>
+        <location filename="graphwidget.cpp" line="505"/>
         <source>End time</source>
         <translation>Endzeit</translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="505"/>
+        <location filename="graphwidget.cpp" line="506"/>
         <source>Duration</source>
         <translation>Dauer</translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="505"/>
+        <location filename="graphwidget.cpp" line="506"/>
         <source>Usage at end</source>
         <translation>Verwendung am Ende</translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="506"/>
-        <location filename="graphwidget.cpp" line="597"/>
+        <location filename="graphwidget.cpp" line="507"/>
+        <location filename="graphwidget.cpp" line="598"/>
         <source>Live blocks</source>
         <translation>Live Blöcke</translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="596"/>
+        <location filename="graphwidget.cpp" line="597"/>
         <source>Usage</source>
         <translation>Verwendung</translation>
     </message>
@@ -656,103 +822,100 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
-    <name>LanguageManager</name>
-    <message>
-        <location filename="langmanager.cpp" line="101"/>
-        <source>English</source>
-        <comment>This must be the native name of the language of this translation</comment>
-        <translation>Deutsch</translation>
-    </message>
-</context>
-<context>
     <name>MTuner</name>
     <message>
-        <location filename="mtuner.cpp" line="231"/>
-        <location filename="mtuner.cpp" line="346"/>
+        <location filename="mtuner.cpp" line="211"/>
+        <location filename="mtuner.cpp" line="381"/>
         <source>Memory timeline</source>
         <translation>Speicher-timeline</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="232"/>
-        <location filename="mtuner.cpp" line="347"/>
+        <location filename="mtuner.cpp" line="212"/>
+        <location filename="mtuner.cpp" line="382"/>
         <source>Allocation histogram</source>
         <translation>Zuweisung Histogramm</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="233"/>
-        <location filename="mtuner.cpp" line="348"/>
+        <location filename="mtuner.cpp" line="213"/>
+        <location filename="mtuner.cpp" line="383"/>
         <source>Statistics</source>
         <translation>Statistik</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="234"/>
-        <location filename="mtuner.cpp" line="349"/>
+        <location filename="mtuner.cpp" line="214"/>
+        <location filename="mtuner.cpp" line="384"/>
         <source>Memory tag tree</source>
         <translation>Speicher-Tag-Struktur</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="235"/>
-        <location filename="mtuner.cpp" line="350"/>
+        <location filename="mtuner.cpp" line="215"/>
+        <location filename="mtuner.cpp" line="385"/>
         <source>Stack trace</source>
         <translation>Stack-trace</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="236"/>
-        <location filename="mtuner.cpp" line="351"/>
+        <location filename="mtuner.cpp" line="216"/>
+        <location filename="mtuner.cpp" line="386"/>
         <source>Heaps / Allocators</source>
         <translation>Haufen / Allocators</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="251"/>
+        <location filename="mtuner.cpp" line="233"/>
         <source>select a capture file</source>
         <translation>Wählen Sie eine Capture-Datei</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="500"/>
+        <location filename="mtuner.cpp" line="534"/>
         <source>Created </source>
         <translation>Erstellt </translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="514"/>
+        <location filename="mtuner.cpp" line="573"/>
+        <location filename="mtuner.cpp" line="876"/>
         <source>Capture in progress</source>
         <translation>Erfassen im Gange</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="805"/>
+        <location filename="mtuner.cpp" line="786"/>
         <source>Loading, please wait...</source>
         <translation>Geladen, bitte warten...</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="813"/>
+        <location filename="mtuner.cpp" line="794"/>
         <source>Capture loaded partially!</source>
         <translation>Capture geladen teilweise!</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="813"/>
+        <location filename="mtuner.cpp" line="794"/>
         <source>Capture file was only partially loaded!
 Information may be missing from the profile!</source>
         <translation>Capture-datei wurde nur teilweise geladen!
 Informationen kann aus dem profil fehlen!</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="823"/>
+        <location filename="mtuner.cpp" line="804"/>
         <source>Loaded </source>
         <translation>Geladen</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="829"/>
+        <location filename="mtuner.cpp" line="812"/>
         <source>Error loading!</source>
         <translation>Fehler geladen!</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="830"/>
+        <location filename="mtuner.cpp" line="813"/>
         <source>Failed to load file!</source>
         <translation>Fehler beim Laden der Datei!</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="830"/>
+        <location filename="mtuner.cpp" line="813"/>
         <source>File may be corrupted, try to repeat the capture</source>
         <translation>Datei ist möglicherweise beschädigt, versuchen Sie, die Einnahme zu wiederholen</translation>
+    </message>
+    <message>
+        <location filename="mtuner.cpp" line="876"/>
+        <source>Cannot start a new capture while capture is in progress</source>
+        <translation>Eine neue Aufnahme kann nicht gestartet werden, während die Aufnahme ausgeführt wird.</translation>
     </message>
 </context>
 <context>
@@ -768,12 +931,12 @@ Informationen kann aus dem profil fehlen!</translation>
         <translation>&amp;Datei</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="64"/>
+        <location filename="mtuner.ui" line="66"/>
         <source>&amp;Help</source>
         <translation>&amp;Hilfe</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="75"/>
+        <location filename="mtuner.ui" line="76"/>
         <source>&amp;Settings</source>
         <translation>&amp;Einstellungen</translation>
     </message>
@@ -920,26 +1083,16 @@ Informationen kann aus dem profil fehlen!</translation>
     </message>
     <message>
         <location filename="mtuner.ui" line="370"/>
-        <source>Check for updates</source>
-        <translation>Auf update überprüfen</translation>
-    </message>
-    <message>
-        <location filename="mtuner.ui" line="373"/>
-        <source>Check for new version of MTuner</source>
-        <translation>Prüfen sie, ob eine neue version von MTuner</translation>
-    </message>
-    <message>
-        <location filename="mtuner.ui" line="378"/>
         <source>Open capture location</source>
         <translation>Offene eroberungspunkt</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="381"/>
+        <location filename="mtuner.ui" line="373"/>
         <source>Opens, in Windows Explorer, a folder where capture files (*.MTuner) are recorder</source>
         <translation>In Windows Explorer einen ordner öffnet wo erfassen dateien (*.MTuner) sind recorder</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="386"/>
+        <location filename="mtuner.ui" line="378"/>
         <source>&amp;Save capture window settings</source>
         <oldsource>&amp;Save capture window layout</oldsource>
         <translation>Speichern sie fenster setup zu analysieren</translation>
@@ -1181,22 +1334,22 @@ Informationen kann aus dem profil fehlen!</translation>
 <context>
     <name>ProjectsManager</name>
     <message>
-        <location filename="projectsmanager.cpp" line="158"/>
-        <source>Error!</source>
-        <translation>Fehler!</translation>
+        <location filename="projectsmanager.cpp" line="109"/>
+        <source>Are you sure?</source>
+        <translation>Bist du sicher?</translation>
     </message>
     <message>
-        <location filename="projectsmanager.cpp" line="158"/>
-        <source>Failed to launch </source>
-        <translation>Fehler beim starten </translation>
+        <location filename="projectsmanager.cpp" line="110"/>
+        <source>Project list was modified, if you close project manager it will not be saved.</source>
+        <translation>Die Projektliste wurde geändert. Wenn Sie den Projektmanager schließen, wird sie nicht gespeichert.</translation>
     </message>
     <message>
-        <location filename="projectsmanager.cpp" line="204"/>
+        <location filename="projectsmanager.cpp" line="225"/>
         <source>select executable</source>
         <translation>Wählen sie die ausführbare datei</translation>
     </message>
     <message>
-        <location filename="projectsmanager.cpp" line="212"/>
+        <location filename="projectsmanager.cpp" line="233"/>
         <source>select working directory</source>
         <translation>Wählen sie arbeitsverzeichnis</translation>
     </message>
@@ -1204,28 +1357,28 @@ Informationen kann aus dem profil fehlen!</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="tagtreewidget.cpp" line="74"/>
+        <location filename="tagtreewidget.cpp" line="73"/>
         <source>Tag</source>
         <translation>Etikett</translation>
     </message>
     <message>
-        <location filename="tagtreewidget.cpp" line="77"/>
+        <location filename="tagtreewidget.cpp" line="76"/>
         <source>Overhead</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="tagtreewidget.cpp" line="78"/>
+        <location filename="tagtreewidget.cpp" line="77"/>
         <source>Peak Overhead</source>
         <translation>Aufwand spitze</translation>
     </message>
     <message>
-        <location filename="tagtreewidget.cpp" line="87"/>
+        <location filename="tagtreewidget.cpp" line="86"/>
         <source>Root</source>
         <translation>Wurzel</translation>
     </message>
     <message>
         <location filename="grouplistwidget.cpp" line="404"/>
-        <location filename="operationslist.cpp" line="188"/>
+        <location filename="operationslist.cpp" line="219"/>
         <source>Type</source>
         <translation>Typ</translation>
     </message>
@@ -1246,13 +1399,13 @@ Informationen kann aus dem profil fehlen!</translation>
     </message>
     <message>
         <location filename="grouplistwidget.cpp" line="404"/>
-        <location filename="operationslist.cpp" line="188"/>
+        <location filename="operationslist.cpp" line="219"/>
         <source>Alignment</source>
         <translation>Ausrichtung</translation>
     </message>
     <message>
         <location filename="grouplistwidget.cpp" line="404"/>
-        <location filename="operationslist.cpp" line="188"/>
+        <location filename="operationslist.cpp" line="219"/>
         <source>Size</source>
         <translation>Größe</translation>
     </message>
@@ -1268,121 +1421,121 @@ Informationen kann aus dem profil fehlen!</translation>
     </message>
     <message>
         <location filename="grouplistwidget.cpp" line="404"/>
-        <location filename="operationslist.cpp" line="188"/>
+        <location filename="operationslist.cpp" line="219"/>
         <source>Heap</source>
         <translation></translation>
     </message>
     <message>
         <location filename="grouplistwidget.cpp" line="430"/>
-        <location filename="operationslist.cpp" line="257"/>
+        <location filename="operationslist.cpp" line="287"/>
         <source>Alloc</source>
         <translation></translation>
     </message>
     <message>
         <location filename="grouplistwidget.cpp" line="431"/>
-        <location filename="operationslist.cpp" line="258"/>
+        <location filename="operationslist.cpp" line="288"/>
         <source>Alloc aligned</source>
         <translation>Alloc ausgerichtet</translation>
     </message>
     <message>
         <location filename="grouplistwidget.cpp" line="432"/>
-        <location filename="operationslist.cpp" line="259"/>
+        <location filename="operationslist.cpp" line="289"/>
         <source>Calloc</source>
         <translation></translation>
     </message>
     <message>
         <location filename="grouplistwidget.cpp" line="433"/>
-        <location filename="operationslist.cpp" line="260"/>
+        <location filename="operationslist.cpp" line="290"/>
         <source>Free</source>
         <translation>Freier</translation>
     </message>
     <message>
         <location filename="grouplistwidget.cpp" line="434"/>
-        <location filename="operationslist.cpp" line="261"/>
+        <location filename="operationslist.cpp" line="291"/>
         <source>Realloc</source>
         <translation></translation>
     </message>
     <message>
         <location filename="grouplistwidget.cpp" line="435"/>
-        <location filename="operationslist.cpp" line="262"/>
+        <location filename="operationslist.cpp" line="292"/>
         <source>Realloc aligned</source>
         <translation>Realloc ausgerichtet</translation>
     </message>
     <message>
         <location filename="grouplistwidget.cpp" line="463"/>
-        <location filename="operationslist.cpp" line="277"/>
+        <location filename="operationslist.cpp" line="307"/>
         <source>Default</source>
         <translation>Standard</translation>
     </message>
     <message>
-        <location filename="operationslist.cpp" line="188"/>
+        <location filename="operationslist.cpp" line="219"/>
         <source>Thread ID</source>
         <translation>Thread-ID</translation>
     </message>
     <message>
-        <location filename="operationslist.cpp" line="188"/>
+        <location filename="operationslist.cpp" line="219"/>
         <source>Address</source>
         <translation>Adresse</translation>
     </message>
     <message>
-        <location filename="operationslist.cpp" line="188"/>
+        <location filename="operationslist.cpp" line="219"/>
         <source>Time</source>
         <translation>Zeit</translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="339"/>
+        <location filename="stacktreewidget.cpp" line="338"/>
         <source>Name</source>
         <translation>Name</translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="340"/>
+        <location filename="stacktreewidget.cpp" line="339"/>
         <source>Module</source>
         <translation>Modul</translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="341"/>
-        <location filename="tagtreewidget.cpp" line="75"/>
+        <location filename="stacktreewidget.cpp" line="340"/>
+        <location filename="tagtreewidget.cpp" line="74"/>
         <source>Usage</source>
         <translation>Verwendung</translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="342"/>
-        <location filename="tagtreewidget.cpp" line="76"/>
+        <location filename="stacktreewidget.cpp" line="341"/>
+        <location filename="tagtreewidget.cpp" line="75"/>
         <source>Peak Usage</source>
         <translation>Verwendung von spitze</translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="343"/>
+        <location filename="stacktreewidget.cpp" line="342"/>
         <source>Allocations</source>
         <translation>Zuweisungen</translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="344"/>
+        <location filename="stacktreewidget.cpp" line="343"/>
         <source>Frees</source>
         <translation>Befreit</translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="345"/>
+        <location filename="stacktreewidget.cpp" line="344"/>
         <source>Reallocations</source>
         <translation>Umschichtungen</translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="346"/>
+        <location filename="stacktreewidget.cpp" line="345"/>
         <source>File</source>
         <translation>Datei</translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="347"/>
+        <location filename="stacktreewidget.cpp" line="346"/>
         <source>Line</source>
         <translation>Linie</translation>
     </message>
     <message>
-        <location filename="treemapview.cpp" line="260"/>
+        <location filename="treemapview.cpp" line="259"/>
         <source>Size: </source>
         <translation>Größe:</translation>
     </message>
     <message>
-        <location filename="treemapview.cpp" line="260"/>
+        <location filename="treemapview.cpp" line="259"/>
         <source>Click to see call stack</source>
         <translation>Klicken sie auf sehen call-stack</translation>
     </message>
@@ -1417,6 +1570,7 @@ Informationen kann aus dem profil fehlen!</translation>
     </message>
     <message>
         <location filename="mtuner.cpp" line="102"/>
+        <location filename="mtuner.cpp" line="109"/>
         <source>Toolchain is not configured</source>
         <translation>Toolchain ist nicht konfiguriert</translation>
     </message>
@@ -1428,14 +1582,49 @@ Would you like to configure the toolchain now?</source>
 Möchten sie die toolchain jetzt konfigurieren?</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="614"/>
-        <source>MTuner update</source>
-        <translation></translation>
+        <location filename="mtuner.cpp" line="109"/>
+        <source>No debug symbols can be resolved!</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="614"/>
-        <source>No new version of MTuner is available.</source>
-        <translation>Keine neue version von MTuner verfügbar ist.</translation>
+        <location filename="histogram.cpp" line="128"/>
+        <source>byte used</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="histogram.cpp" line="130"/>
+        <source>bytes used</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="histogram.cpp" line="134"/>
+        <source>bytes of overhead</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="histogram.cpp" line="139"/>
+        <source>allocation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="histogram.cpp" line="141"/>
+        <source>allocations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="histogram.cpp" line="146"/>
+        <source>at peak</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mtunermain.cpp" line="461"/>
+        <source>Failed to register DIA dll!</source>
+        <translation>DIA-DLL konnte nicht registriert werden!</translation>
+    </message>
+    <message>
+        <location filename="mtunermain.cpp" line="461"/>
+        <source>Debug symbols may not be loaded correctly</source>
+        <translation>Debug-Symbole werden möglicherweise nicht korrekt geladen</translation>
     </message>
 </context>
 <context>
@@ -1472,17 +1661,17 @@ Möchten sie die toolchain jetzt konfigurieren?</translation>
         <translation>Modul</translation>
     </message>
     <message>
-        <location filename="stacktrace.ui" line="68"/>
+        <location filename="stacktrace.ui" line="73"/>
         <source>File</source>
         <translation>Datei</translation>
     </message>
     <message>
-        <location filename="stacktrace.ui" line="73"/>
+        <location filename="stacktrace.ui" line="78"/>
         <source>Line</source>
         <translation>Linie</translation>
     </message>
     <message>
-        <location filename="stacktrace.ui" line="78"/>
+        <location filename="stacktrace.ui" line="68"/>
         <source>Function</source>
         <translation>Funktion</translation>
     </message>
@@ -1507,7 +1696,17 @@ Möchten sie die toolchain jetzt konfigurieren?</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="stacktrace.cpp" line="74"/>
+        <location filename="stacktrace.cpp" line="38"/>
+        <source>Copy</source>
+        <translation>Kopieren</translation>
+    </message>
+    <message>
+        <location filename="stacktrace.cpp" line="39"/>
+        <source>Copy all</source>
+        <translation>Kopiere alles</translation>
+    </message>
+    <message>
+        <location filename="stacktrace.cpp" line="119"/>
         <source>of</source>
         <translation>von</translation>
     </message>
@@ -1526,9 +1725,9 @@ Möchten sie die toolchain jetzt konfigurieren?</translation>
     </message>
     <message>
         <location filename="startpage.ui" line="77"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Copyright © 2018 by Milos Tosic - All Rights Reserved&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <oldsource>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Copyright © 2018 by Milos Tosic - All Rights Reserved&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</oldsource>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Copyright © 2015 von Milos Tosic. Alle Rechte vorbehalten&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Copyright © 2019 by Milos Tosic - All Rights Reserved&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <oldsource>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Copyright © 2019 by Milos Tosic - All Rights Reserved&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</oldsource>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Copyright © 2019 von Milos Tosic. Alle Rechte vorbehalten&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="startpage.ui" line="150"/>
@@ -1708,7 +1907,7 @@ Möchten sie die toolchain jetzt konfigurieren?</translation>
 <context>
     <name>SymbolStore</name>
     <message>
-        <location filename="symbolstore.cpp" line="117"/>
+        <location filename="symbolstore.cpp" line="128"/>
         <source>select local symbol store directory</source>
         <translation>Wählen sie lokalen speicher symbolverzeichnis</translation>
     </message>
@@ -1837,7 +2036,12 @@ Möchten sie die toolchain jetzt konfigurieren?</translation>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Lesen MTuner&lt;br/&gt; dokumentation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="welcome.ui" line="281"/>
+        <location filename="welcome.ui" line="266"/>
+        <source>Always show on startup</source>
+        <translation>Beim Start immer anzeigen</translation>
+    </message>
+    <message>
+        <location filename="welcome.ui" line="291"/>
         <source>Close</source>
         <translation>Enger</translation>
     </message>
@@ -1924,34 +2128,6 @@ Möchten sie die toolchain jetzt konfigurieren?</translation>
         <location filename="hotspot.ui" line="266"/>
         <source>Leaked size</source>
         <translation>Undichte größe</translation>
-    </message>
-</context>
-<context>
-    <name>newVersion</name>
-    <message>
-        <location filename="new_version.ui" line="20"/>
-        <source>New MTuner version is available!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="new_version.ui" line="45"/>
-        <source>Change log:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="new_version.ui" line="67"/>
-        <source>Close</source>
-        <translation type="unfinished">Enger</translation>
-    </message>
-    <message>
-        <location filename="new_version.ui" line="83"/>
-        <source>Download</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="new_version.ui" line="95"/>
-        <source>Check for updates on launch</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

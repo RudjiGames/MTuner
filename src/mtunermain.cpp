@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------//
-/// Copyright (c) 2018 by Milos Tosic. All Rights Reserved.                ///
+/// Copyright (c) 2019 by Milos Tosic. All Rights Reserved.                ///
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
@@ -21,7 +21,7 @@
 #include "shellapi.h"
 #endif // RTM_PLATFORM_WINDOWS
 
-static const char* g_banner = "Copyright (c) 2018 by Milos Tosic. All rights reserved.\n";
+static const char* g_banner = "Copyright (c) 2019 by Milos Tosic. All rights reserved.\n";
 
 void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSetup* inGCCSetup, 
 							QFileDialog* _fileDialog, MTuner* _MTuner, const QString& _symSource);
