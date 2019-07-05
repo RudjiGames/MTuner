@@ -56,7 +56,6 @@ public:
 	void enterEvent(QEvent*) { defaultAction()->setIcon(m_hover); }
 };
 
-
 class MTuner : public QMainWindow
 {
 	Q_OBJECT
