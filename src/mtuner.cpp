@@ -12,6 +12,7 @@
 #include <MTuner/src/external_editor.h>
 #include <MTuner/src/graphwidget.h>
 #include <MTuner/src/heapswidget.h>
+#include <MTuner/src/moduleswidget.h>
 #include <MTuner/src/histogramwidget.h>
 #include <MTuner/src/stackandsource.h>
 #include <MTuner/src/stats.h>
@@ -23,11 +24,17 @@
 #include <MTuner/src/tagtreewidget.h>
 #include <MTuner/src/capturecontext.h>
 
+#include <rqt/inc/rqt.h>
+
 #if RTM_PLATFORM_WINDOWS
 #define WIN32_LEAN_AND_MEAN
 #include <Shlobj.h>
 #include <versionhelpers.h>
 #endif
+
+namespace rqt {
+	rtm_string appPreProcessStyleSheet(const rtm_string& _in);
+}
 
 QString getDirFromFile(const QString& _file)
 {
@@ -214,6 +221,7 @@ void MTuner::changeEvent(QEvent* _event)
 			if (m_tagTreeDock) m_tagTreeDock->setWindowTitle(tr("Memory tag tree"));
 			if (m_stackAndSourceDock) m_stackAndSourceDock->setWindowTitle(tr("Stack trace"));
 			if (m_heapsDock) m_heapsDock->setWindowTitle(tr("Heaps / Allocators"));
+			if (m_modulesDock) m_modulesDock->setWindowTitle(tr("Modules"));
 			break;
 		default:
 			break;
@@ -375,6 +383,41 @@ void MTuner::graphModified()
 	}
 }
 
+void MTuner::setDockWindowIcon(QDockWidget* _widget, const QString& _icon)
+{
+	QWidget* title = new QWidget();
+	QHBoxLayout* l = new QHBoxLayout();
+	l->setMargin(3);
+
+	QLabel* iconLabel = new QLabel();
+	iconLabel->setPixmap(QIcon(_icon).pixmap(QSize(24, 24)));
+	l->addWidget(iconLabel);
+	QLabel* titleLabel = new QLabel(_widget->windowTitle());
+	titleLabel->setAlignment(Qt::AlignLeft);
+	QFont fnt = titleLabel->font();
+	fnt.setBold(true);
+	titleLabel->setFont(fnt);
+	l->addWidget(titleLabel);
+	l->addItem(new QSpacerItem(20, 12, QSizePolicy::Expanding, QSizePolicy::Minimum));
+	QToolButton* buttonToggleDock = new QToolButton();
+	QToolButton* buttonCloseDock = new QToolButton();
+
+	buttonToggleDock->setIcon(QIcon(":/MTuner/resources/images/dock_detach.png"));
+	buttonToggleDock->setStyleSheet(" hover{ image: url(:/MTuner/resources/images/table.png; ); }");
+
+//	connect(buttonCloseDock, SIGNAL(), _widget, SLOT(setVisible(bool)));
+
+	buttonCloseDock->setIcon(QIcon(":/MTuner/resources/images/dock_close.png"));
+	l->addWidget(buttonToggleDock);
+	l->addWidget(buttonCloseDock);
+	title->setLayout(l);
+
+	// NB: RQT_ACTIVE_BACKGROUND_COLOR must match the defines in default.qss
+	static const char* ss = "background-color: RQT_ACTIVE_BACKGROUND_COLOR;";
+	title->setStyleSheet(rqt::appPreProcessStyleSheet(ss).c_str());
+	//_widget->setTitleBarWidget(title);
+}
+
 void MTuner::setupDockWindows()
 {
 	setDockNestingEnabled(true);
@@ -384,6 +427,7 @@ void MTuner::setupDockWindows()
 	m_tagTreeDock = new QDockWidget(tr("Memory tag tree"),this);
 	m_stackAndSourceDock = new QDockWidget(tr("Stack trace"), this);
 	m_heapsDock = new QDockWidget(tr("Heaps / Allocators"),this);
+	m_modulesDock = new QDockWidget(tr("Modules"),this);
 
 	m_graphDock->setObjectName("GraphDock");
 	m_histogramDock->setObjectName("HistogramDock");
@@ -391,12 +435,14 @@ void MTuner::setupDockWindows()
 	m_tagTreeDock->setObjectName("TagTreeDock");
 	m_stackAndSourceDock->setObjectName("StackTraceDock");
 	m_heapsDock->setObjectName("HeapsDock");
+	m_modulesDock->setObjectName("ModulesDock");
 
 	addDockWidget(Qt::BottomDockWidgetArea, m_graphDock);
 	addDockWidget(Qt::BottomDockWidgetArea, m_histogramDock);
 	addDockWidget(Qt::LeftDockWidgetArea, m_statsDock);
 	addDockWidget(Qt::LeftDockWidgetArea, m_tagTreeDock);
 	addDockWidget(Qt::LeftDockWidgetArea, m_heapsDock);
+	addDockWidget(Qt::RightDockWidgetArea, m_modulesDock);
 	addDockWidget(Qt::RightDockWidgetArea, m_stackAndSourceDock);
 
 	m_graphDock->setVisible(true);
@@ -405,6 +451,16 @@ void MTuner::setupDockWindows()
 	m_tagTreeDock->setVisible(true);
 	m_stackAndSourceDock->setVisible(true);
 	m_heapsDock->setVisible(true);
+	m_modulesDock->setVisible(true);
+
+	setDockWindowIcon(m_graphDock,			":/MTuner/resources/images/Graph64.png");
+	setDockWindowIcon(m_statsDock,			":/MTuner/resources/images/table.png");
+	setDockWindowIcon(m_histogramDock,		":/MTuner/resources/images/Histogram64.png");
+	setDockWindowIcon(m_tagTreeDock,		":/MTuner/resources/images/StackTree64.png");
+	setDockWindowIcon(m_stackAndSourceDock,	":/MTuner/resources/images/StackTraceSource64.png");
+	setDockWindowIcon(m_heapsDock,			":/MTuner/resources/images/Heaps.png");
+	setDockWindowIcon(m_modulesDock,		":/MTuner/resources/images/modules64.png");
+	setDockWindowIcon(m_statsDock,			":/MTuner/resources/images/table.png");
 
 	connect(m_graphDock,			SIGNAL(visibilityChanged(bool)), ui.action_View_Memory_Graph,		SLOT(setChecked(bool)));
 	connect(m_statsDock,			SIGNAL(visibilityChanged(bool)), ui.action_View_Memory_Stats,		SLOT(setChecked(bool)));
@@ -412,6 +468,7 @@ void MTuner::setupDockWindows()
 	connect(m_tagTreeDock,			SIGNAL(visibilityChanged(bool)), ui.action_View_Tag_Tree,			SLOT(setChecked(bool)));
 	connect(m_stackAndSourceDock,	SIGNAL(visibilityChanged(bool)), ui.action_View_StackTrace,			SLOT(setChecked(bool)));
 	connect(m_heapsDock,			SIGNAL(visibilityChanged(bool)), ui.action_View_Heaps_Allocators,	SLOT(setChecked(bool)));
+	connect(m_modulesDock,			SIGNAL(visibilityChanged(bool)), ui.action_view_ModulesDock,		SLOT(setChecked(bool)));
 
 	/// histogram dock
 	m_histogramWidget = new HistogramWidget();
@@ -441,6 +498,10 @@ void MTuner::setupDockWindows()
 	m_heapsWidget = new HeapsWidget();
 	m_heapsDock->setWidget(m_heapsWidget);
 
+	/// modules dock
+	m_modulesWidget = new ModulesWidget();
+	m_modulesDock->setWidget(m_modulesWidget);
+
 	/// stack/source dock
 	m_stackAndSource = new StackAndSource(m_externalEditor);
 	m_stackAndSourceDock->setWidget(m_stackAndSource);
@@ -448,6 +509,7 @@ void MTuner::setupDockWindows()
 	connect(m_centralWidget, SIGNAL(setStackTrace(rtm::StackTrace**,int)), m_stackAndSource, SLOT(setStackTrace(rtm::StackTrace**,int)));
 
 	connect(m_heapsWidget,SIGNAL(heapSelected(uint64_t)), this, SLOT(heapSelected(uint64_t)));
+	connect(m_modulesWidget,SIGNAL(moduleSelected(uint64_t)), this, SLOT(moduleSelected(uint64_t)));
 
 	connect(graphWidget,SIGNAL(snapshotSelected()), m_histogramWidget, SLOT(updateUI()));
 	connect(graphWidget,SIGNAL(snapshotSelected()), m_stats, SLOT(updateUI()));
@@ -458,6 +520,7 @@ void MTuner::setupDockWindows()
 	connect(m_histogramWidget,SIGNAL(binClicked()), m_centralWidget, SLOT(updateFilterDataIfNeeded()));
 	connect(m_tagTree,SIGNAL(tagClicked()), m_centralWidget, SLOT(updateFilterDataIfNeeded()));
 	connect(m_heapsWidget,SIGNAL(heapSelected(uint64_t)), m_centralWidget, SLOT(updateFilterDataIfNeeded()));
+	connect(m_modulesWidget,SIGNAL(heapSelected(uint64_t)), m_centralWidget, SLOT(updateFilterDataIfNeeded()));
 }
 
 void MTuner::setWidgetSources(CaptureContext* _context)
@@ -471,6 +534,7 @@ void MTuner::setWidgetSources(CaptureContext* _context)
 	m_histogramWidget->setContext(ctx, binView);
 	m_tagTree->setContext(ctx);
 	m_heapsWidget->setContext(ctx);
+	m_modulesWidget->setContext(ctx);
 	m_stackAndSource->setContext(ctx);
 
 	if (binView)
@@ -479,6 +543,7 @@ void MTuner::setWidgetSources(CaptureContext* _context)
 		connect(binView, SIGNAL(selectRange(uint64_t,uint64_t)), m_graph->getGraphWidget(), SLOT(selectFromTimes(uint64_t, uint64_t)));
 		connect(binView, SIGNAL(highlightRange(uint64_t, uint64_t)), m_graph, SLOT(highlightRange(uint64_t, uint64_t)));
 		m_heapsWidget->setCurrentHeap(binView->getCurrentHeap());
+		//m_heapsWidget->setCurrentHeap(binView->getCurrentHeap());
 		GraphWidget* graphWidget = m_graph->getGraphWidget();
 		graphWidget->setMinTime(binView->getMinTime());
 		graphWidget->setMaxTime(binView->getMaxTime());
@@ -520,6 +585,11 @@ void MTuner::showStackTrace(bool _visible)
 void MTuner::showHeaps(bool _visible)
 {
 	m_heapsDock->setVisible(_visible);
+}
+
+void MTuner::showModules(bool _visible)
+{
+	m_modulesDock->setVisible(_visible);
 }
 
 void MTuner::setStatusBarText(const QString& _text)
@@ -651,6 +721,8 @@ void MTuner::readSettings()
 	ui.action_View_Tag_Tree->setChecked( settings.value("dockTagTr").toBool() );
 	if (settings.contains("dockHeaps"))
 	ui.action_View_Heaps_Allocators->setChecked( settings.value("dockHeaps").toBool() );
+	if (settings.contains("dockModules"))
+	ui.action_view_ModulesDock->setChecked(settings.value("dockModules").toBool());
 	if (settings.contains("dockStack"))
 	ui.action_View_StackTrace->setChecked( settings.value("dockStack").toBool() );
 	settings.endGroup();
@@ -722,12 +794,13 @@ void MTuner::writeSettings()
 	settings.endGroup();
 
 	settings.beginGroup("ToolBar");
-	settings.setValue("dockGraph", ui.action_View_Memory_Graph->isChecked());
-	settings.setValue("dockHisto", ui.action_View_Histograms->isChecked());
-	settings.setValue("dockStats", ui.action_View_Memory_Stats->isChecked());
-	settings.setValue("dockHeaps", ui.action_View_Heaps_Allocators->isChecked());
-	settings.setValue("dockTagTr", ui.action_View_Tag_Tree->isChecked());
-	settings.setValue("dockStack", ui.action_View_StackTrace->isChecked());
+	settings.setValue("dockGraph",		ui.action_View_Memory_Graph->isChecked());
+	settings.setValue("dockHisto",		ui.action_View_Histograms->isChecked());
+	settings.setValue("dockStats",		ui.action_View_Memory_Stats->isChecked());
+	settings.setValue("dockHeaps",		ui.action_View_Heaps_Allocators->isChecked());
+	settings.setValue("dockModules",	ui.action_view_ModulesDock->isChecked());
+	settings.setValue("dockTagTr",		ui.action_View_Tag_Tree->isChecked());
+	settings.setValue("dockStack",		ui.action_View_StackTrace->isChecked());
 	settings.endGroup();
 
 	//// language

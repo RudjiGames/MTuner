@@ -12,6 +12,7 @@
 class ProjectsManager;
 class SymbolStore;
 class HeapsWidget;
+class ModulesWidget;
 class HistogramWidget;
 class StackAndSource;
 class ExternalEditor;
@@ -39,6 +40,7 @@ private:
 	QDockWidget*			m_tagTreeDock;
 	QDockWidget*			m_stackAndSourceDock;
 	QDockWidget*			m_heapsDock;
+	QDockWidget*			m_modulesDock;
 	QProgressBar*			m_loadingProgressBar;
 	QLabel*					m_statusBarRedDot;
 	CentralWidget*			m_centralWidget;
@@ -47,6 +49,7 @@ private:
 	Graph*					m_graph;
 	HistogramWidget*		m_histogramWidget;
 	HeapsWidget*			m_heapsWidget;
+	ModulesWidget*			m_modulesWidget;
 	SourceView*				m_sourceView;
 	StackAndSource*			m_stackAndSource;
 	ExternalEditor*			m_externalEditor;
@@ -98,6 +101,7 @@ public Q_SLOTS:
 	void showTagTree(bool);
 	void showStackTrace(bool);
 	void showHeaps(bool);
+	void showModules(bool);
 
 	void setStatusBarText(const QString&);
 	void checkCaptureStatus();
@@ -115,6 +119,7 @@ Q_SIGNALS:
 
 private:
 	void showWelcomeDialog();
+	void setDockWindowIcon(QDockWidget* _widget, const QString& _icon);
 	void setupDockWindows();
 	void readSettings();
 	void writeSettings();

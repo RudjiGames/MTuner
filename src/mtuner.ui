@@ -45,7 +45,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>26</height>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -123,6 +123,7 @@
    <addaction name="action_View_Memory_Stats"/>
    <addaction name="action_View_Tag_Tree"/>
    <addaction name="action_View_Heaps_Allocators"/>
+   <addaction name="action_view_ModulesDock"/>
    <addaction name="action_View_Memory_Graph"/>
    <addaction name="action_View_Histograms"/>
    <addaction name="action_View_StackTrace"/>
@@ -376,6 +377,24 @@
   <action name="action_Save_capture_window_layout">
    <property name="text">
     <string>&amp;Save capture window settings</string>
+   </property>
+  </action>
+  <action name="action_view_ModulesDock">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="mtuner.qrc">
+     <normaloff>:/MTuner/resources/images/modules64.png</normaloff>:/MTuner/resources/images/modules64.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Modules</string>
+   </property>
+   <property name="toolTip">
+    <string>Toggle visibility of Module list dock</string>
    </property>
   </action>
  </widget>
@@ -704,6 +723,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>action_view_ModulesDock</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>MTunerClass</receiver>
+   <slot>showModules(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>639</x>
+     <y>359</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>binLoaded(bool)</signal>
@@ -728,5 +763,6 @@
   <slot>setupGCCToolchains()</slot>
   <slot>showHeaps(bool)</slot>
   <slot>openCaptureLocation()</slot>
+  <slot>showModules(bool)</slot>
  </slots>
 </ui>

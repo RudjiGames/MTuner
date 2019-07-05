@@ -29,6 +29,8 @@
     <file>../resources/images/StackTraceSource64.png</file>
     <file>../resources/images/List64.png</file>
     <file>../resources/images/ListSelected64.png</file>
+    <file>../resources/images/modules64.png</file>
+    <file>../resources/images/modules128.png</file>
     <file>../resources/images/Run.png</file>
     <file>../resources/images/TreeMapSelected64.png</file>
     <file>../resources/images/Lupa16.png</file>
@@ -45,5 +47,7 @@
     <file>../resources/images/Icon256.png</file>
     <file>../resources/images/linkedin.png</file>
     <file>../resources/images/twitter.png</file>	
+    <file>../resources/images/dock_close.png</file>	
+    <file>../resources/images/dock_detach.png</file>	
   </qresource>
 </RCC>
