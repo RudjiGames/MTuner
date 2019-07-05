@@ -23,6 +23,40 @@ class BinLoaderView;
 class TagTreeWidget;
 class GCCSetup;
 
+class DockWidget : public QDockWidget
+{
+	Q_OBJECT
+public:
+	DockWidget(const QString& _title, QWidget* _parent = 0, Qt::WindowFlags _flags = 0)
+		: QDockWidget(_title, _parent, _flags)	{}
+
+public Q_SLOTS:
+	void toggleDock(bool)
+	{
+		setFloating(!isFloating());
+	}
+};
+
+class ToolButtonHover : public QToolButton
+{
+	Q_OBJECT
+	QIcon	m_default;
+	QIcon	m_hover;
+
+public:
+	ToolButtonHover(QIcon _default, QIcon _hover, QWidget* _parent = 0)
+		: QToolButton(_parent)
+		, m_default(_default)
+		, m_hover(_hover)
+	{
+	}
+
+	void setDefaultAction(QAction* _action) { _action->setIcon(m_default); QToolButton::setDefaultAction(_action); }
+	void leaveEvent(QEvent*) { defaultAction()->setIcon(m_default); }
+	void enterEvent(QEvent*) { defaultAction()->setIcon(m_hover); }
+};
+
+
 class MTuner : public QMainWindow
 {
 	Q_OBJECT
@@ -34,13 +68,13 @@ private:
 	uint64_t				m_capturePid;
 	SymbolStore*			m_symbolStore;
 	GCCSetup*				m_gccSetup;
-	QDockWidget*			m_graphDock;
-	QDockWidget*			m_statsDock;
-	QDockWidget*			m_histogramDock;
-	QDockWidget*			m_tagTreeDock;
-	QDockWidget*			m_stackAndSourceDock;
-	QDockWidget*			m_heapsDock;
-	QDockWidget*			m_modulesDock;
+	DockWidget*				m_graphDock;
+	DockWidget*				m_statsDock;
+	DockWidget*				m_histogramDock;
+	DockWidget*				m_tagTreeDock;
+	DockWidget*				m_stackAndSourceDock;
+	DockWidget*				m_heapsDock;
+	DockWidget*				m_modulesDock;
 	QProgressBar*			m_loadingProgressBar;
 	QLabel*					m_statusBarRedDot;
 	CentralWidget*			m_centralWidget;
@@ -119,7 +153,7 @@ Q_SIGNALS:
 
 private:
 	void showWelcomeDialog();
-	void setDockWindowIcon(QDockWidget* _widget, const QString& _icon);
+	void setDockWindowIcon(DockWidget* _widget, const QString& _icon);
 	void setupDockWindows();
 	void readSettings();
 	void writeSettings();

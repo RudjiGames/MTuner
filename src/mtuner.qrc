@@ -48,6 +48,8 @@
     <file>../resources/images/linkedin.png</file>
     <file>../resources/images/twitter.png</file>	
     <file>../resources/images/dock_close.png</file>	
+    <file>../resources/images/dock_close_hover.png</file>	
     <file>../resources/images/dock_detach.png</file>	
+    <file>../resources/images/dock_detach_hover.png</file>	
   </qresource>
 </RCC>

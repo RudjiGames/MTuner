@@ -78,5 +78,6 @@
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QToolTip>
+#include <QtWidgets/QToolButton>
 
 #endif // RTM_MTUNER_PCH_H

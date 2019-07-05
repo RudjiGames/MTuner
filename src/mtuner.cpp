@@ -383,7 +383,7 @@ void MTuner::graphModified()
 	}
 }
 
-void MTuner::setDockWindowIcon(QDockWidget* _widget, const QString& _icon)
+void MTuner::setDockWindowIcon(DockWidget* _widget, const QString& _icon)
 {
 	QWidget* title = new QWidget();
 	QHBoxLayout* l = new QHBoxLayout();
@@ -399,15 +399,19 @@ void MTuner::setDockWindowIcon(QDockWidget* _widget, const QString& _icon)
 	titleLabel->setFont(fnt);
 	l->addWidget(titleLabel);
 	l->addItem(new QSpacerItem(20, 12, QSizePolicy::Expanding, QSizePolicy::Minimum));
-	QToolButton* buttonToggleDock = new QToolButton();
-	QToolButton* buttonCloseDock = new QToolButton();
 
-	buttonToggleDock->setIcon(QIcon(":/MTuner/resources/images/dock_detach.png"));
-	buttonToggleDock->setStyleSheet(" hover{ image: url(:/MTuner/resources/images/table.png; ); }");
+	ToolButtonHover* buttonToggleDock = new ToolButtonHover(QIcon(":/MTuner/resources/images/dock_close.png"), QIcon(":/MTuner/resources/images/dock_close_hover.png"));
+	QAction* actionToggle = new QAction(title);
+	actionToggle->setObjectName("action_toggle");
+	buttonToggleDock->setDefaultAction(actionToggle);
+	connect(actionToggle, SIGNAL(triggered(bool)), _widget, SLOT(toggleDock(bool)));
 
-//	connect(buttonCloseDock, SIGNAL(), _widget, SLOT(setVisible(bool)));
+	ToolButtonHover* buttonCloseDock = new ToolButtonHover(QIcon(":/MTuner/resources/images/dock_detach.png"), QIcon(":/MTuner/resources/images/dock_detach_hover.png"));
+	QAction* actionClose = new QAction(title);
+	actionClose->setObjectName("action_close");
+	buttonCloseDock->setDefaultAction(actionClose);
+	connect(actionClose, SIGNAL(triggered(bool)), _widget, SLOT(setVisible(bool)));
 
-	buttonCloseDock->setIcon(QIcon(":/MTuner/resources/images/dock_close.png"));
 	l->addWidget(buttonToggleDock);
 	l->addWidget(buttonCloseDock);
 	title->setLayout(l);
@@ -415,19 +419,19 @@ void MTuner::setDockWindowIcon(QDockWidget* _widget, const QString& _icon)
 	// NB: RQT_ACTIVE_BACKGROUND_COLOR must match the defines in default.qss
 	static const char* ss = "background-color: RQT_ACTIVE_BACKGROUND_COLOR;";
 	title->setStyleSheet(rqt::appPreProcessStyleSheet(ss).c_str());
-	//_widget->setTitleBarWidget(title);
+	_widget->setTitleBarWidget(title);
 }
 
 void MTuner::setupDockWindows()
 {
 	setDockNestingEnabled(true);
-	m_graphDock = new QDockWidget(tr("Memory timeline"),this);
-	m_histogramDock = new QDockWidget(tr("Allocation histogram"),this);
-	m_statsDock = new QDockWidget(tr("Statistics"),this);
-	m_tagTreeDock = new QDockWidget(tr("Memory tag tree"),this);
-	m_stackAndSourceDock = new QDockWidget(tr("Stack trace"), this);
-	m_heapsDock = new QDockWidget(tr("Heaps / Allocators"),this);
-	m_modulesDock = new QDockWidget(tr("Modules"),this);
+	m_graphDock				= new DockWidget(tr("Memory timeline"),this);
+	m_histogramDock			= new DockWidget(tr("Allocation histogram"),this);
+	m_statsDock				= new DockWidget(tr("Statistics"),this);
+	m_tagTreeDock			= new DockWidget(tr("Memory tag tree"),this);
+	m_stackAndSourceDock	= new DockWidget(tr("Stack trace"), this);
+	m_heapsDock				= new DockWidget(tr("Heaps / Allocators"),this);
+	m_modulesDock			= new DockWidget(tr("Modules"),this);
 
 	m_graphDock->setObjectName("GraphDock");
 	m_histogramDock->setObjectName("HistogramDock");
