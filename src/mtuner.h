@@ -124,6 +124,7 @@ public Q_SLOTS:
 	void about();
 
 	void heapSelected(uint64_t);
+	void moduleSelected(void*);
 	void graphModified();
 	void setWidgetSources(CaptureContext* _binView);
 

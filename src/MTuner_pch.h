@@ -10,11 +10,12 @@
 #define RTM_DEFINE_STL_TYPES
 
 #include <rbase/inc/platform.h>
-#include <rbase/inc/stringfn.h>
-#include <rbase/inc/winchar.h>
-#include <rbase/inc/libhandler.h>
 #include <rbase/inc/chunkallocator.h>
 #include <rbase/inc/console.h>
+#include <rbase/inc/libhandler.h>
+#include <rbase/inc/path.h>
+#include <rbase/inc/stringfn.h>
+#include <rbase/inc/winchar.h>
 
 #include <rmem/inc/rmem.h>
 

@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>Stats</class>
  <widget class="QWidget" name="Stats">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>276</width>
+    <height>335</height>
+   </rect>
+  </property>
   <property name="sizePolicy">
    <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
     <horstretch>0</horstretch>
@@ -34,25 +42,13 @@
    <item row="0" column="0">
     <widget class="QTableWidget" name="tableWidget">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+      <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="minimumSize">
-      <size>
-       <width>276</width>
-       <height>232</height>
-      </size>
-     </property>
      <property name="focusPolicy">
       <enum>Qt::NoFocus</enum>
-     </property>
-     <property name="verticalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOff</enum>
-     </property>
-     <property name="horizontalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOff</enum>
      </property>
      <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>
@@ -66,11 +62,11 @@
      <attribute name="verticalHeaderVisible">
       <bool>true</bool>
      </attribute>
-     <attribute name="verticalHeaderHighlightSections">
-      <bool>false</bool>
-     </attribute>
      <attribute name="verticalHeaderMinimumSectionSize">
       <number>30</number>
+     </attribute>
+     <attribute name="verticalHeaderHighlightSections">
+      <bool>false</bool>
      </attribute>
      <attribute name="verticalHeaderStretchLastSection">
       <bool>false</bool>
@@ -138,7 +134,7 @@
        <string>Total memory usage, in bytes, at process termination</string>
       </property>
       <property name="textAlignment">
-       <set>AlignRight|AlignVCenter</set>
+       <set>AlignTrailing|AlignVCenter</set>
       </property>
      </item>
      <item row="0" column="1">
@@ -149,7 +145,7 @@
        <string>Total memory usage, in bytes, at the end of selected time slice</string>
       </property>
       <property name="textAlignment">
-       <set>AlignRight|AlignVCenter</set>
+       <set>AlignTrailing|AlignVCenter</set>
       </property>
      </item>
      <item row="1" column="0">
@@ -160,7 +156,7 @@
        <string>Peak memory usage, in bytes</string>
       </property>
       <property name="textAlignment">
-       <set>AlignRight|AlignVCenter</set>
+       <set>AlignTrailing|AlignVCenter</set>
       </property>
       <property name="flags">
        <set>ItemIsEnabled</set>
@@ -174,7 +170,7 @@
        <string>Peak memory usage, in bytes, inside the selected time slice</string>
       </property>
       <property name="textAlignment">
-       <set>AlignRight|AlignVCenter</set>
+       <set>AlignTrailing|AlignVCenter</set>
       </property>
      </item>
      <item row="2" column="0">
@@ -185,7 +181,7 @@
        <string>Number of memory operations</string>
       </property>
       <property name="textAlignment">
-       <set>AlignRight|AlignVCenter</set>
+       <set>AlignTrailing|AlignVCenter</set>
       </property>
      </item>
      <item row="2" column="1">
@@ -196,7 +192,7 @@
        <string>Number of memory operations in selected time slice</string>
       </property>
       <property name="textAlignment">
-       <set>AlignRight|AlignVCenter</set>
+       <set>AlignTrailing|AlignVCenter</set>
       </property>
      </item>
      <item row="3" column="0">
@@ -207,7 +203,7 @@
        <string>Number of allocations</string>
       </property>
       <property name="textAlignment">
-       <set>AlignRight|AlignVCenter</set>
+       <set>AlignTrailing|AlignVCenter</set>
       </property>
      </item>
      <item row="3" column="1">
@@ -218,7 +214,7 @@
        <string>Number of allocations in selected time slice</string>
       </property>
       <property name="textAlignment">
-       <set>AlignRight|AlignVCenter</set>
+       <set>AlignTrailing|AlignVCenter</set>
       </property>
      </item>
      <item row="4" column="0">
@@ -229,7 +225,7 @@
        <string>Number of reallocations</string>
       </property>
       <property name="textAlignment">
-       <set>AlignRight|AlignVCenter</set>
+       <set>AlignTrailing|AlignVCenter</set>
       </property>
      </item>
      <item row="4" column="1">
@@ -240,7 +236,7 @@
        <string>Number of reallocations in selected time slice</string>
       </property>
       <property name="textAlignment">
-       <set>AlignRight|AlignVCenter</set>
+       <set>AlignTrailing|AlignVCenter</set>
       </property>
      </item>
      <item row="5" column="0">
@@ -251,7 +247,7 @@
        <string>Number of free operations</string>
       </property>
       <property name="textAlignment">
-       <set>AlignRight|AlignVCenter</set>
+       <set>AlignTrailing|AlignVCenter</set>
       </property>
      </item>
      <item row="5" column="1">
@@ -262,7 +258,7 @@
        <string>Number of free operations in selected time slice</string>
       </property>
       <property name="textAlignment">
-       <set>AlignRight|AlignVCenter</set>
+       <set>AlignTrailing|AlignVCenter</set>
       </property>
      </item>
      <item row="6" column="0">
@@ -273,7 +269,7 @@
        <string>Number of memory leaks</string>
       </property>
       <property name="textAlignment">
-       <set>AlignRight|AlignVCenter</set>
+       <set>AlignTrailing|AlignVCenter</set>
       </property>
      </item>
      <item row="6" column="1">
@@ -284,7 +280,7 @@
        <string>Number of memory leaks in selected time slice</string>
       </property>
       <property name="textAlignment">
-       <set>AlignRight|AlignVCenter</set>
+       <set>AlignTrailing|AlignVCenter</set>
       </property>
      </item>
      <item row="7" column="0">
@@ -295,7 +291,7 @@
        <string>Total allocation overhead, in bytes</string>
       </property>
       <property name="textAlignment">
-       <set>AlignRight|AlignVCenter</set>
+       <set>AlignTrailing|AlignVCenter</set>
       </property>
      </item>
      <item row="7" column="1">
@@ -306,7 +302,7 @@
        <string>Total allocation overhead, in bytes, in selected time slice</string>
       </property>
       <property name="textAlignment">
-       <set>AlignRight|AlignVCenter</set>
+       <set>AlignTrailing|AlignVCenter</set>
       </property>
      </item>
      <item row="8" column="0">
@@ -317,7 +313,7 @@
        <string>Peak allocation overhead, in bytes</string>
       </property>
       <property name="textAlignment">
-       <set>AlignRight|AlignVCenter</set>
+       <set>AlignTrailing|AlignVCenter</set>
       </property>
      </item>
      <item row="8" column="1">
@@ -328,7 +324,7 @@
        <string>Peak overhead, in bytes, in selected time slice</string>
       </property>
       <property name="textAlignment">
-       <set>AlignRight|AlignVCenter</set>
+       <set>AlignTrailing|AlignVCenter</set>
       </property>
      </item>
     </widget>

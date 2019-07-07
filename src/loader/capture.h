@@ -77,6 +77,7 @@ class Capture
 		MemoryMarkersHashType			m_memoryMarkers;
 		HeapsType						m_Heaps;
 		uint64_t						m_currentHeap;
+		rdebug::ModuleInfo*				m_currentModule;
 		rtm_vector<MemoryMarkerTime>	m_memoryMarkerTimes;
 		uint64_t						m_CPUFrequency;
 		rtm_vector<MemoryOperation*>	m_memoryLeaks;			/// List of allocations without matching free
@@ -149,12 +150,12 @@ class Capture
 		const MemoryGroupsHashType&			getMemoryGroupsFiltered() const { return m_filter.m_operationGroups; }
 		rmem::ToolChain::Enum				getToolchain() { return m_toolchain; }
 		HeapsType&							getHeaps() { return m_Heaps; }
-		void								setCurrentHeap(uint64_t inHandle) { m_currentHeap = inHandle; }
+		void								setCurrentHeap(uint64_t _handle) { m_currentHeap = _handle; }
+		void								setCurrentModule(rdebug::ModuleInfo* _module) { m_currentModule = _module; }
 
 	private:
 		bool		loadModuleInfo(BinLoader& _loader, uint64_t inFileSize );
 		bool		setLinksAndRemoveInvalid(uint64_t inMinMarkerTime);
-		bool		findModule(uint64_t inAddress, rdebug::ModuleInfo& outInfo);
 		void		addModule(const char* inName, uint64_t inModBase, uint64_t inModSize);
 		void		calculateGlobalStats();
 		void		calculateSnapshotStats();

@@ -226,7 +226,7 @@ void Capture::clearData()
 
 	m_Heaps.clear();
 	m_currentHeap = (uint64_t)-1;
-
+	m_currentModule  = 0;
 
 	tagTreeDestroy(m_tagTree);
 	destroyStackTree(m_stackTraceTree);
@@ -928,11 +928,27 @@ bool Capture::isInFilter(MemoryOperation* _op)
 	if ((m_filter.m_threadID != 0) && (m_filter.m_threadID != _op->m_threadID))
 		return false;
 
-	if (_op->m_operationTime < m_filter.m_minTimeSnapshot)
+	if ((_op->m_operationTime < m_filter.m_minTimeSnapshot) ||
+		(_op->m_operationTime > m_filter.m_maxTimeSnapshot))
 		return false;
 
-	if (_op->m_operationTime > m_filter.m_maxTimeSnapshot)
-		return false;
+	if (m_currentModule)
+	{
+		bool moduleInStack = false;
+		const uint32_t numEntries = (uint32_t)_op->m_stackTrace->m_numEntries;
+		for (uint32_t i=0; i<numEntries; ++i)
+		{
+			rdebug::ModuleInfo info;
+			if (m_currentModule->checkAddress(_op->m_stackTrace->m_entries[i]))
+			{
+				moduleInStack = true;
+				break;
+			}
+		}
+
+		if (!moduleInStack)
+			return false;
+	}
 
 	if (m_filter.m_leakedOnly && !isLeaked(_op))
 		return false;
@@ -1096,7 +1112,11 @@ bool Capture::loadModuleInfo(BinLoader& _loader, uint64_t _fileSize)
 		else
 			executablePath = QString::fromUtf8((const char*)exePathA).toUtf8();
 
-		rtm::pathCanonicalize(executablePath.data());
+		char pathBuffer[2048];
+		size_t sz = executablePath.size();
+		memcpy(pathBuffer, executablePath.data(), sz);
+		pathBuffer[sz] = 0;
+		rtm::pathCanonicalize(pathBuffer);
 
 		if (m_swapEndian)
 		{
@@ -1104,7 +1124,7 @@ bool Capture::loadModuleInfo(BinLoader& _loader, uint64_t _fileSize)
 			modSize = Endian::swap(modSize);
 		}
 
-		addModule(executablePath.constData(), modBase, modSize);
+		addModule(pathBuffer, modBase, modSize);
 
 		if (m_loadProgressCallback)
 		{
@@ -1369,26 +1389,6 @@ bool Capture::setLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 
 	return true;
 }
-
-//--------------------------------------------------------------------------
-/// Find module information corresponding to the given address
-//--------------------------------------------------------------------------
-bool Capture::findModule(uint64_t inAddress, rdebug::ModuleInfo& outInfo)
-{
-	size_t numModules = m_moduleInfos.size();
-	for (size_t i=0; i<numModules; i++)
-	{
-		rdebug::ModuleInfo& info = m_moduleInfos[i];
-		if (info.checkAddress(inAddress))
-		{
-			outInfo = info;
-			return true;
-		}
-	}
-
-	return false;
-}
-
 //--------------------------------------------------------------------------
 /// Adds module to list of infos
 //--------------------------------------------------------------------------
@@ -1404,17 +1404,6 @@ void Capture::addModule(const char* _path, uint64_t inModBase, uint64_t inModSiz
 		m_modulePathBufferPtr = 0;
 	}
 	
-	size_t numModules = m_moduleInfos.size();
-	for (size_t i=0; i<numModules; i++)
-	{
-		rdebug::ModuleInfo& info = m_moduleInfos[i];
-		if (rtm::strCmp(info.m_modulePath, _path) == 0)
-		{
-			if (inModBase == info.m_baseAddress)
-				return;
-		}
-	}
-
 	const char* moduleName = rtm::strStr(exePath, "/");
 	if (!moduleName)
 		moduleName = rtm::strStr(exePath, "\\");
@@ -1435,6 +1424,17 @@ void Capture::addModule(const char* _path, uint64_t inModBase, uint64_t inModSiz
 		return;
 
 	rtm::strlCpy(&m_modulePathBuffer[m_modulePathBufferPtr], modulePathBufferSize - m_modulePathBufferPtr, _path);
+
+	size_t numModules = m_moduleInfos.size();
+	for (size_t i=0; i<numModules; i++)
+	{
+		rdebug::ModuleInfo& info = m_moduleInfos[i];
+		if (rtm::strCmp(rtm::pathGetFileName(info.m_modulePath), rtm::pathGetFileName(_path)) == 0)
+		{
+			if (inModBase == info.m_baseAddress)
+				return;
+		}
+	}
 
 	rdebug::ModuleInfo info;
 	info.m_baseAddress	= inModBase;

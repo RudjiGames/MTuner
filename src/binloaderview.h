@@ -30,6 +30,7 @@ private:
 	uint64_t			m_minTime;
 	uint64_t			m_maxTime;
 	uint64_t			m_currentHeap;
+	rdebug::ModuleInfo*	m_currentModule;
 	rtm::StackTrace**	m_savedStackTraces;
 	uint32_t			m_savedStackTracesCount;
 	int					m_histogramType;
@@ -60,6 +61,8 @@ public:
 	void		setMaxTime(uint64_t	_maxTime) { m_maxTime = _maxTime; }
 	uint64_t	getCurrentHeap() { return m_currentHeap; }
 	void		setCurrentHeap(uint64_t inHeap) { m_currentHeap = inHeap; }
+	rdebug::ModuleInfo* getCurrentModule() { return m_currentModule; }
+	void		setCurrentModule(rdebug::ModuleInfo* _module) { m_currentModule = _module; }
 	void		setFilteringEnabled(bool _filter);
 	bool		getFilteringEnabled() const { return m_filteringEnabled; }
 

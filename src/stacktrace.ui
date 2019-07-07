@@ -46,8 +46,8 @@
      <attribute name="horizontalHeaderMinimumSectionSize">
       <number>21</number>
      </attribute>
-     <attribute name="horizontalHeaderDefaultSectionSize">
-      <number>99</number>
+     <attribute name="horizontalHeaderStretchLastSection">
+      <bool>true</bool>
      </attribute>
      <attribute name="verticalHeaderVisible">
       <bool>false</bool>
@@ -76,6 +76,11 @@
      <column>
       <property name="text">
        <string>Line</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Path</string>
       </property>
      </column>
     </widget>

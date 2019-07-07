@@ -8,12 +8,15 @@
 #include <MTuner/src/stacktrace.h>
 #include <MTuner/src/capturecontext.h>
 
+#include <rbase/inc/path.h>
+
 enum StackTraceColumns
 {
 	Module,
 	Function,
 	File,
-	Line
+	Line,
+	Path
 };
 
 StackTrace::StackTrace(QWidget* _parent, Qt::WindowFlags _flags) : 
@@ -85,14 +88,14 @@ void StackTrace::clear()
 void StackTrace::currentCellChanged(int _currentRow, int _currentColumn, int _previousRow, int _previousColumn)
 {
 	RTM_UNUSED_3(_currentColumn, _previousRow, _previousColumn);
-	QTableWidgetItem* fileItem = m_table->item(_currentRow, StackTraceColumns::File);
 	QTableWidgetItem* lineItem = m_table->item(_currentRow, StackTraceColumns::Line);
 	QTableWidgetItem* funcItem = m_table->item(_currentRow, StackTraceColumns::Function);
+	QTableWidgetItem* pathItem = m_table->item(_currentRow, StackTraceColumns::Path);
 
-	if (!fileItem || !lineItem || !funcItem)
+	if (!lineItem || !funcItem || !pathItem)
 		return;
 
-	QString file = fileItem->text();
+	QString file = pathItem->text();
 	int		line = lineItem->text().toInt();
 	m_selectedFunc	= funcItem->text();
 	emit openFile(file, line, 0);
@@ -150,7 +153,6 @@ void StackTrace::updateView()
 		m_context->resolveStackFrame(address, frame);
 
 		QString sourcefile	= QString::fromUtf8(frame.m_file);
-		QString module		= QString::fromUtf8(frame.m_moduleName);
 		QString func		= QString::fromUtf8(frame.m_func);
 		QString symStoreDir	= QString::fromUtf8(m_context->getSymbolStoreDir().c_str());
 
@@ -158,11 +160,12 @@ void StackTrace::updateView()
 		if (info.exists())
 			sourcefile = info.absoluteFilePath();
 
-		// module, file, line, function
-		m_table->setItem(i, StackTraceColumns::Module,		new QTableWidgetItem(module));
+		// module, file, line, function, Path
+		m_table->setItem(i, StackTraceColumns::Module,		new QTableWidgetItem(frame.m_moduleName));
 		m_table->setItem(i, StackTraceColumns::Function,	new QTableWidgetItem(func));
-		m_table->setItem(i, StackTraceColumns::File,		new QTableWidgetItem(sourcefile));
+		m_table->setItem(i, StackTraceColumns::File,		new QTableWidgetItem(QString::fromUtf8(rtm::pathGetFileName(frame.m_file))));
 		m_table->setItem(i, StackTraceColumns::Line,		new QTableWidgetItem(QString::number(frame.m_line)));
+		m_table->setItem(i, StackTraceColumns::Path,		new QTableWidgetItem(QString::fromUtf8(frame.m_file)));
 
 		if (m_selectedFunc.compare(func) == 0)
 			selectedRow = i;
@@ -214,7 +217,8 @@ void StackTrace::copy()
 	text += m_table->item(m_copyIndex, StackTraceColumns::Module)->text()	+ '\t';
 	text += m_table->item(m_copyIndex, StackTraceColumns::Function)->text()	+ '\t';
 	text += m_table->item(m_copyIndex, StackTraceColumns::File)->text()		+ '\t';
-	text += m_table->item(m_copyIndex, StackTraceColumns::Line)->text()		+ '\n';
+	text += m_table->item(m_copyIndex, StackTraceColumns::Line)->text()		+ '\t';
+	text += m_table->item(m_copyIndex, StackTraceColumns::Path)->text()		+ '\n';
 
 	QApplication::clipboard()->setText(text);
 	copyResetIndex();
@@ -230,7 +234,8 @@ void StackTrace::copyAll()
 		text += m_table->item(i, StackTraceColumns::Module)->text()		+ '\t';
 		text += m_table->item(i, StackTraceColumns::Function)->text()	+ '\t';
 		text += m_table->item(i, StackTraceColumns::File)->text()		+ '\t';
-		text += m_table->item(i, StackTraceColumns::Line)->text()		+ '\n';
+		text += m_table->item(i, StackTraceColumns::Line)->text()		+ '\t';
+		text += m_table->item(i, StackTraceColumns::Path)->text()		+ '\n';
 	}
 
 	QApplication::clipboard()->setText(text);

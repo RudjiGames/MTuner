@@ -372,6 +372,18 @@ void MTuner::heapSelected(uint64_t _handle)
 	}
 }
 
+void MTuner::moduleSelected(void* _module)
+{
+	BinLoaderView* view = m_centralWidget->getCurrentView();
+	if (view)
+	{
+		view->setCurrentModule((rdebug::ModuleInfo*)_module);
+		CaptureContext* m_context = view ? view->getContext() : NULL;
+		if (m_context)
+			m_context->m_capture->setCurrentModule((rdebug::ModuleInfo*)_module);
+	}
+}
+
 void MTuner::graphModified()
 {
 	BinLoaderView* view = m_centralWidget->getCurrentView();
@@ -513,7 +525,7 @@ void MTuner::setupDockWindows()
 	connect(m_centralWidget, SIGNAL(setStackTrace(rtm::StackTrace**,int)), m_stackAndSource, SLOT(setStackTrace(rtm::StackTrace**,int)));
 
 	connect(m_heapsWidget,SIGNAL(heapSelected(uint64_t)), this, SLOT(heapSelected(uint64_t)));
-	connect(m_modulesWidget,SIGNAL(moduleSelected(uint64_t)), this, SLOT(moduleSelected(uint64_t)));
+	connect(m_modulesWidget,SIGNAL(moduleSelected(void*)), this, SLOT(moduleSelected(void*)));
 
 	connect(graphWidget,SIGNAL(snapshotSelected()), m_histogramWidget, SLOT(updateUI()));
 	connect(graphWidget,SIGNAL(snapshotSelected()), m_stats, SLOT(updateUI()));
@@ -524,7 +536,7 @@ void MTuner::setupDockWindows()
 	connect(m_histogramWidget,SIGNAL(binClicked()), m_centralWidget, SLOT(updateFilterDataIfNeeded()));
 	connect(m_tagTree,SIGNAL(tagClicked()), m_centralWidget, SLOT(updateFilterDataIfNeeded()));
 	connect(m_heapsWidget,SIGNAL(heapSelected(uint64_t)), m_centralWidget, SLOT(updateFilterDataIfNeeded()));
-	connect(m_modulesWidget,SIGNAL(heapSelected(uint64_t)), m_centralWidget, SLOT(updateFilterDataIfNeeded()));
+	connect(m_modulesWidget,SIGNAL(moduleSelected(void*)), m_centralWidget, SLOT(updateFilterDataIfNeeded()));
 }
 
 void MTuner::setWidgetSources(CaptureContext* _context)
@@ -540,6 +552,7 @@ void MTuner::setWidgetSources(CaptureContext* _context)
 	m_heapsWidget->setContext(ctx);
 	m_modulesWidget->setContext(ctx);
 	m_stackAndSource->setContext(ctx);
+	m_modulesWidget->setContext(ctx);
 
 	if (binView)
 	{
@@ -547,7 +560,7 @@ void MTuner::setWidgetSources(CaptureContext* _context)
 		connect(binView, SIGNAL(selectRange(uint64_t,uint64_t)), m_graph->getGraphWidget(), SLOT(selectFromTimes(uint64_t, uint64_t)));
 		connect(binView, SIGNAL(highlightRange(uint64_t, uint64_t)), m_graph, SLOT(highlightRange(uint64_t, uint64_t)));
 		m_heapsWidget->setCurrentHeap(binView->getCurrentHeap());
-		//m_heapsWidget->setCurrentHeap(binView->getCurrentHeap());
+		m_modulesWidget->setCurrentModule(binView->getCurrentModule());
 		GraphWidget* graphWidget = m_graph->getGraphWidget();
 		graphWidget->setMinTime(binView->getMinTime());
 		graphWidget->setMaxTime(binView->getMaxTime());

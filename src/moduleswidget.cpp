@@ -7,13 +7,18 @@
 #include <MTuner/src/moduleswidget.h>
 #include <MTuner/src/capturecontext.h>
 
-ModulesWidget::ModulesWidget(QWidget* _parent, Qt::WindowFlags _flags) : 
-	QWidget(_parent, _flags)
+ModulesWidget::ModulesWidget(QWidget* _parent, Qt::WindowFlags _flags)
+	: QWidget(_parent, _flags)
+	, m_currentItem(0)
+	, m_currentInfo(0)
 {
 	ui.setupUi(this);
 	
-	m_treeWidget = findChild<QTreeWidget*>("treeWidget");
-	connect(m_treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(ItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)));
+	m_filter	= findChild<QLineEdit*>("lineEdit");
+	connect(m_filter, SIGNAL(textChanged(const QString&)), this, SLOT(filterChanged(const QString&)));
+
+	m_list		= findChild<QTreeWidget*>("treeWidget");
+	connect(m_list, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(itemClicked(QTreeWidgetItem*, int)));
 }
 
 void ModulesWidget::changeEvent(QEvent* _event)
@@ -29,51 +34,88 @@ void ModulesWidget::setContext(CaptureContext* _context)
 		return;
 
 	m_context = _context;
+	filterChanged(QString());
+}
+
+void ModulesWidget::itemClicked(QTreeWidgetItem* _currentItem, int _column)
+{
+	RTM_UNUSED(_column);
+	if (!_currentItem)
+		return;
+
+	m_list->setFocus();
+
+	if (m_currentItem == _currentItem)
+	{
+		m_currentItem = 0;
+		m_currentInfo = 0;
+		m_list->setCurrentItem(0);
+		emit moduleSelected(0);
+	}
+	else
+	{
+		m_currentItem = _currentItem;
+		m_list->setCurrentItem(_currentItem);
+		rdebug::ModuleInfo* info = (rdebug::ModuleInfo*)_currentItem->data(0,Qt::UserRole).toLongLong();
+		m_currentInfo = info;
+		emit moduleSelected(info);
+	}
+}
+
+void ModulesWidget::filterChanged(const QString& _text)
+{
+	rdebug::ModuleInfo* info = m_currentInfo;
 
 	if (m_context)
 	{
-		m_treeWidget->clear();
-		rtm::HeapsType& heaps = m_context->m_capture->getHeaps();
-		rtm::HeapsType::iterator it = heaps.begin();
-		rtm::HeapsType::iterator end = heaps.end();
+		m_list->clear();
+		rtm_vector<rdebug::ModuleInfo>&	modules = m_context->m_capture->getModuleInfos();
+		rtm_vector<rdebug::ModuleInfo>::reverse_iterator it  = modules.rbegin();
+		rtm_vector<rdebug::ModuleInfo>::reverse_iterator end = modules.rend();
 
-		QTreeWidgetItem* item = new QTreeWidgetItem(QStringList()
-									<< ""
-									<< QString("All allocators/heaps"));
-		item->setFirstColumnSpanned(true);
-		item->setData(0, Qt::UserRole, (qlonglong)-1);
-		m_treeWidget->addTopLevelItem(item);
-		
-
+		QTreeWidgetItem* curItem = 0;
 		while (it != end)
 		{
-			item = new QTreeWidgetItem(QStringList()
-										<< ("0x" + QString::number((qlonglong)it->first,16))
-										<< QString(it->second.c_str()));
-			item->setData(0, Qt::UserRole, (qlonglong)it->first);
-			m_treeWidget->addTopLevelItem(item);
+			QString path = QString::fromUtf8(it->m_modulePath);
+
+			if ((_text.length() == 0) ||
+				(path.indexOf(_text, 0, Qt::CaseInsensitive) >= 0))
+			{
+				QString name = QString::fromUtf8(rtm::pathGetFileName(it->m_modulePath));
+				QTreeWidgetItem* item = new QTreeWidgetItem(QStringList()
+											<< name
+											<< ("0x" + QString::number(it->m_baseAddress, 16))
+											<< ("0x" + QString::number(it->m_baseAddress + it->m_size, 16))
+											<< QString::number(it->m_size)
+											<< QString::fromUtf8(it->m_modulePath));
+				item->setData(0, Qt::UserRole, (qlonglong)&*it);
+
+				if (&*it == info)
+					curItem = item;
+
+				m_list->addTopLevelItem(item);
+			}
 			++it;
 		}
+		m_filter->setEnabled(true);
+		m_list->setCurrentItem(curItem);
+
+		if (_text.length() == 0)
+			m_list->setFocus();
 	}
 	else
-		m_treeWidget->clear();
+	{
+		m_list->clear();
+		m_filter->setEnabled(false);
+	}
 }
 
-void ModulesWidget::ItemChanged(QTreeWidgetItem* _currentItem, QTreeWidgetItem* _item)
+void ModulesWidget::setCurrentModule(rdebug::ModuleInfo* _module)
 {
-	RTM_UNUSED(_item);
-	if (!_currentItem)
-		return;
-	uint64_t handle = (uint64_t)_currentItem->data(0,Qt::UserRole).toLongLong();
-	emit heapSelected(handle);
-}
-
-void ModulesWidget::setCurrentHeap(uint64_t _handle)
-{
-	QTreeWidgetItemIterator it(m_treeWidget);
+	QTreeWidgetItemIterator it(m_list);
 	while (*it)
 	{
-		if ((*it)->data(0,Qt::UserRole).toULongLong() == _handle)
+		if ((rdebug::ModuleInfo*)(*it)->data(0,Qt::UserRole).toULongLong() == _module)
 		{
 			(*it)->setSelected(true);
 			return;

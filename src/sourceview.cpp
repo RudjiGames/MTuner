@@ -152,18 +152,28 @@ void SourceView::openFile(const QString& _file, int _row, int _col)
 		if (!set)
 		{
 			m_currentFile = "";
-			m_currentLine = 0;
+			m_currentLine = -1;
 			setPlainText("");
 			m_openInEditorAction->setEnabled(false);
 		}
 	}
 
-	QTextCursor cursor = textCursor();
-	cursor.setPosition(0, QTextCursor::KeepAnchor);
-	cursor.movePosition(QTextCursor::Down, QTextCursor::KeepAnchor, _row-1);
-	cursor.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
-	setTextCursor(cursor);
-	highlightCurrentLine();
+	if (m_currentLine != -1)
+	{
+		QTextCursor cursor = textCursor();
+		cursor.setPosition(0, QTextCursor::KeepAnchor);
+		cursor.movePosition(QTextCursor::Down, QTextCursor::KeepAnchor, _row-1);
+		cursor.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
+		setTextCursor(cursor);
+		highlightCurrentLine();
+	}
+	else
+	{
+		QTextCursor cursor = textCursor();
+		cursor.setPosition(0, QTextCursor::MoveAnchor);
+		setTextCursor(cursor);
+		setExtraSelections(QList<QTextEdit::ExtraSelection>());
+	}
 }
 
 void SourceView::contextMenuEvent(QContextMenuEvent* _event)
@@ -195,7 +205,6 @@ void SourceView::highlightCurrentLine()
 	selection.cursor = textCursor();
 	selection.cursor.clearSelection();
 	extraSelections.append(selection);
-
 	setExtraSelections(extraSelections);
 }
 

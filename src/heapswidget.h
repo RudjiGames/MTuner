@@ -16,6 +16,7 @@ class HeapsWidget : public QWidget
 
 private:
 	QTreeWidget*	m_treeWidget;
+	QTreeWidgetItem*m_currentItem;
 	CaptureContext*	m_context;
 
 public:
@@ -26,7 +27,7 @@ public:
 	void setCurrentHeap(uint64_t _handle);
 
 public Q_SLOTS:
-	void ItemChanged(QTreeWidgetItem*, QTreeWidgetItem*);
+	void itemClicked(QTreeWidgetItem*, int);
 
 Q_SIGNALS:
 	void heapSelected(uint64_t);

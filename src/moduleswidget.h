@@ -15,21 +15,25 @@ class ModulesWidget : public QWidget
 	Q_OBJECT
 
 private:
-	QTreeWidget*	m_treeWidget;
+	QLineEdit*		m_filter;
+	QTreeWidget*	m_list;
+	QTreeWidgetItem*m_currentItem;
 	CaptureContext*	m_context;
+	rdebug::ModuleInfo* m_currentInfo;
 
 public:
 	ModulesWidget(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
 
 	void changeEvent(QEvent* _event);
 	void setContext(CaptureContext* _capture);
-	void setCurrentHeap(uint64_t _handle);
+	void setCurrentModule(rdebug::ModuleInfo* _module);
 
 public Q_SLOTS:
-	void ItemChanged(QTreeWidgetItem*, QTreeWidgetItem*);
+	void itemClicked(QTreeWidgetItem* _currentItem, int _column);
+	void filterChanged(const QString&);
 
 Q_SIGNALS:
-	void heapSelected(uint64_t);
+	void moduleSelected(void*);
 
 private:
 	Ui::ModulesWidget ui;

@@ -7,13 +7,14 @@
 #include <MTuner/src/heapswidget.h>
 #include <MTuner/src/capturecontext.h>
 
-HeapsWidget::HeapsWidget(QWidget* _parent, Qt::WindowFlags _flags) : 
-	QWidget(_parent, _flags)
+HeapsWidget::HeapsWidget(QWidget* _parent, Qt::WindowFlags _flags)
+	: QWidget(_parent, _flags)
+	, m_currentItem(0)
 {
 	ui.setupUi(this);
 	
 	m_treeWidget = findChild<QTreeWidget*>("treeWidget");
-	connect(m_treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(ItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)));
+	connect(m_treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(itemClicked(QTreeWidgetItem*, int)));
 }
 
 void HeapsWidget::changeEvent(QEvent* _event)
@@ -37,17 +38,9 @@ void HeapsWidget::setContext(CaptureContext* _context)
 		rtm::HeapsType::iterator it = heaps.begin();
 		rtm::HeapsType::iterator end = heaps.end();
 
-		QTreeWidgetItem* item = new QTreeWidgetItem(QStringList()
-									<< ""
-									<< QString("All allocators/heaps"));
-		item->setFirstColumnSpanned(true);
-		item->setData(0, Qt::UserRole, (qlonglong)-1);
-		m_treeWidget->addTopLevelItem(item);
-		
-
 		while (it != end)
 		{
-			item = new QTreeWidgetItem(QStringList()
+			QTreeWidgetItem* item = new QTreeWidgetItem(QStringList()
 										<< ("0x" + QString::number((qlonglong)it->first,16))
 										<< QString(it->second.c_str()));
 			item->setData(0, Qt::UserRole, (qlonglong)it->first);
@@ -59,13 +52,25 @@ void HeapsWidget::setContext(CaptureContext* _context)
 		m_treeWidget->clear();
 }
 
-void HeapsWidget::ItemChanged(QTreeWidgetItem* _currentItem, QTreeWidgetItem* _item)
+void HeapsWidget::itemClicked(QTreeWidgetItem* _currentItem, int _column)
 {
-	RTM_UNUSED(_item);
+	RTM_UNUSED(_column);
 	if (!_currentItem)
 		return;
-	uint64_t handle = (uint64_t)_currentItem->data(0,Qt::UserRole).toLongLong();
-	emit heapSelected(handle);
+
+	if (m_currentItem == _currentItem)
+	{
+		m_currentItem = 0;
+		m_treeWidget->setCurrentItem(0);
+		emit heapSelected(0);
+	}
+	else
+	{
+		m_currentItem = _currentItem;
+		m_treeWidget->setCurrentItem(_currentItem);
+		uint64_t address = _currentItem->data(0,Qt::UserRole).toULongLong();
+		emit heapSelected(address);
+	}
 }
 
 void HeapsWidget::setCurrentHeap(uint64_t _handle)

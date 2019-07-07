@@ -126,6 +126,7 @@
    <addaction name="action_View_StackTrace"/>
    <addaction name="action_view_ModulesDock"/>
    <addaction name="action_View_Memory_Graph"/>
+   <addaction name="action_View_Histograms"/>
    <addaction name="separator"/>
   </widget>
   <action name="action_Open">

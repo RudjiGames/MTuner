@@ -7,6 +7,25 @@
 #include <MTuner/src/stats.h>
 #include <MTuner/src/capturecontext.h>
 
+#include <rqt/inc/rqt.h>
+#include <MTuner/src/projectsmanager.h>
+#include <MTuner/src/symbolstore.h>
+#include <MTuner/src/centralwidget.h>
+#include <MTuner/src/external_editor.h>
+#include <MTuner/src/graphwidget.h>
+#include <MTuner/src/heapswidget.h>
+#include <MTuner/src/moduleswidget.h>
+#include <MTuner/src/histogramwidget.h>
+#include <MTuner/src/stackandsource.h>
+#include <MTuner/src/stats.h>
+#include <MTuner/src/binloaderview.h>
+#include <MTuner/src/sourceview.h>
+#include <MTuner/src/graph.h>
+#include <MTuner/src/gcc.h>
+#include <MTuner/src/welcome.h>
+#include <MTuner/src/tagtreewidget.h>
+#include <MTuner/src/capturecontext.h>
+
 Stats::Stats(QWidget* _parent, Qt::WindowFlags _flags) :
 	QWidget(_parent, _flags)
 {
@@ -14,8 +33,10 @@ Stats::Stats(QWidget* _parent, Qt::WindowFlags _flags) :
 	m_table = findChild<QTableWidget*>("tableWidget");
 	m_context = NULL;
 	m_table->setItemDelegate( new StatsDelegate() );
-	m_table->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+//	m_table->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+	m_table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	m_table->verticalHeader()->setHighlightSections(false);
+
 }
 
 void Stats::changeEvent(QEvent* _event)
