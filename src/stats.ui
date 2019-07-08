@@ -65,6 +65,9 @@
      <attribute name="verticalHeaderMinimumSectionSize">
       <number>30</number>
      </attribute>
+     <attribute name="verticalHeaderDefaultSectionSize">
+      <number>30</number>
+     </attribute>
      <attribute name="verticalHeaderHighlightSections">
       <bool>false</bool>
      </attribute>

@@ -399,26 +399,26 @@ void MTuner::setDockWindowIcon(DockWidget* _widget, const QString& _icon)
 {
 	QWidget* title = new QWidget();
 	QHBoxLayout* l = new QHBoxLayout();
-	l->setMargin(3);
+	l->setMargin(2);
 
 	QLabel* iconLabel = new QLabel();
-	iconLabel->setPixmap(QIcon(_icon).pixmap(QSize(24, 24)));
+	iconLabel->setPixmap(QIcon(_icon).pixmap(QSize(16, 16)));
 	l->addWidget(iconLabel);
 	QLabel* titleLabel = new QLabel(_widget->windowTitle());
-	titleLabel->setAlignment(Qt::AlignLeft);
 	QFont fnt = titleLabel->font();
-	fnt.setBold(true);
+	fnt.setPixelSize(10);
 	titleLabel->setFont(fnt);
+	titleLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
 	l->addWidget(titleLabel);
 	l->addItem(new QSpacerItem(20, 12, QSizePolicy::Expanding, QSizePolicy::Minimum));
 
-	ToolButtonHover* buttonToggleDock = new ToolButtonHover(QIcon(":/MTuner/resources/images/dock_close.png"), QIcon(":/MTuner/resources/images/dock_close_hover.png"));
+	ToolButtonHover* buttonToggleDock = new ToolButtonHover(QIcon(":/MTuner/resources/images/dock_detach.png"), QIcon(":/MTuner/resources/images/dock_detach_hover.png"));
 	QAction* actionToggle = new QAction(title);
 	actionToggle->setObjectName("action_toggle");
 	buttonToggleDock->setDefaultAction(actionToggle);
 	connect(actionToggle, SIGNAL(triggered(bool)), _widget, SLOT(toggleDock(bool)));
 
-	ToolButtonHover* buttonCloseDock = new ToolButtonHover(QIcon(":/MTuner/resources/images/dock_detach.png"), QIcon(":/MTuner/resources/images/dock_detach_hover.png"));
+	ToolButtonHover* buttonCloseDock = new ToolButtonHover(QIcon(":/MTuner/resources/images/dock_close.png"), QIcon(":/MTuner/resources/images/dock_close_hover.png"));
 	QAction* actionClose = new QAction(title);
 	actionClose->setObjectName("action_close");
 	buttonCloseDock->setDefaultAction(actionClose);
@@ -489,16 +489,12 @@ void MTuner::setupDockWindows()
 	/// histogram dock
 	m_histogramWidget = new HistogramWidget();
 	m_histogramWidget->resize(size().width()/2,m_histogramWidget->height());
-	m_histogramWidget->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 	m_histogramDock->setWidget(m_histogramWidget);
 
 	/// graph dock
 	m_graph = new Graph();
 	GraphWidget* graphWidget = m_graph->getGraphWidget();
 	m_graph->resize(size().width()/2,m_graph->height());
-	m_graph->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
-	m_graph->setMinimumSize(120,90);
-
 	m_graphDock->setWidget(m_graph);
 
 	/// stats dock
