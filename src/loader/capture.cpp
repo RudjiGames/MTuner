@@ -1954,19 +1954,19 @@ static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, 
 	const int32_t numFrames = (int32_t)_trace->m_numEntries;
 	int32_t currFrame = numFrames;
 	StackTraceTree* currNode = _root;
-	
-	currNode->m_memUsage		+= _size;
-	currNode->m_memUsagePeak	= qMax(currNode->m_memUsage, currNode->m_memUsagePeak);
 
-	currNode->m_overhead		+= _overhead;
-	currNode->m_overheadPeak	= qMax(currNode->m_overhead, currNode->m_overheadPeak);
+	currNode->m_memUsage += _size;
+	currNode->m_memUsagePeak = qMax(currNode->m_memUsage, currNode->m_memUsagePeak);
+
+	currNode->m_overhead += _overhead;
+	currNode->m_overheadPeak = qMax(currNode->m_overhead, currNode->m_overheadPeak);
 
 	if (_opType != StackTraceTree::COUNT)
-		++currNode->m_opCount[_opType];
+		++currNode->m_opCountInclusive[_opType];
 
 	// add stack trace to root node
-	_trace->m_next[0] = _root->m_stackTraceList;
-	_root->m_stackTraceList = _trace;
+	_trace->m_next[0]		= _root->m_stackTraceList;
+	_root->m_stackTraceList	= _trace;
 
 	while (--currFrame >= 0)
 	{
@@ -2025,7 +2025,7 @@ static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, 
 		currNode->m_overheadPeak	= qMax(currNode->m_overhead, currNode->m_overheadPeak);
 
 		if (_opType != StackTraceTree::COUNT)
-			++currNode->m_opCount[_opType];
+			++currNode->m_opCountInclusive[_opType];
 	}
 }
 

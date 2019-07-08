@@ -12,9 +12,12 @@ struct CaptureContext;
 
 struct TreeMapNode
 {
-	QRectF					m_rect;	///< Rectangle in the scene
-	QString					m_text;	///< Tool tip text
-	uint64_t				m_size;	///< Size of the node, based on the view type (usage, peak, etc.)
+	QRectF					m_rect;		///< Rectangle in the scene
+	QString					m_text;		///< Tool tip text
+	uint64_t				m_size;		///< Size of the node, based on the view type (usage, peak, etc.)
+	uint64_t				m_allocs;	///< Number of allocations
+	uint64_t				m_reallocs;	///< Number of reallocations
+	uint64_t				m_free;		///< Number of frees
 	rtm::StackTraceTree*	m_tree;	///< Pointer to the actual stact trace tree node, used to resolve symbols
 	
 	TreeMapNode() :

@@ -200,6 +200,9 @@ void TreeMapView::buildTreeRecurse(rtm::StackTraceTree* _tree)
 		node.m_tree		= _tree;
 		node.m_text		= "";
 		node.m_size		= getNodeValueByType( node, m_mapType );
+		node.m_allocs	= node.m_tree->m_opCountInclusive[rtm::StackTraceTree::ALLOC];
+		node.m_reallocs	= node.m_tree->m_opCountInclusive[rtm::StackTraceTree::REALLOC];
+		node.m_free		= node.m_tree->m_opCountInclusive[rtm::StackTraceTree::FREE];
 
 		m_tree.push_back(node);
 	}
@@ -256,7 +259,12 @@ void TreeMapView::mouseMoveEvent(QMouseEvent* _event)
 	{
 		QLocale locale;
 		QPoint globalPos = mapToGlobal(_event->pos());
-		QToolTip::showText(globalPos, QObject::tr("Size: ") + locale.toString(qulonglong(tt->m_size)) + QString("\n") + QObject::tr("Click to see call stack") + tt->m_text, this, QRect(globalPos,globalPos));
+		QToolTip::showText(globalPos,	QObject::tr("Total size: ") + locale.toString(qulonglong(tt->m_size)) + QString("\n") +
+										//QObject::tr("Operations: ") + locale.toString(qulonglong(tt->m_allocs + tt->m_reallocs + tt->m_free)) + QString("\n") +
+										//QObject::tr("Allocs: ") + locale.toString(qulonglong(tt->m_allocs + tt->m_reallocs + tt->m_free)) + QString("\n") +
+										//QObject::tr("Reallocs: ") + locale.toString(qulonglong(tt->m_allocs + tt->m_reallocs + tt->m_free)) + QString("\n") +
+										//QObject::tr("Frees: ") + locale.toString(qulonglong(tt->m_allocs + tt->m_reallocs + tt->m_free)) + QString("\n") +
+										QObject::tr("Click to see call stack") + tt->m_text, this, QRect(globalPos,globalPos));
 		QGraphicsView::mouseMoveEvent(_event);
 		return;
 	}

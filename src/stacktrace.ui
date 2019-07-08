@@ -43,6 +43,9 @@
      <property name="horizontalScrollMode">
       <enum>QAbstractItemView::ScrollPerPixel</enum>
      </property>
+     <property name="gridStyle">
+      <enum>Qt::DotLine</enum>
+     </property>
      <attribute name="horizontalHeaderMinimumSectionSize">
       <number>21</number>
      </attribute>
