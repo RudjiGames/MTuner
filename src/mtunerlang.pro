@@ -32,6 +32,7 @@ SOURCES +=  about.cpp               \
             histogramwidget.cpp     \
             hotspots.cpp            \
             langmanager.cpp         \
+			moduleswidget.cpp		\
             mtuner.cpp              \
             mtunermain.cpp          \
             MTuner_pch.cpp          \
@@ -80,6 +81,7 @@ HEADERS  += about.h                 \
             histogramwidget.h       \
             hotspots.h              \
             langmanager.h           \
+			moduleswidget.h			\
             mtuner.h                \
             MTuner_pch.h            \
             new_version.h           \
@@ -116,6 +118,7 @@ FORMS    += about.ui                \
             heapswidget.ui          \
             histogram.ui            \
             hotspot.ui              \
+			moduleswidget.ui		\
             mtuner.ui               \
             new_version.ui          \
             operationsearch.ui      \

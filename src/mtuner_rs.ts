@@ -824,96 +824,102 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MTuner</name>
     <message>
-        <location filename="mtuner.cpp" line="233"/>
+        <location filename="mtuner.cpp" line="242"/>
         <source>select a capture file</source>
         <translation>Изаберите снимљени фајл</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="211"/>
-        <location filename="mtuner.cpp" line="381"/>
+        <location filename="mtuner.cpp" line="219"/>
+        <location filename="mtuner.cpp" line="441"/>
         <source>Memory timeline</source>
         <translation>Временска линија меморије</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="212"/>
-        <location filename="mtuner.cpp" line="382"/>
+        <location filename="mtuner.cpp" line="220"/>
+        <location filename="mtuner.cpp" line="442"/>
         <source>Allocation histogram</source>
         <translation>Хистограм алокација</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="213"/>
-        <location filename="mtuner.cpp" line="383"/>
+        <location filename="mtuner.cpp" line="221"/>
+        <location filename="mtuner.cpp" line="443"/>
         <source>Statistics</source>
         <translation>Статистике</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="214"/>
-        <location filename="mtuner.cpp" line="384"/>
+        <location filename="mtuner.cpp" line="222"/>
+        <location filename="mtuner.cpp" line="444"/>
         <source>Memory tag tree</source>
         <translation>Стабло меморијских тагова</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="215"/>
-        <location filename="mtuner.cpp" line="385"/>
+        <location filename="mtuner.cpp" line="223"/>
+        <location filename="mtuner.cpp" line="445"/>
         <source>Stack trace</source>
         <translation>Стек трејс</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="216"/>
-        <location filename="mtuner.cpp" line="386"/>
+        <location filename="mtuner.cpp" line="224"/>
+        <location filename="mtuner.cpp" line="446"/>
         <source>Heaps / Allocators</source>
         <translation>Хипови / алокатори</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="534"/>
+        <location filename="mtuner.cpp" line="225"/>
+        <location filename="mtuner.cpp" line="447"/>
+        <source>Modules</source>
+        <translation>Модули</translation>
+    </message>
+    <message>
+        <location filename="mtuner.cpp" line="618"/>
         <source>Created </source>
         <translation>Креиран</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="573"/>
-        <location filename="mtuner.cpp" line="876"/>
+        <location filename="mtuner.cpp" line="657"/>
+        <location filename="mtuner.cpp" line="998"/>
         <source>Capture in progress</source>
         <translation>Профајлирање у току</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="786"/>
+        <location filename="mtuner.cpp" line="908"/>
         <source>Loading, please wait...</source>
         <translation>Учитавање, молимо сачекајте...</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="794"/>
+        <location filename="mtuner.cpp" line="916"/>
         <source>Capture loaded partially!</source>
         <translation>Фајл је учитан делимично!</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="794"/>
+        <location filename="mtuner.cpp" line="916"/>
         <source>Capture file was only partially loaded!
 Information may be missing from the profile!</source>
         <translation>Снимљени фајл је само делимично учитан!
 Информације могу да недостају из профила!</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="804"/>
+        <location filename="mtuner.cpp" line="926"/>
         <source>Loaded </source>
         <translation>Учитавање завршено</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="812"/>
+        <location filename="mtuner.cpp" line="934"/>
         <source>Error loading!</source>
         <translation>Грешла приликом учитавања!</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="813"/>
+        <location filename="mtuner.cpp" line="935"/>
         <source>Failed to load file!</source>
         <translation>Неуспех приликом учитавања фајла!</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="813"/>
+        <location filename="mtuner.cpp" line="935"/>
         <source>File may be corrupted, try to repeat the capture</source>
         <translation>Фајл би могао бити оштећен, молимо вас да поновите снимање</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="876"/>
+        <location filename="mtuner.cpp" line="998"/>
         <source>Cannot start a new capture while capture is in progress</source>
         <translation>Не може се покренути ново снимање док је друго снимање у току</translation>
     </message>
@@ -936,12 +942,12 @@ Information may be missing from the profile!</source>
         <translation>&amp;Помоћ</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="76"/>
+        <location filename="mtuner.ui" line="74"/>
         <source>&amp;Settings</source>
         <translation>П&amp;одешавања</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="86"/>
+        <location filename="mtuner.ui" line="84"/>
         <source>&amp;View</source>
         <translation>&amp;Приказ</translation>
     </message>
@@ -956,199 +962,209 @@ Information may be missing from the profile!</source>
         <translation>Главни алати</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="137"/>
+        <location filename="mtuner.ui" line="138"/>
         <source>&amp;Open</source>
         <translation>&amp;Отвори фајл</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="140"/>
+        <location filename="mtuner.ui" line="141"/>
         <source>Open capture (.MTuner file)</source>
         <translation>Отвори снимљени фајл (.MTuner)</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="143"/>
+        <location filename="mtuner.ui" line="144"/>
         <source>Ctrl+O</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="148"/>
+        <location filename="mtuner.ui" line="149"/>
         <source>&amp;Exit</source>
         <translation>&amp;Излаз</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="151"/>
+        <location filename="mtuner.ui" line="152"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="156"/>
+        <location filename="mtuner.ui" line="157"/>
         <source>&amp;About</source>
         <translation>О &amp;програму</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="159"/>
+        <location filename="mtuner.ui" line="160"/>
         <source>About MTuner</source>
         <translation>О MTuner-у</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="168"/>
+        <location filename="mtuner.ui" line="169"/>
         <source>&amp;Manage projects</source>
         <translation>&amp;Управљање пројектима</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="171"/>
+        <location filename="mtuner.ui" line="172"/>
         <source>Ctrl+P</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="176"/>
+        <location filename="mtuner.ui" line="177"/>
         <source>&amp;Close</source>
         <translation>&amp;Затвори фајл</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="185"/>
+        <location filename="mtuner.ui" line="186"/>
         <source>&amp;Debug symbols</source>
         <translation>&amp;Симболи за дебаговање</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="188"/>
+        <location filename="mtuner.ui" line="189"/>
         <source>Debug symbol sources setting</source>
         <translation>Подешавања извора симбола за дебаговање</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="193"/>
+        <location filename="mtuner.ui" line="194"/>
         <source>&amp;Contents</source>
         <translation>&amp;Садржај</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="196"/>
+        <location filename="mtuner.ui" line="197"/>
         <source>F1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="208"/>
+        <location filename="mtuner.ui" line="209"/>
         <source>Toggle &amp;filtering mode</source>
         <translation>Искључи/укључи &amp;филтрирање</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="211"/>
-        <location filename="mtuner.ui" line="214"/>
+        <location filename="mtuner.ui" line="212"/>
+        <location filename="mtuner.ui" line="215"/>
         <source>Toggle filtering mode</source>
         <translation>Укључивање/Искључивање филтрирања</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="233"/>
+        <location filename="mtuner.ui" line="234"/>
         <source>Ti&amp;meline</source>
         <translation>Вре&amp;менска линија</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="310"/>
+        <location filename="mtuner.ui" line="311"/>
         <source>StackTrace</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="313"/>
+        <location filename="mtuner.ui" line="314"/>
         <source>Toggle stack trace and source visibility</source>
         <translation>Промени видљивост прозора са стек трејсом и изврним кодом</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="327"/>
+        <location filename="mtuner.ui" line="328"/>
         <source>Import license file</source>
         <translation>Увоз фајла за лиценцирање</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="332"/>
+        <location filename="mtuner.ui" line="333"/>
         <source>Activate MTuner</source>
         <translation>Активирај MTuner</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="335"/>
+        <location filename="mtuner.ui" line="336"/>
         <source>Deactivate MTuner</source>
         <translation>Деактивирај MTuner</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="344"/>
+        <location filename="mtuner.ui" line="345"/>
         <source>&amp;Toolchains Setup</source>
         <translation>Подешавање &amp;ланаца алата</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="362"/>
+        <location filename="mtuner.ui" line="363"/>
         <source>Heaps / Allocators</source>
         <translation>Хипови / алокатори</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="365"/>
+        <location filename="mtuner.ui" line="366"/>
         <source>Toggle visibility of heaps / allocators dock</source>
         <translation>Промени видљивост прозора са листом хипова и алокатора</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="370"/>
+        <location filename="mtuner.ui" line="371"/>
         <source>Open capture location</source>
         <translation>Отвори локацију за снимање</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="373"/>
+        <location filename="mtuner.ui" line="374"/>
         <source>Opens, in Windows Explorer, a folder where capture files (*.MTuner) are recorder</source>
         <translation>Отвара, у Виндоуз Експлореру, директоријум где се бележе фајлови током профајлирања (*.MTuner)</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="378"/>
+        <location filename="mtuner.ui" line="379"/>
         <source>&amp;Save capture window settings</source>
         <oldsource>&amp;Save capture window layout</oldsource>
         <translation>Сачувај подешавања прозора за анализу </translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="347"/>
+        <location filename="mtuner.ui" line="394"/>
+        <source>&amp;Modules</source>
+        <translation>&amp;Модули</translation>
+    </message>
+    <message>
+        <location filename="mtuner.ui" line="397"/>
+        <source>Toggle visibility of Module list dock</source>
+        <translation>Промени видљивост листе модула</translation>
+    </message>
+    <message>
+        <location filename="mtuner.ui" line="348"/>
         <source>Ctrl+G</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="322"/>
+        <location filename="mtuner.ui" line="323"/>
         <source>&amp;External editor</source>
         <translation>&amp;Екстерни едитор</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="217"/>
+        <location filename="mtuner.ui" line="218"/>
         <source>Ctrl+F</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="236"/>
+        <location filename="mtuner.ui" line="237"/>
         <source>Toggle timeline graph visibility</source>
         <translation>Промени видљивост графикона времена</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="251"/>
+        <location filename="mtuner.ui" line="252"/>
         <source>&amp;Statistics</source>
         <translation>&amp;Статистике</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="254"/>
+        <location filename="mtuner.ui" line="255"/>
         <source>Toggle statistics visibility</source>
         <translation>Промени видљивост статистика</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="259"/>
+        <location filename="mtuner.ui" line="260"/>
         <source>&amp;English</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="274"/>
+        <location filename="mtuner.ui" line="275"/>
         <source>&amp;Histograms</source>
         <translation>&amp;Хистограми</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="277"/>
+        <location filename="mtuner.ui" line="278"/>
         <source>Toggle histogram window visibility</source>
         <translation>Промени видљивост прозора хистограма</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="292"/>
+        <location filename="mtuner.ui" line="293"/>
         <source>&amp;Tag Tree</source>
         <translation>Стабло &amp;тагова</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="295"/>
+        <location filename="mtuner.ui" line="296"/>
         <source>Toggle tag tree visibility</source>
         <translation>Промени видљивост стабла тагова</translation>
     </message>
@@ -1564,27 +1580,27 @@ Information may be missing from the profile!</source>
         <translation>Почетна страна</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="84"/>
+        <location filename="mtuner.cpp" line="92"/>
         <source>select symbol source</source>
         <translation>Избор извора симбола</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="102"/>
-        <location filename="mtuner.cpp" line="109"/>
+        <location filename="mtuner.cpp" line="110"/>
+        <location filename="mtuner.cpp" line="117"/>
         <source>Toolchain is not configured</source>
         <translation>Скуп алата није конфигурисан</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="102"/>
+        <location filename="mtuner.cpp" line="110"/>
         <source>Toolchain needs to be configured in order to resolve symbols.
 Would you like to configure the toolchain now?</source>
         <translation>Скуп алата мора бити конфигурисан да би симболи били лоцирани.
 Да ли желите да конфигуришете скуп алата сада?</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="109"/>
+        <location filename="mtuner.cpp" line="117"/>
         <source>No debug symbols can be resolved!</source>
-        <translation type="unfinished"></translation>
+        <translation>Дебаг симболи неће бити учитани!</translation>
     </message>
     <message>
         <location filename="histogram.cpp" line="128"/>
@@ -1617,12 +1633,12 @@ Would you like to configure the toolchain now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mtunermain.cpp" line="461"/>
+        <location filename="mtunermain.cpp" line="462"/>
         <source>Failed to register DIA dll!</source>
         <translation>Регистрација DIA.dll није успела!</translation>
     </message>
     <message>
-        <location filename="mtunermain.cpp" line="461"/>
+        <location filename="mtunermain.cpp" line="462"/>
         <source>Debug symbols may not be loaded correctly</source>
         <translation>Симболи за дебагинг можда неће бити коректно учитани.</translation>
     </message>
@@ -1630,12 +1646,12 @@ Would you like to configure the toolchain now?</source>
 <context>
     <name>SourceView</name>
     <message>
-        <location filename="sourceview.cpp" line="254"/>
+        <location filename="sourceview.cpp" line="263"/>
         <source>Failed to start editor!</source>
         <translation>Неуспешно покретање едитора!</translation>
     </message>
     <message>
-        <location filename="sourceview.cpp" line="254"/>
+        <location filename="sourceview.cpp" line="263"/>
         <source>Setup external editor now?</source>
         <translation>Подешавање екстерног едитора сада?</translation>
     </message>
@@ -1676,37 +1692,42 @@ Would you like to configure the toolchain now?</source>
         <translation>Функција</translation>
     </message>
     <message>
-        <location filename="stacktrace.ui" line="104"/>
+        <location filename="stacktrace.ui" line="83"/>
+        <source>Path</source>
+        <translation>Путања</translation>
+    </message>
+    <message>
+        <location filename="stacktrace.ui" line="109"/>
         <source>Stack trace</source>
         <translation>Стек трејс</translation>
     </message>
     <message>
-        <location filename="stacktrace.ui" line="116"/>
+        <location filename="stacktrace.ui" line="121"/>
         <source>&lt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="stacktrace.ui" line="133"/>
+        <location filename="stacktrace.ui" line="138"/>
         <source>&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="stacktrace.ui" line="142"/>
+        <location filename="stacktrace.ui" line="147"/>
         <source>of 100</source>
         <translation>од 100</translation>
     </message>
     <message>
-        <location filename="stacktrace.cpp" line="38"/>
+        <location filename="stacktrace.cpp" line="41"/>
         <source>Copy</source>
         <translation>Копирај</translation>
     </message>
     <message>
-        <location filename="stacktrace.cpp" line="39"/>
+        <location filename="stacktrace.cpp" line="42"/>
         <source>Copy all</source>
         <translation>Копирај све</translation>
     </message>
     <message>
-        <location filename="stacktrace.cpp" line="119"/>
+        <location filename="stacktrace.cpp" line="122"/>
         <source>of</source>
         <translation>од</translation>
     </message>
@@ -1754,152 +1775,152 @@ Would you like to configure the toolchain now?</source>
 <context>
     <name>Stats</name>
     <message>
-        <location filename="stats.ui" line="12"/>
+        <location filename="stats.ui" line="20"/>
         <source>Form</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="stats.ui" line="80"/>
+        <location filename="stats.ui" line="79"/>
         <source>Usage</source>
         <translation>Употреба</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="85"/>
+        <location filename="stats.ui" line="84"/>
         <source>Usage peak</source>
         <translation>Највећа употреба</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="90"/>
+        <location filename="stats.ui" line="89"/>
         <source>Operations</source>
         <translation>Операције</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="95"/>
+        <location filename="stats.ui" line="94"/>
         <source>Allocations</source>
         <translation>Алокације</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="100"/>
+        <location filename="stats.ui" line="99"/>
         <source>Reallocations</source>
         <translation>Реалокације</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="105"/>
+        <location filename="stats.ui" line="104"/>
         <source>Frees</source>
         <translation>Ослобађања</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="110"/>
+        <location filename="stats.ui" line="109"/>
         <source>Live blocks</source>
         <translation>Живи блокови</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="115"/>
+        <location filename="stats.ui" line="114"/>
         <source>Overhead</source>
         <translation>Додатна потрошња</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="120"/>
+        <location filename="stats.ui" line="119"/>
         <source>Overhead peak</source>
         <translation>Највећа додатна потрошња</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="125"/>
+        <location filename="stats.ui" line="124"/>
         <source>Global</source>
         <translation>Глобално</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="130"/>
+        <location filename="stats.ui" line="129"/>
         <source>Snapshot</source>
         <translation>Селекција</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="138"/>
+        <location filename="stats.ui" line="137"/>
         <source>Total memory usage, in bytes, at process termination</source>
         <translation>Укупна потрошња меморије, у бајтовима, приликом изласка из процеса</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="149"/>
+        <location filename="stats.ui" line="148"/>
         <source>Total memory usage, in bytes, at the end of selected time slice</source>
         <translation>Укупна потрошња меморије, у бајтовима, у селектованом делу времена</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="160"/>
+        <location filename="stats.ui" line="159"/>
         <source>Peak memory usage, in bytes</source>
         <translation>Највећа потрошња меморије, у бајтовима</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="174"/>
+        <location filename="stats.ui" line="173"/>
         <source>Peak memory usage, in bytes, inside the selected time slice</source>
         <translation>Највећа потрошња меморије, у бајтовима, у селектованом делу времена</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="185"/>
+        <location filename="stats.ui" line="184"/>
         <source>Number of memory operations</source>
         <translation>Број меморијских операција</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="196"/>
+        <location filename="stats.ui" line="195"/>
         <source>Number of memory operations in selected time slice</source>
         <translation>Број меморијских операција у селектованом делу времена</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="207"/>
+        <location filename="stats.ui" line="206"/>
         <source>Number of allocations</source>
         <translation>Број алокација</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="218"/>
+        <location filename="stats.ui" line="217"/>
         <source>Number of allocations in selected time slice</source>
         <translation>Број алокација у селектованом делу времена</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="229"/>
+        <location filename="stats.ui" line="228"/>
         <source>Number of reallocations</source>
         <translation>Број реалокација</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="240"/>
+        <location filename="stats.ui" line="239"/>
         <source>Number of reallocations in selected time slice</source>
         <translation>Број реалокација у селектованом делу времена</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="251"/>
+        <location filename="stats.ui" line="250"/>
         <source>Number of free operations</source>
         <translation>Број операција за ослобађање меморије</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="262"/>
+        <location filename="stats.ui" line="261"/>
         <source>Number of free operations in selected time slice</source>
         <translation>Број операција за ослобађање меморије у селектованом делу времена</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="273"/>
+        <location filename="stats.ui" line="272"/>
         <source>Number of memory leaks</source>
         <translation>Број неослобођених блокова меморије</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="284"/>
+        <location filename="stats.ui" line="283"/>
         <source>Number of memory leaks in selected time slice</source>
         <translation>Број неослобођених блокова меморије у селектованом делу времена</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="295"/>
+        <location filename="stats.ui" line="294"/>
         <source>Total allocation overhead, in bytes</source>
         <translation>Укупна додатна потрошња, у бајтовима</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="306"/>
+        <location filename="stats.ui" line="305"/>
         <source>Total allocation overhead, in bytes, in selected time slice</source>
         <translation>Укупна додатна потрошња, у бајтовима, у селектованом делу времена</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="317"/>
+        <location filename="stats.ui" line="316"/>
         <source>Peak allocation overhead, in bytes</source>
         <translation>Највећа додатна потрошња меморије, у бајтовима</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="328"/>
+        <location filename="stats.ui" line="327"/>
         <source>Peak overhead, in bytes, in selected time slice</source>
         <translation>Највећа додатна потрошња, у бајтовима, у селектованом делу времена</translation>
     </message>

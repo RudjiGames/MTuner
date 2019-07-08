@@ -824,96 +824,102 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MTuner</name>
     <message>
-        <location filename="mtuner.cpp" line="211"/>
-        <location filename="mtuner.cpp" line="381"/>
+        <location filename="mtuner.cpp" line="219"/>
+        <location filename="mtuner.cpp" line="441"/>
         <source>Memory timeline</source>
         <translation>Speicher-timeline</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="212"/>
-        <location filename="mtuner.cpp" line="382"/>
+        <location filename="mtuner.cpp" line="220"/>
+        <location filename="mtuner.cpp" line="442"/>
         <source>Allocation histogram</source>
         <translation>Zuweisung Histogramm</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="213"/>
-        <location filename="mtuner.cpp" line="383"/>
+        <location filename="mtuner.cpp" line="221"/>
+        <location filename="mtuner.cpp" line="443"/>
         <source>Statistics</source>
         <translation>Statistik</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="214"/>
-        <location filename="mtuner.cpp" line="384"/>
+        <location filename="mtuner.cpp" line="222"/>
+        <location filename="mtuner.cpp" line="444"/>
         <source>Memory tag tree</source>
         <translation>Speicher-Tag-Struktur</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="215"/>
-        <location filename="mtuner.cpp" line="385"/>
+        <location filename="mtuner.cpp" line="223"/>
+        <location filename="mtuner.cpp" line="445"/>
         <source>Stack trace</source>
         <translation>Stack-trace</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="216"/>
-        <location filename="mtuner.cpp" line="386"/>
+        <location filename="mtuner.cpp" line="224"/>
+        <location filename="mtuner.cpp" line="446"/>
         <source>Heaps / Allocators</source>
         <translation>Haufen / Allocators</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="233"/>
+        <location filename="mtuner.cpp" line="225"/>
+        <location filename="mtuner.cpp" line="447"/>
+        <source>Modules</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="mtuner.cpp" line="242"/>
         <source>select a capture file</source>
         <translation>Wählen Sie eine Capture-Datei</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="534"/>
+        <location filename="mtuner.cpp" line="618"/>
         <source>Created </source>
         <translation>Erstellt </translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="573"/>
-        <location filename="mtuner.cpp" line="876"/>
+        <location filename="mtuner.cpp" line="657"/>
+        <location filename="mtuner.cpp" line="998"/>
         <source>Capture in progress</source>
         <translation>Erfassen im Gange</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="786"/>
+        <location filename="mtuner.cpp" line="908"/>
         <source>Loading, please wait...</source>
         <translation>Geladen, bitte warten...</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="794"/>
+        <location filename="mtuner.cpp" line="916"/>
         <source>Capture loaded partially!</source>
         <translation>Capture geladen teilweise!</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="794"/>
+        <location filename="mtuner.cpp" line="916"/>
         <source>Capture file was only partially loaded!
 Information may be missing from the profile!</source>
         <translation>Capture-datei wurde nur teilweise geladen!
 Informationen kann aus dem profil fehlen!</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="804"/>
+        <location filename="mtuner.cpp" line="926"/>
         <source>Loaded </source>
         <translation>Geladen</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="812"/>
+        <location filename="mtuner.cpp" line="934"/>
         <source>Error loading!</source>
         <translation>Fehler geladen!</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="813"/>
+        <location filename="mtuner.cpp" line="935"/>
         <source>Failed to load file!</source>
         <translation>Fehler beim Laden der Datei!</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="813"/>
+        <location filename="mtuner.cpp" line="935"/>
         <source>File may be corrupted, try to repeat the capture</source>
         <translation>Datei ist möglicherweise beschädigt, versuchen Sie, die Einnahme zu wiederholen</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="876"/>
+        <location filename="mtuner.cpp" line="998"/>
         <source>Cannot start a new capture while capture is in progress</source>
         <translation>Eine neue Aufnahme kann nicht gestartet werden, während die Aufnahme ausgeführt wird.</translation>
     </message>
@@ -936,12 +942,12 @@ Informationen kann aus dem profil fehlen!</translation>
         <translation>&amp;Hilfe</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="76"/>
+        <location filename="mtuner.ui" line="74"/>
         <source>&amp;Settings</source>
         <translation>&amp;Einstellungen</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="86"/>
+        <location filename="mtuner.ui" line="84"/>
         <source>&amp;View</source>
         <translation>&amp;Anzeigen</translation>
     </message>
@@ -956,199 +962,209 @@ Informationen kann aus dem profil fehlen!</translation>
         <translation>Haupt-Symbolleiste</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="137"/>
+        <location filename="mtuner.ui" line="138"/>
         <source>&amp;Open</source>
         <translation>&amp;Öffnen</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="140"/>
+        <location filename="mtuner.ui" line="141"/>
         <source>Open capture (.MTuner file)</source>
         <translation>Erfassung zu öffnen (*.MTuner datei)</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="143"/>
+        <location filename="mtuner.ui" line="144"/>
         <source>Ctrl+O</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="148"/>
+        <location filename="mtuner.ui" line="149"/>
         <source>&amp;Exit</source>
         <translation>&amp;Ausfahrt</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="151"/>
+        <location filename="mtuner.ui" line="152"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="156"/>
+        <location filename="mtuner.ui" line="157"/>
         <source>&amp;About</source>
         <translation>&amp;Über</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="159"/>
+        <location filename="mtuner.ui" line="160"/>
         <source>About MTuner</source>
         <translation>Über MTuner</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="168"/>
+        <location filename="mtuner.ui" line="169"/>
         <source>&amp;Manage projects</source>
         <translation>&amp;Projekte verwalten</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="171"/>
+        <location filename="mtuner.ui" line="172"/>
         <source>Ctrl+P</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="176"/>
+        <location filename="mtuner.ui" line="177"/>
         <source>&amp;Close</source>
         <translation>&amp;Enger</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="185"/>
+        <location filename="mtuner.ui" line="186"/>
         <source>&amp;Debug symbols</source>
         <translation>&amp;Debug-symbole</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="188"/>
+        <location filename="mtuner.ui" line="189"/>
         <source>Debug symbol sources setting</source>
         <translation>Debug symbol quellen festlegen</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="193"/>
+        <location filename="mtuner.ui" line="194"/>
         <source>&amp;Contents</source>
         <translation>&amp;Inhalt</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="196"/>
+        <location filename="mtuner.ui" line="197"/>
         <source>F1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="208"/>
+        <location filename="mtuner.ui" line="209"/>
         <source>Toggle &amp;filtering mode</source>
         <translation>Knebel &amp;filtermodus</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="211"/>
-        <location filename="mtuner.ui" line="214"/>
+        <location filename="mtuner.ui" line="212"/>
+        <location filename="mtuner.ui" line="215"/>
         <source>Toggle filtering mode</source>
         <translation>Knebel filtermodus</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="233"/>
+        <location filename="mtuner.ui" line="234"/>
         <source>Ti&amp;meline</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="310"/>
+        <location filename="mtuner.ui" line="311"/>
         <source>StackTrace</source>
         <translation>Stack-trace</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="313"/>
+        <location filename="mtuner.ui" line="314"/>
         <source>Toggle stack trace and source visibility</source>
         <translation>Stack trace &quot;und&quot; quelle sichtbarkeit</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="327"/>
+        <location filename="mtuner.ui" line="328"/>
         <source>Import license file</source>
         <translation>Lizenz-datei importieren</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="332"/>
+        <location filename="mtuner.ui" line="333"/>
         <source>Activate MTuner</source>
         <translation>MTuner aktivieren</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="335"/>
+        <location filename="mtuner.ui" line="336"/>
         <source>Deactivate MTuner</source>
         <translation>MTuner deaktivieren</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="344"/>
+        <location filename="mtuner.ui" line="345"/>
         <source>&amp;Toolchains Setup</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="362"/>
+        <location filename="mtuner.ui" line="363"/>
         <source>Heaps / Allocators</source>
         <translation>Haufen / Allocators</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="365"/>
+        <location filename="mtuner.ui" line="366"/>
         <source>Toggle visibility of heaps / allocators dock</source>
         <translation>Umschalten der Sichtbarkeit von Haufen / Allocators dock</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="370"/>
+        <location filename="mtuner.ui" line="371"/>
         <source>Open capture location</source>
         <translation>Offene eroberungspunkt</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="373"/>
+        <location filename="mtuner.ui" line="374"/>
         <source>Opens, in Windows Explorer, a folder where capture files (*.MTuner) are recorder</source>
         <translation>In Windows Explorer einen ordner öffnet wo erfassen dateien (*.MTuner) sind recorder</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="378"/>
+        <location filename="mtuner.ui" line="379"/>
         <source>&amp;Save capture window settings</source>
         <oldsource>&amp;Save capture window layout</oldsource>
         <translation>Speichern sie fenster setup zu analysieren</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="347"/>
+        <location filename="mtuner.ui" line="394"/>
+        <source>&amp;Modules</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="mtuner.ui" line="397"/>
+        <source>Toggle visibility of Module list dock</source>
+        <translation>Schaltet die Sichtbarkeit des Modullisten-Docks um</translation>
+    </message>
+    <message>
+        <location filename="mtuner.ui" line="348"/>
         <source>Ctrl+G</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="322"/>
+        <location filename="mtuner.ui" line="323"/>
         <source>&amp;External editor</source>
         <translation>&amp;Externen editor</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="217"/>
+        <location filename="mtuner.ui" line="218"/>
         <source>Ctrl+F</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="236"/>
+        <location filename="mtuner.ui" line="237"/>
         <source>Toggle timeline graph visibility</source>
         <translation>Timeline diagramm sichtbarkeit</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="251"/>
+        <location filename="mtuner.ui" line="252"/>
         <source>&amp;Statistics</source>
         <translation>&amp;Statistik</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="254"/>
+        <location filename="mtuner.ui" line="255"/>
         <source>Toggle statistics visibility</source>
         <translation>Statistik sichtbarkeit</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="259"/>
+        <location filename="mtuner.ui" line="260"/>
         <source>&amp;English</source>
         <translation>&amp;Deutsch</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="274"/>
+        <location filename="mtuner.ui" line="275"/>
         <source>&amp;Histograms</source>
         <translation>&amp;Histogramme</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="277"/>
+        <location filename="mtuner.ui" line="278"/>
         <source>Toggle histogram window visibility</source>
         <translation>Histogramm-fenstersichtbarkeit</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="292"/>
+        <location filename="mtuner.ui" line="293"/>
         <source>&amp;Tag Tree</source>
         <translation>&amp;Tag-struktur</translation>
     </message>
     <message>
-        <location filename="mtuner.ui" line="295"/>
+        <location filename="mtuner.ui" line="296"/>
         <source>Toggle tag tree visibility</source>
         <translation>Tag baum sichtbarkeit</translation>
     </message>
@@ -1564,27 +1580,27 @@ Informationen kann aus dem profil fehlen!</translation>
         <translation>Startseite</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="84"/>
+        <location filename="mtuner.cpp" line="92"/>
         <source>select symbol source</source>
         <translation>Symbol als quelle wählen</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="102"/>
-        <location filename="mtuner.cpp" line="109"/>
+        <location filename="mtuner.cpp" line="110"/>
+        <location filename="mtuner.cpp" line="117"/>
         <source>Toolchain is not configured</source>
         <translation>Toolchain ist nicht konfiguriert</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="102"/>
+        <location filename="mtuner.cpp" line="110"/>
         <source>Toolchain needs to be configured in order to resolve symbols.
 Would you like to configure the toolchain now?</source>
         <translation>Toolchain muss konfiguriert werden, um symbole zu lösen.
 Möchten sie die toolchain jetzt konfigurieren?</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="109"/>
+        <location filename="mtuner.cpp" line="117"/>
         <source>No debug symbols can be resolved!</source>
-        <translation type="unfinished"></translation>
+        <translation>Es können keine Debugsymbole aufgelöst werden!</translation>
     </message>
     <message>
         <location filename="histogram.cpp" line="128"/>
@@ -1617,12 +1633,12 @@ Möchten sie die toolchain jetzt konfigurieren?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mtunermain.cpp" line="461"/>
+        <location filename="mtunermain.cpp" line="462"/>
         <source>Failed to register DIA dll!</source>
         <translation>DIA-DLL konnte nicht registriert werden!</translation>
     </message>
     <message>
-        <location filename="mtunermain.cpp" line="461"/>
+        <location filename="mtunermain.cpp" line="462"/>
         <source>Debug symbols may not be loaded correctly</source>
         <translation>Debug-Symbole werden möglicherweise nicht korrekt geladen</translation>
     </message>
@@ -1630,12 +1646,12 @@ Möchten sie die toolchain jetzt konfigurieren?</translation>
 <context>
     <name>SourceView</name>
     <message>
-        <location filename="sourceview.cpp" line="254"/>
+        <location filename="sourceview.cpp" line="263"/>
         <source>Failed to start editor!</source>
         <translation>Fehler beim starten sie den text-editor!</translation>
     </message>
     <message>
-        <location filename="sourceview.cpp" line="254"/>
+        <location filename="sourceview.cpp" line="263"/>
         <source>Setup external editor now?</source>
         <translation>Einrichten externen text-editor jetzt?</translation>
     </message>
@@ -1676,37 +1692,42 @@ Möchten sie die toolchain jetzt konfigurieren?</translation>
         <translation>Funktion</translation>
     </message>
     <message>
-        <location filename="stacktrace.ui" line="104"/>
+        <location filename="stacktrace.ui" line="83"/>
+        <source>Path</source>
+        <translation>Pfad</translation>
+    </message>
+    <message>
+        <location filename="stacktrace.ui" line="109"/>
         <source>Stack trace</source>
         <translation>Stack-trace</translation>
     </message>
     <message>
-        <location filename="stacktrace.ui" line="116"/>
+        <location filename="stacktrace.ui" line="121"/>
         <source>&lt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="stacktrace.ui" line="133"/>
+        <location filename="stacktrace.ui" line="138"/>
         <source>&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="stacktrace.ui" line="142"/>
+        <location filename="stacktrace.ui" line="147"/>
         <source>of 100</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="stacktrace.cpp" line="38"/>
+        <location filename="stacktrace.cpp" line="41"/>
         <source>Copy</source>
         <translation>Kopieren</translation>
     </message>
     <message>
-        <location filename="stacktrace.cpp" line="39"/>
+        <location filename="stacktrace.cpp" line="42"/>
         <source>Copy all</source>
         <translation>Kopiere alles</translation>
     </message>
     <message>
-        <location filename="stacktrace.cpp" line="119"/>
+        <location filename="stacktrace.cpp" line="122"/>
         <source>of</source>
         <translation>von</translation>
     </message>
@@ -1754,152 +1775,152 @@ Möchten sie die toolchain jetzt konfigurieren?</translation>
 <context>
     <name>Stats</name>
     <message>
-        <location filename="stats.ui" line="12"/>
+        <location filename="stats.ui" line="20"/>
         <source>Form</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="stats.ui" line="80"/>
+        <location filename="stats.ui" line="79"/>
         <source>Usage</source>
         <translation>Verwendung</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="85"/>
+        <location filename="stats.ui" line="84"/>
         <source>Usage peak</source>
         <translation>Verwendung von spitze</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="90"/>
+        <location filename="stats.ui" line="89"/>
         <source>Operations</source>
         <translation>Operationen</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="95"/>
+        <location filename="stats.ui" line="94"/>
         <source>Allocations</source>
         <translation>Zuweisungen</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="100"/>
+        <location filename="stats.ui" line="99"/>
         <source>Reallocations</source>
         <translation>Umschichtungen</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="105"/>
+        <location filename="stats.ui" line="104"/>
         <source>Frees</source>
         <translation>Befreit</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="110"/>
+        <location filename="stats.ui" line="109"/>
         <source>Live blocks</source>
         <translation>Live blöcke</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="115"/>
+        <location filename="stats.ui" line="114"/>
         <source>Overhead</source>
         <translation>Aufwand</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="120"/>
+        <location filename="stats.ui" line="119"/>
         <source>Overhead peak</source>
         <translation>Aufwand spitze</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="125"/>
+        <location filename="stats.ui" line="124"/>
         <source>Global</source>
         <translation>Globale</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="130"/>
+        <location filename="stats.ui" line="129"/>
         <source>Snapshot</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="stats.ui" line="138"/>
+        <location filename="stats.ui" line="137"/>
         <source>Total memory usage, in bytes, at process termination</source>
         <translation>Gesamten speicherauslastung in bytes an prozessbeendigung</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="149"/>
+        <location filename="stats.ui" line="148"/>
         <source>Total memory usage, in bytes, at the end of selected time slice</source>
         <translation>Gesamten speicherauslastung in bytes am ende des ausgewählten zeitscheibe</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="174"/>
+        <location filename="stats.ui" line="173"/>
         <source>Peak memory usage, in bytes, inside the selected time slice</source>
         <translation>Peak-speichernutzung in bytes innerhalb der ausgewählten zeitscheibe</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="196"/>
+        <location filename="stats.ui" line="195"/>
         <source>Number of memory operations in selected time slice</source>
         <translation>Anzahl der speichervorgänge in ausgewählten zeitscheibe</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="218"/>
+        <location filename="stats.ui" line="217"/>
         <source>Number of allocations in selected time slice</source>
         <translation>Anzahl der zuordnungen in ausgewählten zeitscheibe</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="240"/>
+        <location filename="stats.ui" line="239"/>
         <source>Number of reallocations in selected time slice</source>
         <translation>Anzahl der umschichtungen in ausgewählten zeitscheibe</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="262"/>
+        <location filename="stats.ui" line="261"/>
         <source>Number of free operations in selected time slice</source>
         <translation>Anzahl der kostenlosen operation in ausgewählten zeitscheibe</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="284"/>
+        <location filename="stats.ui" line="283"/>
         <source>Number of memory leaks in selected time slice</source>
         <translation>Anzahl der speicher-lecks in ausgewählten zeitscheibe</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="306"/>
+        <location filename="stats.ui" line="305"/>
         <source>Total allocation overhead, in bytes, in selected time slice</source>
         <translation>Gesamtausstattung oben im bytes, im ausgewählten zeitscheibe</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="328"/>
+        <location filename="stats.ui" line="327"/>
         <source>Peak overhead, in bytes, in selected time slice</source>
         <translation>Peak oben im bytes, im ausgewählten zeitscheibe</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="160"/>
+        <location filename="stats.ui" line="159"/>
         <source>Peak memory usage, in bytes</source>
         <translation>Peak-speichernutzung in byte</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="185"/>
+        <location filename="stats.ui" line="184"/>
         <source>Number of memory operations</source>
         <translation>Anzahl der speichervorgänge</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="207"/>
+        <location filename="stats.ui" line="206"/>
         <source>Number of allocations</source>
         <translation>Anzahl der zuordnungen</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="229"/>
+        <location filename="stats.ui" line="228"/>
         <source>Number of reallocations</source>
         <translation>Anzahl der umschichtungen</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="251"/>
+        <location filename="stats.ui" line="250"/>
         <source>Number of free operations</source>
         <translation>Anzahl der kostenlosen operation</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="273"/>
+        <location filename="stats.ui" line="272"/>
         <source>Number of memory leaks</source>
         <translation>Anzahl von speicherlecks</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="295"/>
+        <location filename="stats.ui" line="294"/>
         <source>Total allocation overhead, in bytes</source>
         <translation>Gesamtausstattung oben im bytes</translation>
     </message>
     <message>
-        <location filename="stats.ui" line="317"/>
+        <location filename="stats.ui" line="316"/>
         <source>Peak allocation overhead, in bytes</source>
         <translation>Peak zuweisung oben im bytes</translation>
     </message>
