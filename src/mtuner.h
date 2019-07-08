@@ -158,6 +158,8 @@ private:
 	void readSettings();
 	void writeSettings();
 
+	static uint32_t makeVersion(uint8_t _major, uint8_t _minor, uint8_t _detail);
+
 protected:
 	void dragEnterEvent(QDragEnterEvent* _event);
 	void dragMoveEvent(QDragMoveEvent* _event);

@@ -23,6 +23,7 @@
 #include <MTuner/src/welcome.h>
 #include <MTuner/src/tagtreewidget.h>
 #include <MTuner/src/capturecontext.h>
+#include <MTuner/src/version.h>
 
 #include <rqt/inc/rqt.h>
 
@@ -458,8 +459,8 @@ void MTuner::setupDockWindows()
 	addDockWidget(Qt::LeftDockWidgetArea, m_statsDock);
 	addDockWidget(Qt::LeftDockWidgetArea, m_tagTreeDock);
 	addDockWidget(Qt::LeftDockWidgetArea, m_heapsDock);
-	addDockWidget(Qt::RightDockWidgetArea, m_modulesDock);
 	addDockWidget(Qt::RightDockWidgetArea, m_stackAndSourceDock);
+	addDockWidget(Qt::RightDockWidgetArea, m_modulesDock);
 
 	m_graphDock->setVisible(true);
 	m_statsDock->setVisible(true);
@@ -694,17 +695,37 @@ void MTuner::readSettings()
 {
 	QSettings settings;
 
+	uint8_t major  = 0;
+	uint8_t minor  = 0;
+	uint8_t detail = 0;
+
+	const uint8_t verMajor = MTunerVersion[0] - '0';
+	const uint8_t verMinor = MTunerVersion[2] - '0';
+	const uint8_t verDetail = MTunerVersion[4] - '0';
+
+	settings.beginGroup("Version");
+	if (settings.contains("major"))		major  = (uint8_t)settings.value("major").toInt();
+	if (settings.contains("minor"))		minor  = (uint8_t)settings.value("minor").toInt();
+	if (settings.contains("detail"))	detail = (uint8_t)settings.value("detail").toInt();
+	settings.endGroup();
+
+	bool resetWindowGeometries = makeVersion(major, minor, detail) < makeVersion(4, 2, 1);
+
 	// MTuner main window
 	settings.beginGroup("MainWindow");
-	restoreGeometry(settings.value("geometry").toByteArray());
-	restoreState(settings.value("windowState").toByteArray());
-	m_graphDock->restoreGeometry(settings.value("geometry0").toByteArray());
-	m_statsDock->restoreGeometry(settings.value("geometry1").toByteArray());
-	m_histogramDock->restoreGeometry(settings.value("geometry2").toByteArray());
-	m_tagTreeDock->restoreGeometry(settings.value("geometry3").toByteArray());
-	m_stackAndSourceDock->restoreGeometry(settings.value("geometry4").toByteArray());
-	m_heapsDock->restoreGeometry(settings.value("geometry5").toByteArray());
-	m_fileDialog->restoreState(settings.value("fileDialog").toByteArray());
+
+	if (!resetWindowGeometries)
+	{
+		restoreGeometry(settings.value("geometry").toByteArray());
+		restoreState(settings.value("windowState").toByteArray());
+		m_graphDock->restoreGeometry(settings.value("geometry0").toByteArray());
+		m_statsDock->restoreGeometry(settings.value("geometry1").toByteArray());
+		m_histogramDock->restoreGeometry(settings.value("geometry2").toByteArray());
+		m_tagTreeDock->restoreGeometry(settings.value("geometry3").toByteArray());
+		m_stackAndSourceDock->restoreGeometry(settings.value("geometry4").toByteArray());
+		m_heapsDock->restoreGeometry(settings.value("geometry5").toByteArray());
+		m_fileDialog->restoreState(settings.value("fileDialog").toByteArray());
+	}
 
 	if (settings.contains("ShowWelcome"))
 		m_showWelcomeDialog = settings.value("ShowWelcome").toBool();
@@ -785,6 +806,16 @@ void MTuner::writeSettings()
 {
 	QSettings settings;
 
+	const uint8_t verMajor  = MTunerVersion[0] - '0';
+	const uint8_t verMinor  = MTunerVersion[2] - '0';
+	const uint8_t verDetail = MTunerVersion[4] - '0';
+
+	settings.beginGroup("Version");
+	settings.setValue("major",  (int)verMajor);
+	settings.setValue("minor",  (int)verMinor);
+	settings.setValue("detail", (int)verDetail);
+	settings.endGroup();
+
 	// MTuner main window
 	settings.beginGroup("MainWindow");
 	settings.setValue("geometry", saveGeometry());
@@ -845,6 +876,11 @@ void MTuner::writeSettings()
 
 	// toolchains
 	m_gccSetup->writeSettings(settings);
+}
+
+uint32_t MTuner::makeVersion(uint8_t _major, uint8_t _minor, uint8_t _detail)
+{
+	return (uint32_t(_major) << 16) | (uint32_t(_minor) << 8) | (uint32_t(_detail) << 0);
 }
 
 void loadProgression(void* _customData, float _progress, const char* _message)
