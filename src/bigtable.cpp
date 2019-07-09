@@ -115,9 +115,9 @@ void BigTable::updateTable()
 {
 	m_tree->setUpdatesEnabled(false);
 	m_tree->clearContents();
-	
+
 	m_tree->setRowCount(m_visibleRows);
-	for (int32_t i=0; i<m_visibleRows- m_firstVisible; ++i)
+	for (int32_t i=0; i<m_visibleRows; ++i)
 	{
 		for (int j=0; j<m_numColumns; j++)
 		{
@@ -145,7 +145,6 @@ void BigTable::resetView()
 	m_tree->setRowCount(2);
 	uint32_t rowHeight = m_tree->rowHeight(0);
 	uint32_t numRows = m_tree->size().height() / rowHeight;
-	rowHeight = rowHeight;
 
 	uint32_t visibleRows = numRows-1;
 
@@ -182,6 +181,7 @@ void BigTable::ensureSelectionVisible()
 void BigTable::resizeEvent(QResizeEvent* _event)
 {
 	RTM_UNUSED(_event);
+	resetView();
 	m_tree->clear();
 	m_tree->setHorizontalHeaderLabels(m_header);
 	m_tree->setRowCount(2);
