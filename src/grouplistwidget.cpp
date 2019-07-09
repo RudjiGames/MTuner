@@ -246,7 +246,7 @@ struct pSortGroupSizePeakNVC
 	{
 		rtm::MemoryOperationGroup* grp1 = (*m_allGroups)[_val1];
 		rtm::MemoryOperationGroup* grp2 = (*m_allGroups)[_val2];
-		return (grp1->m_peakSize) < (grp2->->m_peakSize);
+		return (grp1->m_peakSize) < (grp2->m_peakSize);
 	}
 };
 
