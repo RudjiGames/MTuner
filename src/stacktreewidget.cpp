@@ -139,12 +139,12 @@ void sortTreeCol_Usage_des(TreeItem* _item)
 // SORTING by peak allocs
 static inline bool sortTreeAllocs_asc(TreeItem* _in1, TreeItem* _in2)
 {
-	return _in1->m_tree->m_opCountInclusive[rtm::StackTraceTree::ALLOC] < _in2->m_tree->m_opCountInclusive[rtm::StackTraceTree::ALLOC];
+	return _in1->m_tree->m_opCount[rtm::StackTraceTree::ALLOC] < _in2->m_tree->m_opCount[rtm::StackTraceTree::ALLOC];
 }
 
 static inline bool sortTreeAllocs_des(TreeItem* _in1, TreeItem* _in2)
 {
-	return _in1->m_tree->m_opCountInclusive[rtm::StackTraceTree::ALLOC] > _in2->m_tree->m_opCountInclusive[rtm::StackTraceTree::ALLOC];
+	return _in1->m_tree->m_opCount[rtm::StackTraceTree::ALLOC] > _in2->m_tree->m_opCount[rtm::StackTraceTree::ALLOC];
 }
 
 void sortTreeCol_Allocs_asc(TreeItem* _item)
@@ -164,12 +164,12 @@ void sortTreeCol_Allocs_des(TreeItem* _item)
 // SORTING by peak frees
 static inline bool sortTreeFrees_asc(TreeItem* _in1, TreeItem* _in2)
 {
-	return _in1->m_tree->m_opCountInclusive[rtm::StackTraceTree::FREE] < _in2->m_tree->m_opCountInclusive[rtm::StackTraceTree::FREE];
+	return _in1->m_tree->m_opCount[rtm::StackTraceTree::FREE] < _in2->m_tree->m_opCount[rtm::StackTraceTree::FREE];
 }
 
 static inline bool sortTreeFrees_des(TreeItem* _in1, TreeItem* _in2)
 {
-	return _in1->m_tree->m_opCountInclusive[rtm::StackTraceTree::FREE] > _in2->m_tree->m_opCountInclusive[rtm::StackTraceTree::FREE];
+	return _in1->m_tree->m_opCount[rtm::StackTraceTree::FREE] > _in2->m_tree->m_opCount[rtm::StackTraceTree::FREE];
 }
 
 void sortTreeCol_Frees_asc(TreeItem* _item)
@@ -189,12 +189,12 @@ void sortTreeCol_Frees_des(TreeItem* _item)
 // SORTING by peak reallocs
 static inline bool sortTreeReallocs_asc(TreeItem* _in1, TreeItem* _in2)
 {
-	return _in1->m_tree->m_opCountInclusive[rtm::StackTraceTree::REALLOC] < _in2->m_tree->m_opCountInclusive[rtm::StackTraceTree::REALLOC];
+	return _in1->m_tree->m_opCount[rtm::StackTraceTree::REALLOC] < _in2->m_tree->m_opCount[rtm::StackTraceTree::REALLOC];
 }
 
 static inline bool sortTreeReallocs_des(TreeItem* _in1, TreeItem* _in2)
 {
-	return _in1->m_tree->m_opCountInclusive[rtm::StackTraceTree::REALLOC] > _in2->m_tree->m_opCountInclusive[rtm::StackTraceTree::REALLOC];
+	return _in1->m_tree->m_opCount[rtm::StackTraceTree::REALLOC] > _in2->m_tree->m_opCount[rtm::StackTraceTree::REALLOC];
 }
 
 void sortTreeCol_Reallocs_asc(TreeItem* _item)
@@ -376,9 +376,9 @@ QVariant TreeItem::data(int _column) const
 			case Header::Module:	return m_module;
 			case Header::Usage:		return m_tree->m_memUsage ? ((float(m_tree->m_memUsage) * 100.0f) / float(m_root->m_memUsage)) : 0;
 			case Header::PeakUsage:	return m_tree->m_memUsagePeak ? ((float(m_tree->m_memUsagePeak) * 100.0f) / float(m_root->m_memUsagePeak)) : 0;
-			case Header::Allocs:	return locale.toString(m_tree->m_opCountInclusive[rtm::StackTraceTree::ALLOC]);
-			case Header::Frees:		return locale.toString(m_tree->m_opCountInclusive[rtm::StackTraceTree::FREE]);
-			case Header::Reallocs:	return locale.toString(m_tree->m_opCountInclusive[rtm::StackTraceTree::REALLOC]);
+			case Header::Allocs:	return locale.toString(m_tree->m_opCount[rtm::StackTraceTree::ALLOC]);
+			case Header::Frees:		return locale.toString(m_tree->m_opCount[rtm::StackTraceTree::FREE]);
+			case Header::Reallocs:	return locale.toString(m_tree->m_opCount[rtm::StackTraceTree::REALLOC]);
 			case Header::File:		return m_file;
 			case Header::Line:		return QString::number(m_line);
 		};

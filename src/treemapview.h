@@ -17,12 +17,15 @@ struct TreeMapNode
 	uint64_t				m_size;		///< Size of the node, based on the view type (usage, peak, etc.)
 	uint64_t				m_allocs;	///< Number of allocations
 	uint64_t				m_reallocs;	///< Number of reallocations
-	uint64_t				m_free;		///< Number of frees
+	uint64_t				m_frees;	///< Number of frees
 	rtm::StackTraceTree*	m_tree;	///< Pointer to the actual stact trace tree node, used to resolve symbols
 	
-	TreeMapNode() :
-		m_size(0),
-		m_tree(NULL)
+	TreeMapNode()
+		: m_size(0)
+		, m_allocs(0)
+		, m_reallocs(0)
+		, m_frees(0)
+		, m_tree(NULL)
 	{}
 	
 	void reset() { m_text.clear(); }
@@ -36,7 +39,7 @@ private:
 	rtm_vector<rtm::StackTrace*>	m_stackTraces;
 	QGraphicsScene*					m_scene;
 	CaptureContext*					m_context;
-	rtm_vector<TreeMapNode>		m_tree;
+	rtm_vector<TreeMapNode>			m_tree;
 	TreeMapNode*					m_highlightNode;
 	QElapsedTimer					m_timer;
 	qint64							m_lastClick;

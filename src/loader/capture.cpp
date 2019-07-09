@@ -1933,7 +1933,7 @@ void Capture::addToMemoryGroups(rtm_unordered_map<uint32_t, MemoryOperationGroup
 				group.m_minSize = qMin(group.m_minSize, _op->m_allocSize);
 				group.m_maxSize = qMax(group.m_maxSize, _op->m_allocSize);
 
-				//group.m_liveSize += _op->m_allocSize;
+				//group.m_liveSize -= _op->m_allocSize;
 				group.m_peakSize  = qMax(group.m_peakSize, group.m_liveSize);
 			}
 			break;
@@ -1976,14 +1976,14 @@ static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, 
 	int32_t currFrame = numFrames;
 	StackTraceTree* currNode = _root;
 
-	currNode->m_memUsage += _size;
+	currNode->m_memUsage	+= _size;
 	currNode->m_memUsagePeak = qMax(currNode->m_memUsage, currNode->m_memUsagePeak);
 
-	currNode->m_overhead += _overhead;
+	currNode->m_overhead	+= _overhead;
 	currNode->m_overheadPeak = qMax(currNode->m_overhead, currNode->m_overheadPeak);
 
 	if (_opType != StackTraceTree::COUNT)
-		++currNode->m_opCountInclusive[_opType];
+		++currNode->m_opCount[_opType];
 
 	// add stack trace to root node
 	_trace->m_next[0]		= _root->m_stackTraceList;
@@ -1994,7 +1994,6 @@ static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, 
 		int32_t depth = numFrames-currFrame;
 
 		const uint64_t currUniqueID = _trace->m_entries[currFrame+numFrames];
-
 		uint64_t& currUniqueIDIdx	= _trace->m_entries[currFrame+numFrames*_offset];
 
 		StackTraceTree* nextNode = 0;
@@ -2046,7 +2045,7 @@ static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, 
 		currNode->m_overheadPeak	= qMax(currNode->m_overhead, currNode->m_overheadPeak);
 
 		if (_opType != StackTraceTree::COUNT)
-			++currNode->m_opCountInclusive[_opType];
+			++currNode->m_opCount[_opType];
 	}
 }
 
@@ -2070,6 +2069,7 @@ void Capture::addToStackTraceTree(StackTraceTree& _tree, MemoryOperation* _op, S
 				if (isInFilter(prevOp))
 					addToTree(&_tree, prevOp->m_stackTrace, -(int64_t)prevOp->m_allocSize, -(int32_t)prevOp->m_overhead, _offset, StackTraceTree::FREE);
 				else
+					// prev op not in filter, do not reduce used memory to avoid going (possibly) negative
 					addToTree(&_tree, prevOp->m_stackTrace, 0, 0, _offset, StackTraceTree::FREE);
 			}
 			break;

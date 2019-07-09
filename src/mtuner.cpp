@@ -141,6 +141,8 @@ MTuner::MTuner(QWidget* _parent, Qt::WindowFlags _flags) :
 	ui.setupUi(this);
 	emit setFilterButtonEnabled(false);
 
+	QToolTip::setFont(QFont("Consolas", 9));
+
 	m_projectsManager = new ProjectsManager(this);
 	connect(m_projectsManager, SIGNAL(captureCreated(const QString&)), this, SLOT(captureStarted(const QString&)));
 	connect(m_projectsManager, SIGNAL(captureSetProcessID(uint64_t)), this, SLOT(captureSetProcessID(uint64_t)));
