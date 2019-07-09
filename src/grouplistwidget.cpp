@@ -90,7 +90,7 @@ struct pSortSize
 	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
 	pSortSize(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
-	inline uint32_t operator()(const uint32_t _val) const { return (*m_allGroups)[_val]->m_operations[0]->m_allocSize; } 
+	inline uint32_t operator()(const uint32_t _val) const { return (*m_allGroups)[_val]->m_maxSize; } 
 };
 
 // concurrency::parallel_radixsort Count
@@ -129,7 +129,7 @@ struct pSortGroupSize
 	inline uint32_t operator()(const uint32_t _val) const
 	{
 		rtm::MemoryOperationGroup* grp = (*m_allGroups)[_val];
-		return grp->m_operations[0]->m_allocSize * grp->m_liveCount;
+		return grp->m_liveSize;
 	} 
 };
 
@@ -142,7 +142,7 @@ struct pSortGroupSizePeak
 	inline uint32_t operator()(const uint32_t _val) const
 	{
 		rtm::MemoryOperationGroup* grp = (*m_allGroups)[_val];
-		return grp->m_operations[0]->m_allocSize * grp->m_liveCountPeak;
+		return grp->m_peakSize;
 	} 
 };
 
@@ -197,7 +197,7 @@ struct pSortSizeNVC
 	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
 	pSortSizeNVC(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
-	inline bool operator()(const uint32_t _val1, const uint32_t _val2) const { return (*m_allGroups)[_val1]->m_operations[0]->m_allocSize < (*m_allGroups)[_val2]->m_operations[0]->m_allocSize; }
+	inline bool operator()(const uint32_t _val1, const uint32_t _val2) const { return (*m_allGroups)[_val1]->m_maxSize< (*m_allGroups)[_val2]->m_maxSize; }
 };
 
 struct pSortCountNVC
@@ -233,7 +233,7 @@ struct pSortGroupSizeNVC
 	{
 		rtm::MemoryOperationGroup* grp1 = (*m_allGroups)[_val1];
 		rtm::MemoryOperationGroup* grp2 = (*m_allGroups)[_val2];
-		return (grp1->m_operations[0]->m_allocSize * grp1->m_liveCount) < (grp2->m_operations[0]->m_allocSize * grp2->m_liveCount);
+		return (grp1->m_liveSize) < (grp2->m_operations[0]->m_liveSize);
 	}
 };
 
@@ -246,7 +246,7 @@ struct pSortGroupSizePeakNVC
 	{
 		rtm::MemoryOperationGroup* grp1 = (*m_allGroups)[_val1];
 		rtm::MemoryOperationGroup* grp2 = (*m_allGroups)[_val2];
-		return (grp1->m_operations[0]->m_allocSize * grp1->m_liveCountPeak) < (grp2->m_operations[0]->m_allocSize * grp2->m_liveCountPeak);
+		return (grp1->m_peakSize) < (grp2->m_operations[0]->m_peakSize);
 	}
 };
 
@@ -449,7 +449,10 @@ QString GroupTableSource::getItem(uint32_t _index, int32_t _column, QColor*, boo
 			}
 		
 		case GroupColumn::Size:
-			return locale.toString(group->m_operations[0]->m_allocSize);
+			if (group->m_maxSize != group->m_minSize)
+				return locale.toString(group->m_minSize) + '-' + locale.toString(group->m_maxSize);
+			else
+				return locale.toString(group->m_minSize);
 	
 		case GroupColumn::Count:
 			return locale.toString(group->m_count);
@@ -466,10 +469,10 @@ QString GroupTableSource::getItem(uint32_t _index, int32_t _column, QColor*, boo
 		}
 
 		case GroupColumn::GroupSize:
-			return locale.toString(group->m_liveCount * group->m_operations[0]->m_allocSize);
+			return locale.toString(group->m_liveSize);
 	
 		case GroupColumn::GroupPeakSize:
-			return locale.toString(group->m_liveCountPeak * group->m_operations[0]->m_allocSize);
+			return locale.toString(group->m_peakSize);
 
 		case GroupColumn::Live:
 			return locale.toString(group->m_liveCount);

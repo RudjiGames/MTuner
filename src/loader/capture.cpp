@@ -129,15 +129,13 @@ static inline uint32_t calcGroupHash(MemoryOperation* _op)
 	{
 		uint64_t h1;
 		uint64_t h2;
-		uint32_t h3;
-		uint16_t h4, h5;
+		uint16_t h3, h4;
 	};
 	hash h;
 	h.h1 = (uint64_t)_op->m_stackTrace;
 	h.h2 = _op->m_allocatorHandle;
-	h.h3 = _op->m_allocSize;
-	h.h4 = _op->m_operationType;
-	h.h5 = _op->m_alignment;
+	h.h3 = _op->m_operationType;
+	h.h4 = _op->m_alignment;
 	return hashMurmur3(&h, sizeof(hash));
 }
 
@@ -1903,6 +1901,13 @@ void Capture::addToMemoryGroups(rtm_unordered_map<uint32_t, MemoryOperationGroup
 				group.m_operations.push_back(_op);
 				group.m_count++;
 				group.m_liveCount++;
+
+				group.m_minSize = qMin(group.m_minSize, _op->m_allocSize);
+				group.m_maxSize = qMax(group.m_maxSize, _op->m_allocSize);
+
+				group.m_liveSize += _op->m_allocSize;
+				group.m_peakSize  = qMax(group.m_peakSize, group.m_liveSize);
+
 				group.m_liveCountPeak = qMax(group.m_liveCountPeak, group.m_liveCount);
 			}
 			break;
@@ -1915,12 +1920,21 @@ void Capture::addToMemoryGroups(rtm_unordered_map<uint32_t, MemoryOperationGroup
 				{
 					groupHash = calcGroupHash(prevOp);
 					MemoryOperationGroup& prevGroup = _groups[groupHash];
+
 					prevGroup.m_liveCount--;
+					prevGroup.m_liveSize -= prevOp->m_allocSize;
 				}
+
 				groupHash = calcGroupHash(_op);
 				MemoryOperationGroup& group = _groups[groupHash];
 				group.m_operations.push_back(_op);
 				group.m_count++;
+
+				group.m_minSize = qMin(group.m_minSize, _op->m_allocSize);
+				group.m_maxSize = qMax(group.m_maxSize, _op->m_allocSize);
+
+				//group.m_liveSize += _op->m_allocSize;
+				group.m_peakSize  = qMax(group.m_peakSize, group.m_liveSize);
 			}
 			break;
 
@@ -1936,6 +1950,7 @@ void Capture::addToMemoryGroups(rtm_unordered_map<uint32_t, MemoryOperationGroup
 						groupHash = calcGroupHash(prevOp);
 						MemoryOperationGroup& prevGroup = _groups[groupHash];
 						prevGroup.m_liveCount--;
+						prevGroup.m_liveSize -= prevOp->m_allocSize;
 					}
 				}
 				groupHash = calcGroupHash(_op);
@@ -1944,7 +1959,13 @@ void Capture::addToMemoryGroups(rtm_unordered_map<uint32_t, MemoryOperationGroup
 				group.m_count++;
 				group.m_liveCount++;
 				group.m_liveCountPeak = qMax(group.m_liveCountPeak, group.m_liveCount);
-			}
+
+				group.m_minSize = qMin(group.m_minSize, _op->m_allocSize);
+				group.m_maxSize = qMax(group.m_maxSize, _op->m_allocSize);
+
+				group.m_liveSize += _op->m_allocSize;
+				group.m_peakSize  = qMax(group.m_peakSize, group.m_liveSize);
+		}
 			break;
 	};
 }

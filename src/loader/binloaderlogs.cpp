@@ -150,25 +150,21 @@ bool Capture::saveLog(const char* _path, uintptr_t _symResolver )
 }
 
 
-static inline bool sortGroupByCount( const MemoryOperationGroup* inG1, const MemoryOperationGroup* inG2)
+static inline bool sortGroupByCount( const MemoryOperationGroup* _g1, const MemoryOperationGroup* _g2)
 {
-	return (inG1->m_operations.size() > inG2->m_operations.size());
+	return (_g1->m_operations.size() > _g2->m_operations.size());
 }
 
-static inline bool sortGroupBySize( const MemoryOperationGroup* inG1, const MemoryOperationGroup* inG2)
+static inline bool sortGroupBySize( const MemoryOperationGroup* _g1, const MemoryOperationGroup* _g2)
 {
-	const uint32_t allocSize1 = inG1->m_operations[0]->m_allocSize;
-	const uint32_t allocSize2 = inG2->m_operations[0]->m_allocSize;
+	const uint32_t allocSize1 = _g1->m_maxSize;
+	const uint32_t allocSize2 = _g2->m_maxSize;
 	return (allocSize1 > allocSize2);
 }
 
-static inline bool sortGroupByTotal( const MemoryOperationGroup* inG1, const MemoryOperationGroup* inG2)
+static inline bool sortGroupByTotal( const MemoryOperationGroup* _g1, const MemoryOperationGroup* _g2)
 {
-	const uint32_t allocSize1 = inG1->m_operations[0]->m_allocSize;
-	const uint64_t totalSize1 = allocSize1 * inG1->m_operations.size();
-	const uint32_t allocSize2 = inG2->m_operations[0]->m_allocSize;
-	const uint64_t totalSize2 = allocSize2 * inG2->m_operations.size();
-	return (totalSize1 > totalSize2);
+	return (_g1->m_liveSize > _g2->m_liveSize);
 }
 
 //--------------------------------------------------------------------------
@@ -212,12 +208,14 @@ bool Capture::saveGroupsLog(const char* _path, eGroupSort _sorting, uintptr_t _s
 	for (uint32_t i=0; i<size; i++)
 	{
 		MemoryOperationGroup* group = sortedGroups[i];
-		uint32_t numOps = (uint32_t)group->m_operations.size();
 
 		MemoryOperation* opEx = group->m_operations[0];
 		const char* opType = gGetStringFromOperation(opEx->m_operationType);
 
-		fprintf(f, "\n%s  size: %d   group size: %d\n", opType, opEx->m_allocSize, opEx->m_allocSize*numOps);
+		if (group->m_minSize != group->m_maxSize)
+			fprintf(f, "\n%s  size: %d-%d   group operations: %d\n", opType, group->m_minSize, group->m_maxSize, group->m_count);
+		else
+			fprintf(f, "\n%s  size: %d   group operations: %d\n", opType, group->m_minSize, group->m_count);
 
 		StackTrace* trace = opEx->m_stackTrace;
 	
@@ -322,15 +320,16 @@ bool Capture::saveGroupsLogXML(const char* _path, eGroupSort _sorting, uintptr_t
 	for (uint32_t i=0; i<size; i++)
 	{
 		MemoryOperationGroup* group = sortedGroups[i];
-		uint32_t numOps = (uint32_t)group->m_operations.size();
 
 		MemoryOperation* opEx = group->m_operations[0];
 		const char* opType = gGetStringFromOperation(opEx->m_operationType);
 
 		fprintf(f, "    <Group>\n");
 		fprintf(f, "        <Type>%s</Type>\n",opType);
-		fprintf(f, "        <Size>%d</Size>\n",opEx->m_allocSize);
-		fprintf(f, "        <GroupSize>%d</GroupSize>\n",opEx->m_allocSize*numOps);
+		fprintf(f, "        <SizeMin>%d</SizeMin>\n", group->m_minSize);
+		fprintf(f, "        <SizeMax>%d</SizeMax>\n", group->m_maxSize);
+		fprintf(f, "        <Operations>%d</Operations>\n", group->m_count);
+		fprintf(f, "        <Leaked>%I64d</Leaked>\n", group->m_liveSize);
 
 		StackTrace* trace = opEx->m_stackTrace;
 

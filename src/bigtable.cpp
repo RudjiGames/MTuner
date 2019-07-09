@@ -117,7 +117,7 @@ void BigTable::updateTable()
 	m_tree->clearContents();
 	
 	m_tree->setRowCount(m_visibleRows);
-	for (int32_t i=0; i<m_visibleRows; ++i)
+	for (int32_t i=0; i<m_visibleRows- m_firstVisible; ++i)
 	{
 		for (int j=0; j<m_numColumns; j++)
 		{
