@@ -233,7 +233,7 @@ struct pSortGroupSizeNVC
 	{
 		rtm::MemoryOperationGroup* grp1 = (*m_allGroups)[_val1];
 		rtm::MemoryOperationGroup* grp2 = (*m_allGroups)[_val2];
-		return (grp1->m_liveSize) < (grp2->m_operations[0]->m_liveSize);
+		return (grp1->m_liveSize) < (grp2->m_liveSize);
 	}
 };
 
@@ -246,7 +246,7 @@ struct pSortGroupSizePeakNVC
 	{
 		rtm::MemoryOperationGroup* grp1 = (*m_allGroups)[_val1];
 		rtm::MemoryOperationGroup* grp2 = (*m_allGroups)[_val2];
-		return (grp1->m_peakSize) < (grp2->m_operations[0]->m_peakSize);
+		return (grp1->m_peakSize) < (grp2->->m_peakSize);
 	}
 };
 
@@ -469,13 +469,13 @@ QString GroupTableSource::getItem(uint32_t _index, int32_t _column, QColor*, boo
 		}
 
 		case GroupColumn::GroupSize:
-			return locale.toString(group->m_liveSize);
+			return locale.toString((qlonglong)group->m_liveSize);
 	
 		case GroupColumn::GroupPeakSize:
-			return locale.toString(group->m_peakSize);
+			return locale.toString((qlonglong)group->m_peakSize);
 
 		case GroupColumn::Live:
-			return locale.toString(group->m_liveCount);
+			return locale.toString((qulonglong)group->m_liveCount);
 	};
 
 	return "";
