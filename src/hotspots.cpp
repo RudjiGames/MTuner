@@ -95,7 +95,7 @@ void HotspotsWidget::usageSortingDone(GroupMapping* _group)
 		m_usageTable->setItem(i, 2, new QTableWidgetItem((group->m_operations[0]->m_alignment == 255) ? QString("Default") :
 															QString::number(1 << group->m_operations[0]->m_alignment)));
 		m_usageTable->setItem(i, 3, new QTableWidgetItem(locale.toString(group->m_liveCount)));
-		m_usageTable->setItem(i, 4, new QTableWidgetItem(locale.toString(group->m_liveSize)));
+		m_usageTable->setItem(i, 4, new QTableWidgetItem(locale.toString((qlonglong)group->m_liveSize)));
 
 		for (int j=0; j<5; ++j)
 			m_usageTable->item(i, j)->setTextAlignment(Qt::AlignRight);
@@ -135,7 +135,7 @@ void HotspotsWidget::peakUsageSortingDone(GroupMapping* _group)
 		m_peakUsageTable->setItem(i, 2, new QTableWidgetItem((group->m_operations[0]->m_alignment == 255) ? QString("Default") :
 															QString::number(1 << group->m_operations[0]->m_alignment)));
 		m_peakUsageTable->setItem(i, 3, new QTableWidgetItem(locale.toString(group->m_liveCountPeak)));
-		m_peakUsageTable->setItem(i, 4, new QTableWidgetItem(locale.toString(group->m_peakSize)));
+		m_peakUsageTable->setItem(i, 4, new QTableWidgetItem(locale.toString((qlonglong)group->m_peakSize)));
 
 		for (int j=0; j<5; ++j)
 			m_peakUsageTable->item(i, j)->setTextAlignment(Qt::AlignRight);
@@ -173,7 +173,7 @@ void HotspotsWidget::peakCountSortingDone(GroupMapping* _group)
 		m_peakCountTable->setItem(i, 2, new QTableWidgetItem((group->m_operations[0]->m_alignment == 255) ? QString("Default") :
 															QString::number(1 << group->m_operations[0]->m_alignment)));
 		m_peakCountTable->setItem(i, 3, new QTableWidgetItem(locale.toString(group->m_liveCountPeak)));
-		m_peakCountTable->setItem(i, 4, new QTableWidgetItem(locale.toString(group->m_peakSize)));
+		m_peakCountTable->setItem(i, 4, new QTableWidgetItem(locale.toString((qlonglong)group->m_peakSize)));
 
 		for (int j=0; j<5; ++j)
 			m_peakCountTable->item(i, j)->setTextAlignment(Qt::AlignRight);
@@ -212,7 +212,7 @@ void HotspotsWidget::leaksSortingDone(GroupMapping* _group)
 		m_leaksTable->setItem(i, 2, new QTableWidgetItem((group->m_operations[0]->m_alignment == 255) ? QString("Default") :
 															QString::number(1 << group->m_operations[0]->m_alignment)));
 		m_leaksTable->setItem(i, 3, new QTableWidgetItem(locale.toString(group->m_liveCount)));
-		m_leaksTable->setItem(i, 4, new QTableWidgetItem(locale.toString(group->m_liveSize)));
+		m_leaksTable->setItem(i, 4, new QTableWidgetItem(locale.toString((qlonglong)group->m_liveSize)));
 
 		for (int j=0; j<5; ++j)
 			m_leaksTable->item(i, j)->setTextAlignment(Qt::AlignRight);
