@@ -188,6 +188,7 @@ void Capture::clearData()
 	m_operationPool.Reset();
 	m_stackPool.Reset();
 	m_operations.clear();
+	m_operationsInvalid.clear();
 	m_statsGlobal.Reset();
 	m_statsSnapshot.Reset();
 
@@ -1319,6 +1320,7 @@ bool Capture::setLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 					rtm_unordered_map<uint64_t, MemoryOperation*>::iterator itP = opMap.find(op->m_previousPointer);
 					if (itP == opMap.end())
 					{
+						m_operationsInvalid.push_back(op);
 						op->m_isValid = 0; // mora da postoji op u mapi sa tim rezultatom
 						continue;
 					}
@@ -1344,6 +1346,7 @@ bool Capture::setLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 				rtm_unordered_map<uint64_t, MemoryOperation*>::iterator it = opMap.find(op->m_pointer);
 				if (it == opMap.end())
 				{
+					m_operationsInvalid.push_back(op);
 					op->m_isValid = 0;
 				}
 				else

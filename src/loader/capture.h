@@ -60,7 +60,8 @@ class Capture
 		ChunkAllocator<MemoryOperation>	m_operationPool;
 		StackAllocator					m_stackPool;
 		rtm_vector<MemoryOperation*>	m_operations;
-																/// malloc -> realloc -> realloc -> free
+		rtm_vector<MemoryOperation*>	m_operationsInvalid;
+
 		MemoryStats						m_statsGlobal;			///< Memory statistics for global range
 		MemoryStats						m_statsSnapshot;		///< Memory statistics for selected snapshot
 		rtm_vector<MemoryStatsTimed>	m_timedStats;
@@ -142,9 +143,8 @@ class Capture
 		const MemoryTagTree&				getTagTree() const { return m_tagTree; }
 		const StackTraceTree&				getStackTraceTree() const { return m_stackTraceTree; }
 		const StackTraceTree&				getStackTraceTreeFiltered() const { return m_filter.m_stackTraceTree; }
-		uint32_t							getNumberOfOperations() const { return (uint32_t)m_operations.size(); }
-		MemoryOperation*					getOperation(uint32_t _index) const { return m_operations[_index]; }
 		const rtm_vector<MemoryOperation*>& getMemoryOps() const { return m_operations; }
+		const rtm_vector<MemoryOperation*>& getMemoryOpsInvalud() const { return m_operationsInvalid; }
 		const rtm_vector<MemoryOperation*>& getMemoryOpsFiltered() const { return m_filter.m_operations; }
 		const MemoryGroupsHashType&			getMemoryGroups() const { return m_operationGroups; }
 		const MemoryGroupsHashType&			getMemoryGroupsFiltered() const { return m_filter.m_operationGroups; }

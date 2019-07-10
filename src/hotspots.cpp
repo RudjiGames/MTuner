@@ -224,31 +224,32 @@ void HotspotsWidget::rowSelected(QTableWidgetItem* _item)
 	QTableWidget* w = _item->tableWidget();
 	int row = 	_item->row();
 
+	rtm::MemoryOperationGroup* group = 0;
+
 	if (w == m_usageTable)
-	{
-		rtm::MemoryOperationGroup* group = getGroupFromMapping(m_usageMapping, row);
-		emit setStackTrace(&(group->m_operations[0]->m_stackTrace), 1);
-		return;
-	}
+		group = getGroupFromMapping(m_usageMapping, row);
 
 	if (w == m_peakUsageTable)
-	{
-		rtm::MemoryOperationGroup* group = getGroupFromMapping(m_peakUsageMapping, row);
-		emit setStackTrace(&(group->m_operations[0]->m_stackTrace), 1);
-		return;
-	}
+		group = getGroupFromMapping(m_peakUsageMapping, row);
 
 	if (w == m_peakCountTable)
-	{
-		rtm::MemoryOperationGroup* group = getGroupFromMapping(m_peakCountUsageMapping, row);	
-		emit setStackTrace(&(group->m_operations[0]->m_stackTrace), 1);
-		return;
-	}
+		group = getGroupFromMapping(m_peakCountUsageMapping, row);	
 
 	if (w == m_leaksTable)
+		group = getGroupFromMapping(m_leaksMapping, row);
+
+	if (w != m_usageTable)		m_usageTable->clearSelection();
+	if (w != m_peakUsageTable)	m_peakUsageTable->clearSelection();
+	if (w != m_peakCountTable)	m_peakCountTable->clearSelection();
+	if (w != m_leaksTable)		m_leaksTable->clearSelection();
+
+	if (group)
 	{
-		rtm::MemoryOperationGroup* group = getGroupFromMapping(m_leaksMapping, row);	
 		emit setStackTrace(&(group->m_operations[0]->m_stackTrace), 1);
-		return;
+
+		size_t len = group->m_operations.size();
+		uint64_t mn = group->m_operations[0]->m_operationTime;
+		uint64_t mx = group->m_operations[len - 1]->m_operationTime;
+		emit highlightRange(mn, mx);
 	}
 }

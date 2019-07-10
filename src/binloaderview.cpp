@@ -45,6 +45,8 @@ BinLoaderView::BinLoaderView(QWidget* _parent, Qt::WindowFlags _flags) :
 	connect(m_operationList, SIGNAL(highlightTime(uint64_t)), this, SIGNAL(highlightTime(uint64_t)));
 	connect(m_groupList, SIGNAL(highlightTime(uint64_t)), this, SIGNAL(highlightTime(uint64_t)));
 	connect(m_groupList, SIGNAL(highlightRange(uint64_t, uint64_t)), this, SIGNAL(highlightRange(uint64_t, uint64_t)));
+	connect(m_hotspots, SIGNAL(highlightRange(uint64_t, uint64_t)), this, SIGNAL(highlightRange(uint64_t, uint64_t)));
+
 	connect(m_groupList, SIGNAL(selectRange(uint64_t, uint64_t)), this, SIGNAL(selectRange(uint64_t, uint64_t)));
 
 	readSettings();

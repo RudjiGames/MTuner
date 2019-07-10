@@ -29,6 +29,7 @@ public:
 
 Q_SIGNALS:
 	void setStackTrace(rtm::StackTrace**, int);
+	void highlightRange(uint64_t, uint64_t);
 
 public Q_SLOTS:
 	void usageSortingDone(GroupMapping*);
