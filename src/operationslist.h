@@ -26,6 +26,7 @@ private:
 	int						m_savedColumn;
 	Qt::SortOrder			m_savedOrder;
 	QByteArray				m_headerState;
+	QString					m_settingsGroupName;
 
 public:
 	OperationsList(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
@@ -33,12 +34,13 @@ public:
 
 	void changeEvent(QEvent* _event);
 
-	void setContext(CaptureContext* _context);
+	void setContext(CaptureContext* _context, bool _valid = false);
 	void setFilteringState(bool _state);
 	bool getFilteringState() const;
+	void setSearchVisible(bool _visible) { m_operationSearch->setVisible(_visible);  }
 
+	void loadState(QSettings& _settings, const QString& _name, bool _resetGeometry);
 	void saveState(QSettings& _settings);
-	void loadState(QSettings& _settings);
 
 Q_SIGNALS:
 	void setStackTrace(rtm::StackTrace**, int);

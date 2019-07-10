@@ -34,6 +34,7 @@ private:
 	int						m_savedColumn;
 	Qt::SortOrder			m_savedOrder;
 	QByteArray				m_headerState;
+	QString					m_settingsGroupName;
 
 public:
 	GroupList(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
@@ -44,8 +45,8 @@ public:
 	void setFilteringState(bool _state);
 	bool getFilteringState() const;
 
+	void loadState(QSettings& _settings, const QString& _name, bool _resetGeometry);
 	void saveState(QSettings& _settings);
-	void loadState(QSettings& _settings);
 
 Q_SIGNALS:
 	void setStackTrace(rtm::StackTrace**, int);

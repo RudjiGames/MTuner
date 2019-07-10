@@ -677,28 +677,32 @@ void StackTreeWidget::changeEvent(QEvent* _event)
 		ui.retranslateUi(this);
 }
 
-void StackTreeWidget::loadState(QSettings& _settings)
+void StackTreeWidget::loadState(QSettings& _settings, const QString& _name, bool _resetGeometry)
 {
-	if (_settings.contains("stackTreeSortColumn"))
+	m_settingsGroupName = _name;
+
+	m_savedColumn = Header::Usage;
+	m_savedOrder = Qt::DescendingOrder;
+
+	_settings.beginGroup(m_settingsGroupName);
+	if (_settings.contains("stackTreeSortColumn") && !_resetGeometry)
 	{
 		m_savedColumn = _settings.value("stackTreeSortColumn").toInt();
 		m_savedOrder = (Qt::SortOrder)_settings.value("stackTreeSortOrder").toInt();
 		m_headerState = _settings.value("stackTreeHeaderState").toByteArray();
 	}
-	else
-	{
-		m_savedColumn = Header::Usage;
-		m_savedOrder = Qt::DescendingOrder;
-	}
+	_settings.endGroup();
 }
 
 void StackTreeWidget::saveState(QSettings& _settings)
 {
 	TreeModel* model = (TreeModel*)m_tree->model();
 	
+	_settings.beginGroup(m_settingsGroupName);
 	_settings.setValue("stackTreeSortColumn", model->m_savedColumn);
 	_settings.setValue("stackTreeSortOrder", (int)model->m_savedOrder);
 	_settings.setValue("stackTreeHeaderState", m_tree->header()->saveState());
+	_settings.endGroup();
 }
 
 void StackTreeWidget::setContext(CaptureContext* _context)

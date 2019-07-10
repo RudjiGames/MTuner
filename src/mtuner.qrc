@@ -50,6 +50,8 @@
     <file>../resources/images/dock_close.png</file>	
     <file>../resources/images/dock_close_hover.png</file>	
     <file>../resources/images/dock_detach.png</file>	
-    <file>../resources/images/dock_detach_hover.png</file>	
+    <file>../resources/images/dock_detach_hover.png</file>
+	<file>../resources/images/link64_active.png</file>
+	<file>../resources/images/link64_inactive.png</file>
   </qresource>
 </RCC>

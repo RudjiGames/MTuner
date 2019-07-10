@@ -144,7 +144,7 @@ class Capture
 		const StackTraceTree&				getStackTraceTree() const { return m_stackTraceTree; }
 		const StackTraceTree&				getStackTraceTreeFiltered() const { return m_filter.m_stackTraceTree; }
 		const rtm_vector<MemoryOperation*>& getMemoryOps() const { return m_operations; }
-		const rtm_vector<MemoryOperation*>& getMemoryOpsInvalud() const { return m_operationsInvalid; }
+		const rtm_vector<MemoryOperation*>& getMemoryOpsInvalid() const { return m_operationsInvalid; }
 		const rtm_vector<MemoryOperation*>& getMemoryOpsFiltered() const { return m_filter.m_operations; }
 		const MemoryGroupsHashType&			getMemoryGroups() const { return m_operationGroups; }
 		const MemoryGroupsHashType&			getMemoryGroupsFiltered() const { return m_filter.m_operationGroups; }

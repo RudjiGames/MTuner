@@ -31,6 +31,7 @@ private:
 	CaptureContext*		m_context;
 	rtm::StackTrace*	m_stackTrace;
 	QString				m_selectedFunc;
+	QString				m_settingsGroupName;
 
 public:
 	StackTrace(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
@@ -40,8 +41,8 @@ public:
 	void setContext(CaptureContext* _context);
 	void clear();
 	void updateView();
+	void loadState(QSettings& _settings, const QString& _name, bool _resetGeometry);
 	void saveState(QSettings& _settings);
-	void loadState(QSettings& _settings);
 
 public Q_SLOTS:
 	void currentCellChanged(int _currentRow, int _currentColumn, int _previousRow, int _previousColumn);

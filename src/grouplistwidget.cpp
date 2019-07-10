@@ -578,27 +578,30 @@ bool GroupList::getFilteringState() const
 	return m_enableFiltering;
 }
 
+void GroupList::loadState(QSettings& _settings, const QString& _name, bool _resetGeometry)
+{
+	m_savedColumn = GroupColumn::GroupPeakSize;
+	m_savedOrder = Qt::DescendingOrder;
+
+	m_settingsGroupName = _name;
+	_settings.beginGroup(m_settingsGroupName);
+	if (_settings.contains("groupListSortColumn") && !_resetGeometry)
+	{
+		m_savedColumn = _settings.value("groupListSortColumn").toInt();
+		m_savedOrder = (Qt::SortOrder)_settings.value("groupListSortOrder").toInt();
+		m_headerState = _settings.value("groupListHeaderState").toByteArray();
+	}
+	_settings.endGroup();
+}
+
 void GroupList::saveState(QSettings& _settings)
 {
 	if (m_tableSource)
 	{
+		_settings.beginGroup(m_settingsGroupName);
 		m_tableSource->saveState(_settings);
 		_settings.setValue("groupListHeaderState", m_groupList->getHeader()->saveState());
-	}
-}
-
-void GroupList::loadState(QSettings& _settings)
-{
-	if (_settings.contains("groupListSortColumn"))
-	{
-		m_savedColumn	= _settings.value("groupListSortColumn").toInt();
-		m_savedOrder	= (Qt::SortOrder)_settings.value("groupListSortOrder").toInt();
-		m_headerState	= _settings.value("groupListHeaderState").toByteArray();
-	}
-	else
-	{
-		m_savedColumn	= GroupColumn::GroupPeakSize;
-		m_savedOrder	= Qt::DescendingOrder;
+		_settings.endGroup();
 	}
 }
 

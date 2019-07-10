@@ -183,16 +183,25 @@ void StackTrace::updateView()
 	emit openFile("", 0, 0);
 }
 
-void StackTrace::saveState(QSettings& _settings)
+void StackTrace::loadState(QSettings& _settings, const QString& _name, bool _resetGeometries)
 {
-	_settings.setValue("stackTraceGeometry", saveGeometry());
-	_settings.setValue("stackTraceHeader", m_table->horizontalHeader()->saveState());
+	m_settingsGroupName = _name;
+
+	_settings.beginGroup(m_settingsGroupName);
+	if (!_resetGeometries)
+	{
+		restoreGeometry(_settings.value("stackTraceGeometry").toByteArray());
+		m_table->horizontalHeader()->restoreState(_settings.value("stackTraceHeader").toByteArray());
+	}
+	_settings.endGroup();
 }
 
-void StackTrace::loadState(QSettings& _settings)
+void StackTrace::saveState(QSettings& _settings)
 {
-	restoreGeometry(_settings.value("stackTraceGeometry").toByteArray());
-	m_table->horizontalHeader()->restoreState(_settings.value("stackTraceHeader").toByteArray());
+	_settings.beginGroup(m_settingsGroupName);
+	_settings.setValue("stackTraceGeometry", saveGeometry());
+	_settings.setValue("stackTraceHeader", m_table->horizontalHeader()->saveState());
+	_settings.endGroup();
 }
 
 void StackTrace::incClicked()

@@ -59,11 +59,12 @@ class OperationTableSource : public BigTableSource
 		uint32_t		m_numRows;
 		Mapping			m_mapping;
 		uint32_t		m_currentColumn;
+		bool			m_valid;
 		Qt::SortOrder	m_sortOrder;
 		const rtm_vector<rtm::MemoryOperation*>*	m_allOps;
 
 	public:
-		OperationTableSource(CaptureContext* _context, OperationsList* _list);
+		OperationTableSource(CaptureContext* _context, bool _valid, OperationsList* _list);
 		virtual ~OperationTableSource() {}
 
 		void prepareData();
@@ -181,9 +182,10 @@ struct pSetOpMappings
 	}
 };
 
-OperationTableSource::OperationTableSource(CaptureContext* _context, OperationsList* _list) :
-	m_context(_context),
-	m_list(_list)
+OperationTableSource::OperationTableSource(CaptureContext* _context, bool _valid, OperationsList* _list)
+	: m_context(_context)
+	, m_valid(_valid)
+	, m_list(_list)
 {
 	m_numColumns	= OperationColumn::Count;
 	m_context		= _context;
@@ -193,7 +195,10 @@ OperationTableSource::OperationTableSource(CaptureContext* _context, OperationsL
 void OperationTableSource::prepareData()
 {
 	bool filterEnabled = m_list->getFilteringState();
-	const rtm_vector<rtm::MemoryOperation*>& _ops = filterEnabled ? m_context->m_capture->getMemoryOpsFiltered() : m_context->m_capture->getMemoryOps();
+	const rtm_vector<rtm::MemoryOperation*>& _ops = (m_valid == false)
+													? m_context->m_capture->getMemoryOpsInvalid()
+													: filterEnabled ? m_context->m_capture->getMemoryOpsFiltered() : m_context->m_capture->getMemoryOps();
+
 	m_numRows		= (uint32_t)_ops.size();
 	m_sortOrder		= Qt::AscendingOrder;
 	m_allOps		= &_ops;
@@ -463,10 +468,10 @@ void OperationsList::changeEvent(QEvent* _event)
 		ui.retranslateUi(this);
 }
 
-void OperationsList::setContext(CaptureContext* _context)
+void OperationsList::setContext(CaptureContext* _context, bool _valid)
 {
 	m_context = _context;
-	m_tableSource = new OperationTableSource(_context,this);
+	m_tableSource = new OperationTableSource(_context, _valid, this);
 	m_operationList->setSource(m_tableSource);
 
 	m_tableSource->sortColumn(m_savedColumn, m_savedOrder);
@@ -488,28 +493,32 @@ bool OperationsList::getFilteringState() const
 	return m_enableFiltering;
 }
 
+void OperationsList::loadState(QSettings& _settings, const QString& _name, bool _resetGeometry)
+{
+	m_savedColumn = OperationColumn::Time;
+	m_savedOrder = Qt::AscendingOrder;
+
+	m_settingsGroupName = _name;
+	_settings.beginGroup(m_settingsGroupName);
+
+	if (_settings.contains("operationListSortColumn") && !_resetGeometry)
+	{
+		m_savedColumn = _settings.value("operationListSortColumn").toInt();
+		m_savedOrder = (Qt::SortOrder)_settings.value("operationListSortOrder").toInt();
+		m_headerState = _settings.value("operationListHeaderState").toByteArray();
+	}
+	_settings.endGroup();
+}
+
 void OperationsList::saveState(QSettings& _settings)
 {
+	_settings.beginGroup(m_settingsGroupName);
 	if (m_tableSource)
 	{
 		m_tableSource->saveState(_settings);
 		_settings.setValue("operationListHeaderState", m_operationList->getHeader()->saveState());
 	}
-}
-
-void OperationsList::loadState(QSettings& _settings)
-{
-	if (_settings.contains("operationListSortColumn"))
-	{
-		m_savedColumn	= _settings.value("operationListSortColumn").toInt();
-		m_savedOrder	= (Qt::SortOrder)_settings.value("operationListSortOrder").toInt();
-		m_headerState	= _settings.value("operationListHeaderState").toByteArray();
-	}
-	else
-	{
-		m_savedColumn	= OperationColumn::Time;
-		m_savedOrder	= Qt::AscendingOrder;
-	}
+	_settings.endGroup();
 }
 
 void OperationsList::selectionChanged(void* _item)

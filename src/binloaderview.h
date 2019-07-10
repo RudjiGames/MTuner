@@ -27,6 +27,7 @@ private:
 	GroupList*			m_groupList;
 	HotspotsWidget*		m_hotspots;
 	StackTreeWidget*	m_stackTree;
+	OperationsList*		m_operationListInvalid;
 	uint64_t			m_minTime;
 	uint64_t			m_maxTime;
 	uint64_t			m_currentHeap;

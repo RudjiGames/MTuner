@@ -66,6 +66,7 @@ class StackTreeWidget : public QWidget
 	int								m_savedColumn;
 	Qt::SortOrder					m_savedOrder;
 	QByteArray						m_headerState;
+	QString							m_settingsGroupName;
 
 public:
 	StackTreeWidget(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
@@ -73,7 +74,7 @@ public:
 
 	void changeEvent(QEvent* _event);
 
-	void loadState(QSettings& _settings);
+	void loadState(QSettings& _settings, const QString& _name, bool _resetGeometry);
 	void saveState(QSettings& _settings);
 
 	void setContext(CaptureContext* _context);

@@ -693,6 +693,8 @@ void MTuner::showWelcomeDialog()
 	}
 }
 
+bool g_resetWindowGeometries = false;
+
 void MTuner::readSettings()
 {
 	QSettings settings;
@@ -711,12 +713,12 @@ void MTuner::readSettings()
 	if (settings.contains("detail"))	detail = (uint8_t)settings.value("detail").toInt();
 	settings.endGroup();
 
-	bool resetWindowGeometries = makeVersion(major, minor, detail) < makeVersion(4, 2, 1);
+	g_resetWindowGeometries = makeVersion(major, minor, detail) < makeVersion(4, 2, 3);
 
 	// MTuner main window
 	settings.beginGroup("MainWindow");
 
-	if (!resetWindowGeometries)
+	if (!g_resetWindowGeometries)
 	{
 		restoreGeometry(settings.value("geometry").toByteArray());
 		restoreState(settings.value("windowState").toByteArray());
@@ -741,7 +743,7 @@ void MTuner::readSettings()
 	{
 		StackAndSource* ss = (StackAndSource*)m_stackAndSourceDock->widget();
 		StackTrace* st = ss->getStackTrace();
-		st->loadState(settings);
+		st->loadState(settings, "StackTrace", g_resetWindowGeometries);
 	}
 
 	settings.endGroup();
