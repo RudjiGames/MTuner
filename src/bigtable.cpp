@@ -126,7 +126,7 @@ void BigTable::updateTable()
 			QString txt = m_source->getItem(i+m_firstVisible, j, &col, &setColor);
 			QTableWidgetItem* item = new QTableWidgetItem(txt);
 			if (setColor)
-				item->setTextColor(col);
+				item->setForeground(col);
 			m_tree->setItem(i,j, item);
 		}
 	}

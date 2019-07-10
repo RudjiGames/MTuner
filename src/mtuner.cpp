@@ -225,6 +225,16 @@ void MTuner::changeEvent(QEvent* _event)
 			if (m_stackAndSourceDock) m_stackAndSourceDock->setWindowTitle(tr("Stack trace"));
 			if (m_heapsDock) m_heapsDock->setWindowTitle(tr("Heaps / Allocators"));
 			if (m_modulesDock) m_modulesDock->setWindowTitle(tr("Modules"));
+
+			// Ugly hack for a bug in Qt that incorrectly renders QAction items in menu if they have both an icon and are checkable
+			// Seems to do the trick... for now.
+			ui.action_View_Memory_Stats		->setText("      " + ui.action_View_Memory_Stats->text());
+			ui.action_View_Tag_Tree			->setText("      " + ui.action_View_Tag_Tree->text());
+			ui.action_View_Heaps_Allocators	->setText("      " + ui.action_View_Heaps_Allocators->text());
+			ui.action_View_StackTrace		->setText("      " + ui.action_View_StackTrace->text());
+			ui.action_view_ModulesDock		->setText("      " + ui.action_view_ModulesDock->text());
+			ui.action_View_Memory_Graph		->setText("      " + ui.action_View_Memory_Graph->text());
+			ui.action_View_Histograms		->setText("      " + ui.action_View_Histograms->text());
 			break;
 		default:
 			break;

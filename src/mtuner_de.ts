@@ -384,29 +384,34 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="binloaderview.ui" line="35"/>
+        <location filename="binloaderview.ui" line="44"/>
         <source>Operations</source>
         <translation>Operationen</translation>
     </message>
     <message>
-        <location filename="binloaderview.ui" line="56"/>
+        <location filename="binloaderview.ui" line="74"/>
         <source>Grouped view</source>
         <translation>Gruppiert anzeigen</translation>
     </message>
     <message>
-        <location filename="binloaderview.ui" line="77"/>
+        <location filename="binloaderview.ui" line="104"/>
         <source>Call Stack Tree</source>
         <translation>Aufruf-Stack-Struktur</translation>
     </message>
     <message>
-        <location filename="binloaderview.ui" line="98"/>
+        <location filename="binloaderview.ui" line="134"/>
         <source>Tree Map</source>
         <translation>Baum anzeigen</translation>
     </message>
     <message>
-        <location filename="binloaderview.ui" line="119"/>
+        <location filename="binloaderview.ui" line="164"/>
         <source>Hotspots</source>
         <translation>Hotspots</translation>
+    </message>
+    <message>
+        <location filename="binloaderview.ui" line="191"/>
+        <source>Invalid operations</source>
+        <translation>Ungültige Operationen</translation>
     </message>
 </context>
 <context>
@@ -737,7 +742,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>GroupList</name>
     <message>
-        <location filename="grouplistwidget.cpp" line="629"/>
+        <location filename="grouplistwidget.cpp" line="635"/>
         <source>Select group range</source>
         <translation>Ausgewählte gruppe bereich</translation>
     </message>
@@ -824,102 +829,102 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MTuner</name>
     <message>
-        <location filename="mtuner.cpp" line="219"/>
-        <location filename="mtuner.cpp" line="441"/>
+        <location filename="mtuner.cpp" line="221"/>
+        <location filename="mtuner.cpp" line="453"/>
         <source>Memory timeline</source>
         <translation>Speicher-timeline</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="220"/>
-        <location filename="mtuner.cpp" line="442"/>
+        <location filename="mtuner.cpp" line="222"/>
+        <location filename="mtuner.cpp" line="454"/>
         <source>Allocation histogram</source>
         <translation>Zuweisung Histogramm</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="221"/>
-        <location filename="mtuner.cpp" line="443"/>
+        <location filename="mtuner.cpp" line="223"/>
+        <location filename="mtuner.cpp" line="455"/>
         <source>Statistics</source>
         <translation>Statistik</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="222"/>
-        <location filename="mtuner.cpp" line="444"/>
+        <location filename="mtuner.cpp" line="224"/>
+        <location filename="mtuner.cpp" line="456"/>
         <source>Memory tag tree</source>
         <translation>Speicher-Tag-Struktur</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="223"/>
-        <location filename="mtuner.cpp" line="445"/>
+        <location filename="mtuner.cpp" line="225"/>
+        <location filename="mtuner.cpp" line="457"/>
         <source>Stack trace</source>
         <translation>Stack-trace</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="224"/>
-        <location filename="mtuner.cpp" line="446"/>
+        <location filename="mtuner.cpp" line="226"/>
+        <location filename="mtuner.cpp" line="458"/>
         <source>Heaps / Allocators</source>
         <translation>Haufen / Allocators</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="225"/>
-        <location filename="mtuner.cpp" line="447"/>
+        <location filename="mtuner.cpp" line="227"/>
+        <location filename="mtuner.cpp" line="459"/>
         <source>Modules</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="242"/>
+        <location filename="mtuner.cpp" line="254"/>
         <source>select a capture file</source>
         <translation>Wählen Sie eine Capture-Datei</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="618"/>
+        <location filename="mtuner.cpp" line="630"/>
         <source>Created </source>
         <translation>Erstellt </translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="657"/>
-        <location filename="mtuner.cpp" line="998"/>
+        <location filename="mtuner.cpp" line="669"/>
+        <location filename="mtuner.cpp" line="1012"/>
         <source>Capture in progress</source>
         <translation>Erfassen im Gange</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="908"/>
+        <location filename="mtuner.cpp" line="922"/>
         <source>Loading, please wait...</source>
         <translation>Geladen, bitte warten...</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="916"/>
+        <location filename="mtuner.cpp" line="930"/>
         <source>Capture loaded partially!</source>
         <translation>Capture geladen teilweise!</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="916"/>
+        <location filename="mtuner.cpp" line="930"/>
         <source>Capture file was only partially loaded!
 Information may be missing from the profile!</source>
         <translation>Capture-datei wurde nur teilweise geladen!
 Informationen kann aus dem profil fehlen!</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="926"/>
+        <location filename="mtuner.cpp" line="940"/>
         <source>Loaded </source>
         <translation>Geladen</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="934"/>
+        <location filename="mtuner.cpp" line="948"/>
         <source>Error loading!</source>
         <translation>Fehler geladen!</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="935"/>
+        <location filename="mtuner.cpp" line="949"/>
         <source>Failed to load file!</source>
         <translation>Fehler beim Laden der Datei!</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="935"/>
+        <location filename="mtuner.cpp" line="949"/>
         <source>File may be corrupted, try to repeat the capture</source>
         <translation>Datei ist möglicherweise beschädigt, versuchen Sie, die Einnahme zu wiederholen</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="998"/>
+        <location filename="mtuner.cpp" line="1012"/>
         <source>Cannot start a new capture while capture is in progress</source>
         <translation>Eine neue Aufnahme kann nicht gestartet werden, während die Aufnahme ausgeführt wird.</translation>
     </message>
@@ -1170,6 +1175,44 @@ Informationen kann aus dem profil fehlen!</translation>
     </message>
 </context>
 <context>
+    <name>ModulesWidget</name>
+    <message>
+        <location filename="moduleswidget.ui" line="14"/>
+        <source>Form</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="moduleswidget.ui" line="22"/>
+        <source>Filter:</source>
+        <translation>Filter:</translation>
+    </message>
+    <message>
+        <location filename="moduleswidget.ui" line="54"/>
+        <source>Name</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <location filename="moduleswidget.ui" line="59"/>
+        <source>Base Address</source>
+        <translation>Basisadresse</translation>
+    </message>
+    <message>
+        <location filename="moduleswidget.ui" line="64"/>
+        <source>End Address</source>
+        <translation>Endadresse</translation>
+    </message>
+    <message>
+        <location filename="moduleswidget.ui" line="69"/>
+        <source>Size</source>
+        <translation>Größe</translation>
+    </message>
+    <message>
+        <location filename="moduleswidget.ui" line="74"/>
+        <source>Path</source>
+        <translation>Pfad</translation>
+    </message>
+</context>
+<context>
     <name>OperationSearchWidget</name>
     <message>
         <location filename="operationsearch.ui" line="26"/>
@@ -1394,7 +1437,7 @@ Informationen kann aus dem profil fehlen!</translation>
     </message>
     <message>
         <location filename="grouplistwidget.cpp" line="404"/>
-        <location filename="operationslist.cpp" line="219"/>
+        <location filename="operationslist.cpp" line="224"/>
         <source>Type</source>
         <translation>Typ</translation>
     </message>
@@ -1415,13 +1458,13 @@ Informationen kann aus dem profil fehlen!</translation>
     </message>
     <message>
         <location filename="grouplistwidget.cpp" line="404"/>
-        <location filename="operationslist.cpp" line="219"/>
+        <location filename="operationslist.cpp" line="224"/>
         <source>Alignment</source>
         <translation>Ausrichtung</translation>
     </message>
     <message>
         <location filename="grouplistwidget.cpp" line="404"/>
-        <location filename="operationslist.cpp" line="219"/>
+        <location filename="operationslist.cpp" line="224"/>
         <source>Size</source>
         <translation>Größe</translation>
     </message>
@@ -1437,64 +1480,64 @@ Informationen kann aus dem profil fehlen!</translation>
     </message>
     <message>
         <location filename="grouplistwidget.cpp" line="404"/>
-        <location filename="operationslist.cpp" line="219"/>
+        <location filename="operationslist.cpp" line="224"/>
         <source>Heap</source>
         <translation></translation>
     </message>
     <message>
         <location filename="grouplistwidget.cpp" line="430"/>
-        <location filename="operationslist.cpp" line="287"/>
+        <location filename="operationslist.cpp" line="292"/>
         <source>Alloc</source>
         <translation></translation>
     </message>
     <message>
         <location filename="grouplistwidget.cpp" line="431"/>
-        <location filename="operationslist.cpp" line="288"/>
+        <location filename="operationslist.cpp" line="293"/>
         <source>Alloc aligned</source>
         <translation>Alloc ausgerichtet</translation>
     </message>
     <message>
         <location filename="grouplistwidget.cpp" line="432"/>
-        <location filename="operationslist.cpp" line="289"/>
+        <location filename="operationslist.cpp" line="294"/>
         <source>Calloc</source>
         <translation></translation>
     </message>
     <message>
         <location filename="grouplistwidget.cpp" line="433"/>
-        <location filename="operationslist.cpp" line="290"/>
+        <location filename="operationslist.cpp" line="295"/>
         <source>Free</source>
         <translation>Freier</translation>
     </message>
     <message>
         <location filename="grouplistwidget.cpp" line="434"/>
-        <location filename="operationslist.cpp" line="291"/>
+        <location filename="operationslist.cpp" line="296"/>
         <source>Realloc</source>
         <translation></translation>
     </message>
     <message>
         <location filename="grouplistwidget.cpp" line="435"/>
-        <location filename="operationslist.cpp" line="292"/>
+        <location filename="operationslist.cpp" line="297"/>
         <source>Realloc aligned</source>
         <translation>Realloc ausgerichtet</translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="463"/>
-        <location filename="operationslist.cpp" line="307"/>
+        <location filename="grouplistwidget.cpp" line="466"/>
+        <location filename="operationslist.cpp" line="312"/>
         <source>Default</source>
         <translation>Standard</translation>
     </message>
     <message>
-        <location filename="operationslist.cpp" line="219"/>
+        <location filename="operationslist.cpp" line="224"/>
         <source>Thread ID</source>
         <translation>Thread-ID</translation>
     </message>
     <message>
-        <location filename="operationslist.cpp" line="219"/>
+        <location filename="operationslist.cpp" line="224"/>
         <source>Address</source>
         <translation>Adresse</translation>
     </message>
     <message>
-        <location filename="operationslist.cpp" line="219"/>
+        <location filename="operationslist.cpp" line="224"/>
         <source>Time</source>
         <translation>Zeit</translation>
     </message>
@@ -1546,12 +1589,32 @@ Informationen kann aus dem profil fehlen!</translation>
         <translation>Linie</translation>
     </message>
     <message>
-        <location filename="treemapview.cpp" line="259"/>
-        <source>Size: </source>
-        <translation>Größe:</translation>
+        <location filename="treemapview.cpp" line="262"/>
+        <source>Total size: </source>
+        <translation>Gesamtgröße:</translation>
     </message>
     <message>
-        <location filename="treemapview.cpp" line="259"/>
+        <location filename="treemapview.cpp" line="263"/>
+        <source>Operations: </source>
+        <translation>Operationen:</translation>
+    </message>
+    <message>
+        <location filename="treemapview.cpp" line="264"/>
+        <source>    Allocs: </source>
+        <translation>Zuweisungen:</translation>
+    </message>
+    <message>
+        <location filename="treemapview.cpp" line="265"/>
+        <source>  Reallocs: </source>
+        <translation>Neuzuordnungen:</translation>
+    </message>
+    <message>
+        <location filename="treemapview.cpp" line="266"/>
+        <source>     Frees: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="treemapview.cpp" line="267"/>
         <source>Click to see call stack</source>
         <translation>Klicken sie auf sehen call-stack</translation>
     </message>
@@ -1672,47 +1735,47 @@ Möchten sie die toolchain jetzt konfigurieren?</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="stacktrace.ui" line="63"/>
+        <location filename="stacktrace.ui" line="66"/>
         <source>Module</source>
         <translation>Modul</translation>
     </message>
     <message>
-        <location filename="stacktrace.ui" line="73"/>
+        <location filename="stacktrace.ui" line="76"/>
         <source>File</source>
         <translation>Datei</translation>
     </message>
     <message>
-        <location filename="stacktrace.ui" line="78"/>
+        <location filename="stacktrace.ui" line="81"/>
         <source>Line</source>
         <translation>Linie</translation>
     </message>
     <message>
-        <location filename="stacktrace.ui" line="68"/>
+        <location filename="stacktrace.ui" line="71"/>
         <source>Function</source>
         <translation>Funktion</translation>
     </message>
     <message>
-        <location filename="stacktrace.ui" line="83"/>
+        <location filename="stacktrace.ui" line="86"/>
         <source>Path</source>
         <translation>Pfad</translation>
     </message>
     <message>
-        <location filename="stacktrace.ui" line="109"/>
+        <location filename="stacktrace.ui" line="112"/>
         <source>Stack trace</source>
         <translation>Stack-trace</translation>
     </message>
     <message>
-        <location filename="stacktrace.ui" line="121"/>
+        <location filename="stacktrace.ui" line="124"/>
         <source>&lt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="stacktrace.ui" line="138"/>
+        <location filename="stacktrace.ui" line="141"/>
         <source>&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="stacktrace.ui" line="147"/>
+        <location filename="stacktrace.ui" line="150"/>
         <source>of 100</source>
         <translation></translation>
     </message>

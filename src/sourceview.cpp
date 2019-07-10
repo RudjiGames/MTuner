@@ -69,13 +69,13 @@ int SourceView::lineNumberAreaWidth()
 		++digits;
 	}
 
-	int space = 3 + fontMetrics().width(QLatin1Char('9')) * digits;
+	int space = 3 + fontMetrics().horizontalAdvance(QLatin1Char('9')) * digits;
 	return space;
 }
 
 void SourceView::setTabWidth(int _width)
 {
-	setTabStopWidth(fontMetrics().width(QLatin1Char(' ')) * _width);
+	setTabStopDistance(fontMetrics().horizontalAdvance(QLatin1Char(' ')) * _width);
 }
 
 void SourceView::createCustomContextMenu()

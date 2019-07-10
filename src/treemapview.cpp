@@ -408,7 +408,7 @@ void TreeMapGraphicsItem::paint(QPainter* _painter, const QStyleOptionGraphicsIt
 	int textWidth[17];
 	for (int i=0; i<17; ++i)
 	{
-		textWidth[i] = m_treeView->fontMetrics().width(lenStrs[i]);
+		textWidth[i] = m_treeView->fontMetrics().horizontalAdvance(lenStrs[i]);
 	}
 
 	for (size_t i=0; i<tree.size(); ++i)
