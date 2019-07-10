@@ -11,7 +11,7 @@ addons:
   apt:
     sources:
     - ubuntu-toolchain-r-test
-    - sourceline: 'ppa:beineri/opt-qt-5.12.0-xenial'
+    - sourceline: 'ppa:beineri/opt-qt-5120-trusty'
     packages:
     - gcc-5
     - g++-5
@@ -20,7 +20,7 @@ addons:
     - qt512base
 
 before_install:
-    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-add-repository ppa:beineri/opt-qt512-trusty -y; fi
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-add-repository ppa:beineri/opt-qt5120-trusty -y; fi
 
 install:
     - sudo apt-get install -qq qt512base; source /opt/qt512/bin/qt12-env.sh;
