@@ -11,7 +11,7 @@ addons:
   apt:
     sources:
     - ubuntu-toolchain-r-test
-    - sourceline: 'ppa:beineri/opt-qt512-trusty'
+    - sourceline: 'ppa:beineri/opt-qt-5.12.0-xenial'
     packages:
     - gcc-5
     - g++-5
