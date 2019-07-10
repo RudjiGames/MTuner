@@ -6,6 +6,6 @@
 #ifndef RTM_MTUNER_VERSION_H
 #define RTM_MTUNER_VERSION_H
 
-static const char* MTunerVersion = "4.2.2";
+static const char* MTunerVersion = "4.2.3";
 
 #endif // RTM_MTUNER_VERSION_H
