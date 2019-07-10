@@ -11,20 +11,20 @@ addons:
   apt:
     sources:
     - ubuntu-toolchain-r-test
-    - sourceline: 'ppa:beineri/opt-qt591-trusty'
+    - sourceline: 'ppa:beineri/opt-qt512-trusty'
     packages:
     - gcc-5
     - g++-5
     - clang
-    - qt59tools
-    - qt59base
+    - qt512tools
+    - qt512base
 
 before_install:
-    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-add-repository ppa:beineri/opt-qt591-trusty -y; fi
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-add-repository ppa:beineri/opt-qt512-trusty -y; fi
 
 install:
-    - sudo apt-get install -qq qt59base; source /opt/qt59/bin/qt59-env.sh;
-    - export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/opt/qt59/lib/pkgconfig
+    - sudo apt-get install -qq qt512base; source /opt/qt512/bin/qt12-env.sh;
+    - export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/opt/qt512:/lib/pkgconfig
     - sudo apt-get install luarocks
     - sudo luarocks install luafilesystem
 
