@@ -122,7 +122,7 @@ inline uint32_t	ReadString(char16_t _string[Len], BinLoader& _loader, bool _swap
 
 static inline uintptr_t calcGroupHash(MemoryOperation* _op)
 {
-	return _op->m_stackTrace;
+	return (uintptr_t)_op->m_stackTrace;
 }
 
 static inline void addHeap(HeapsType& _heaps, uint64_t _heap)
@@ -1873,7 +1873,7 @@ void Capture::addMemoryTag(char* _tagName, uint32_t _tagHash, uint32_t _parentTa
 //--------------------------------------------------------------------------
 void Capture::addToMemoryGroups(MemoryGroupsHashType& _groups, MemoryOperation* _op)
 {
-	uint64_t groupHash;
+	uintptr_t groupHash;
 
 	switch (_op->m_operationType)
 	{

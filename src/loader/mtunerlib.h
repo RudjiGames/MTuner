@@ -21,9 +21,9 @@ class uint32_t_hash
 public:	inline size_t operator() (const uint32_t _key) const { return (size_t)_key; }
 };
 
-class uint64_t_hash
+class uintptr_t_hash
 {
-public:	inline size_t operator() (const uint64_t _key) const { return (size_t)_key; }
+public:	inline size_t operator() (const uintptr_t _key) const { return (size_t)_key; }
 };
 
 class uint32_t_equal
@@ -31,9 +31,9 @@ class uint32_t_equal
 public:	inline bool operator() (const uint32_t _key1, const uint32_t _key2) const { return _key1 == _key2; }
 };
 
-class uint64_t_equal
+class uintptr_t_equal
 {
-public:	inline bool operator() (const uint64_t _key1, const uint64_t _key2) const { return _key1 == _key2; }
+public:	inline bool operator() (const uintptr_t _key1, const uintptr_t _key2) const { return _key1 == _key2; }
 };
 
 //--------------------------------------------------------------------------
