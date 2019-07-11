@@ -81,7 +81,6 @@ QString	SymbolStore::getSymbolStoreString() const
 		ret += m_publicStore->text();
 	}
 
-	qWarning() << ret;
 	return ret;
 }
 

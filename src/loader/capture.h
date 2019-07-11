@@ -17,11 +17,10 @@ class BinLoader;
 
 typedef void (*LoadProgress)(void* inCustomData, float inProgress, const char* inMessage);
 
-typedef rtm_unordered_map<uint32_t, StackTrace*,uint32_t_hash,uint32_t_equal>			StackTraceHashType;
-typedef rtm_unordered_map<uint32_t, MemoryOperationGroup,uint32_t_hash,uint32_t_equal>	MemoryGroupsHashType;
-typedef rtm_unordered_map<uint32_t, MemoryMarkerEvent,uint32_t_hash,uint32_t_equal>		MemoryMarkersHashType;
-typedef rtm_unordered_map<uint64_t, rtm_string>											HeapsType;
-
+typedef rtm_unordered_map<uint32_t,  StackTrace*,uint32_t_hash,uint32_t_equal>			StackTraceHashType;
+typedef rtm_unordered_map<uint64_t, MemoryOperationGroup,uint64_t_hash,uint64_t_equal>	MemoryGroupsHashType;
+typedef rtm_unordered_map<uint32_t,  MemoryMarkerEvent,uint32_t_hash,uint32_t_equal>	MemoryMarkersHashType;
+typedef rtm_unordered_map<uint64_t,  rtm_string>										HeapsType;
 
 //--------------------------------------------------------------------------
 struct GraphEntry
@@ -167,7 +166,6 @@ class Capture
 		void		addMemoryTag(char* inTagName, uint32_t _tagHash, uint32_t _parentTagHash);
 		void		addToMemoryGroups(MemoryGroupsHashType& ioGroups, MemoryOperation* _op);
 		void		addToStackTraceTree(StackTraceTree& ioTree, MemoryOperation* _op, StackTrace::Enum _offset);
-		void		collapseStackTraceTree();
 		void		writeGlobalStats(FILE* inFile);
 };
 

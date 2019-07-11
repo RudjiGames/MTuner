@@ -120,23 +120,9 @@ inline uint32_t	ReadString(char16_t _string[Len], BinLoader& _loader, bool _swap
 	return sizeof(len);
 }
 
-//--------------------------------------------------------------------------
-///
-//--------------------------------------------------------------------------
-static inline uint32_t calcGroupHash(MemoryOperation* _op)
+static inline uintptr_t calcGroupHash(MemoryOperation* _op)
 {
-	struct hash
-	{
-		uint64_t h1;
-		uint64_t h2;
-		uint16_t h3, h4;
-	};
-	hash h;
-	h.h1 = (uint64_t)_op->m_stackTrace;
-	h.h2 = _op->m_allocatorHandle;
-	h.h3 = _op->m_operationType;
-	h.h4 = _op->m_alignment;
-	return hashMurmur3(&h, sizeof(hash));
+	return _op->m_stackTrace;
 }
 
 static inline void addHeap(HeapsType& _heaps, uint64_t _heap)
@@ -1263,6 +1249,7 @@ bool Capture::setLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 	for (uint32_t i=0; i<numOps; i++)
 	{
 		MemoryOperation* op = m_operations[i];
+		op->m_isValid = 1;
 
 		if ((i > nextProgressPoint) && m_loadProgressCallback)
 		{
@@ -1282,37 +1269,16 @@ bool Capture::setLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 			{
 				rtm_unordered_map<uint64_t, MemoryOperation*>::iterator it = opMap.find(op->m_pointer);
 				if (it == opMap.end())
-				{
 					opMap[op->m_pointer] = op;
-				}
 				else
-				{
-					MemoryOperation* oldOp = it->second;
-					oldOp->m_isValid = 0;
-
-					opMap[op->m_pointer] = op;
-				}
+					op->m_isValid = 0;
 			}
 			break;
 
 		case rmem::LogMarkers::OpRealloc:
 		case rmem::LogMarkers::OpReallocAligned:
 			{
-				// ako vec postoji op koji pokazuje na isti blok
-				rtm_unordered_map<uint64_t, MemoryOperation*>::iterator it = opMap.find(op->m_pointer);
-				if (it != opMap.end())
-				{
-					// onda op mora da bude realloc koji vraca blok na istoj lokaciji
-					if (op->m_previousPointer != op->m_pointer)
-					{
-						op->m_isValid = 0;
-						continue;
-					}
-
-					opMap.erase(it);
-				}
-
-				MemoryOperation* oldOp = NULL;
+				MemoryOperation* oldOp = 0;
 
 				// ako postoji prethodni pointer onda mora da postoji op u mapi sa tim rezultatom - rezultat moze da bude isti
 				if (op->m_previousPointer)
@@ -1322,13 +1288,27 @@ bool Capture::setLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 					{
 						m_operationsInvalid.push_back(op);
 						op->m_isValid = 0; // mora da postoji op u mapi sa tim rezultatom
-						continue;
 					}
 					else
+					{
 						oldOp = itP->second;
-
-					if (op->m_pointer != op->m_previousPointer) // izbaciti prethodni blok jer jer realociran
 						opMap.erase(itP);
+					}
+				}
+				else
+				{
+					// no previous block, there can't be a block already in the map with the same address
+					rtm_unordered_map<uint64_t, MemoryOperation*>::iterator itP = opMap.find(op->m_pointer);
+					if (itP != opMap.end())
+					{
+						m_operationsInvalid.push_back(op);
+						op->m_isValid = 0; // mora da postoji op u mapi sa tim rezultatom
+					}
+					else
+					{
+						oldOp = itP->second;
+						opMap.erase(itP);
+					}
 				}
 
 				if (oldOp)
@@ -1891,15 +1871,17 @@ void Capture::addMemoryTag(char* _tagName, uint32_t _tagHash, uint32_t _parentTa
 //--------------------------------------------------------------------------
 /// Adds operation to memory groups
 //--------------------------------------------------------------------------
-void Capture::addToMemoryGroups(rtm_unordered_map<uint32_t, MemoryOperationGroup,uint32_t_hash,uint32_t_equal>& _groups, MemoryOperation* _op)
+void Capture::addToMemoryGroups(MemoryGroupsHashType& _groups, MemoryOperation* _op)
 {
+	uint64_t groupHash;
+
 	switch (_op->m_operationType)
 	{
 		case rmem::LogMarkers::OpAlloc:
 		case rmem::LogMarkers::OpCalloc:
 		case rmem::LogMarkers::OpAllocAligned:
 			{
-				uint32_t groupHash = calcGroupHash(_op);
+				groupHash = calcGroupHash(_op);
 				MemoryOperationGroup& group = _groups[groupHash];
 				group.m_operations.push_back(_op);
 				group.m_count++;
@@ -1918,10 +1900,10 @@ void Capture::addToMemoryGroups(rtm_unordered_map<uint32_t, MemoryOperationGroup
 		case rmem::LogMarkers::OpFree:
 			{
 				MemoryOperation* prevOp = _op->m_chainPrev;
-				uint32_t groupHash;
 				if (isInFilter(prevOp))
 				{
 					groupHash = calcGroupHash(prevOp);
+
 					MemoryOperationGroup& prevGroup = _groups[groupHash];
 
 					prevGroup.m_liveCount--;
@@ -1945,17 +1927,19 @@ void Capture::addToMemoryGroups(rtm_unordered_map<uint32_t, MemoryOperationGroup
 		case rmem::LogMarkers::OpRealloc:
 			{
 				MemoryOperation* prevOp = _op->m_chainPrev;
-				uint32_t groupHash;
 				if (prevOp)
 				{
 					if (isInFilter(prevOp))
 					{
 						groupHash = calcGroupHash(prevOp);
+
 						MemoryOperationGroup& prevGroup = _groups[groupHash];
+
 						prevGroup.m_liveCount--;
 						prevGroup.m_liveSize -= prevOp->m_allocSize;
 					}
 				}
+
 				groupHash = calcGroupHash(_op);
 				MemoryOperationGroup& group = _groups[groupHash];
 				group.m_operations.push_back(_op);
@@ -1968,7 +1952,7 @@ void Capture::addToMemoryGroups(rtm_unordered_map<uint32_t, MemoryOperationGroup
 
 				group.m_liveSize += _op->m_allocSize;
 				group.m_peakSize  = qMax(group.m_peakSize, group.m_liveSize);
-		}
+			}
 			break;
 	};
 }

@@ -73,8 +73,8 @@ void BinLoaderView::setContext(CaptureContext* _context)
 	m_context = _context;
 	m_treeMap->setContext(_context);
 	m_stackTree->setContext(_context);
-	m_operationList->setContext(_context);
-	m_operationListInvalid->setContext(_context);
+	m_operationList->setContext(_context, true);
+	m_operationListInvalid->setContext(_context, false);
 	m_groupList->setContext(_context);
 	m_minTime = m_context->m_capture->getMinTime();
 	m_maxTime = m_context->m_capture->getMaxTime();

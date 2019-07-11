@@ -169,7 +169,6 @@ void ProjectsManager::run(const QString& _executable, const QString& _cmd, const
 	else
 		exePath = currpath + "/MTunerInject32.exe";
 
-	qWarning() << exePath;
 	m_process = new QProcess(this);
 	m_process->setProgram(exePath);
 	m_process->setWorkingDirectory(_workingDir);
