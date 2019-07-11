@@ -18,7 +18,7 @@ class BinLoader;
 typedef void (*LoadProgress)(void* inCustomData, float inProgress, const char* inMessage);
 
 typedef rtm_unordered_map<uint32_t,  StackTrace*,uint32_t_hash,uint32_t_equal>				StackTraceHashType;
-typedef rtm_unordered_map<uintptr_t, MemoryOperationGroup,uintptr_t_equal,uintptr_t_equal>	MemoryGroupsHashType;
+typedef rtm_unordered_map<uintptr_t, MemoryOperationGroup,uintptr_t_hash,uintptr_t_equal>	MemoryGroupsHashType;
 typedef rtm_unordered_map<uint32_t,  MemoryMarkerEvent,uint32_t_hash,uint32_t_equal>		MemoryMarkersHashType;
 typedef rtm_unordered_map<uint64_t,  rtm_string>											HeapsType;
 
