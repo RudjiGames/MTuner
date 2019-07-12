@@ -28,7 +28,7 @@ bool QToolTipper::eventFilter(QObject* obj, QEvent* event)
 		QString itemTooltip = view->model()->data(index, Qt::ToolTipRole).toString();
 
 		QFontMetrics fm(view->font());
-		int itemTextWidth = fm.width(itemText);
+		int itemTextWidth = fm.horizontalAdvance(itemText);
 		QRect rect = view->visualRect(index);
 		int rectWidth = rect.width();
 
