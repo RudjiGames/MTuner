@@ -50,6 +50,7 @@ class GroupTableSource : public BigTableSource
 		virtual uint32_t	getNumberOfRows();
 		virtual	QString		getItem(uint32_t _index, int32_t _column, QColor*, bool*);
 		virtual void 		getItem(uint32_t _index, void**);
+		virtual Qt::AlignmentFlag	getAlignment(uint32_t _index);
 		virtual uint32_t	getItemIndex(void* _item);
 		virtual void 		sortColumn(uint32_t _columnIndex, Qt::SortOrder _sortOrder);
 		GroupMapping*		getGroupMapping(int _index) { return &m_groupMappings[_index]; }
@@ -488,6 +489,22 @@ void GroupTableSource::getItem(uint32_t _index, void** _pointer)
 		index = m_numRows - index - 1;
 	uint32_t idx = m_currentGroupMapping->m_sortedIdx[index];
 	*_pointer = m_allGroups[idx];
+}
+
+Qt::AlignmentFlag GroupTableSource::getAlignment(uint32_t _index)
+{
+	switch (_index)
+	{
+	case GroupColumn::Count:
+	case GroupColumn::CountPeak:
+	case GroupColumn::Alignment:
+	case GroupColumn::GroupSize:
+	case GroupColumn::GroupPeakSize:
+	case GroupColumn::Live:
+		return Qt::AlignRight;
+	};
+
+	return Qt::AlignLeft;
 }
 
 uint32_t GroupTableSource::getItemIndex(void* _item)

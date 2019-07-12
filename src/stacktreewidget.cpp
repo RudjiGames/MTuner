@@ -447,7 +447,21 @@ void ProgressBarDelegate::paint(QPainter* _painter, const QStyleOptionViewItem& 
 		_painter->setClipping(false);
 	}
 	else
-		QStyledItemDelegate::paint(_painter, _option, _index);
+	{
+		QStyleOptionViewItem option = _option;
+		switch (_index.column())
+		{
+			case Header::Usage:
+			case Header::PeakUsage:
+			case Header::Allocs:
+			case Header::Frees:
+			case Header::Reallocs:
+			case Header::Line:
+				option.displayAlignment = Qt::AlignRight;
+		};
+
+		QStyledItemDelegate::paint(_painter, option, _index);
+	}
 }
 
 QSize ProgressBarDelegate::sizeHint(const QStyleOptionViewItem& _option, const QModelIndex& _index) const

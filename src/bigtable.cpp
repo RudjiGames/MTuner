@@ -125,6 +125,8 @@ void BigTable::updateTable()
 			bool	setColor = false;
 			QString txt = m_source->getItem(i+m_firstVisible, j, &col, &setColor);
 			QTableWidgetItem* item = new QTableWidgetItem(txt);
+			item->setTextAlignment(m_source->getAlignment(j));
+
 			if (setColor)
 				item->setForeground(col);
 			m_tree->setItem(i,j, item);

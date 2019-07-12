@@ -73,6 +73,7 @@ class OperationTableSource : public BigTableSource
 		virtual uint32_t	getNumberOfRows();
 		virtual	QString		getItem(uint32_t _index, int32_t _column, QColor* _color, bool* _setColor);
 		virtual void 		getItem(uint32_t _index, void**);
+		virtual Qt::AlignmentFlag getAlignment(uint32_t _index);
 		virtual uint32_t	getItemIndex(void* _item);
 		virtual void 		sortColumn(uint32_t _columnIndex, Qt::SortOrder _sortOrder);
 
@@ -329,6 +330,19 @@ void OperationTableSource::getItem(uint32_t _index, void** _pointer)
 	uint32_t idx = m_mapping.m_sortedIndex[index];
 	const rtm::MemoryOperation* op = m_mapping.m_allOps->operator[](idx);
 	*_pointer = (void*)(op);
+}
+
+Qt::AlignmentFlag OperationTableSource::getAlignment(uint32_t _index)
+{
+	switch (_index)
+	{
+		case OperationColumn::Size:
+		case OperationColumn::Alignment:
+		case OperationColumn::Time:
+			return Qt::AlignRight;
+	}
+
+	return Qt::AlignLeft;
 }
 
 uint32_t OperationTableSource::getItemIndex(void* _item)
