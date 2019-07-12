@@ -73,6 +73,7 @@ void ModulesWidget::filterChanged(const QString& _text)
 		rtm_vector<rdebug::ModuleInfo>::reverse_iterator it  = modules.rbegin();
 		rtm_vector<rdebug::ModuleInfo>::reverse_iterator end = modules.rend();
 
+		QLocale locale;
 		QTreeWidgetItem* curItem = 0;
 		while (it != end)
 		{
@@ -86,9 +87,10 @@ void ModulesWidget::filterChanged(const QString& _text)
 											<< name
 											<< ("0x" + QString::number(it->m_baseAddress, 16))
 											<< ("0x" + QString::number(it->m_baseAddress + it->m_size, 16))
-											<< QString::number(it->m_size)
+											<< locale.toString(it->m_size)
 											<< QString::fromUtf8(it->m_modulePath));
 				item->setData(0, Qt::UserRole, (qlonglong)&*it);
+				item->setTextAlignment(3, Qt::AlignRight);
 
 				if (&*it == info)
 					curItem = item;
