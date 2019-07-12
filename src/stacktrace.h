@@ -11,6 +11,18 @@
 class QSpinBox;
 struct CaptureContext;
 
+class QToolTipper : public QObject
+{
+	Q_OBJECT
+
+public:
+	explicit QToolTipper(QObject* parent = NULL)
+		: QObject(parent) {}
+
+protected:
+	bool eventFilter(QObject* obj, QEvent* event);
+};
+
 class StackTrace : public QWidget
 {
 	Q_OBJECT

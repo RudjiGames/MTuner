@@ -10,6 +10,39 @@
 
 #include <rbase/inc/path.h>
 
+bool QToolTipper::eventFilter(QObject* obj, QEvent* event)
+{
+	if (event->type() == QEvent::ToolTip)
+	{
+		QAbstractItemView* view = qobject_cast<QAbstractItemView*>(obj->parent());
+		if (!view)
+			return false;
+
+		QHelpEvent* helpEvent = static_cast<QHelpEvent*>(event);
+		QPoint pos = helpEvent->pos();
+		QModelIndex index = view->indexAt(pos);
+		if (!index.isValid())
+			return false;
+
+		QString itemText = view->model()->data(index).toString();
+		QString itemTooltip = view->model()->data(index, Qt::ToolTipRole).toString();
+
+		QFontMetrics fm(view->font());
+		int itemTextWidth = fm.width(itemText);
+		QRect rect = view->visualRect(index);
+		int rectWidth = rect.width();
+
+		// only elided text
+		if ((itemTextWidth > rectWidth) && !itemTooltip.isEmpty())
+			QToolTip::showText(helpEvent->globalPos(), itemTooltip, view, rect);
+		else
+			QToolTip::hideText();
+
+		return true;
+	}
+	return false;
+}
+
 enum StackTraceColumns
 {
 	Module,
@@ -128,6 +161,13 @@ void StackTrace::setCount(uint32_t _cnt)
 	m_buttonInc->setEnabled(_cnt != 0);
 }
 
+QTableWidgetItem* makeItemWithTooltip(const QString& _string)
+{
+	QTableWidgetItem* item = new QTableWidgetItem(_string);
+	item->setToolTip(_string);
+	return item;
+}
+
 void StackTrace::updateView()
 {
 	if (!m_currentTrace)
@@ -143,6 +183,7 @@ void StackTrace::updateView()
 
 	const uint32_t rows = m_currentTrace[m_currentTraceIdx]->m_numEntries;
 	m_table->model()->removeRows(0, m_table->model()->rowCount());
+	m_table->viewport()->installEventFilter(new QToolTipper(m_table));
 	m_table->setRowCount(rows);
 	uint32_t selectedRow = rows;
 
@@ -160,12 +201,15 @@ void StackTrace::updateView()
 		if (info.exists())
 			sourcefile = info.absoluteFilePath();
 
+		QTableWidgetItem* item = new QTableWidgetItem(frame.m_moduleName);
+		item->setToolTip(frame.m_moduleName);
+
 		// module, file, line, function, Path
-		m_table->setItem(i, StackTraceColumns::Module,		new QTableWidgetItem(frame.m_moduleName));
-		m_table->setItem(i, StackTraceColumns::Function,	new QTableWidgetItem(func));
-		m_table->setItem(i, StackTraceColumns::File,		new QTableWidgetItem(QString::fromUtf8(rtm::pathGetFileName(frame.m_file))));
+		m_table->setItem(i, StackTraceColumns::Module,		makeItemWithTooltip(frame.m_moduleName));
+		m_table->setItem(i, StackTraceColumns::Function,	makeItemWithTooltip(func));
+		m_table->setItem(i, StackTraceColumns::File,		makeItemWithTooltip(QString::fromUtf8(rtm::pathGetFileName(frame.m_file))));
 		m_table->setItem(i, StackTraceColumns::Line,		new QTableWidgetItem(QString::number(frame.m_line)));
-		m_table->setItem(i, StackTraceColumns::Path,		new QTableWidgetItem(QString::fromUtf8(frame.m_file)));
+		m_table->setItem(i, StackTraceColumns::Path,		makeItemWithTooltip(QString::fromUtf8(frame.m_file)));
 
 		if (m_selectedFunc.compare(func) == 0)
 			selectedRow = i;
