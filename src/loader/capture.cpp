@@ -608,7 +608,6 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 							st->m_next = (StackTrace**)m_stackPool.Alloc((uint32_t)(sizeof(StackTrace*) * (numFrames32+1)));
 							memset(st->m_next, 0, sizeof(StackTrace*) * (numFrames32+1));
 							memcpy(&st->m_entries[0], backTrace64, numFrames32*sizeof(uint64_t));
-							memset(&st->m_entries[numFrames32*2], 0xff, numFrames32 * 2 * sizeof(uint64_t));
 							st->m_numEntries = (uint64_t)numFrames32;
 							m_stackTraces[stackTraceHash] = st;
 						}
@@ -1182,11 +1181,12 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 			for (uint32_t i=0; i<newCount; ++i)
 				st->m_entries[i + newCount]	= st->m_entries[i + numFrames + skip];
 
-			memset(&st->m_entries[newCount*2], 0xff, newCount*2*sizeof(uint64_t));
 			st->m_numEntries = newCount;
 		}
-	
-		st->m_addedToTree[0] = 0;
+
+		memset(&st->m_entries[st->m_numEntries*2], 0xff, st->m_numEntries*2*sizeof(uint64_t));
+
+		st->m_addedToTree[StackTrace::Global] = 0;
 		++it;
 		++idx;
 	}
@@ -1223,7 +1223,7 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 		addToMemoryGroups(m_operationGroups, op);
 
 		// add to call stack tree
- 		addToStackTraceTree(m_stackTraceTree, op, StackTrace::GlobalOffset);
+ 		addToStackTraceTree(m_stackTraceTree, op, StackTrace::Global);
 
 		// add to tag tree
 		tagAddOp(m_tagTree, op, prevTag);
@@ -1303,11 +1303,6 @@ bool Capture::setLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 					{
 						m_operationsInvalid.push_back(op);
 						op->m_isValid = 0; // mora da postoji op u mapi sa tim rezultatom
-					}
-					else
-					{
-						oldOp = itP->second;
-						opMap.erase(itP);
 					}
 				}
 
@@ -1562,7 +1557,7 @@ void Capture::calculateFilteredData()
 	while (it != end)
 	{
 		StackTrace* st = it->second;
-		st->m_addedToTree[1] = 0;
+		st->m_addedToTree[StackTrace::Filtered] = 0;
 		memset(&st->m_entries[st->m_numEntries*3], 0xff, (size_t)st->m_numEntries*sizeof(uint64_t));
 
 		++it;
@@ -1619,7 +1614,7 @@ void Capture::calculateFilteredData()
 		addToMemoryGroups(m_filter.m_operationGroups, op);
 
 		// add to call stack tree
-		addToStackTraceTree(m_filter.m_stackTraceTree, op, StackTrace::FilterOffset);
+		addToStackTraceTree(m_filter.m_stackTraceTree, op, StackTrace::Filtered);
 
 		// add to tag tree
 		tagAddOp(m_filter.m_tagTree, op, prevTag);
@@ -1957,7 +1952,7 @@ void Capture::addToMemoryGroups(MemoryGroupsHashType& _groups, MemoryOperation* 
 	};
 }
 
-static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, int32_t _overhead, StackTrace::Enum _offset, StackTraceTree::Enum _opType)
+static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, int32_t _overhead, StackTrace::Scope _offset, StackTraceTree::Enum _opType)
 {
 	const int32_t numFrames = (int32_t)_trace->m_numEntries;
 	int32_t currFrame = numFrames;
@@ -1981,7 +1976,7 @@ static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, 
 		int32_t depth = numFrames-currFrame;
 
 		const uint64_t currUniqueID = _trace->m_entries[currFrame+numFrames];
-		uint64_t& currUniqueIDIdx	= _trace->m_entries[currFrame+numFrames*_offset];
+		uint64_t& currUniqueIDIdx	= _trace->m_entries[currFrame+numFrames*(_offset+2)];
 
 		StackTraceTree* nextNode = 0;
 
@@ -2018,11 +2013,11 @@ static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, 
 
 		currNode = nextNode;
 
-		if (_trace->m_addedToTree[_offset-2] < depth)
+		if (_trace->m_addedToTree[_offset] < depth)
 		{
 			_trace->m_next[depth] = currNode->m_stackTraceList;
 			currNode->m_stackTraceList = _trace;
-			_trace->m_addedToTree[_offset-2] = depth;
+			_trace->m_addedToTree[_offset] = depth;
 		}
 
 		currNode->m_memUsage		+= _size;
@@ -2036,7 +2031,7 @@ static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, 
 	}
 }
 
-void Capture::addToStackTraceTree(StackTraceTree& _tree, MemoryOperation* _op, StackTrace::Enum _offset)
+void Capture::addToStackTraceTree(StackTraceTree& _tree, MemoryOperation* _op, StackTrace::Scope _offset)
 {
 	switch (_op->m_operationType)
 	{

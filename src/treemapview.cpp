@@ -259,6 +259,7 @@ void TreeMapView::mouseMoveEvent(QMouseEvent* _event)
 	{
 		QLocale locale;
 		QPoint globalPos = mapToGlobal(_event->pos());
+
 		QToolTip::showText(globalPos,	QObject::tr("Total size: ") + locale.toString(qulonglong(tt->m_size)) + QString("\n----------------\n") +
 										QObject::tr("Operations: ") + locale.toString(qulonglong(tt->m_allocs + tt->m_reallocs + tt->m_frees)) + QString("\n") +
 										QObject::tr("    Allocs: ") + locale.toString(qulonglong(tt->m_allocs)) + QString("\n") +

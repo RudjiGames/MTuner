@@ -71,6 +71,7 @@
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGraphicsWidget>
 #include <QtWidgets/QItemDelegate>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QPlainTextEdit>

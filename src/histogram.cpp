@@ -197,7 +197,7 @@ void Histogram::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 	{
 		_painter->save();
 		if (i == static_cast<int>(selectedBin))
-			_painter->setPen(QPen(QColor(50+60, 150+60, 170+60), 1.0, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+			_painter->setPen(QPen(QColor(50+80, 150+80, 170+80), 1.0, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 		else
 			_painter->setPen(QPen(Qt::lightGray, 1.0, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 

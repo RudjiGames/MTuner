@@ -10,15 +10,15 @@
 
 #include <rbase/inc/path.h>
 
-bool QToolTipper::eventFilter(QObject* obj, QEvent* event)
+bool QToolTipper::eventFilter(QObject* _object, QEvent* _event)
 {
-	if (event->type() == QEvent::ToolTip)
+	if (_event->type() == QEvent::ToolTip)
 	{
-		QAbstractItemView* view = qobject_cast<QAbstractItemView*>(obj->parent());
+		QAbstractItemView* view = qobject_cast<QAbstractItemView*>(_object->parent());
 		if (!view)
 			return false;
 
-		QHelpEvent* helpEvent = static_cast<QHelpEvent*>(event);
+		QHelpEvent* helpEvent = static_cast<QHelpEvent*>(_event);
 		QPoint pos = helpEvent->pos();
 		QModelIndex index = view->indexAt(pos);
 		if (!index.isValid())
@@ -36,7 +36,10 @@ bool QToolTipper::eventFilter(QObject* obj, QEvent* event)
 		if ((itemTextWidth > rectWidth) && !itemTooltip.isEmpty())
 			QToolTip::showText(helpEvent->globalPos(), itemTooltip, view, rect);
 		else
-			QToolTip::hideText();
+			{
+				QToolTip::hideText();
+				_event->ignore();
+			}
 
 		return true;
 	}

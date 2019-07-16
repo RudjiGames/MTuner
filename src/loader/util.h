@@ -12,27 +12,20 @@
 
 namespace rtm {
 
-// Sort functions for memory operations
-
-static inline void freeStackTrace( const std::pair<uint32_t, StackTrace*>& _trace )
-{
-	free(_trace.second);
-}
-
 /// Returns true if operation type is allocation
-static inline bool isAlloc( uint16_t _op )
+static inline bool isAlloc(uint16_t _op)
 {
 	return (_op != rmem::LogMarkers::OpFree);
 }
 
 /// Sets memory operation to invalid state
-static inline void setInvalid( MemoryOperation* _op )
+static inline void setInvalid(MemoryOperation* _op)
 {
 	_op->m_isValid = 0;
 }
 
 /// Returns true if operation is invalid
-static inline bool isInvalid( MemoryOperation* _op )
+static inline bool isInvalid(MemoryOperation* _op)
 {
 	return _op->m_isValid == 0;
 }
@@ -40,7 +33,7 @@ static inline bool isInvalid( MemoryOperation* _op )
 //--------------------------------------------------------------------------
 /// Returns the index of the histogram bin based on allocation size
 //--------------------------------------------------------------------------
-static inline uint8_t	getHistogramBinIndex( uint32_t _size )
+static inline uint8_t getHistogramBinIndex(uint32_t _size)
 {
 	const uint32_t binPow2 = uint32_nextpow2( _size );
 	const uint32_t clampPow2 = uint32_imax(binPow2, MemoryStats::MIN_HISTOGRAM_SIZE);

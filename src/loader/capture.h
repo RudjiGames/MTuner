@@ -165,7 +165,7 @@ class Capture
 		void		GetRangedStats(MemoryStats& ioStats, uint32_t inMinIdx, uint32_t inMaxIdx);
 		void		addMemoryTag(char* inTagName, uint32_t _tagHash, uint32_t _parentTagHash);
 		void		addToMemoryGroups(MemoryGroupsHashType& ioGroups, MemoryOperation* _op);
-		void		addToStackTraceTree(StackTraceTree& ioTree, MemoryOperation* _op, StackTrace::Enum _offset);
+		void		addToStackTraceTree(StackTraceTree& ioTree, MemoryOperation* _op, StackTrace::Scope _offset);
 		void		writeGlobalStats(FILE* inFile);
 };
 

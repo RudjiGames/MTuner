@@ -187,10 +187,10 @@ struct MemoryStatsTimed
 //--------------------------------------------------------------------------
 struct StackTrace
 {
-	enum Enum
+	enum Scope
 	{
-		GlobalOffset = 2,
-		FilterOffset = 3
+		Global,
+		Filtered
 	};
 
 	StackTrace**	m_next;
