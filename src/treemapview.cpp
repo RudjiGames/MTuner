@@ -200,9 +200,9 @@ void TreeMapView::buildTreeRecurse(rtm::StackTraceTree* _tree)
 		node.m_tree		= _tree;
 		node.m_text		= "";
 		node.m_size		= getNodeValueByType( node, m_mapType );
-		node.m_allocs	= node.m_tree->m_opCount[rtm::StackTraceTree::ALLOC];
-		node.m_reallocs	= node.m_tree->m_opCount[rtm::StackTraceTree::REALLOC];
-		node.m_frees	= node.m_tree->m_opCount[rtm::StackTraceTree::FREE];
+		node.m_allocs	= node.m_tree->m_opCount[rtm::StackTraceTree::Alloc];
+		node.m_reallocs	= node.m_tree->m_opCount[rtm::StackTraceTree::Realloc];
+		node.m_frees	= node.m_tree->m_opCount[rtm::StackTraceTree::Free];
 
 		m_tree.push_back(node);
 	}

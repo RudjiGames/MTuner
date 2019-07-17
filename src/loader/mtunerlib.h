@@ -208,11 +208,11 @@ struct StackTraceTree
 
 	enum Enum
 	{
-		ALLOC,
-		FREE,
-		REALLOC,
+		Alloc,
+		Free,
+		Realloc,
 
-		COUNT
+		Count
 	};
 
 	uint64_t			m_addressID;
@@ -221,7 +221,7 @@ struct StackTraceTree
 	int32_t				m_overhead;
 	int32_t				m_overheadPeak;
 	int32_t				m_depth;
-	int32_t				m_opCount[StackTraceTree::COUNT];
+	int32_t				m_opCount[StackTraceTree::Count];
 	StackTraceTree*		m_parent;
 	StackTrace*			m_stackTraceList;
 	ChildNodes			m_children;
@@ -236,7 +236,7 @@ struct StackTraceTree
 		m_parent(NULL),
 		m_stackTraceList(NULL)
 	{
-		memset(&m_opCount[0], 0, sizeof(int32_t)*StackTraceTree::COUNT);
+		memset(&m_opCount[0], 0, sizeof(int32_t)*StackTraceTree::Count);
 	}
 };
 

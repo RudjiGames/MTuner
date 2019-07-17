@@ -1964,7 +1964,7 @@ static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, 
 	currNode->m_overhead	+= _overhead;
 	currNode->m_overheadPeak = qMax(currNode->m_overhead, currNode->m_overheadPeak);
 
-	if (_opType != StackTraceTree::COUNT)
+	if (_opType != StackTraceTree::Count)
 		++currNode->m_opCount[_opType];
 
 	// add stack trace to root node
@@ -2026,7 +2026,7 @@ static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, 
 		currNode->m_overhead		+= _overhead;
 		currNode->m_overheadPeak	= qMax(currNode->m_overhead, currNode->m_overheadPeak);
 
-		if (_opType != StackTraceTree::COUNT)
+		if (_opType != StackTraceTree::Count)
 			++currNode->m_opCount[_opType];
 	}
 }
@@ -2039,7 +2039,7 @@ void Capture::addToStackTraceTree(StackTraceTree& _tree, MemoryOperation* _op, S
 		case rmem::LogMarkers::OpCalloc:
 		case rmem::LogMarkers::OpAllocAligned:
 			{
-				addToTree(&_tree, _op->m_stackTrace, _op->m_allocSize, _op->m_overhead, _offset, StackTraceTree::ALLOC);
+				addToTree(&_tree, _op->m_stackTrace, _op->m_allocSize, _op->m_overhead, _offset, StackTraceTree::Alloc);
 			}
 			break;
 
@@ -2049,10 +2049,10 @@ void Capture::addToStackTraceTree(StackTraceTree& _tree, MemoryOperation* _op, S
 				RTM_ASSERT(prevOp != NULL, "");
 
 				if (isInFilter(prevOp))
-					addToTree(&_tree, prevOp->m_stackTrace, -(int64_t)prevOp->m_allocSize, -(int32_t)prevOp->m_overhead, _offset, StackTraceTree::FREE);
+					addToTree(&_tree, prevOp->m_stackTrace, -(int64_t)prevOp->m_allocSize, -(int32_t)prevOp->m_overhead, _offset, StackTraceTree::Free);
 				else
 					// prev op not in filter, do not reduce used memory to avoid going (possibly) negative
-					addToTree(&_tree, prevOp->m_stackTrace, 0, 0, _offset, StackTraceTree::FREE);
+					addToTree(&_tree, prevOp->m_stackTrace, 0, 0, _offset, StackTraceTree::Free);
 			}
 			break;
 
@@ -2063,9 +2063,9 @@ void Capture::addToStackTraceTree(StackTraceTree& _tree, MemoryOperation* _op, S
 				if (prevOp)
 				{
 					if (isInFilter(prevOp))
-						addToTree(&_tree, prevOp->m_stackTrace, -(int64_t)prevOp->m_allocSize, -(int32_t)prevOp->m_overhead, _offset, StackTraceTree::COUNT);
+						addToTree(&_tree, prevOp->m_stackTrace, -(int64_t)prevOp->m_allocSize, -(int32_t)prevOp->m_overhead, _offset, StackTraceTree::Count);
 				}
-				addToTree(&_tree, _op->m_stackTrace, _op->m_allocSize, _op->m_overhead, _offset, StackTraceTree::REALLOC);
+				addToTree(&_tree, _op->m_stackTrace, _op->m_allocSize, _op->m_overhead, _offset, StackTraceTree::Realloc);
 			}
 			break;
 	};
