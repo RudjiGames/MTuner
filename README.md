@@ -78,12 +78,12 @@ NB: building Qt based projects with [build](https://github.com/milostosic/build)
 
 Environment variables are used to locate Qt installation, example:
 
-	set QTDIR_VS2015_x86=C:\<some_path>\Qt\5.10.0\msvc2017_64 *
-	set QTDIR_VS2015_x64=C:\<some_path>\Qt\5.10.0\msvc2017_64
+	set QTDIR_VS2017_x86=C:\<some_path>\Qt\5.13.0\msvc2017_64 *
+	set QTDIR_VS2017_x64=C:\<some_path>\Qt\5.13.0\msvc2017_64
 
 Note that Qt deprecated 32bit builds, hence both variables point to same location.
 
-Latest release made with: Visual Studio 2017 Community edition, Qt 5.10 and Lua 5.1.4
+Latest release made with: Visual Studio 2017 Community edition, Qt 5.13.0 and Lua 5.1.4
 
 Author
 ======
@@ -98,7 +98,7 @@ License (BSD 2-clause)
 <img align="right" src="http://opensource.org/trademarks/opensource/OSI-Approved-License-100x137.png">
 </a>
 
-	Copyright (c) 2017 Milos Tosic. All rights reserved.
+	Copyright (c) 2019 Milos Tosic. All rights reserved.
 	
 	https://github.com/milostosic/MTuner
 	
