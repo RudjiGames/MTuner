@@ -36,7 +36,6 @@ class TreeMapView : public QGraphicsView
 	Q_OBJECT
 
 private:
-	rtm_vector<rtm::StackTrace*>	m_stackTraces;
 	QGraphicsScene*					m_scene;
 	CaptureContext*					m_context;
 	rtm_vector<TreeMapNode>			m_tree;

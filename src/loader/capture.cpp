@@ -191,6 +191,7 @@ void Capture::clearData()
 
 	// -----
 
+	m_stackTracesHash.clear();
 	m_stackTraces.clear();
 	m_timedStats.clear();
 
@@ -591,8 +592,8 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 						bool allocateAndAdd = true;
 
-						StackTraceHashType::iterator it = m_stackTraces.find(stackTraceHash);
-						if (it != m_stackTraces.end())
+						StackTraceHashType::iterator it = m_stackTracesHash.find(stackTraceHash);
+						if (it != m_stackTracesHash.end())
 						{
 							StackTrace* s = it->second;
 							if (stackTraceCompare(s->m_entries, s->m_numEntries, backTrace64, numFrames32))
@@ -609,13 +610,14 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 							memset(st->m_next, 0, sizeof(StackTrace*) * (numFrames32+1));
 							memcpy(&st->m_entries[0], backTrace64, numFrames32*sizeof(uint64_t));
 							st->m_numEntries = (uint64_t)numFrames32;
-							m_stackTraces[stackTraceHash] = st;
+							m_stackTracesHash[stackTraceHash] = st;
+							m_stackTraces.push_back(st);
 						}
 					}
 					else
 					{
-						// STACK_TRACE_EXISTS
-						st = m_stackTraces[stackTraceHash];
+						// Stack trace exists
+						st = m_stackTracesHash[stackTraceHash];
 					}
 
 					if (!st)
@@ -825,6 +827,8 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 				break;
 		};
 	}
+
+	m_stackTracesHash.clear();
 
 	// tolerate invalid data at the end of file
 	Capture::LoadResult loadResult = Capture::LoadSuccess;
@@ -1135,8 +1139,8 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 	RTM_ASSERT(_symResolver != 0, "Invalid symbol resolver!");
 
 	// get stack traces unique IDs
-	StackTraceHashType::iterator it  = m_stackTraces.begin();
-	StackTraceHashType::iterator end = m_stackTraces.end();
+	rtm_vector<StackTrace*>::iterator it  = m_stackTraces.begin();
+	rtm_vector<StackTrace*>::iterator end = m_stackTraces.end();
 
 	const uint32_t numStackTraces = (uint32_t)m_stackTraces.size();
 	uint32_t nextProgressPoint = 0;
@@ -1152,7 +1156,7 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 			m_loadProgressCallback(m_loadProgressCustomData, percent, "Generating unique symbol IDs...");
 		}
 
-		StackTrace* st = it->second;
+		StackTrace* st = *it;
 		
 		int numFrames = (int)st->m_numEntries;
 
@@ -1546,8 +1550,8 @@ bool Capture::verifyGlobalStats()
 //--------------------------------------------------------------------------
 void Capture::calculateFilteredData()
 {
-	StackTraceHashType::iterator it  = m_stackTraces.begin();
-	StackTraceHashType::iterator end = m_stackTraces.end();
+	rtm_vector<StackTrace*>::iterator it  = m_stackTraces.begin();
+	rtm_vector<StackTrace*>::iterator end = m_stackTraces.end();
 
 	const uint32_t numStackTraces = (uint32_t)m_stackTraces.size();
 	uint32_t nextProgressPoint = 0;
@@ -1556,7 +1560,7 @@ void Capture::calculateFilteredData()
 
 	while (it != end)
 	{
-		StackTrace* st = it->second;
+		StackTrace* st = *it;
 		st->m_addedToTree[StackTrace::Filtered] = 0;
 		memset(&st->m_entries[st->m_numEntries*3], 0xff, (size_t)st->m_numEntries*sizeof(uint64_t));
 

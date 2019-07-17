@@ -69,7 +69,9 @@ class Capture
 		char*							m_modulePathBuffer;
 		uint32_t						m_modulePathBufferPtr;
 
-		StackTraceHashType				m_stackTraces;			///< map of stack traces, key is a stack trace hash
+		StackTraceHashType				m_stackTracesHash;			///< map of stack traces, key is a stack trace hash
+		rtm_vector<StackTrace*>			m_stackTraces;
+
 		MemoryGroupsHashType			m_operationGroups;
 		rtm_vector<GraphEntry>			m_usageGraph;			///< memory usage graph data
 		StackTraceTree					m_stackTraceTree;		///< stack trace tree
