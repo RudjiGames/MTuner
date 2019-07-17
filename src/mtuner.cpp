@@ -474,6 +474,14 @@ void MTuner::setupDockWindows()
 	addDockWidget(Qt::RightDockWidgetArea, m_stackAndSourceDock);
 	addDockWidget(Qt::RightDockWidgetArea, m_modulesDock);
 
+	connect(m_graphDock,			SIGNAL(visibilityChanged(bool)), ui.action_View_Memory_Graph,		SLOT(setChecked(bool)));
+	connect(m_statsDock,			SIGNAL(visibilityChanged(bool)), ui.action_View_Memory_Stats,		SLOT(setChecked(bool)));
+	connect(m_histogramDock,		SIGNAL(visibilityChanged(bool)), ui.action_View_Histograms,			SLOT(setChecked(bool)));
+	connect(m_tagTreeDock,			SIGNAL(visibilityChanged(bool)), ui.action_View_Tag_Tree,			SLOT(setChecked(bool)));
+	connect(m_stackAndSourceDock,	SIGNAL(visibilityChanged(bool)), ui.action_View_StackTrace,			SLOT(setChecked(bool)));
+	connect(m_heapsDock,			SIGNAL(visibilityChanged(bool)), ui.action_View_Heaps_Allocators,	SLOT(setChecked(bool)));
+	connect(m_modulesDock,			SIGNAL(visibilityChanged(bool)), ui.action_view_ModulesDock,		SLOT(setChecked(bool)));
+
 	m_graphDock->setVisible(true);
 	m_statsDock->setVisible(true);
 	m_histogramDock->setVisible(true);
@@ -490,14 +498,6 @@ void MTuner::setupDockWindows()
 	setDockWindowIcon(m_heapsDock,			":/MTuner/resources/images/Heaps.png");
 	setDockWindowIcon(m_modulesDock,		":/MTuner/resources/images/modules64.png");
 	setDockWindowIcon(m_statsDock,			":/MTuner/resources/images/table.png");
-
-	connect(m_graphDock,			SIGNAL(visibilityChanged(bool)), ui.action_View_Memory_Graph,		SLOT(setChecked(bool)));
-	connect(m_statsDock,			SIGNAL(visibilityChanged(bool)), ui.action_View_Memory_Stats,		SLOT(setChecked(bool)));
-	connect(m_histogramDock,		SIGNAL(visibilityChanged(bool)), ui.action_View_Histograms,			SLOT(setChecked(bool)));
-	connect(m_tagTreeDock,			SIGNAL(visibilityChanged(bool)), ui.action_View_Tag_Tree,			SLOT(setChecked(bool)));
-	connect(m_stackAndSourceDock,	SIGNAL(visibilityChanged(bool)), ui.action_View_StackTrace,			SLOT(setChecked(bool)));
-	connect(m_heapsDock,			SIGNAL(visibilityChanged(bool)), ui.action_View_Heaps_Allocators,	SLOT(setChecked(bool)));
-	connect(m_modulesDock,			SIGNAL(visibilityChanged(bool)), ui.action_view_ModulesDock,		SLOT(setChecked(bool)));
 
 	/// histogram dock
 	m_histogramWidget = new HistogramWidget();
