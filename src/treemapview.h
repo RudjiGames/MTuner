@@ -18,7 +18,7 @@ struct TreeMapNode
 	uint64_t				m_allocs;	///< Number of allocations
 	uint64_t				m_reallocs;	///< Number of reallocations
 	uint64_t				m_frees;	///< Number of frees
-	rtm::StackTraceTree*	m_tree;	///< Pointer to the actual stact trace tree node, used to resolve symbols
+	rtm::StackTraceTree*	m_tree;		///< Pointer to the actual stact trace tree node, used to resolve symbols
 	
 	TreeMapNode()
 		: m_size(0)
