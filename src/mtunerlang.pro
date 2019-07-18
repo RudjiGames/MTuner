@@ -31,6 +31,7 @@ SOURCES +=  about.cpp               \
             histogramview.cpp       \
             histogramwidget.cpp     \
             hotspots.cpp            \
+			inject.cpp				\
             langmanager.cpp         \
 			moduleswidget.cpp		\
             mtuner.cpp              \
@@ -80,6 +81,7 @@ HEADERS  += about.h                 \
             histogramview.h         \
             histogramwidget.h       \
             hotspots.h              \
+			inject.h				\
             langmanager.h           \
 			moduleswidget.h			\
             mtuner.h                \
@@ -118,6 +120,7 @@ FORMS    += about.ui                \
             heapswidget.ui          \
             histogram.ui            \
             hotspot.ui              \
+			inject.ui				\
 			moduleswidget.ui		\
             mtuner.ui               \
             new_version.ui          \
