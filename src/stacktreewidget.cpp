@@ -327,14 +327,28 @@ int TreeItem::columnCount() const
 	return 9;
 }
 
-QString formatPercentageView(uint64_t _num, uint64_t _total)
+QString formatPercentageView(uint64_t _num, uint64_t _total, bool _countAndPct = true)
 {
 	QLocale locale;
-	return locale.toString(_num);
-	//if (_total)
-	//	return locale.toString(_num) + " (" + QString::number((float(_num) * 100.0f) / float(_total), 'f', 2) + "%)";
-	//else
-	//	return locale.toString(_num) + " (0%)";
+
+	float pct = 0.0f;
+	if (_total)
+		pct = (float(_num) * 100.0f) / float(_total);
+
+	if (_countAndPct)
+	{
+		if (_total)
+			return locale.toString(_num) + " (" + QString::number(pct, 'f', 2) + "%)";
+		else
+			return locale.toString(_num) + " (0%)";
+	}
+	else
+	{
+		if (_total)
+			return QString::number(pct, 'f', 2) + "%";
+		else
+			return "0%";
+	}
 }
 
 QVariant TreeItem::data(int _column) const

@@ -82,7 +82,7 @@ enum eGroupSort
 //--------------------------------------------------------------------------
 struct MemoryOperationGroup
 {
-	enum { INDEX_MAPPINGS = 9 };
+	enum { INDEX_MAPPINGS = 11 };
 
 	uint32_t						m_minSize;			// single allocation size
 	uint32_t						m_maxSize;			// single allocation size

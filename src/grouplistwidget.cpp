@@ -16,9 +16,11 @@ struct GroupColumn
 		Size,
 		Count,
 		CountPeak,
+		CountPeakPercent,
 		Alignment,
 		GroupSize,
 		GroupPeakSize,
+		GroupPeakSizePercent,
 		Live,
 
 		ColumnCount = rtm::MemoryOperationGroup::INDEX_MAPPINGS
@@ -114,6 +116,22 @@ struct pSortCountPeak
 	inline uint32_t operator()(const uint32_t _val) const { return (*m_allGroups)[_val]->m_liveCountPeak; } 
 };
 
+// concurrency::parallel_radixsort Count peak percent
+struct pSortCountPeakPercent
+{
+	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortCountPeakPercent(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+
+	inline uint32_t operator()(const uint32_t _val) const
+	{
+		rtm::MemoryOperationGroup* grp = (*m_allGroups)[_val];
+		if (grp->m_liveCountPeakGlobal)
+			return float(grp->m_liveCountPeak * 10000) / float(grp->m_liveCountPeakGlobal);
+		else
+			return 0;
+	}
+};
+
 // concurrency::parallel_radixsort Alignment
 struct pSortAlignment
 {
@@ -147,6 +165,22 @@ struct pSortGroupSizePeak
 		rtm::MemoryOperationGroup* grp = (*m_allGroups)[_val];
 		return grp->m_peakSize;
 	} 
+};
+
+// concurrency::parallel_radixsort Group size peak percent
+struct pSortGroupSizePeakPercent
+{
+	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortGroupSizePeakPercent(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+
+	inline uint32_t operator()(const uint32_t _val) const
+	{
+		rtm::MemoryOperationGroup* grp = (*m_allGroups)[_val];
+		if (grp->m_peakSizeGlobal)
+			return float(grp->m_peakSize * 10000) / float(grp->m_peakSizeGlobal);
+		else
+			return 0;
+	}
 };
 
 // concurrency::parallel_radixsort Live count
@@ -219,6 +253,20 @@ struct pSortCountPeakNVC
 	inline bool operator()(const uint32_t _val1, const uint32_t _val2) const { return (*m_allGroups)[_val1]->m_liveCountPeak < (*m_allGroups)[_val2]->m_liveCountPeak; }
 };
 
+struct pSortCountPeakPercentNVC
+{
+	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortCountPeakPercentNVC(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+
+	inline bool operator()(const uint32_t _val1, const uint32_t _val2) const
+	{
+		rtm::MemoryOperationGroup* grp1 = (*m_allGroups)[_val1];
+		rtm::MemoryOperationGroup* grp2 = (*m_allGroups)[_val2];
+
+		return float(grp1->m_liveCountPeak * grp2->m_liveCountPeakGlobal) < float(grp2->m_liveCountPeak * grp1->m_liveCountPeakGlobal);
+	}
+};
+
 struct pSortAlignmentNVC
 {
 	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
@@ -250,6 +298,20 @@ struct pSortGroupSizePeakNVC
 		rtm::MemoryOperationGroup* grp1 = (*m_allGroups)[_val1];
 		rtm::MemoryOperationGroup* grp2 = (*m_allGroups)[_val2];
 		return (grp1->m_peakSize) < (grp2->m_peakSize);
+	}
+};
+
+struct pSortGroupSizePeakPercentNVC
+{
+	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortGroupSizePeakPercentNVC(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+
+	inline bool operator()(const uint32_t _val1, const uint32_t _val2) const
+	{
+		rtm::MemoryOperationGroup* grp1 = (*m_allGroups)[_val1];
+		rtm::MemoryOperationGroup* grp2 = (*m_allGroups)[_val2];
+
+		return grp1->m_peakSize * grp2->m_peakSizeGlobal < grp2->m_peakSize * grp1->m_peakSizeGlobal;
 	}
 };
 
@@ -354,6 +416,9 @@ void GroupTableSource::prepareData()
 	pSortCountPeak psCountPeak(m_allGroups);
 	concurrency::parallel_radixsort(m_groupMappings[GroupColumn::CountPeak].m_sortedIdx.begin(), m_groupMappings[GroupColumn::CountPeak].m_sortedIdx.end(), psCountPeak );
 
+	pSortCountPeakPercent psCountPeakPercent(m_allGroups);
+	concurrency::parallel_radixsort(m_groupMappings[GroupColumn::CountPeakPercent].m_sortedIdx.begin(), m_groupMappings[GroupColumn::CountPeakPercent].m_sortedIdx.end(), psCountPeakPercent);
+
 	pSortAlignment psAlignment(m_allGroups);
 	concurrency::parallel_radixsort(m_groupMappings[GroupColumn::Alignment].m_sortedIdx.begin(), m_groupMappings[GroupColumn::Alignment].m_sortedIdx.end(), psAlignment );
 
@@ -362,6 +427,9 @@ void GroupTableSource::prepareData()
 
 	pSortGroupSizePeak psGroupSizePeak(m_allGroups);
 	concurrency::parallel_radixsort(m_groupMappings[GroupColumn::GroupPeakSize].m_sortedIdx.begin(), m_groupMappings[GroupColumn::GroupPeakSize].m_sortedIdx.end(), psGroupSizePeak );
+
+	pSortGroupSizePeakPercent psGroupSizePeakPercent(m_allGroups);
+	concurrency::parallel_radixsort(m_groupMappings[GroupColumn::GroupPeakSizePercent].m_sortedIdx.begin(), m_groupMappings[GroupColumn::GroupPeakSizePercent].m_sortedIdx.end(), psGroupSizePeakPercent);
 
 	pSortLive psLive(m_allGroups);
 	concurrency::parallel_radixsort(m_groupMappings[GroupColumn::Live].m_sortedIdx.begin(), m_groupMappings[GroupColumn::Live].m_sortedIdx.end(), psLive );
@@ -384,11 +452,15 @@ void GroupTableSource::prepareData()
 
 	std::stable_sort(m_groupMappings[GroupColumn::CountPeak].m_sortedIdx.begin(), m_groupMappings[GroupColumn::CountPeak].m_sortedIdx.end(), pSortCountPeakNVC(m_allGroups));
 
+	std::stable_sort(m_groupMappings[GroupColumn::CountPeakPercent].m_sortedIdx.begin(), m_groupMappings[GroupColumn::CountPeakPercent].m_sortedIdx.end(), pSortCountPeakPercentNVC(m_allGroups));
+
 	std::stable_sort(m_groupMappings[GroupColumn::Alignment].m_sortedIdx.begin(), m_groupMappings[GroupColumn::Alignment].m_sortedIdx.end(), pSortAlignmentNVC(m_allGroups));
 
 	std::stable_sort(m_groupMappings[GroupColumn::GroupSize].m_sortedIdx.begin(), m_groupMappings[GroupColumn::GroupSize].m_sortedIdx.end(), pSortGroupSizeNVC(m_allGroups));
 
 	std::stable_sort(m_groupMappings[GroupColumn::GroupPeakSize].m_sortedIdx.begin(), m_groupMappings[GroupColumn::GroupPeakSize].m_sortedIdx.end(), pSortGroupSizePeakNVC(m_allGroups));
+
+	std::stable_sort(m_groupMappings[GroupColumn::GroupPeakSizePercent].m_sortedIdx.begin(), m_groupMappings[GroupColumn::GroupPeakSizePercent].m_sortedIdx.end(), pSortGroupSizePeakPercentNVC(m_allGroups));
 
 	std::stable_sort(m_groupMappings[GroupColumn::Live].m_sortedIdx.begin(), m_groupMappings[GroupColumn::Live].m_sortedIdx.end(), pSortLiveNVC(m_allGroups));
 
@@ -407,7 +479,9 @@ void GroupTableSource::prepareData()
 QStringList	GroupTableSource::getHeaderInfo(int32_t& _sortCol, Qt::SortOrder& _sortOrder)
 {
 	QStringList header;
-	header << QObject::tr("Type") << QObject::tr("Heap") << QObject::tr("Block size") << QObject::tr("Total count") << QObject::tr("Live peak count") << QObject::tr("Alignment") << QObject::tr("Size") << QObject::tr("Peak size") << QObject::tr("Leaked");
+	header	<< QObject::tr("Type") << QObject::tr("Heap") << QObject::tr("Block size") << QObject::tr("Total count")
+			<< QObject::tr("Live peak count") << QObject::tr("Peak count") + " %"  << QObject::tr("Alignment")
+			<< QObject::tr("Size") << QObject::tr("Peak size") << QObject::tr("Peak size") + " %" << QObject::tr("Leaked");
 	_sortCol = m_currentColumn;
 	_sortOrder = m_sortOrder;
 	return header;
@@ -418,7 +492,7 @@ uint32_t GroupTableSource::getNumberOfRows()
 	return m_numRows;
 }
 
-extern QString formatPercentageView(uint64_t _num, uint64_t _total);
+extern QString formatPercentageView(uint64_t _num, uint64_t _total, bool _countAndPct = true);
 QString GroupTableSource::getItem(uint32_t _index, int32_t _column, QColor*, bool*)
 {
 	uint32_t index = _index;
@@ -465,7 +539,10 @@ QString GroupTableSource::getItem(uint32_t _index, int32_t _column, QColor*, boo
 			return formatPercentageView(group->m_count, m_stats->m_numberOfOperations);
 	
 		case GroupColumn::CountPeak:
-			return formatPercentageView(group->m_liveCountPeak, group->m_liveCountPeakGlobal);
+			return locale.toString(group->m_liveCountPeak);
+
+		case GroupColumn::CountPeakPercent:
+			return formatPercentageView(group->m_liveCountPeak, group->m_liveCountPeakGlobal, false);
 
 		case GroupColumn::Alignment:
 		{
@@ -479,7 +556,10 @@ QString GroupTableSource::getItem(uint32_t _index, int32_t _column, QColor*, boo
 			return formatPercentageView(group->m_liveSize, m_stats->m_memoryUsage);
 	
 		case GroupColumn::GroupPeakSize:
-			return formatPercentageView(group->m_peakSize, group->m_peakSizeGlobal);
+			return locale.toString(group->m_peakSize);
+
+		case GroupColumn::GroupPeakSizePercent:
+			return formatPercentageView(group->m_peakSize, group->m_peakSizeGlobal, false);
 
 		case GroupColumn::Live:
 			return formatPercentageView(group->m_liveCount, m_stats->m_numberOfLiveBlocks);
@@ -506,9 +586,11 @@ Qt::AlignmentFlag GroupTableSource::getAlignment(uint32_t _index)
 	{
 	case GroupColumn::Count:
 	case GroupColumn::CountPeak:
+	case GroupColumn::CountPeakPercent:
 	case GroupColumn::Alignment:
 	case GroupColumn::GroupSize:
 	case GroupColumn::GroupPeakSize:
+	case GroupColumn::GroupPeakSizePercent:
 	case GroupColumn::Live:
 		return Qt::AlignRight;
 	};
