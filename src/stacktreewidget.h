@@ -59,13 +59,13 @@ class StackTreeWidget : public QWidget
 	Q_OBJECT
 
 	rtm_vector<rtm::StackTrace*>	m_stackTraces;
+	bool							m_headerStateRestored;
 	CaptureContext*					m_context;
 	QTreeView*						m_tree;
 	bool							m_enableFiltering;
 
 	int								m_savedColumn;
 	Qt::SortOrder					m_savedOrder;
-	QByteArray						m_headerState;
 	QString							m_settingsGroupName;
 
 public:
@@ -81,8 +81,6 @@ public:
 	void setFilteringState(bool _state);
 	bool getFilteringState() const;
 	void setupTree();
-
-	QHeaderView* getHeader() { return m_tree->header(); }
 
 public Q_SLOTS:
 	void rowClicked(const QModelIndex&);

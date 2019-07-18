@@ -50,7 +50,7 @@ class GroupTableSource : public BigTableSource
 
 		void prepareData();
 
-		virtual QStringList	getHeaderInfo(int32_t& _sortCol, Qt::SortOrder& _sortOrder);
+		virtual QStringList	getHeaderInfo(int32_t& _sortCol, Qt::SortOrder& _sortOrder, QList<int>& _widths);
 		virtual uint32_t	getNumberOfRows();
 		virtual	QString		getItem(uint32_t _index, int32_t _column, QColor*, bool*);
 		virtual void 		getItem(uint32_t _index, void**);
@@ -476,12 +476,32 @@ void GroupTableSource::prepareData()
 	m_currentGroupMapping = &m_groupMappings[GroupColumn::GroupPeakSize];
 }
 
-QStringList	GroupTableSource::getHeaderInfo(int32_t& _sortCol, Qt::SortOrder& _sortOrder)
+QStringList	GroupTableSource::getHeaderInfo(int32_t& _sortCol, Qt::SortOrder& _sortOrder, QList<int>& _widths)
 {
 	QStringList header;
-	header	<< QObject::tr("Type") << QObject::tr("Heap") << QObject::tr("Block size") << QObject::tr("Total count")
-			<< QObject::tr("Live peak count") << QObject::tr("Peak count") + " %"  << QObject::tr("Alignment")
-			<< QObject::tr("Size") << QObject::tr("Peak size") << QObject::tr("Peak size") + " %" << QObject::tr("Leaked");
+	header	<< QObject::tr("Type")
+			<< QObject::tr("Heap")
+			<< QObject::tr("Block size")
+			<< QObject::tr("Total count")
+			<< QObject::tr("Live peak count")
+			<< QObject::tr("Peak count") + " %"
+			<< QObject::tr("Alignment")
+			<< QObject::tr("Size")
+			<< QObject::tr("Peak size")
+			<< QObject::tr("Peak size") + " %"
+			<< QObject::tr("Leaked");
+
+	_widths << 40
+			<< 90
+			<< 100
+			<< 90
+			<< 90
+			<< 75
+			<< 65
+			<< 120
+			<< 80
+			<< 75
+			<< 90;
 	_sortCol = m_currentColumn;
 	_sortOrder = m_sortOrder;
 	return header;

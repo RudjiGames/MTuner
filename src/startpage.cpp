@@ -9,7 +9,7 @@
 
 static QString getMessage(const QString& _string)
 {
-	return QString("<html><head/><body><p><span style=\" font-size:16pt; font-weight:600; color:#787896;\">") + 
+	return QString("<html><head/><body><p><span style=\" font-size:16pt; font-weight:600; color:#787896;\">") +
 			_string + QString("</span></p></body></html>");
 }
 

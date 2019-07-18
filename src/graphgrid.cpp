@@ -52,7 +52,7 @@ static const char* getTextFromSize(uint64_t _size)
 	return &buffer[idx+1];
 }
 
-QString getTimeString(float _time, uint64_t* _msec = NULL)
+QString getTimeString(float _time, uint64_t* _msec = 0)
 {
 	uint64_t time = _time * 1000;
 

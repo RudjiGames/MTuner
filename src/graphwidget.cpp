@@ -12,8 +12,6 @@
 #include <MTuner/src/graphmarkers.h>
 #include <MTuner/src/capturecontext.h>
 
-#define REALTIME_UPDATE 1
-
 GraphWidget::GraphWidget(QWidget* _parent) :
 	QGraphicsView(_parent)
 {
@@ -463,7 +461,7 @@ void GraphWidget::mouseMoveEvent(QMouseEvent* _event)
 	QGraphicsView::mouseMoveEvent(_event);
 }
 
-extern QString getTimeString(float _time, uint64_t* _mSec = NULL);
+extern QString getTimeString(float _time, uint64_t* _mSec = 0);
 
 void GraphWidget::mouseMovement(const QPoint& _position, Qt::MouseButtons _buttons)
 {
@@ -480,7 +478,7 @@ void GraphWidget::mouseMovement(const QPoint& _position, Qt::MouseButtons _butto
 		if (toolTips[i].m_rect.contains(spt) && !m_inContextMenu)
 		{
 			QString text(toolTips[i].m_text);
-			text += "\n" + tr("Time") + ": " + QString::number(m_context->m_capture->getFloatTime(toolTips[i].m_time),'f');
+			text += "\n" + tr("Time") + ": " + getTimeString(m_context->m_capture->getFloatTime(toolTips[i].m_time));
 			text += "\n" + tr("Thread") + ": 0x" + QString::number(toolTips[i].m_threadID, 16);
 			QToolTip::showText(gpt, text, this, QRect(_position, _position));
 			dontHideToolTip = true;

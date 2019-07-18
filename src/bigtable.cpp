@@ -10,8 +10,8 @@
 class ForegroundColorItemDelegate : public QItemDelegate
 {
 public:
-	ForegroundColorItemDelegate(QObject* _parent = 0) :
-		QItemDelegate(_parent)
+	ForegroundColorItemDelegate(QObject* _parent = 0)
+		: QItemDelegate(_parent)
 	{}
 
 	void paint(QPainter* _painter, const QStyleOptionViewItem& _option, const QModelIndex& _index) const  
@@ -30,8 +30,8 @@ public:
 	}
 };
 
-BigTableTableWidget::BigTableTableWidget(QWidget* _parent) :
-		QTableWidget(_parent)
+BigTableTableWidget::BigTableTableWidget(QWidget* _parent)
+	: QTableWidget(_parent)
 {
 }
 
@@ -41,8 +41,8 @@ void BigTableTableWidget::contextMenuEvent(QContextMenuEvent* _event)
 	emit itemContextMenu(itemHover, _event->globalPos());
 }
 
-BigTable::BigTable(QWidget* _parent, Qt::WindowFlags _flags) :
-	QWidget(_parent, _flags)
+BigTable::BigTable(QWidget* _parent, Qt::WindowFlags _flags)
+	: QWidget(_parent, _flags)
 {
 	ui.setupUi(this);
 	m_source		= NULL;
@@ -73,7 +73,8 @@ void BigTable::changeEvent(QEvent* _event)
 				ui.retranslateUi(this);
 				int32_t sortCol;
 				Qt::SortOrder sortOrder;
-				m_header = m_source->getHeaderInfo(sortCol, sortOrder);
+				QList<int> widths;
+				m_header = m_source->getHeaderInfo(sortCol, sortOrder, widths);
 				m_tree->setHorizontalHeaderLabels(m_header);
 			}
 			break;
@@ -90,9 +91,12 @@ void BigTable::setSource(BigTableSource* _source)
 
 	int32_t sortCol;
 	Qt::SortOrder sortOrder;
-	m_header = m_source->getHeaderInfo(sortCol, sortOrder);
+	QList<int> widths;
+	m_header = m_source->getHeaderInfo(sortCol, sortOrder, widths);
 	m_numColumns = m_header.size();
 	m_tree->setColumnCount(m_numColumns);
+	for (int i=0; i<widths.size(); ++i)
+		m_tree->setColumnWidth(i, widths[i]);
 	m_tree->setHorizontalHeaderLabels(m_header);
 	m_tree->sortItems(sortCol, sortOrder);
 	

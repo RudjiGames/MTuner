@@ -699,9 +699,10 @@ StackTreeWidget::StackTreeWidget(QWidget* _parent, Qt::WindowFlags _flags) :
 {
 	ui.setupUi(this);
 
-	m_context			= 0;
-	m_enableFiltering	= false;
-	m_tree				= findChild<QTreeView*>("treeWidget");
+	m_headerStateRestored	= false;
+	m_context				= 0;
+	m_enableFiltering		= false;
+	m_tree					= findChild<QTreeView*>("treeWidget");
 	m_tree->setItemDelegate( new ProgressBarDelegate() );
 }
 
@@ -729,7 +730,8 @@ void StackTreeWidget::loadState(QSettings& _settings, const QString& _name, bool
 	{
 		m_savedColumn = _settings.value("stackTreeSortColumn").toInt();
 		m_savedOrder = (Qt::SortOrder)_settings.value("stackTreeSortOrder").toInt();
-		m_headerState = _settings.value("stackTreeHeaderState").toByteArray();
+		m_tree->header()->restoreState(_settings.value("stackTreeHeaderState").toByteArray());
+		m_headerStateRestored = true;
 	}
 	_settings.endGroup();
 }
@@ -774,6 +776,17 @@ void StackTreeWidget::setupTree()
 {
 	TreeModel* model = new TreeModel(m_context);
 	m_tree->setModel(model);
+
+	if (!m_headerStateRestored)
+	{
+		m_tree->header()->resizeSection(Header::Name, 180);
+		m_tree->header()->resizeSection(Header::Module, 80);
+		m_tree->header()->resizeSection(Header::Allocs, 90);
+		m_tree->header()->resizeSection(Header::Frees, 90);
+		m_tree->header()->resizeSection(Header::Reallocs, 90);
+		m_tree->header()->resizeSection(Header::File, 240);
+	}
+
 	m_tree->setSelectionMode(QAbstractItemView::SingleSelection);
 	connect(m_tree->selectionModel(), SIGNAL(currentRowChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(rowClicked(const QModelIndex&)));
 	m_tree->setRootIsDecorated(true);

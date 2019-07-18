@@ -69,7 +69,7 @@ class OperationTableSource : public BigTableSource
 
 		void prepareData();
 
-		virtual QStringList	getHeaderInfo(int32_t& _sortColumn, Qt::SortOrder& _sortOrder);
+		virtual QStringList	getHeaderInfo(int32_t& _sortColumn, Qt::SortOrder& _sortOrder, QList<int>& _widths);
 		virtual uint32_t	getNumberOfRows();
 		virtual	QString		getItem(uint32_t _index, int32_t _column, QColor* _color, bool* _setColor);
 		virtual void 		getItem(uint32_t _index, void**);
@@ -219,10 +219,19 @@ void OperationTableSource::prepareData()
 	m_currentColumn = OperationColumn::Time;
 }
 
-QStringList	OperationTableSource::getHeaderInfo(int32_t& _sortColumn, Qt::SortOrder& _sortOrder)
+QStringList	OperationTableSource::getHeaderInfo(int32_t& _sortColumn, Qt::SortOrder& _sortOrder, QList<int>& _widths)
 {
 	QStringList header;
 	header << QObject::tr("Thread ID") << QObject::tr("Heap") << QObject::tr("Address") << QObject::tr("Type") << QObject::tr("Size") << QObject::tr("Alignment") << QObject::tr("Time");
+
+	_widths << 75
+			<< 75
+			<< 75
+			<< 40
+			<< 100
+			<< 65
+			<< 100;
+
 	_sortColumn	= m_currentColumn;
 	_sortOrder	= m_sortOrder;
 	return header;
@@ -252,6 +261,7 @@ static bool isLeakedBlock(const rtm::MemoryOperation* _op)
 	return false;
 }
 
+QString getTimeString(float _time, uint64_t* _msec = 0);
 QString OperationTableSource::getItem(uint32_t _index, int32_t _column, QColor* _color, bool* _setColor)
 {
 	uint32_t index = _index;
@@ -316,7 +326,7 @@ QString OperationTableSource::getItem(uint32_t _index, int32_t _column, QColor* 
 		}
 
 		case OperationColumn::Time:
-			return QString::number(m_context->m_capture->getFloatTime(op->m_operationTime),'f');
+			return getTimeString(m_context->m_capture->getFloatTime(op->m_operationTime));
 	};
 
 	return "";

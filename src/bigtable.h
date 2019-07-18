@@ -13,7 +13,7 @@ class BigTableTableWidget;
 class BigTableSource
 {
 public:
-	virtual QStringList			getHeaderInfo(int32_t& _sortCol, Qt::SortOrder& _sortOrder) = 0;
+	virtual QStringList			getHeaderInfo(int32_t& _sortCol, Qt::SortOrder& _sortOrder, QList<int>& _widths) = 0;
 	virtual uint32_t			getNumberOfRows() = 0;
 	virtual	QString				getItem(uint32_t _index, int32_t _column, QColor* _color, bool* _setColor) = 0;
 	virtual void				getItem(uint32_t _index, void**) = 0;
