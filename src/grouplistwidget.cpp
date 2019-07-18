@@ -34,6 +34,8 @@ class GroupTableSource : public BigTableSource
 		uint32_t		m_numRows;
 
 		rtm_vector<rtm::MemoryOperationGroup*>	m_allGroups;
+		const rtm::MemoryStats*					m_stats;
+
 		GroupMapping	m_groupMappings[GroupColumn::ColumnCount];
 		GroupMapping*	m_currentGroupMapping;
 
@@ -279,7 +281,6 @@ struct pSetGroupMappingsNVC
 
 #endif
 
-
 GroupTableSource::GroupTableSource(CaptureContext* _context, GroupList* _list ) :
 	m_context(_context),
 	m_list(_list)
@@ -291,9 +292,13 @@ void GroupTableSource::prepareData()
 {
 	bool filterEnabled = m_list->getFilteringState();
 	
+	m_stats = &m_context->m_capture->getGlobalStats();
 	const rtm::MemoryGroupsHashType* groups = &m_context->m_capture->getMemoryGroups();
 	if (filterEnabled)
-		groups = &m_context->m_capture->getMemoryGroupsFiltered();
+	{
+		m_stats = &m_context->m_capture->getSnapshotStats();
+		groups	= &m_context->m_capture->getMemoryGroupsFiltered();
+	}
 
 	m_numColumns	= GroupColumn::ColumnCount;
 	m_numRows		= (uint32_t)groups->size();
@@ -413,6 +418,7 @@ uint32_t GroupTableSource::getNumberOfRows()
 	return m_numRows;
 }
 
+extern QString formatPercentageView(uint64_t _num, uint64_t _total);
 QString GroupTableSource::getItem(uint32_t _index, int32_t _column, QColor*, bool*)
 {
 	uint32_t index = _index;
@@ -456,10 +462,10 @@ QString GroupTableSource::getItem(uint32_t _index, int32_t _column, QColor*, boo
 				return locale.toString(group->m_minSize);
 	
 		case GroupColumn::Count:
-			return locale.toString(group->m_count);
+			return formatPercentageView(group->m_count, m_stats->m_numberOfOperations);
 	
 		case GroupColumn::CountPeak:
-			return locale.toString(group->m_liveCountPeak);
+			return formatPercentageView(group->m_liveCountPeak, group->m_liveCountPeakGlobal);
 
 		case GroupColumn::Alignment:
 		{
@@ -470,13 +476,13 @@ QString GroupTableSource::getItem(uint32_t _index, int32_t _column, QColor*, boo
 		}
 
 		case GroupColumn::GroupSize:
-			return locale.toString((qlonglong)group->m_liveSize);
+			return formatPercentageView(group->m_liveSize, m_stats->m_memoryUsage);
 	
 		case GroupColumn::GroupPeakSize:
-			return locale.toString((qlonglong)group->m_peakSize);
+			return formatPercentageView(group->m_peakSize, group->m_peakSizeGlobal);
 
 		case GroupColumn::Live:
-			return locale.toString((qulonglong)group->m_liveCount);
+			return formatPercentageView(group->m_liveCount, m_stats->m_numberOfLiveBlocks);
 	};
 
 	return "";
@@ -484,6 +490,9 @@ QString GroupTableSource::getItem(uint32_t _index, int32_t _column, QColor*, boo
 
 void GroupTableSource::getItem(uint32_t _index, void** _pointer)
 {
+	if (_index == -1)
+		return;
+
 	uint32_t index = _index;
 	if (m_sortOrder == Qt::DescendingOrder)
 		index = m_numRows - index - 1;

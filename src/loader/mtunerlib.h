@@ -84,13 +84,15 @@ struct MemoryOperationGroup
 {
 	enum { INDEX_MAPPINGS = 9 };
 
-	uint32_t						m_minSize;	// single allocation size
-	uint32_t						m_maxSize;	// single allocation size
-	int64_t							m_peakSize; // group size
-	int64_t							m_liveSize; // group size
+	uint32_t						m_minSize;			// single allocation size
+	uint32_t						m_maxSize;			// single allocation size
+	int64_t							m_peakSize;			// group size
+	int64_t							m_peakSizeGlobal;	// total memory usage at the time of group peak size
+	int64_t							m_liveSize;			// group size
 	uint32_t						m_count;
 	uint32_t						m_liveCount;
 	uint32_t						m_liveCountPeak;
+	uint32_t						m_liveCountPeakGlobal;
 	rtm_vector<MemoryOperation*>	m_operations;
 	uint32_t						m_indexMappings[INDEX_MAPPINGS];
 
@@ -102,6 +104,7 @@ struct MemoryOperationGroup
 		, m_count(0)
 		, m_liveCount(0)
 		, m_liveCountPeak(0)
+		, m_liveCountPeakGlobal(0)
 	{}
 };
 

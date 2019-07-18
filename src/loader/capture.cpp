@@ -139,6 +139,47 @@ static inline bool isLeaked(MemoryOperation* _op)
 	return !isFreed;
 }
 
+static inline void updateLiveBlocks(MemoryOperation* _op, uint64_t& _liveBlocks)
+{
+	switch (_op->m_operationType)
+	{
+	case rmem::LogMarkers::OpAlloc:
+	case rmem::LogMarkers::OpCalloc:
+	case rmem::LogMarkers::OpAllocAligned:
+		++_liveBlocks;
+		break;
+	case rmem::LogMarkers::OpRealloc:
+	case rmem::LogMarkers::OpReallocAligned:
+		if (_op->m_previousPointer == 0)
+			++_liveBlocks;
+		break;
+	case rmem::LogMarkers::OpFree:
+		--_liveBlocks;
+		break;
+	};
+}
+
+static inline void updateLiveSize(MemoryOperation* _op, uint64_t& _liveSize)
+{
+	switch (_op->m_operationType)
+	{
+	case rmem::LogMarkers::OpAlloc:
+	case rmem::LogMarkers::OpCalloc:
+	case rmem::LogMarkers::OpAllocAligned:
+		_liveSize += _op->m_allocSize;
+		break;
+	case rmem::LogMarkers::OpRealloc:
+	case rmem::LogMarkers::OpReallocAligned:
+		_liveSize += _op->m_allocSize;
+		if (_op->m_previousPointer)
+			_liveSize -= _op->m_chainPrev->m_allocSize;
+		break;
+	case rmem::LogMarkers::OpFree:
+		_liveSize -= _op->m_chainPrev->m_allocSize;
+		break;
+	};
+}
+
 //--------------------------------------------------------------------------
 /// Capture constructor
 //--------------------------------------------------------------------------
@@ -1200,7 +1241,10 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 	const uint32_t numOps = (uint32_t)m_operations.size();
 	nextProgressPoint = 0;
 	numOpsOver100 = numOps/100;
-	
+
+	uint64_t liveBlocks	= 0;
+	uint64_t liveSize	= 0;
+
 	for (uint32_t i=0; i<numOps; i++)
 	{
 		if ((i > nextProgressPoint) && m_loadProgressCallback)
@@ -1223,8 +1267,11 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 				m_memoryLeaks.push_back(op);
 		}
 
+		updateLiveBlocks(op, liveBlocks);
+		updateLiveSize(op, liveSize);
+
 		// add to memory groups
-		addToMemoryGroups(m_operationGroups, op);
+		addToMemoryGroups(m_operationGroups, op, liveBlocks, liveSize);
 
 		// add to call stack tree
  		addToStackTraceTree(m_stackTraceTree, op, StackTrace::Global);
@@ -1599,6 +1646,9 @@ void Capture::calculateFilteredData()
 
 	MemoryTagTree* prevTag = NULL;
 
+	uint64_t liveBlocks	= 0;
+	uint64_t liveSize	= 0;
+
 	for (uint32_t i=minTimeOpIndex; i<=maxTimeOpIndex; i++)
 	{
 		MemoryOperation* op = m_operations[i];
@@ -1614,8 +1664,11 @@ void Capture::calculateFilteredData()
 
 		m_filter.m_operations.push_back(op);
 
+		updateLiveBlocks(op, liveBlocks);
+		updateLiveSize(op, liveSize);
+
 		// add to memory groups
-		addToMemoryGroups(m_filter.m_operationGroups, op);
+		addToMemoryGroups(m_filter.m_operationGroups, op, liveBlocks, liveSize);
 
 		// add to call stack tree
 		addToStackTraceTree(m_filter.m_stackTraceTree, op, StackTrace::Filtered);
@@ -1870,7 +1923,7 @@ void Capture::addMemoryTag(char* _tagName, uint32_t _tagHash, uint32_t _parentTa
 //--------------------------------------------------------------------------
 /// Adds operation to memory groups
 //--------------------------------------------------------------------------
-void Capture::addToMemoryGroups(MemoryGroupsHashType& _groups, MemoryOperation* _op)
+void Capture::addToMemoryGroups(MemoryGroupsHashType& _groups, MemoryOperation* _op, uint64_t _liveBlocks, uint64_t _liveSize)
 {
 	uintptr_t groupHash;
 
@@ -1890,9 +1943,20 @@ void Capture::addToMemoryGroups(MemoryGroupsHashType& _groups, MemoryOperation* 
 				group.m_maxSize = qMax(group.m_maxSize, _op->m_allocSize);
 
 				group.m_liveSize += _op->m_allocSize;
-				group.m_peakSize  = qMax(group.m_peakSize, group.m_liveSize);
 
-				group.m_liveCountPeak = qMax(group.m_liveCountPeak, group.m_liveCount);
+				int64_t newPeakSize = qMax(group.m_peakSize, group.m_liveSize);
+				if (newPeakSize > group.m_peakSize)
+				{
+					group.m_peakSize		= newPeakSize;
+					group.m_peakSizeGlobal	= _liveSize;
+				}
+
+				uint32_t newPeakCount = qMax(group.m_liveCountPeak, group.m_liveCount);
+				if (newPeakCount > group.m_liveCountPeak)
+				{
+					group.m_liveCountPeak		= newPeakCount;
+					group.m_liveCountPeakGlobal	= _liveBlocks;
+				}
 			}
 			break;
 
@@ -1944,13 +2008,26 @@ void Capture::addToMemoryGroups(MemoryGroupsHashType& _groups, MemoryOperation* 
 				group.m_operations.push_back(_op);
 				group.m_count++;
 				group.m_liveCount++;
-				group.m_liveCountPeak = qMax(group.m_liveCountPeak, group.m_liveCount);
 
 				group.m_minSize = qMin(group.m_minSize, _op->m_allocSize);
 				group.m_maxSize = qMax(group.m_maxSize, _op->m_allocSize);
 
 				group.m_liveSize += _op->m_allocSize;
-				group.m_peakSize  = qMax(group.m_peakSize, group.m_liveSize);
+
+				int64_t newPeakSize = qMax(group.m_peakSize, group.m_liveSize);
+				if (newPeakSize > group.m_peakSize)
+				{
+					group.m_peakSize		= newPeakSize;
+					group.m_peakSizeGlobal	= _liveSize;
+				}
+
+				uint32_t newPeakCount = qMax(group.m_liveCountPeak, group.m_liveCount);
+				if (newPeakCount > group.m_liveCountPeak)
+				{
+					group.m_liveCountPeak		= newPeakCount;
+					group.m_liveCountPeakGlobal = _liveBlocks;
+				}
+
 			}
 			break;
 	};

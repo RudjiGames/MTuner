@@ -166,7 +166,7 @@ class Capture
 		uint32_t	getIndexAfter(uint64_t _time, uint32_t& outTimedIndex) const;
 		void		GetRangedStats(MemoryStats& ioStats, uint32_t inMinIdx, uint32_t inMaxIdx);
 		void		addMemoryTag(char* inTagName, uint32_t _tagHash, uint32_t _parentTagHash);
-		void		addToMemoryGroups(MemoryGroupsHashType& ioGroups, MemoryOperation* _op);
+		void		addToMemoryGroups(MemoryGroupsHashType& ioGroups, MemoryOperation* _op, uint64_t _liveBlocks, uint64_t _liveSize);
 		void		addToStackTraceTree(StackTraceTree& ioTree, MemoryOperation* _op, StackTrace::Scope _offset);
 		void		writeGlobalStats(FILE* inFile);
 };

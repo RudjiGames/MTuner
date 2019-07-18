@@ -324,6 +324,9 @@ QString OperationTableSource::getItem(uint32_t _index, int32_t _column, QColor* 
 
 void OperationTableSource::getItem(uint32_t _index, void** _pointer)
 {
+	if (_index == -1)
+		return;
+
 	uint32_t index = _index;
 	if (m_sortOrder == Qt::DescendingOrder)
 		index = m_numRows - index - 1;

@@ -43,7 +43,6 @@ public:
 	}
 	int					depth() const { return m_depth; }
 
-//private:
 	int							m_depth;
 	rtm_vector<TreeItem*>		m_children;
 	CaptureContext*				m_context;
@@ -289,7 +288,6 @@ void sortTreeCol_Line_des(TreeItem* _item)
 		sortTreeCol_Line_des(item);
 }
 
-
 TreeItem::TreeItem(CaptureContext* _context, const rtm::StackTraceTree* _tree, TreeItem* _parent, const rtm::StackTraceTree* _root, int _depth)
 {
 	m_resolved	= false;
@@ -329,9 +327,19 @@ int TreeItem::columnCount() const
 	return 9;
 }
 
+QString formatPercentageView(uint64_t _num, uint64_t _total)
+{
+	QLocale locale;
+	return locale.toString(_num);
+	//if (_total)
+	//	return locale.toString(_num) + " (" + QString::number((float(_num) * 100.0f) / float(_total), 'f', 2) + "%)";
+	//else
+	//	return locale.toString(_num) + " (0%)";
+}
+
 QVariant TreeItem::data(int _column) const
 {
-	if (m_parent == NULL)
+	if (m_parent == 0)
 	{
 		switch (_column)
 		{
@@ -368,17 +376,15 @@ QVariant TreeItem::data(int _column) const
 			m_resolved	= true;
 		}
 
-		QLocale locale;
-
 		switch (_column)
 		{
 			case Header::Name:		return m_func;
 			case Header::Module:	return m_module;
-			case Header::Usage:		return m_tree->m_memUsage ? ((float(m_tree->m_memUsage) * 100.0f) / float(m_root->m_memUsage)) : 0;
-			case Header::PeakUsage:	return m_tree->m_memUsagePeak ? ((float(m_tree->m_memUsagePeak) * 100.0f) / float(m_root->m_memUsagePeak)) : 0;
-			case Header::Allocs:	return locale.toString(m_tree->m_opCount[rtm::StackTraceTree::Alloc]);
-			case Header::Frees:		return locale.toString(m_tree->m_opCount[rtm::StackTraceTree::Free]);
-			case Header::Reallocs:	return locale.toString(m_tree->m_opCount[rtm::StackTraceTree::Realloc]);
+			case Header::Usage:		return m_tree->m_memUsage		? ((float(m_tree->m_memUsage)		* 100.0f) / float(m_root->m_memUsage))		: 0;
+			case Header::PeakUsage:	return m_tree->m_memUsagePeak	? ((float(m_tree->m_memUsagePeak)	* 100.0f) / float(m_root->m_memUsagePeak))	: 0;
+			case Header::Allocs:	return formatPercentageView(m_tree->m_opCount[rtm::StackTraceTree::Alloc  ], m_root->m_opCount[rtm::StackTraceTree::Alloc  ]);
+			case Header::Frees:		return formatPercentageView(m_tree->m_opCount[rtm::StackTraceTree::Free   ], m_root->m_opCount[rtm::StackTraceTree::Free   ]);
+			case Header::Reallocs:	return formatPercentageView(m_tree->m_opCount[rtm::StackTraceTree::Realloc], m_root->m_opCount[rtm::StackTraceTree::Realloc]);
 			case Header::File:		return m_file;
 			case Header::Line:		return QString::number(m_line);
 		};
@@ -403,7 +409,6 @@ int TreeItem::row() const
 
 	return 0;
 }
-
 
 void ProgressBarDelegate::paint(QPainter* _painter, const QStyleOptionViewItem& _option, const QModelIndex& _index) const
 {
@@ -640,13 +645,20 @@ int TreeModel::rowCount(const QModelIndex& _parent) const
 
 void TreeModel::updateData()
 {
-	const rtm::StackTraceTree* tree = NULL;
+	const rtm::StackTraceTree*	tree = 0;
+	const rtm::MemoryStats*		stats = 0;
 	if (m_context->m_capture->getFilteringEnabled())
-		tree = &m_context->m_capture->getStackTraceTreeFiltered();
+	{
+		tree	= &m_context->m_capture->getStackTraceTreeFiltered();
+		stats	= &m_context->m_capture->getSnapshotStats();
+	}
 	else
-		tree = &m_context->m_capture->getStackTraceTree();
+	{
+		tree	= &m_context->m_capture->getStackTraceTree();
+		stats	= &m_context->m_capture->getGlobalStats();
+	}
 
-	m_rootItem = new TreeItem(m_context, NULL, NULL, tree, 0);
+	m_rootItem = new TreeItem(m_context, 0, 0, tree, 0);
 
 	if (m_context->m_capture->getFilteringEnabled())
 		setupModelData(m_context->m_capture->getStackTraceTreeFiltered(), m_rootItem, tree, 1);
@@ -673,15 +685,15 @@ StackTreeWidget::StackTreeWidget(QWidget* _parent, Qt::WindowFlags _flags) :
 {
 	ui.setupUi(this);
 
-	m_context = NULL;
-	m_enableFiltering = false;
-	m_tree = findChild<QTreeView*>("treeWidget");
+	m_context			= 0;
+	m_enableFiltering	= false;
+	m_tree				= findChild<QTreeView*>("treeWidget");
 	m_tree->setItemDelegate( new ProgressBarDelegate() );
 }
 
 StackTreeWidget::~StackTreeWidget()
 {
-	m_tree->setModel(NULL);
+	m_tree->setModel(0);
 }
 
 void StackTreeWidget::changeEvent(QEvent* _event)

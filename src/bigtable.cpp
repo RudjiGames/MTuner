@@ -285,11 +285,14 @@ void BigTable::keyPressEvent(QKeyEvent* _event)
 		m_selectedRows = (int32_t)m_source->getNumberOfRows() - 1;
 
 
-	void* item = NULL;
+	void* item = 0;
 	m_source->getItem(m_selectedRows,&item);
-	emit itemSelected(item);
 
-	ensureSelectionVisible();
+	if (item)
+	{
+		emit itemSelected(item);
+		ensureSelectionVisible();
+	}
 }
 
 void BigTable::scroll(int _position)
@@ -303,7 +306,8 @@ void BigTable::rowSelected(QTableWidgetItem* _item)
 	m_selectedRows = _item->row() + m_firstVisible;
 	void* item = NULL;
 	m_source->getItem(m_selectedRows,&item);
-	emit itemSelected(item);
+	if (item)
+		emit itemSelected(item);
 }
 
 void BigTable::rowRightClick(QTableWidgetItem* _item, const QPoint& _pos)
@@ -314,7 +318,8 @@ void BigTable::rowRightClick(QTableWidgetItem* _item, const QPoint& _pos)
 	m_selectedRows = _item->row() + m_firstVisible;
 	void* item = NULL;
 	m_source->getItem(m_selectedRows,&item);
-	emit itemRightClicked(item, _pos);
+	if (item)
+		emit itemRightClicked(item, _pos);
 }
 
 void BigTable::sortSelection(int _section, Qt::SortOrder _sortOrder)
