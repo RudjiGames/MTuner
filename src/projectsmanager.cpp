@@ -161,8 +161,6 @@ void ProjectsManager::run(const QString& _executable, const QString& _cmd, const
 	wcscat(watchPath, L"\\MTuner\\");
 	m_watcher->addPath(QString::fromWCharArray(watchPath));
 
-// env MTuner_Allocator
-
 	QString arguments = " #23#" + _executable + "#23# #23#" + _cmd + "#23# #23#" + _workingDir + "#23#";
 
 	QString exePath;
@@ -175,6 +173,11 @@ void ProjectsManager::run(const QString& _executable, const QString& _cmd, const
 	m_process->setProgram(exePath);
 	m_process->setWorkingDirectory(_workingDir);
 	m_process->setArguments(QStringList() << arguments);
+
+	QStringList env = QProcess::systemEnvironment();
+	env << "MTuner_Allocator=0";
+	m_process->setEnvironment(env);
+
 	connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
 	m_process->start();
 	m_processRunning = true;
