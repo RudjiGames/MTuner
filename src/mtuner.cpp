@@ -142,6 +142,7 @@ MTuner::MTuner(QWidget* _parent, Qt::WindowFlags _flags) :
 	ui.setupUi(this);
 	emit setFilterButtonEnabled(false);
 
+	m_loading = false;
 	QToolTip::setFont(QFont("Consolas", 9));
 
 	m_projectsManager = new ProjectsManager(this);
@@ -667,10 +668,12 @@ bool isProcessRunning(uint64_t pid)
 
 void MTuner::checkCaptureStatus()
 {
+	if (m_loading)
+		return;
+
 	statusBar()->showMessage(tr("Capture in progress") + " - " + m_watchedFile, g_watchInterval);
 
 	m_statusBarRedDot->setVisible(!m_statusBarRedDot->isVisible());
-
 	if (m_capturePid && (!isProcessRunning(m_capturePid)))
 	{
 		m_capturePid = 0;
@@ -885,6 +888,8 @@ void loadProgression(void* _customData, float _progress, const char* _message)
 
 void MTuner::openFileFromPath(const QString& _file)
 {
+	m_loading = true;
+
 	QFileInfo info(_file);
 	QString name = info.completeBaseName();
 
@@ -932,6 +937,8 @@ void MTuner::openFileFromPath(const QString& _file)
 			delete ctx;
 		}
 	}
+
+	m_loading = false;
 }
 
 void MTuner::dragEnterEvent(QDragEnterEvent* _event)

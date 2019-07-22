@@ -39,8 +39,7 @@ ProjectsManager::ProjectsManager(QWidget* _parent, Qt::WindowFlags _flags)
 
 	connect(this, SIGNAL(rejected()), this, SLOT(restore()));
 
-	m_process			= 0;
-	m_processRunning	= false;
+	m_processRunning = false;
 }
 
 void ProjectsManager::save()
@@ -149,6 +148,16 @@ void ProjectsManager::run(const QString& _executable, const QString& _cmd, const
 {
 	QString currpath = QDir::currentPath();
 
+	QString watchDir;
+	if (_workingDir.length() == 0)
+	{
+		QFileInfo info(_executable);
+		QDir d = info.absoluteDir();
+		watchDir = d.absolutePath();
+	}
+	else
+		watchDir = _workingDir;
+
 	if (_shouldLoad)
 	{
 		m_watcher = new QFileSystemWatcher(this);
@@ -168,10 +177,11 @@ void ProjectsManager::run(const QString& _executable, const QString& _cmd, const
 	else
 		exePath = currpath + "/MTunerInject32.exe";
 
-	m_process = new QProcess(this);
-	m_process->setProgram(exePath);
-	m_process->setWorkingDirectory(_workingDir);
-	m_process->setArguments(QStringList() << arguments);
+	QProcess* process;
+	process = new QProcess(this);
+	process->setProgram(exePath);
+	process->setWorkingDirectory(_workingDir);
+	process->setArguments(QStringList() << arguments);
 
 	QStringList env;
 	if (_inheritEnv)
@@ -182,10 +192,12 @@ void ProjectsManager::run(const QString& _executable, const QString& _cmd, const
 
 	env << "MTuner_Allocator=" + QString::number(_allocator);
 	env << _environment;
-	m_process->setEnvironment(env);
+	process->setEnvironment(env);
 
-	connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
-	m_process->start();
+	if (_shouldLoad)
+		connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
+
+	process->start();
 	m_processRunning = true;
 }
 
@@ -403,7 +415,9 @@ void ProjectsManager::restore()
 
 void ProjectsManager::processFinished(int _exitCode, QProcess::ExitStatus /*_status*/)
 {
-	RTM_ASSERT(m_process, "");
+	QProcess* process = qobject_cast<QProcess*>(sender());
+	if (!process)
+		return;
 
 	bool tryAnotherArch = m_processRunning && (_exitCode == 0);
 	m_processRunning = false;
@@ -422,6 +436,5 @@ void ProjectsManager::processFinished(int _exitCode, QProcess::ExitStatus /*_sta
 	}
 
 	emit captureSetProcessID((uint64_t)_exitCode);
-	m_process->deleteLater();
-	m_process = 0;
+	process->deleteLater();
 }

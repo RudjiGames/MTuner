@@ -53,7 +53,6 @@ public:
 	QPushButton*		m_buttonRemove;
 	QPushButton*		m_buttonRun;
 	QFileSystemWatcher*	m_watcher;
-	QProcess*			m_process;
 	bool				m_processRunning;
 	QString				m_currentCaptureFile;
 	QStringList			m_currentEnvironment;

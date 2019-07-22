@@ -22,6 +22,11 @@ void Inject::changeEvent(QEvent* _event)
 		ui.retranslateUi(this);
 }
 
+bool Inject::loadAfterCapture()
+{
+	return (ui.capture->isEnabled() || (ui.allocatorCombo->currentIndex() == 0)) && ui.capture->isChecked() && ui.loadAfterCapture->isChecked();
+}
+
 void Inject::capture(bool _shouldCapture)
 {
 	ui.loadAfterCapture->setEnabled(_shouldCapture);

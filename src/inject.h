@@ -18,7 +18,7 @@ public:
 	void	changeEvent(QEvent* _event);
 	int		getAllocator() { return ui.allocatorCombo->currentIndex(); }
 	bool	shouldCapture() { return ui.capture->isChecked(); }
-	bool	loadAfterCapture() { return ui.capture->isEnabled() && ui.capture->isChecked() && ui.loadAfterCapture->isChecked(); }
+	bool	loadAfterCapture();
 
 public Q_SLOTS:
 	void	capture(bool);
