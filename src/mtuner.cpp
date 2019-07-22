@@ -799,18 +799,7 @@ void MTuner::readSettings()
 	m_symbolStore->setChecked(symReg);
 
 	// projects
-	int numProjects = settings.beginReadArray("Projects");
-	for (int i=0; i<numProjects; ++i)
-	{
-		settings.setArrayIndex(i);
-		QString key = QString("Project") + QString::number(i);
-		Project p;
-		p.m_executablePath = settings.value(key + "Exe").toString();
-		p.m_cmdArgs = settings.value(key + "Cmd").toString();
-		p.m_workingDir = settings.value(key + "Dir").toString();
-		m_projectsManager->addProject(p);
-	}
-	settings.endArray();
+	m_projectsManager->loadSettings(settings);
 
 	// toolchains
 	m_gccSetup->readSettings(settings);
@@ -874,22 +863,12 @@ void MTuner::writeSettings()
 	settings.setValue("SymRegistry", m_symbolStore->isRegistryChecked());
 
 	// projects
-	settings.beginWriteArray("Projects");
-	int numProjects = m_projectsManager->getNumProjects();
-	for (int i=0; i<numProjects; ++i)
-	{
-		settings.setArrayIndex(i);
-		const Project& p = m_projectsManager->getProject(i);
-		QString key = QString("Project") + QString::number(i);
-		settings.setValue(key + "Exe", p.m_executablePath);
-		settings.setValue(key + "Cmd", p.m_cmdArgs);
-		settings.setValue(key + "Dir", p.m_workingDir);
-	}
-	settings.endArray();
-	settings.sync();
+	m_projectsManager->saveSettings(settings);
 
 	// toolchains
 	m_gccSetup->writeSettings(settings);
+
+	settings.sync();
 }
 
 uint32_t MTuner::makeVersion(uint8_t _major, uint8_t _minor, uint8_t _detail)

@@ -16,6 +16,7 @@ SOURCES +=  about.cpp               \
             binloaderview.cpp       \
             capturecontext.cpp      \
             centralwidget.cpp       \
+			environment.cpp			\
             external_editor.cpp     \
             gcc.cpp                 \
             graph.cpp               \
@@ -66,6 +67,7 @@ HEADERS  += about.h                 \
             capturecontext.h        \
             centralwidget.h         \
             cmdline.h               \
+			environment.h			\
             external_editor.h       \
             gcc.h                   \
             graph.h                 \
@@ -113,6 +115,7 @@ FORMS    += about.ui                \
             bigtable.ui             \
             binloaderview.ui        \
             centralwidget.ui        \
+			environment.ui			\
             external_editor.ui      \
             gcc.ui                  \
             graph.ui                \

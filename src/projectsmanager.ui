@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="mtuner.qrc">
-    <normaloff>:/MTuner/resources/images/Icon64.png</normaloff>:/MTuner/resources/images/Icon64.png</iconset>
+    <normaloff>:/MTuner/resources/images/Projects64.png</normaloff>:/MTuner/resources/images/Projects64.png</iconset>
   </property>
   <property name="toolTip">
    <string>Hint: drag and drop an executable to the dialog</string>
@@ -76,6 +76,16 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Environment:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
      <item>
@@ -92,22 +102,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="buttonBrowseExe">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>42</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="toolTip">
-              <string>Browse for executable</string>
-             </property>
+            <widget class="QToolButton" name="buttonBrowseExe">
              <property name="text">
               <string>...</string>
              </property>
@@ -132,24 +127,37 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="buttonBrowseWorkingDir">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>42</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="toolTip">
-              <string>Browse for a working directory</string>
-             </property>
+            <widget class="QToolButton" name="buttonBrowseWorkingDir">
              <property name="text">
               <string>...</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
+           <item>
+            <widget class="QToolButton" name="editVars">
+             <property name="toolTip">
+              <string>Edit a list of environment variables</string>
+             </property>
+             <property name="text">
+              <string>Edit variables</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="inherit">
+             <property name="toolTip">
+              <string>If checked, child process will inherit
+environment variables MTuner was started with</string>
+             </property>
+             <property name="text">
+              <string>Inherit environment from MTuner</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -270,8 +278,8 @@
    <slot>buttonRemove()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>165</x>
-     <y>299</y>
+     <x>122</x>
+     <y>300</y>
     </hint>
     <hint type="destinationlabel">
      <x>310</x>
@@ -286,40 +294,8 @@
    <slot>buttonRun()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>246</x>
-     <y>299</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>310</x>
-     <y>228</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBrowseExe</sender>
-   <signal>clicked()</signal>
-   <receiver>ProjectsDialog</receiver>
-   <slot>browseExecutable()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>463</x>
-     <y>208</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>310</x>
-     <y>228</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBrowseWorkingDir</sender>
-   <signal>clicked()</signal>
-   <receiver>ProjectsDialog</receiver>
-   <slot>browseWorkingDir()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>463</x>
-     <y>265</y>
+     <x>182</x>
+     <y>300</y>
     </hint>
     <hint type="destinationlabel">
      <x>310</x>
@@ -343,6 +319,70 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>buttonBrowseWorkingDir</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectsDialog</receiver>
+   <slot>browseWorkingDir()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>452</x>
+     <y>247</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>223</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBrowseExe</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectsDialog</receiver>
+   <slot>browseExecutable()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>454</x>
+     <y>201</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>315</x>
+     <y>278</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>editVars</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectsDialog</receiver>
+   <slot>editEnvironment()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>106</x>
+     <y>266</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>245</x>
+     <y>285</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>inherit</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>ProjectsDialog</receiver>
+   <slot>inheritEnv(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>200</x>
+     <y>267</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>205</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>buttonAdd()</slot>
@@ -351,5 +391,7 @@
   <slot>browseExecutable()</slot>
   <slot>browseWorkingDir()</slot>
   <slot>projectSelectionChanged()</slot>
+  <slot>editEnvironment()</slot>
+  <slot>inheritEnv(bool)</slot>
  </slots>
 </ui>

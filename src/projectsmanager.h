@@ -6,13 +6,21 @@
 #ifndef RTM_MTUNER_PROJECTSMANAGER_H
 #define RTM_MTUNER_PROJECTSMANAGER_H
 
+#include <MTuner/src/environment.h>
 #include <MTuner/.qt/qt_ui/projectsmanager_ui.h>
 
 struct Project
 {
-	QString m_executablePath;
-	QString m_cmdArgs;
-	QString m_workingDir;
+	QString		m_executablePath;
+	QString		m_cmdArgs;
+	QString		m_workingDir;
+	QStringList m_environment;
+	bool		m_inheritEnv;
+
+	Project()
+		: m_inheritEnv(true)
+	{
+	}
 
 	bool operator == (const Project& _other)
 	{
@@ -23,7 +31,9 @@ struct Project
 	{
 		return ((m_executablePath	!= _other.m_executablePath)	||
 				(m_cmdArgs			!= _other.m_cmdArgs)		||
-				(m_workingDir		!= _other.m_workingDir));
+				(m_workingDir		!= _other.m_workingDir)		||
+				(m_environment		!= _other.m_environment)	||
+				(m_inheritEnv		!= _other.m_inheritEnv));
 	}
 };
 
@@ -46,6 +56,7 @@ public:
 	QProcess*			m_process;
 	bool				m_processRunning;
 	QString				m_currentCaptureFile;
+	QStringList			m_currentEnvironment;
 
 public:
 	ProjectsManager(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
@@ -55,7 +66,10 @@ public:
 	void			addProject(const Project& _project) { m_projects.push_back(_project); updateProjectList(); }
 	int				getNumProjects() const { return m_projects.size(); }
 	const Project&	getProject(int _index) const { return m_projects[_index]; }
-	void			run(const QString& _executable, const QString& _cmd = QString(), const QString& _workingDir = QString());
+	void			run(const QString& _executable, const QString& _cmd = QString(), const QString& _workingDir = QString(), const QStringList& _environment = QStringList(), bool _inheritEnv = true);
+
+	void			loadSettings(QSettings& _settings);
+	void			saveSettings(QSettings& _settings);
 
 public Q_SLOTS:
 	void buttonAdd();
@@ -65,7 +79,9 @@ public Q_SLOTS:
 	void projectSelectionChanged();
 	void browseExecutable();
 	void browseWorkingDir();
+	void editEnvironment();
 	void dirChanged(const QString&);
+	void inheritEnv(bool);
 	void restore();
 	void processFinished(int _exitCode, QProcess::ExitStatus _status);
 

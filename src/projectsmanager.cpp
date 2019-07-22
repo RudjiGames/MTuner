@@ -4,6 +4,7 @@
 //--------------------------------------------------------------------------//
 
 #include <MTuner_pch.h>
+#include <MTuner/src/environment.h>
 #include <MTuner/src/projectsmanager.h>
 
 ProjectsManager::ProjectsManager(QWidget* _parent, Qt::WindowFlags _flags)
@@ -27,6 +28,8 @@ ProjectsManager::ProjectsManager(QWidget* _parent, Qt::WindowFlags _flags)
 	m_buttonAdd->setEnabled(false);
 	m_buttonRemove->setEnabled(false);
 	m_buttonRun->setEnabled(false);
+	ui.editVars->setEnabled(false);
+	ui.inherit->setChecked(true);
 
 	connect(m_txtExecutable,SIGNAL(textChanged(const QString&)), this, SLOT(textParamsChanged()));
 	connect(m_txtCommandLine,SIGNAL(textChanged(const QString&)), this, SLOT(textParamsChanged()));
@@ -96,6 +99,7 @@ void ProjectsManager::dropEvent(QDropEvent* _event)
 		m_txtExecutable->setText(filePath);
 		m_txtCommandLine->setText("");
 		m_txtWorkingDir->setText(workdir);
+		ui.inherit->setChecked(true);
 	}
 }
 
@@ -120,9 +124,11 @@ void ProjectsManager::reject()
 void ProjectsManager::buttonAdd()
 {
 	Project p;
-	p.m_executablePath = m_txtExecutable->text();
-	p.m_cmdArgs = m_txtCommandLine->text();
-	p.m_workingDir = m_txtWorkingDir->text();
+	p.m_executablePath	= m_txtExecutable->text();
+	p.m_cmdArgs			= m_txtCommandLine->text();
+	p.m_workingDir		= m_txtWorkingDir->text();
+	p.m_environment		= m_currentEnvironment;
+	p.m_inheritEnv		= ui.inherit->isChecked();
 	m_projects.append(p);
 	m_projectListModified = true;
 	updateProjectList();
@@ -139,7 +145,7 @@ void ProjectsManager::buttonRemove()
 
 extern void getStoragePath(wchar_t _path[512]);
 
-void ProjectsManager::run(const QString& _executable, const QString& _cmd, const QString& _workingDir)
+void ProjectsManager::run(const QString& _executable, const QString& _cmd, const QString& _workingDir, const QStringList& _environment, bool _inheritEnv)
 {
 	QString currpath = QDir::currentPath();
 
@@ -174,13 +180,58 @@ void ProjectsManager::run(const QString& _executable, const QString& _cmd, const
 	m_process->setWorkingDirectory(_workingDir);
 	m_process->setArguments(QStringList() << arguments);
 
-	QStringList env = QProcess::systemEnvironment();
+	QStringList env;
+	if (_inheritEnv)
+		env = QProcess::systemEnvironment();
+
 	env << "MTuner_Allocator=0";
+	env << _environment;
 	m_process->setEnvironment(env);
 
 	connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
 	m_process->start();
 	m_processRunning = true;
+}
+
+void ProjectsManager::loadSettings(QSettings& _settings)
+{
+	int numProjects = _settings.beginReadArray("Projects");
+	for (int i = 0; i < numProjects; ++i)
+	{
+		_settings.setArrayIndex(i);
+		QString key = QString("Project") + QString::number(i);
+		Project p;
+		p.m_executablePath	= _settings.value(key + "Exe").toString();
+		p.m_cmdArgs			= _settings.value(key + "Cmd").toString();
+		p.m_workingDir		= _settings.value(key + "Dir").toString();
+		p.m_environment		= _settings.value(key + "Env").toStringList();
+
+		if (_settings.contains(key + "EnvInherit"))
+			p.m_inheritEnv	= _settings.value(key + "EnvInherit").toBool();
+		else
+			p.m_inheritEnv	= true;
+
+		addProject(p);
+	}
+	_settings.endArray();
+}
+
+void ProjectsManager::saveSettings(QSettings& _settings)
+{
+	_settings.beginWriteArray("Projects");
+	int numProjects = getNumProjects();
+	for (int i = 0; i < numProjects; ++i)
+	{
+		_settings.setArrayIndex(i);
+		const Project& p = getProject(i);
+		QString key = QString("Project") + QString::number(i);
+		_settings.setValue(key + "Exe",			p.m_executablePath);
+		_settings.setValue(key + "Cmd",			p.m_cmdArgs);
+		_settings.setValue(key + "Dir",			p.m_workingDir);
+		_settings.setValue(key + "Env",			p.m_environment);
+		_settings.setValue(key + "EnvInherit",	p.m_inheritEnv);
+	}
+	_settings.endArray();
 }
 
 void ProjectsManager::buttonRun()
@@ -189,7 +240,7 @@ void ProjectsManager::buttonRun()
 	QString cmd = m_txtCommandLine->text();
 	QString dir = m_txtWorkingDir->text();
 	
-	run(exe, cmd, dir);
+	run(exe, cmd, dir, m_currentEnvironment);
 }
 
 void ProjectsManager::textParamsChanged()
@@ -219,9 +270,18 @@ void ProjectsManager::projectSelectionChanged()
 		m_txtCommandLine->setText(proj.m_cmdArgs);
 		m_txtWorkingDir->setText(proj.m_workingDir);
 		m_buttonRemove->setEnabled(true);
+		ui.editVars->setEnabled(true);
+		ui.inherit->setEnabled(true);
+		ui.inherit->setChecked(proj.m_inheritEnv);
+		m_currentEnvironment = proj.m_environment;
+		ui.inherit->setChecked(proj.m_inheritEnv);
 	}
 	else
+	{
+		ui.editVars->setEnabled(false);
+		ui.inherit->setEnabled(false);
 		m_buttonRemove->setEnabled(false);
+	}
 }
 
 void ProjectsManager::browseExecutable()
@@ -241,6 +301,22 @@ void ProjectsManager::browseWorkingDir()
 		m_txtWorkingDir->setText(dir);
 }
 
+void ProjectsManager::editEnvironment()
+{
+	Environment e;
+	e.setEnvironment(m_currentEnvironment);
+	e.exec();
+	m_currentEnvironment = e.getEnvironment();
+
+	int currentRow = m_listProjects->currentIndex().row();
+	if ((currentRow != -1) && (m_projects.size() > currentRow))
+	{
+		Project proj = m_projects.at(currentRow);
+		proj.m_environment = m_currentEnvironment;
+		m_projects[currentRow] = proj;
+	}
+}
+
 void ProjectsManager::dirChanged(const QString& _dir)
 {
 	QDir dir(_dir);
@@ -256,10 +332,24 @@ void ProjectsManager::dirChanged(const QString& _dir)
 	}
 }
 
+void ProjectsManager::inheritEnv(bool _checked)
+{
+	int currentRow = m_listProjects->currentIndex().row();
+	if ((currentRow != -1) && (m_projects.size() > currentRow))
+	{
+		Project proj = m_projects.at(currentRow);
+		proj.m_inheritEnv = _checked;
+		m_projects[currentRow] = proj;
+	}
+}
+
 void ProjectsManager::updateProjectList()
 {
 	QVector<Project>::iterator it = m_projects.begin();
 	QVector<Project>::iterator end = m_projects.end();
+
+	ui.editVars->setEnabled(false);
+	ui.inherit->setChecked(true);
 
 	m_listProjects->clear();
 	QFileIconProvider iconProv;
@@ -292,9 +382,11 @@ bool ProjectsManager::projectExists()
 
 	while (it != end)
 	{
-		if ((m_txtExecutable->text()  == it->m_executablePath) &&
-			(m_txtCommandLine->text() == it->m_cmdArgs) &&
-			(m_txtWorkingDir->text()  == it->m_workingDir))
+		if ((m_txtExecutable->text()	== it->m_executablePath) &&
+			(m_txtCommandLine->text()	== it->m_cmdArgs) &&
+			(m_txtWorkingDir->text()	== it->m_workingDir) &&
+			(m_currentEnvironment		== it->m_environment) &&
+			(ui.inherit->isChecked()	== it->m_inheritEnv))
 			return true;
 		++it;
 	}

@@ -40,6 +40,7 @@ mkdir src
 mkdir genie
 mkdir samples
 mkdir 3rd
+mkdir src\rpmalloc
 cd ..
 
 copy ..\..\..\..\..\libs\rmem\inc\rmem.h            SDK\inc\rmem.h
@@ -59,8 +60,8 @@ copy ..\..\..\..\..\libs\rmem\src\rmem_platform.h           SDK\src\rmem_platfor
 copy ..\..\..\..\..\libs\rmem\src\rmem_utils.h              SDK\src\rmem_utils.h              
 copy ..\..\..\..\..\libs\rmem\src\rmem_wrap_win.cpp         SDK\src\rmem_wrap_win.cpp         
 copy ..\..\..\..\..\libs\rmem\src\rmem_wrap_win.h	        SDK\src\rmem_wrap_win.h
-copy ..\..\..\..\..\libs\rmem\src\rpmalloc\rpmalloc.h       SDK\src\rpmalloc.h
-copy ..\..\..\..\..\libs\rmem\src\rpmalloc\rpmalloc.c       SDK\src\rpmalloc.c
+copy ..\..\..\..\..\libs\rmem\src\rpmalloc\rpmalloc.h       SDK\src\rpmalloc\rpmalloc.h
+copy ..\..\..\..\..\libs\rmem\src\rpmalloc\rpmalloc.c       SDK\src\rpmalloc\rpmalloc.c
 
 copy ..\..\..\..\..\libs\rmem\genie\genie.lua               SDK\genie\genie.lua
 copy ..\..\..\..\..\libs\rmem\genie\rmem.lua				SDK\genie\rmem.lua
