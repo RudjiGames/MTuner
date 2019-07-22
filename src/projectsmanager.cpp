@@ -145,27 +145,20 @@ void ProjectsManager::buttonRemove()
 
 extern void getStoragePath(wchar_t _path[512]);
 
-void ProjectsManager::run(const QString& _executable, const QString& _cmd, const QString& _workingDir, const QStringList& _environment, bool _inheritEnv)
+void ProjectsManager::run(const QString& _executable, const QString& _cmd, const QString& _workingDir, const QStringList& _environment, bool _inheritEnv, int _allocator, bool _shouldCapture, bool _shouldLoad)
 {
 	QString currpath = QDir::currentPath();
 
-	QString watchDir;
-	if (_workingDir.length() == 0)
+	if (_shouldLoad)
 	{
-		QFileInfo info(_executable);
-		QDir d = info.absoluteDir();
-		watchDir = d.absolutePath();
+		m_watcher = new QFileSystemWatcher(this);
+		connect(m_watcher, SIGNAL(directoryChanged(const QString&)), this, SLOT(dirChanged(const QString&)));
+
+		wchar_t watchPath[512];
+		getStoragePath( watchPath );
+		wcscat(watchPath, L"\\MTuner\\");
+		m_watcher->addPath(QString::fromWCharArray(watchPath));
 	}
-	else
-		watchDir = _workingDir;
-
-	m_watcher = new QFileSystemWatcher(this);
-	connect(m_watcher, SIGNAL(directoryChanged(const QString&)), this, SLOT(dirChanged(const QString&)));
-
-	wchar_t watchPath[512];
-	getStoragePath( watchPath );
-	wcscat(watchPath, L"\\MTuner\\");
-	m_watcher->addPath(QString::fromWCharArray(watchPath));
 
 	QString arguments = " #23#" + _executable + "#23# #23#" + _cmd + "#23# #23#" + _workingDir + "#23#";
 
@@ -184,7 +177,10 @@ void ProjectsManager::run(const QString& _executable, const QString& _cmd, const
 	if (_inheritEnv)
 		env = QProcess::systemEnvironment();
 
-	env << "MTuner_Allocator=0";
+	if (!_shouldCapture)
+		_allocator |= RMEM_ALLOCATOR_NOPROFILING;
+
+	env << "MTuner_Allocator=" + QString::number(_allocator);
 	env << _environment;
 	m_process->setEnvironment(env);
 

@@ -6,12 +6,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>151</width>
-    <height>109</height>
+    <width>176</width>
+    <height>116</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Inject and run</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="mtuner.qrc">
+    <normaloff>:/MTuner/resources/images/Run.png</normaloff>:/MTuner/resources/images/Run.png</iconset>
   </property>
   <property name="modal">
    <bool>true</bool>
@@ -27,7 +31,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="comboBox">
+      <widget class="QComboBox" name="allocatorCombo">
        <item>
         <property name="text">
          <string>No change / system</string>
@@ -56,7 +60,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QCheckBox" name="checkBox">
+    <widget class="QCheckBox" name="capture">
      <property name="text">
       <string>Capture memory profile</string>
      </property>
@@ -66,7 +70,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="checkBox_3">
+    <widget class="QCheckBox" name="loadAfterCapture">
      <property name="text">
       <string>Load memory profile after capture</string>
      </property>
@@ -77,6 +81,9 @@
    </item>
    <item>
     <widget class="QCheckBox" name="checkBox_2">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="text">
       <string>Memory overwrite detection</string>
      </property>
@@ -94,7 +101,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="mtuner.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>
@@ -103,12 +112,12 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>169</x>
+     <y>109</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
-     <y>274</y>
+     <y>115</y>
     </hint>
    </hints>
   </connection>
@@ -119,14 +128,50 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>169</x>
+     <y>109</y>
     </hint>
     <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
+     <x>175</x>
+     <y>115</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>allocatorCombo</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>Inject</receiver>
+   <slot>allocatorChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>118</x>
+     <y>24</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>163</x>
+     <y>19</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>capture</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>Inject</receiver>
+   <slot>capture(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>90</x>
+     <y>47</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>154</x>
+     <y>71</y>
     </hint>
    </hints>
   </connection>
  </connections>
+ <slots>
+  <slot>allocatorChanged(int)</slot>
+  <slot>capture(bool)</slot>
+ </slots>
 </ui>

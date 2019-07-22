@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef RTM_MTUNER_EXTERNALEDITOR_H
-#define RTM_MTUNER_EXTERNALEDITOR_H
+#ifndef RTM_MTUNER_INJECT_H
+#define RTM_MTUNER_INJECT_H
 
 #include <MTuner/.qt/qt_ui/inject_ui.h>
 
@@ -16,12 +16,16 @@ public:
 	Inject(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
 
 	void	changeEvent(QEvent* _event);
+	int		getAllocator() { return ui.allocatorCombo->currentIndex(); }
+	bool	shouldCapture() { return ui.capture->isChecked(); }
+	bool	loadAfterCapture() { return ui.capture->isEnabled() && ui.capture->isChecked() && ui.loadAfterCapture->isChecked(); }
 
 public Q_SLOTS:
-	void launch();
+	void	capture(bool);
+	void	allocatorChanged(int);
 
 private:
 	Ui::Inject ui;
 };
 
-#endif // RTM_MTUNER_EXTERNALEDITOR_H
+#endif // RTM_MTUNER_INJECT_H

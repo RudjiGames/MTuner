@@ -66,7 +66,7 @@ public:
 	void			addProject(const Project& _project) { m_projects.push_back(_project); updateProjectList(); }
 	int				getNumProjects() const { return m_projects.size(); }
 	const Project&	getProject(int _index) const { return m_projects[_index]; }
-	void			run(const QString& _executable, const QString& _cmd = QString(), const QString& _workingDir = QString(), const QStringList& _environment = QStringList(), bool _inheritEnv = true);
+	void			run(const QString& _executable, const QString& _cmd = QString(), const QString& _workingDir = QString(), const QStringList& _environment = QStringList(), bool _inheritEnv = true, int _allocator = 0, bool _shouldCapture = true, bool _shouldLoad = true);
 
 	void			loadSettings(QSettings& _settings);
 	void			saveSettings(QSettings& _settings);

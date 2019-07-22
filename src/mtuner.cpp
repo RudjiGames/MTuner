@@ -6,24 +6,25 @@
 #include <MTuner_pch.h>
 #include <MTuner/src/mtuner.h>
 #include <MTuner/src/about.h>
-#include <MTuner/src/projectsmanager.h>
-#include <MTuner/src/symbolstore.h>
+#include <MTuner/src/binloaderview.h>
+#include <MTuner/src/capturecontext.h>
 #include <MTuner/src/centralwidget.h>
 #include <MTuner/src/external_editor.h>
+#include <MTuner/src/gcc.h>
+#include <MTuner/src/graph.h>
 #include <MTuner/src/graphwidget.h>
 #include <MTuner/src/heapswidget.h>
-#include <MTuner/src/moduleswidget.h>
 #include <MTuner/src/histogramwidget.h>
+#include <MTuner/src/inject.h>
+#include <MTuner/src/moduleswidget.h>
+#include <MTuner/src/projectsmanager.h>
+#include <MTuner/src/sourceview.h>
 #include <MTuner/src/stackandsource.h>
 #include <MTuner/src/stats.h>
-#include <MTuner/src/binloaderview.h>
-#include <MTuner/src/sourceview.h>
-#include <MTuner/src/graph.h>
-#include <MTuner/src/gcc.h>
-#include <MTuner/src/welcome.h>
+#include <MTuner/src/symbolstore.h>
 #include <MTuner/src/tagtreewidget.h>
-#include <MTuner/src/capturecontext.h>
 #include <MTuner/src/version.h>
+#include <MTuner/src/welcome.h>
 
 #include <rqt/inc/rqt.h>
 
@@ -992,6 +993,16 @@ void MTuner::handleFile(const QString& _file)
 			message.exec();
 		}
 		else
-			m_projectsManager->run(_file);
+		{
+			Inject inject;
+			if (inject.exec() == QDialog::Rejected)
+				return;
+
+			int allocator		= inject.getAllocator();
+			bool shouldCapture	= inject.shouldCapture();
+			bool shouldLoad		= inject.loadAfterCapture();
+
+			m_projectsManager->run(_file, QString(), QString(), QStringList(), true, allocator, shouldCapture, shouldLoad);
+		}
 	}
 }
