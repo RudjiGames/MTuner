@@ -423,6 +423,39 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>Environment</name>
+    <message>
+        <location filename="environment.ui" line="14"/>
+        <source>Environment variables</source>
+        <translation>Variabili d&apos;ambiente</translation>
+    </message>
+    <message>
+        <location filename="environment.ui" line="36"/>
+        <source>Variable</source>
+        <translation>Variabile</translation>
+    </message>
+    <message>
+        <location filename="environment.ui" line="41"/>
+        <source>Value</source>
+        <translation>Valore</translation>
+    </message>
+    <message>
+        <location filename="environment.ui" line="64"/>
+        <source>New</source>
+        <translation>Nuova</translation>
+    </message>
+    <message>
+        <location filename="environment.ui" line="71"/>
+        <source>Edit</source>
+        <translation>Modificare</translation>
+    </message>
+    <message>
+        <location filename="environment.ui" line="78"/>
+        <source>Delete</source>
+        <translation>Elimina</translation>
+    </message>
+</context>
+<context>
     <name>ExternalEditor</name>
     <message>
         <location filename="external_editor.ui" line="14"/>
@@ -669,69 +702,69 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>GraphWidget</name>
     <message>
-        <location filename="graphwidget.cpp" line="483"/>
-        <location filename="graphwidget.cpp" line="596"/>
+        <location filename="graphwidget.cpp" line="481"/>
+        <location filename="graphwidget.cpp" line="594"/>
         <source>Time</source>
         <translation>Tempo</translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="484"/>
+        <location filename="graphwidget.cpp" line="482"/>
         <source>Thread</source>
         <translation>Thread</translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="505"/>
+        <location filename="graphwidget.cpp" line="503"/>
         <source>Start time</source>
         <translation>Tempo d&apos;inizio</translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="505"/>
+        <location filename="graphwidget.cpp" line="503"/>
         <source>End time</source>
         <translation>Tempo di fine</translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="506"/>
+        <location filename="graphwidget.cpp" line="504"/>
         <source>Duration</source>
         <translation>Durata</translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="506"/>
+        <location filename="graphwidget.cpp" line="504"/>
         <source>Usage at end</source>
         <translation>Utilizzo finale</translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="507"/>
-        <location filename="graphwidget.cpp" line="598"/>
+        <location filename="graphwidget.cpp" line="505"/>
+        <location filename="graphwidget.cpp" line="596"/>
         <source>Live blocks</source>
         <translation>Blocchi attivi</translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="597"/>
+        <location filename="graphwidget.cpp" line="595"/>
         <source>Usage</source>
         <translation>Utilizzo</translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="689"/>
+        <location filename="graphwidget.cpp" line="687"/>
         <source>Zoom to selection</source>
         <translation>Ingrandisci la selezione</translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="690"/>
+        <location filename="graphwidget.cpp" line="688"/>
         <source>Reset zoom</source>
         <translation>Annulla ingrandimento</translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="703"/>
+        <location filename="graphwidget.cpp" line="701"/>
         <source>Snap selection to marker</source>
         <translation>Aggancia la selezione al marcatore</translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="704"/>
+        <location filename="graphwidget.cpp" line="702"/>
         <source>Select from marker</source>
         <translation>Seleziona dal marcatore</translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="705"/>
+        <location filename="graphwidget.cpp" line="703"/>
         <source>Select to marker</source>
         <translation>Seleziona fino al marcatore</translation>
     </message>
@@ -739,7 +772,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>GroupList</name>
     <message>
-        <location filename="grouplistwidget.cpp" line="635"/>
+        <location filename="grouplistwidget.cpp" line="763"/>
         <source>Select group range</source>
         <translation>Seleziona range di gruppi</translation>
     </message>
@@ -824,6 +857,44 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>Inject</name>
+    <message>
+        <location filename="inject.ui" line="14"/>
+        <source>Inject and run</source>
+        <translation type="unfinished">Inietta e corri</translation>
+    </message>
+    <message>
+        <location filename="inject.ui" line="25"/>
+        <source>Allocator:</source>
+        <translation>Allocator:</translation>
+    </message>
+    <message>
+        <location filename="inject.ui" line="33"/>
+        <source>No change / system</source>
+        <translation>Nessun cambiamento / sistema</translation>
+    </message>
+    <message>
+        <location filename="inject.ui" line="38"/>
+        <source>rpmalloc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="inject.ui" line="61"/>
+        <source>Capture memory profile</source>
+        <translation>Cattura il profilo di memoria</translation>
+    </message>
+    <message>
+        <location filename="inject.ui" line="71"/>
+        <source>Load memory profile after capture</source>
+        <translation>Carica il profilo di memoria dopo l&apos;acquisizione</translation>
+    </message>
+    <message>
+        <location filename="inject.ui" line="81"/>
+        <source>Memory overwrite detection</source>
+        <translation>Rilevamento della sovrascrittura della memoria</translation>
+    </message>
+</context>
+<context>
     <name>MTuner</name>
     <message>
         <location filename="mtuner.cpp" line="221"/>
@@ -879,48 +950,48 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="mtuner.cpp" line="669"/>
-        <location filename="mtuner.cpp" line="1012"/>
+        <location filename="mtuner.cpp" line="991"/>
         <source>Capture in progress</source>
         <translation>Cattura in corso</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="922"/>
+        <location filename="mtuner.cpp" line="901"/>
         <source>Loading, please wait...</source>
         <translation>Caricamente. perfavore attendi...</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="930"/>
+        <location filename="mtuner.cpp" line="909"/>
         <source>Capture loaded partially!</source>
         <translation>Misurazione  parzialmente caricata!</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="930"/>
+        <location filename="mtuner.cpp" line="909"/>
         <source>Capture file was only partially loaded!
 Information may be missing from the profile!</source>
         <translation>Il file di misurazione è stato caricato solo parzialmente! Potrebbero mancare delle informazioni dalla sessione di profiling!</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="940"/>
+        <location filename="mtuner.cpp" line="919"/>
         <source>Loaded </source>
         <translation>Caricato</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="948"/>
+        <location filename="mtuner.cpp" line="927"/>
         <source>Error loading!</source>
         <translation>Errore durante il caricamento!</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="949"/>
+        <location filename="mtuner.cpp" line="928"/>
         <source>Failed to load file!</source>
         <translation>Errore durante l&apos;apertura del file!</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="949"/>
+        <location filename="mtuner.cpp" line="928"/>
         <source>File may be corrupted, try to repeat the capture</source>
         <translation>Il file potrebbe essere corrotto, provare a ripete la misurazione</translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="1012"/>
+        <location filename="mtuner.cpp" line="991"/>
         <source>Cannot start a new capture while capture is in progress</source>
         <translation>Impossibile avviare una nuova cattura mentre è in corso l&apos;acquisizione
 </translation>
@@ -1310,80 +1381,97 @@ Information may be missing from the profile!</source>
         <translation>Directory di lavoro</translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="90"/>
+        <location filename="projectsmanager.ui" line="82"/>
+        <source>Environment:</source>
+        <translation>Ambiente:</translation>
+    </message>
+    <message>
+        <location filename="projectsmanager.ui" line="100"/>
         <source>Path of executable to run in instrumented mode</source>
         <translatorcomment>?</translatorcomment>
         <translation>Percorso dell&apos;eseguibile da eseguire in modalità strumentale</translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="109"/>
-        <source>Browse for executable</source>
-        <translation>Sfoglia per l&apos;eseguibile</translation>
-    </message>
-    <message>
-        <location filename="projectsmanager.ui" line="112"/>
-        <location filename="projectsmanager.ui" line="152"/>
+        <location filename="projectsmanager.ui" line="107"/>
+        <location filename="projectsmanager.ui" line="132"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="121"/>
+        <location filename="projectsmanager.ui" line="116"/>
         <source>Command line arguments for the executable</source>
         <translation>Argomenti da riga di comando per l&apos;eseguibile</translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="130"/>
+        <location filename="projectsmanager.ui" line="125"/>
         <source>Directory to start the executable at. Leaving it empty will start the executable at it&apos;s location.</source>
         <translation>Cartella da cui avviare l&apos;eseguibile. Lasciando questo campo vuoto, partirà dalla sua posizione corrente.</translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="149"/>
-        <source>Browse for a working directory</source>
-        <translation>Sfoglia per la directory di lavoro</translation>
+        <location filename="projectsmanager.ui" line="143"/>
+        <source>Edit a list of environment variables</source>
+        <translation>Modifica un elenco di variabili di ambiente</translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="169"/>
+        <location filename="projectsmanager.ui" line="146"/>
+        <source>Edit variables</source>
+        <translation>Modifica variabili</translation>
+    </message>
+    <message>
+        <location filename="projectsmanager.ui" line="153"/>
+        <source>If checked, child process will inherit
+environment variables MTuner was started with</source>
+        <translation>Se selezionato, erediterà il processo figlio
+variabili ambientali MTuner è stato avviato con</translation>
+    </message>
+    <message>
+        <location filename="projectsmanager.ui" line="157"/>
+        <source>Inherit environment from MTuner</source>
+        <translation>Eredita l&apos;ambiente da MTuner</translation>
+    </message>
+    <message>
+        <location filename="projectsmanager.ui" line="177"/>
         <source>Adds executable with run parameters to the list of projects</source>
         <translation>Aggiunge un eseguibile con parametri d&apos;esecuzione alla lista dei progetti</translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="172"/>
+        <location filename="projectsmanager.ui" line="180"/>
         <source>Add</source>
         <translation>Aggiungi</translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="179"/>
+        <location filename="projectsmanager.ui" line="187"/>
         <source>Deletes a project from the list</source>
         <translation>Elimina un progetto dalla lista</translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="182"/>
+        <location filename="projectsmanager.ui" line="190"/>
         <source>Delete</source>
         <translation>Elimina</translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="189"/>
+        <location filename="projectsmanager.ui" line="197"/>
         <source>Run the MTuner instrumented executable</source>
         <translatorcomment>?</translatorcomment>
         <translation>Esegui il programma con MTuner</translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="192"/>
+        <location filename="projectsmanager.ui" line="200"/>
         <source>Run</source>
         <translation>Esegui</translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="212"/>
+        <location filename="projectsmanager.ui" line="220"/>
         <source>Close dialog</source>
         <translation>Chiudi finestra</translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="215"/>
+        <location filename="projectsmanager.ui" line="223"/>
         <source>Cancel</source>
         <translation>Cancella</translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="222"/>
+        <location filename="projectsmanager.ui" line="230"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -1391,22 +1479,22 @@ Information may be missing from the profile!</source>
 <context>
     <name>ProjectsManager</name>
     <message>
-        <location filename="projectsmanager.cpp" line="109"/>
+        <location filename="projectsmanager.cpp" line="113"/>
         <source>Are you sure?</source>
         <translation>Sei sicuro?</translation>
     </message>
     <message>
-        <location filename="projectsmanager.cpp" line="110"/>
+        <location filename="projectsmanager.cpp" line="114"/>
         <source>Project list was modified, if you close project manager it will not be saved.</source>
         <translation>L&apos;elenco dei progetti è stato modificato, se chiudi project manager non verrà salvato.</translation>
     </message>
     <message>
-        <location filename="projectsmanager.cpp" line="225"/>
+        <location filename="projectsmanager.cpp" line="289"/>
         <source>select executable</source>
         <translation>scegli un eseguibile</translation>
     </message>
     <message>
-        <location filename="projectsmanager.cpp" line="233"/>
+        <location filename="projectsmanager.cpp" line="297"/>
         <source>select working directory</source>
         <translation>seleziona una directory di lavoro</translation>
     </message>
@@ -1420,93 +1508,99 @@ Information may be missing from the profile!</source>
         <translation>Pagina iniziale</translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="404"/>
-        <location filename="operationslist.cpp" line="224"/>
+        <location filename="grouplistwidget.cpp" line="482"/>
+        <location filename="operationslist.cpp" line="225"/>
         <source>Type</source>
         <translation>Tipo</translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="404"/>
-        <location filename="operationslist.cpp" line="224"/>
+        <location filename="grouplistwidget.cpp" line="483"/>
+        <location filename="operationslist.cpp" line="225"/>
         <source>Heap</source>
         <translation>Heap</translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="404"/>
+        <location filename="grouplistwidget.cpp" line="484"/>
         <source>Block size</source>
         <translation>Dimensione blocco</translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="404"/>
+        <location filename="grouplistwidget.cpp" line="485"/>
         <source>Total count</source>
         <translation>Operazioni</translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="404"/>
+        <location filename="grouplistwidget.cpp" line="486"/>
         <source>Live peak count</source>
         <translation>Numero massimo</translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="404"/>
-        <location filename="operationslist.cpp" line="224"/>
+        <location filename="grouplistwidget.cpp" line="487"/>
+        <source>Peak count</source>
+        <translation>Numero massimo</translation>
+    </message>
+    <message>
+        <location filename="grouplistwidget.cpp" line="488"/>
+        <location filename="operationslist.cpp" line="225"/>
         <source>Alignment</source>
         <translation>Allineamento</translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="404"/>
-        <location filename="operationslist.cpp" line="224"/>
+        <location filename="grouplistwidget.cpp" line="489"/>
+        <location filename="operationslist.cpp" line="225"/>
         <source>Size</source>
         <translation>Dimensione</translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="404"/>
+        <location filename="grouplistwidget.cpp" line="490"/>
+        <location filename="grouplistwidget.cpp" line="491"/>
         <source>Peak size</source>
         <translation>Dimensione di picco</translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="404"/>
+        <location filename="grouplistwidget.cpp" line="492"/>
         <source>Leaked</source>
         <translation>Leaked</translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="430"/>
-        <location filename="operationslist.cpp" line="292"/>
+        <location filename="grouplistwidget.cpp" line="531"/>
+        <location filename="operationslist.cpp" line="303"/>
         <source>Alloc</source>
         <translation>Alloc</translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="431"/>
-        <location filename="operationslist.cpp" line="293"/>
+        <location filename="grouplistwidget.cpp" line="532"/>
+        <location filename="operationslist.cpp" line="304"/>
         <source>Alloc aligned</source>
         <translation>Alloc aligned</translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="432"/>
-        <location filename="operationslist.cpp" line="294"/>
+        <location filename="grouplistwidget.cpp" line="533"/>
+        <location filename="operationslist.cpp" line="305"/>
         <source>Calloc</source>
         <translation>Calloc</translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="433"/>
-        <location filename="operationslist.cpp" line="295"/>
+        <location filename="grouplistwidget.cpp" line="534"/>
+        <location filename="operationslist.cpp" line="306"/>
         <source>Free</source>
         <translation>Free</translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="434"/>
-        <location filename="operationslist.cpp" line="296"/>
+        <location filename="grouplistwidget.cpp" line="535"/>
+        <location filename="operationslist.cpp" line="307"/>
         <source>Realloc</source>
         <translation>Realloc</translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="435"/>
-        <location filename="operationslist.cpp" line="297"/>
+        <location filename="grouplistwidget.cpp" line="536"/>
+        <location filename="operationslist.cpp" line="308"/>
         <source>Realloc aligned</source>
         <translation>Realloc aligned</translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="466"/>
-        <location filename="operationslist.cpp" line="312"/>
+        <location filename="grouplistwidget.cpp" line="570"/>
+        <location filename="operationslist.cpp" line="323"/>
         <source>Default</source>
         <translation>Default</translation>
     </message>
@@ -1534,17 +1628,17 @@ Vorresti configurare ora la toolchain?</translation>
         <translation>Nessun simbolo di debug può essere risolto!</translation>
     </message>
     <message>
-        <location filename="operationslist.cpp" line="224"/>
+        <location filename="operationslist.cpp" line="225"/>
         <source>Thread ID</source>
         <translation>ID Thread</translation>
     </message>
     <message>
-        <location filename="operationslist.cpp" line="224"/>
+        <location filename="operationslist.cpp" line="225"/>
         <source>Address</source>
         <translation>Indirizzo</translation>
     </message>
     <message>
-        <location filename="operationslist.cpp" line="224"/>
+        <location filename="operationslist.cpp" line="225"/>
         <source>Time</source>
         <translation>Tempo</translation>
     </message>
@@ -1567,49 +1661,49 @@ Vorresti configurare ora la toolchain?</translation>
         <translation>Apri nell&apos;editor</translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="338"/>
+        <location filename="stacktreewidget.cpp" line="360"/>
         <source>Name</source>
         <translation>Nome</translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="339"/>
+        <location filename="stacktreewidget.cpp" line="361"/>
         <source>Module</source>
         <translation>Modulo</translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="340"/>
+        <location filename="stacktreewidget.cpp" line="362"/>
         <location filename="tagtreewidget.cpp" line="74"/>
         <source>Usage</source>
         <translation>Utilizzo</translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="341"/>
+        <location filename="stacktreewidget.cpp" line="363"/>
         <location filename="tagtreewidget.cpp" line="75"/>
         <source>Peak Usage</source>
         <translation>Utilizzo di picco</translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="342"/>
+        <location filename="stacktreewidget.cpp" line="364"/>
         <source>Allocations</source>
         <translation>Allocazioni</translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="343"/>
+        <location filename="stacktreewidget.cpp" line="365"/>
         <source>Frees</source>
         <translation>Deallocazioni</translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="344"/>
+        <location filename="stacktreewidget.cpp" line="366"/>
         <source>Reallocations</source>
         <translation>Riallocazioni</translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="345"/>
+        <location filename="stacktreewidget.cpp" line="367"/>
         <source>File</source>
         <translation>File</translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="346"/>
+        <location filename="stacktreewidget.cpp" line="368"/>
         <source>Line</source>
         <translation>Riga</translation>
     </message>
@@ -1634,32 +1728,32 @@ Vorresti configurare ora la toolchain?</translation>
         <translation>Root</translation>
     </message>
     <message>
-        <location filename="treemapview.cpp" line="262"/>
+        <location filename="treemapview.cpp" line="263"/>
         <source>Total size: </source>
         <translation>Dimensione totale:</translation>
     </message>
     <message>
-        <location filename="treemapview.cpp" line="263"/>
+        <location filename="treemapview.cpp" line="264"/>
         <source>Operations: </source>
         <translation>Operazioni:</translation>
     </message>
     <message>
-        <location filename="treemapview.cpp" line="264"/>
+        <location filename="treemapview.cpp" line="265"/>
         <source>    Allocs: </source>
         <translation>Assegnazione:</translation>
     </message>
     <message>
-        <location filename="treemapview.cpp" line="265"/>
+        <location filename="treemapview.cpp" line="266"/>
         <source>  Reallocs: </source>
         <translation>Riassegnazioni:</translation>
     </message>
     <message>
-        <location filename="treemapview.cpp" line="266"/>
+        <location filename="treemapview.cpp" line="267"/>
         <source>     Frees: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="treemapview.cpp" line="267"/>
+        <location filename="treemapview.cpp" line="268"/>
         <source>Click to see call stack</source>
         <translation>Clicca per visualizzare lo stack di chiamate</translation>
     </message>
@@ -1778,17 +1872,17 @@ Vorresti configurare ora la toolchain?</translation>
         <translation>di 100</translation>
     </message>
     <message>
-        <location filename="stacktrace.cpp" line="41"/>
+        <location filename="stacktrace.cpp" line="77"/>
         <source>Copy</source>
         <translation>Copia</translation>
     </message>
     <message>
-        <location filename="stacktrace.cpp" line="42"/>
+        <location filename="stacktrace.cpp" line="78"/>
         <source>Copy all</source>
         <translation>Copia tutto</translation>
     </message>
     <message>
-        <location filename="stacktrace.cpp" line="122"/>
+        <location filename="stacktrace.cpp" line="158"/>
         <source>of</source>
         <translation>di</translation>
     </message>
@@ -1987,7 +2081,7 @@ Vorresti configurare ora la toolchain?</translation>
 <context>
     <name>SymbolStore</name>
     <message>
-        <location filename="symbolstore.cpp" line="128"/>
+        <location filename="symbolstore.cpp" line="127"/>
         <source>select local symbol store directory</source>
         <translation>scegli una dyrectory per i simboli locali</translation>
     </message>

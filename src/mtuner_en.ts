@@ -423,6 +423,39 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>Environment</name>
+    <message>
+        <location filename="environment.ui" line="14"/>
+        <source>Environment variables</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="environment.ui" line="36"/>
+        <source>Variable</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="environment.ui" line="41"/>
+        <source>Value</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="environment.ui" line="64"/>
+        <source>New</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="environment.ui" line="71"/>
+        <source>Edit</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="environment.ui" line="78"/>
+        <source>Delete</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
     <name>ExternalEditor</name>
     <message>
         <location filename="external_editor.ui" line="14"/>
@@ -669,71 +702,71 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>GraphWidget</name>
     <message>
-        <location filename="graphwidget.cpp" line="483"/>
-        <location filename="graphwidget.cpp" line="596"/>
+        <location filename="graphwidget.cpp" line="481"/>
+        <location filename="graphwidget.cpp" line="594"/>
         <source>Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="484"/>
+        <location filename="graphwidget.cpp" line="482"/>
         <source>Thread</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="505"/>
+        <location filename="graphwidget.cpp" line="503"/>
         <source>Start time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="505"/>
+        <location filename="graphwidget.cpp" line="503"/>
         <source>End time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="506"/>
+        <location filename="graphwidget.cpp" line="504"/>
         <source>Duration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="506"/>
+        <location filename="graphwidget.cpp" line="504"/>
         <source>Usage at end</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="507"/>
-        <location filename="graphwidget.cpp" line="598"/>
+        <location filename="graphwidget.cpp" line="505"/>
+        <location filename="graphwidget.cpp" line="596"/>
         <source>Live blocks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="597"/>
+        <location filename="graphwidget.cpp" line="595"/>
         <source>Usage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="689"/>
+        <location filename="graphwidget.cpp" line="687"/>
         <source>Zoom to selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="690"/>
+        <location filename="graphwidget.cpp" line="688"/>
         <source>Reset zoom</source>
         <oldsource>reset zoom</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="703"/>
+        <location filename="graphwidget.cpp" line="701"/>
         <source>Snap selection to marker</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="704"/>
+        <location filename="graphwidget.cpp" line="702"/>
         <source>Select from marker</source>
         <oldsource>select from marker</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="graphwidget.cpp" line="705"/>
+        <location filename="graphwidget.cpp" line="703"/>
         <source>Select to marker</source>
         <oldsource>select to marker</oldsource>
         <translation type="unfinished"></translation>
@@ -742,7 +775,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>GroupList</name>
     <message>
-        <location filename="grouplistwidget.cpp" line="635"/>
+        <location filename="grouplistwidget.cpp" line="763"/>
         <source>Select group range</source>
         <translation type="unfinished"></translation>
     </message>
@@ -827,6 +860,44 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>Inject</name>
+    <message>
+        <location filename="inject.ui" line="14"/>
+        <source>Inject and run</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="inject.ui" line="25"/>
+        <source>Allocator:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="inject.ui" line="33"/>
+        <source>No change / system</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="inject.ui" line="38"/>
+        <source>rpmalloc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="inject.ui" line="61"/>
+        <source>Capture memory profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="inject.ui" line="71"/>
+        <source>Load memory profile after capture</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="inject.ui" line="81"/>
+        <source>Memory overwrite detection</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MTuner</name>
     <message>
         <location filename="mtuner.cpp" line="221"/>
@@ -882,48 +953,48 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="mtuner.cpp" line="669"/>
-        <location filename="mtuner.cpp" line="1012"/>
+        <location filename="mtuner.cpp" line="991"/>
         <source>Capture in progress</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="922"/>
+        <location filename="mtuner.cpp" line="901"/>
         <source>Loading, please wait...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="930"/>
+        <location filename="mtuner.cpp" line="909"/>
         <source>Capture loaded partially!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="930"/>
+        <location filename="mtuner.cpp" line="909"/>
         <source>Capture file was only partially loaded!
 Information may be missing from the profile!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="940"/>
+        <location filename="mtuner.cpp" line="919"/>
         <source>Loaded </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="948"/>
+        <location filename="mtuner.cpp" line="927"/>
         <source>Error loading!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="949"/>
+        <location filename="mtuner.cpp" line="928"/>
         <source>Failed to load file!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="949"/>
+        <location filename="mtuner.cpp" line="928"/>
         <source>File may be corrupted, try to repeat the capture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mtuner.cpp" line="1012"/>
+        <location filename="mtuner.cpp" line="991"/>
         <source>Cannot start a new capture while capture is in progress</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1313,78 +1384,94 @@ Information may be missing from the profile!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="90"/>
+        <location filename="projectsmanager.ui" line="82"/>
+        <source>Environment:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="projectsmanager.ui" line="100"/>
         <source>Path of executable to run in instrumented mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="109"/>
-        <source>Browse for executable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="projectsmanager.ui" line="112"/>
-        <location filename="projectsmanager.ui" line="152"/>
+        <location filename="projectsmanager.ui" line="107"/>
+        <location filename="projectsmanager.ui" line="132"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="121"/>
+        <location filename="projectsmanager.ui" line="116"/>
         <source>Command line arguments for the executable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="130"/>
+        <location filename="projectsmanager.ui" line="125"/>
         <source>Directory to start the executable at. Leaving it empty will start the executable at it&apos;s location.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="149"/>
-        <source>Browse for a working directory</source>
+        <location filename="projectsmanager.ui" line="143"/>
+        <source>Edit a list of environment variables</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="169"/>
+        <location filename="projectsmanager.ui" line="146"/>
+        <source>Edit variables</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="projectsmanager.ui" line="153"/>
+        <source>If checked, child process will inherit
+environment variables MTuner was started with</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="projectsmanager.ui" line="157"/>
+        <source>Inherit environment from MTuner</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="projectsmanager.ui" line="177"/>
         <source>Adds executable with run parameters to the list of projects</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="172"/>
+        <location filename="projectsmanager.ui" line="180"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="179"/>
+        <location filename="projectsmanager.ui" line="187"/>
         <source>Deletes a project from the list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="182"/>
+        <location filename="projectsmanager.ui" line="190"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="189"/>
+        <location filename="projectsmanager.ui" line="197"/>
         <source>Run the MTuner instrumented executable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="192"/>
+        <location filename="projectsmanager.ui" line="200"/>
         <source>Run</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="212"/>
+        <location filename="projectsmanager.ui" line="220"/>
         <source>Close dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="215"/>
+        <location filename="projectsmanager.ui" line="223"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="projectsmanager.ui" line="222"/>
+        <location filename="projectsmanager.ui" line="230"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1392,22 +1479,22 @@ Information may be missing from the profile!</source>
 <context>
     <name>ProjectsManager</name>
     <message>
-        <location filename="projectsmanager.cpp" line="109"/>
+        <location filename="projectsmanager.cpp" line="113"/>
         <source>Are you sure?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="projectsmanager.cpp" line="110"/>
+        <location filename="projectsmanager.cpp" line="114"/>
         <source>Project list was modified, if you close project manager it will not be saved.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="projectsmanager.cpp" line="225"/>
+        <location filename="projectsmanager.cpp" line="289"/>
         <source>select executable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="projectsmanager.cpp" line="233"/>
+        <location filename="projectsmanager.cpp" line="297"/>
         <source>select working directory</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1435,185 +1522,191 @@ Information may be missing from the profile!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="404"/>
-        <location filename="operationslist.cpp" line="224"/>
+        <location filename="grouplistwidget.cpp" line="482"/>
+        <location filename="operationslist.cpp" line="225"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="404"/>
+        <location filename="grouplistwidget.cpp" line="484"/>
         <source>Block size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="404"/>
+        <location filename="grouplistwidget.cpp" line="485"/>
         <source>Total count</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="404"/>
+        <location filename="grouplistwidget.cpp" line="486"/>
         <source>Live peak count</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="404"/>
-        <location filename="operationslist.cpp" line="224"/>
+        <location filename="grouplistwidget.cpp" line="487"/>
+        <source>Peak count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="grouplistwidget.cpp" line="488"/>
+        <location filename="operationslist.cpp" line="225"/>
         <source>Alignment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="404"/>
-        <location filename="operationslist.cpp" line="224"/>
+        <location filename="grouplistwidget.cpp" line="489"/>
+        <location filename="operationslist.cpp" line="225"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="404"/>
+        <location filename="grouplistwidget.cpp" line="490"/>
+        <location filename="grouplistwidget.cpp" line="491"/>
         <source>Peak size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="404"/>
+        <location filename="grouplistwidget.cpp" line="492"/>
         <source>Leaked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="404"/>
-        <location filename="operationslist.cpp" line="224"/>
+        <location filename="grouplistwidget.cpp" line="483"/>
+        <location filename="operationslist.cpp" line="225"/>
         <source>Heap</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="430"/>
-        <location filename="operationslist.cpp" line="292"/>
+        <location filename="grouplistwidget.cpp" line="531"/>
+        <location filename="operationslist.cpp" line="303"/>
         <source>Alloc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="431"/>
-        <location filename="operationslist.cpp" line="293"/>
+        <location filename="grouplistwidget.cpp" line="532"/>
+        <location filename="operationslist.cpp" line="304"/>
         <source>Alloc aligned</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="432"/>
-        <location filename="operationslist.cpp" line="294"/>
+        <location filename="grouplistwidget.cpp" line="533"/>
+        <location filename="operationslist.cpp" line="305"/>
         <source>Calloc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="433"/>
-        <location filename="operationslist.cpp" line="295"/>
+        <location filename="grouplistwidget.cpp" line="534"/>
+        <location filename="operationslist.cpp" line="306"/>
         <source>Free</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="434"/>
-        <location filename="operationslist.cpp" line="296"/>
+        <location filename="grouplistwidget.cpp" line="535"/>
+        <location filename="operationslist.cpp" line="307"/>
         <source>Realloc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="435"/>
-        <location filename="operationslist.cpp" line="297"/>
+        <location filename="grouplistwidget.cpp" line="536"/>
+        <location filename="operationslist.cpp" line="308"/>
         <source>Realloc aligned</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="grouplistwidget.cpp" line="466"/>
-        <location filename="operationslist.cpp" line="312"/>
+        <location filename="grouplistwidget.cpp" line="570"/>
+        <location filename="operationslist.cpp" line="323"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="operationslist.cpp" line="224"/>
+        <location filename="operationslist.cpp" line="225"/>
         <source>Thread ID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="operationslist.cpp" line="224"/>
+        <location filename="operationslist.cpp" line="225"/>
         <source>Address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="operationslist.cpp" line="224"/>
+        <location filename="operationslist.cpp" line="225"/>
         <source>Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="338"/>
+        <location filename="stacktreewidget.cpp" line="360"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="339"/>
+        <location filename="stacktreewidget.cpp" line="361"/>
         <source>Module</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="340"/>
+        <location filename="stacktreewidget.cpp" line="362"/>
         <location filename="tagtreewidget.cpp" line="74"/>
         <source>Usage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="341"/>
+        <location filename="stacktreewidget.cpp" line="363"/>
         <location filename="tagtreewidget.cpp" line="75"/>
         <source>Peak Usage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="342"/>
+        <location filename="stacktreewidget.cpp" line="364"/>
         <source>Allocations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="343"/>
+        <location filename="stacktreewidget.cpp" line="365"/>
         <source>Frees</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="344"/>
+        <location filename="stacktreewidget.cpp" line="366"/>
         <source>Reallocations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="345"/>
+        <location filename="stacktreewidget.cpp" line="367"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="stacktreewidget.cpp" line="346"/>
+        <location filename="stacktreewidget.cpp" line="368"/>
         <source>Line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="treemapview.cpp" line="262"/>
+        <location filename="treemapview.cpp" line="263"/>
         <source>Total size: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="treemapview.cpp" line="263"/>
+        <location filename="treemapview.cpp" line="264"/>
         <source>Operations: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="treemapview.cpp" line="264"/>
+        <location filename="treemapview.cpp" line="265"/>
         <source>    Allocs: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="treemapview.cpp" line="265"/>
+        <location filename="treemapview.cpp" line="266"/>
         <source>  Reallocs: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="treemapview.cpp" line="266"/>
+        <location filename="treemapview.cpp" line="267"/>
         <source>     Frees: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="treemapview.cpp" line="267"/>
+        <location filename="treemapview.cpp" line="268"/>
         <source>Click to see call stack</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1778,17 +1871,17 @@ Would you like to configure the toolchain now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="stacktrace.cpp" line="41"/>
+        <location filename="stacktrace.cpp" line="77"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="stacktrace.cpp" line="42"/>
+        <location filename="stacktrace.cpp" line="78"/>
         <source>Copy all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="stacktrace.cpp" line="122"/>
+        <location filename="stacktrace.cpp" line="158"/>
         <source>of</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1989,7 +2082,7 @@ Would you like to configure the toolchain now?</source>
 <context>
     <name>SymbolStore</name>
     <message>
-        <location filename="symbolstore.cpp" line="128"/>
+        <location filename="symbolstore.cpp" line="127"/>
         <source>select local symbol store directory</source>
         <translation type="unfinished"></translation>
     </message>
