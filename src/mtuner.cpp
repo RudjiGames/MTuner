@@ -26,6 +26,7 @@
 #include <MTuner/src/version.h>
 #include <MTuner/src/welcome.h>
 
+#include <rbase/inc/thread.h>
 #include <rqt/inc/rqt.h>
 
 #if RTM_PLATFORM_WINDOWS
@@ -727,7 +728,7 @@ void MTuner::readSettings()
 	if (settings.contains("detail"))	detail = (uint8_t)settings.value("detail").toInt();
 	settings.endGroup();
 
-	g_resetWindowGeometries = makeVersion(major, minor, detail) < makeVersion(4, 2, 3);
+	g_resetWindowGeometries = makeVersion(major, minor, detail) < makeVersion(4, 3, 0);
 
 	// MTuner main window
 	settings.beginGroup("MainWindow");
@@ -907,7 +908,15 @@ void MTuner::openFileFromPath(const QString& _file)
 		statusBar()->showMessage(tr("Loading, please wait..."));
 
 		// load binary
-		rtm::Capture::LoadResult res = ctx->m_capture->loadBin(fn.c_str());
+		rtm::Capture::LoadResult res = rtm::Capture::LoadFail;
+
+		// process may still be alive and keeping lock on capture file, give it a second
+		for (int i=0; (i<20) && (res == rtm::Capture::LoadFail); ++i)
+		{
+			rtm::Thread::sleep(50);
+			res = ctx->m_capture->loadBin(fn.c_str());
+		}
+
 		if (res != rtm::Capture::LoadFail)
 		{
 			if (res == rtm::Capture::LoadPartial)
@@ -1001,15 +1010,16 @@ void MTuner::handleFile(const QString& _file)
 		}
 		else
 		{
-			Inject inject;
-			if (inject.exec() == QDialog::Rejected)
-				return;
+			//Inject inject;
+			//if (inject.exec() == QDialog::Rejected)
+			//	return;
 
-			int allocator		= inject.getAllocator();
-			bool shouldCapture	= inject.shouldCapture();
-			bool shouldLoad		= inject.loadAfterCapture();
+			//int allocator		= inject.getAllocator();
+			//bool shouldCapture	= inject.shouldCapture();
+			//bool shouldLoad		= inject.loadAfterCapture();
 
-			m_projectsManager->run(_file, QString(), QString(), QStringList(), true, allocator, shouldCapture, shouldLoad);
+			//m_projectsManager->run(_file, QString(), QString(), QStringList(), true, allocator, shouldCapture, shouldLoad);
+			m_projectsManager->run(_file);
 		}
 	}
 }
