@@ -39,7 +39,12 @@
        </item>
        <item>
         <property name="text">
-         <string>rpmalloc</string>
+         <string>stomp overrun</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>stomp underrun</string>
         </property>
        </item>
       </widget>

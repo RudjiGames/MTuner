@@ -191,6 +191,7 @@ void ProjectsManager::run(const QString& _executable, const QString& _cmd, const
 		_allocator |= RMEM_ALLOCATOR_NOPROFILING;
 
 	env << "MTuner_Allocator=" + QString::number(_allocator);
+	env << "_NO_DEBUG_HEAP=1";
 	env << _environment;
 	process->setEnvironment(env);
 
