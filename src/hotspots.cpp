@@ -22,6 +22,14 @@ HotspotsWidget::HotspotsWidget(QWidget* _parent, Qt::WindowFlags _flags) :
 	m_peakCountTable= findChild<QTableWidget*>("tablePeakCount");
 	m_leaksTable	= findChild<QTableWidget*>("tableLeaks");
 
+	m_tableKeyWatch = new TableKeyWatcher();
+	m_tableKeyWatch->installOn(m_usageTable);
+	m_tableKeyWatch->installOn(m_peakUsageTable);
+	m_tableKeyWatch->installOn(m_peakCountTable);
+	m_tableKeyWatch->installOn(m_leaksTable);
+
+	connect(m_tableKeyWatch, SIGNAL(updateStackTrace(QTableWidget*)), this, SLOT(updateStackTrace(QTableWidget*)));
+
 	m_usageTable->horizontalHeader()->setHighlightSections(false);
 	m_peakUsageTable->horizontalHeader()->setHighlightSections(false);
 	m_peakCountTable->horizontalHeader()->setHighlightSections(false);
@@ -32,10 +40,15 @@ HotspotsWidget::HotspotsWidget(QWidget* _parent, Qt::WindowFlags _flags) :
 	m_peakCountTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	m_leaksTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
-	connect(m_usageTable, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(rowSelected(QTableWidgetItem*)));
-	connect(m_peakUsageTable, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(rowSelected(QTableWidgetItem*)));
-	connect(m_peakCountTable, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(rowSelected(QTableWidgetItem*)));
-	connect(m_leaksTable, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(rowSelected(QTableWidgetItem*)));
+	connect(m_usageTable,		SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(rowSelected(QTableWidgetItem*)));
+	connect(m_peakUsageTable,	SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(rowSelected(QTableWidgetItem*)));
+	connect(m_peakCountTable,	SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(rowSelected(QTableWidgetItem*)));
+	connect(m_leaksTable,		SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(rowSelected(QTableWidgetItem*)));
+	
+	connect(m_usageTable,		SIGNAL(itemActivated(QTableWidgetItem*)), this, SLOT(rowSelected(QTableWidgetItem*)));
+	connect(m_peakUsageTable,	SIGNAL(itemActivated(QTableWidgetItem*)), this, SLOT(rowSelected(QTableWidgetItem*)));
+	connect(m_peakCountTable,	SIGNAL(itemActivated(QTableWidgetItem*)), this, SLOT(rowSelected(QTableWidgetItem*)));
+	connect(m_leaksTable,		SIGNAL(itemActivated(QTableWidgetItem*)), this, SLOT(rowSelected(QTableWidgetItem*)));
 }
 
 void HotspotsWidget::changeEvent(QEvent* _event)
@@ -221,9 +234,13 @@ void HotspotsWidget::leaksSortingDone(GroupMapping* _group)
 
 void HotspotsWidget::rowSelected(QTableWidgetItem* _item)
 {
-	QTableWidget* w = _item->tableWidget();
-	int row = 	_item->row();
+	updateStackTrace(_item->tableWidget());
+}
 
+void HotspotsWidget::updateStackTrace(QTableWidget* _table)
+{
+	QTableWidget* w = _table;
+	int row = w->currentItem()->row();
 	rtm::MemoryOperationGroup* group = 0;
 
 	if (w == m_usageTable)
@@ -233,7 +250,7 @@ void HotspotsWidget::rowSelected(QTableWidgetItem* _item)
 		group = getGroupFromMapping(m_peakUsageMapping, row);
 
 	if (w == m_peakCountTable)
-		group = getGroupFromMapping(m_peakCountUsageMapping, row);	
+		group = getGroupFromMapping(m_peakCountUsageMapping, row);
 
 	if (w == m_leaksTable)
 		group = getGroupFromMapping(m_leaksMapping, row);
