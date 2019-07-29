@@ -49,17 +49,19 @@ copy ..\..\..\..\..\libs\rmem\inc\rmem_entry.h      SDK\inc\rmem_entry.h
 copy ..\..\..\..\..\libs\rmem\inc\rmem.h            SDK\inc\rmem.h
 copy ..\..\..\..\..\libs\rmem\inc\rmem_entry.h      SDK\inc\rmem_entry.h
 
-copy ..\..\..\..\..\libs\rmem\src\rmem_config.h             SDK\src\rmem_config.h                        
-copy ..\..\..\..\..\libs\rmem\src\rmem_enums.h              SDK\src\rmem_enums.h              
-copy ..\..\..\..\..\libs\rmem\src\rmem_get_symbol_info.cpp  SDK\src\rmem_get_symbol_info.cpp  
-copy ..\..\..\..\..\libs\rmem\src\rmem_hook.cpp             SDK\src\rmem_hook.cpp             
-copy ..\..\..\..\..\libs\rmem\src\rmem_hook.h               SDK\src\rmem_hook.h               
-copy ..\..\..\..\..\libs\rmem\src\rmem_lib.cpp              SDK\src\rmem_lib.cpp              
-copy ..\..\..\..\..\libs\rmem\src\rmem_mutex.h              SDK\src\rmem_mutex.h              
-copy ..\..\..\..\..\libs\rmem\src\rmem_platform.h           SDK\src\rmem_platform.h           
-copy ..\..\..\..\..\libs\rmem\src\rmem_utils.h              SDK\src\rmem_utils.h              
-copy ..\..\..\..\..\libs\rmem\src\rmem_wrap_win.cpp         SDK\src\rmem_wrap_win.cpp         
-copy ..\..\..\..\..\libs\rmem\src\rmem_wrap_win.h	        SDK\src\rmem_wrap_win.h
+copy ..\..\..\..\..\libs\rmem\src\rmem_config.h             SDK\src\rmem_config.h
+copy ..\..\..\..\..\libs\rmem\src\rmem_enums.h              SDK\src\rmem_enums.h 
+copy ..\..\..\..\..\libs\rmem\src\rmem_get_symbol_info.cpp  SDK\src\rmem_get_symbol_info.cpp
+copy ..\..\..\..\..\libs\rmem\src\rmem_hook.cpp             SDK\src\rmem_hook.cpp
+copy ..\..\..\..\..\libs\rmem\src\rmem_hook.h               SDK\src\rmem_hook.h
+copy ..\..\..\..\..\libs\rmem\src\rmem_lib.cpp              SDK\src\rmem_lib.cpp
+copy ..\..\..\..\..\libs\rmem\src\rmem_mutex.h              SDK\src\rmem_mutex.h
+copy ..\..\..\..\..\libs\rmem\src\rmem_platform.h           SDK\src\rmem_platform.h
+copy ..\..\..\..\..\libs\rmem\src\rmem_utils.h              SDK\src\rmem_utils.h
+copy ..\..\..\..\..\libs\rmem\src\rmem_wrap_win.cpp         SDK\src\rmem_wrap_win.cpp
+copy ..\..\..\..\..\libs\rmem\src\rmem_wrap_win.h           SDK\src\rmem_wrap_win.h
+copy ..\..\..\..\..\libs\rmem\src\rmem_allocator.cpp        SDK\src\rmem_allocator.cpp
+copy ..\..\..\..\..\libs\rmem\src\rmem_allocator.h	        SDK\src\rmem_allocator.h
 copy ..\..\..\..\..\libs\rmem\src\rpmalloc\rpmalloc.h       SDK\src\rpmalloc\rpmalloc.h
 copy ..\..\..\..\..\libs\rmem\src\rpmalloc\rpmalloc.c       SDK\src\rpmalloc\rpmalloc.c
 

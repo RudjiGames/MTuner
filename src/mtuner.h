@@ -89,7 +89,6 @@ private:
 
 	Stats*					m_stats;
 	bool					m_showWelcomeDialog;
-	bool					m_loading;
 	bool					m_closeStartPageWidgetOnOpen;
 
 	TagTreeWidget*			m_tagTree;
