@@ -357,7 +357,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="about.ui" line="283"/>
         <source>Italian translation by - Marco Bellan</source>
-        <translation type="unfinished"></translation>
+        <translation>Italienische Übersetzung von Marco Bellan</translation>
     </message>
 </context>
 <context>
@@ -864,7 +864,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="inject.ui" line="14"/>
         <source>Inject and run</source>
-        <translation type="unfinished">Injizieren und ausführen</translation>
+        <translation>Injizieren und ausführen</translation>
     </message>
     <message>
         <location filename="inject.ui" line="25"/>
@@ -879,7 +879,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="inject.ui" line="38"/>
         <source>rpmalloc</source>
-        <translation type="unfinished"></translation>
+        <translation>rpmalloc</translation>
     </message>
     <message>
         <location filename="inject.ui" line="61"/>
@@ -977,7 +977,7 @@ Informationen kann aus dem profil fehlen!</translation>
     <message>
         <location filename="mtuner.cpp" line="919"/>
         <source>Loaded </source>
-        <translation>Geladen</translation>
+        <translation>Geladen </translation>
     </message>
     <message>
         <location filename="mtuner.cpp" line="927"/>
@@ -997,7 +997,7 @@ Informationen kann aus dem profil fehlen!</translation>
     <message>
         <location filename="mtuner.cpp" line="991"/>
         <source>Cannot start a new capture while capture is in progress</source>
-        <translation>Eine neue Aufnahme kann nicht gestartet werden, während die Aufnahme ausgeführt wird.</translation>
+        <translation>Eine neue Aufnahme kann nicht gestartet werden, während die Aufnahme ausgeführt wird</translation>
     </message>
 </context>
 <context>
@@ -1685,17 +1685,17 @@ Umgebungsvariablen MTuner wurde mit gestartet</translation>
     <message>
         <location filename="treemapview.cpp" line="263"/>
         <source>Total size: </source>
-        <translation>Gesamtgröße:</translation>
+        <translation>Gesamtgröße: </translation>
     </message>
     <message>
         <location filename="treemapview.cpp" line="264"/>
         <source>Operations: </source>
-        <translation>Operationen:</translation>
+        <translation>Operationen: </translation>
     </message>
     <message>
         <location filename="treemapview.cpp" line="265"/>
         <source>    Allocs: </source>
-        <translation>Zuweisungen:</translation>
+        <translation>    Zuweisungen: </translation>
     </message>
     <message>
         <location filename="treemapview.cpp" line="266"/>
@@ -1705,7 +1705,7 @@ Umgebungsvariablen MTuner wurde mit gestartet</translation>
     <message>
         <location filename="treemapview.cpp" line="267"/>
         <source>     Frees: </source>
-        <translation type="unfinished"></translation>
+        <translation>     Freigaben: </translation>
     </message>
     <message>
         <location filename="treemapview.cpp" line="268"/>
@@ -1762,32 +1762,32 @@ Möchten sie die toolchain jetzt konfigurieren?</translation>
     <message>
         <location filename="histogram.cpp" line="128"/>
         <source>byte used</source>
-        <translation type="unfinished"></translation>
+        <translation>Byte genutzt</translation>
     </message>
     <message>
         <location filename="histogram.cpp" line="130"/>
         <source>bytes used</source>
-        <translation type="unfinished"></translation>
+        <translation>Bytes genutzt</translation>
     </message>
     <message>
         <location filename="histogram.cpp" line="134"/>
         <source>bytes of overhead</source>
-        <translation type="unfinished"></translation>
+        <translation>Byte Mehraufwand</translation>
     </message>
     <message>
         <location filename="histogram.cpp" line="139"/>
         <source>allocation</source>
-        <translation type="unfinished"></translation>
+        <translation>Alloziierung</translation>
     </message>
     <message>
         <location filename="histogram.cpp" line="141"/>
         <source>allocations</source>
-        <translation type="unfinished"></translation>
+        <translation>Alloziierungen</translation>
     </message>
     <message>
         <location filename="histogram.cpp" line="146"/>
         <source>at peak</source>
-        <translation type="unfinished"></translation>
+        <translation>Spitzenwert</translation>
     </message>
     <message>
         <location filename="mtunermain.cpp" line="462"/>
