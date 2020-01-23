@@ -352,6 +352,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#636363;&quot;&gt;OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; color:#636363;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</oldsource>
+        <translatorcomment>separation of formatting from real text would be an idea, else the whole string is not really comfortably translateable</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -903,7 +904,7 @@ p, li { white-space: pre-wrap; }
         <location filename="mtuner.cpp" line="221"/>
         <location filename="mtuner.cpp" line="453"/>
         <source>Memory timeline</source>
-        <translation>Speicher-timeline</translation>
+        <translation>Speicher-Zeitstrahl</translation>
     </message>
     <message>
         <location filename="mtuner.cpp" line="222"/>
@@ -915,7 +916,7 @@ p, li { white-space: pre-wrap; }
         <location filename="mtuner.cpp" line="223"/>
         <location filename="mtuner.cpp" line="455"/>
         <source>Statistics</source>
-        <translation>Statistik</translation>
+        <translation>Statistiken</translation>
     </message>
     <message>
         <location filename="mtuner.cpp" line="224"/>
@@ -939,7 +940,7 @@ p, li { white-space: pre-wrap; }
         <location filename="mtuner.cpp" line="227"/>
         <location filename="mtuner.cpp" line="459"/>
         <source>Modules</source>
-        <translation></translation>
+        <translation>Module</translation>
     </message>
     <message>
         <location filename="mtuner.cpp" line="254"/>
@@ -960,7 +961,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="mtuner.cpp" line="901"/>
         <source>Loading, please wait...</source>
-        <translation>Geladen, bitte warten...</translation>
+        <translation>Lädt, bitte warten...</translation>
     </message>
     <message>
         <location filename="mtuner.cpp" line="909"/>
@@ -992,7 +993,7 @@ Informationen kann aus dem profil fehlen!</translation>
     <message>
         <location filename="mtuner.cpp" line="928"/>
         <source>File may be corrupted, try to repeat the capture</source>
-        <translation>Datei ist möglicherweise beschädigt, versuchen Sie, die Einnahme zu wiederholen</translation>
+        <translation>Datei ist möglicherweise beschädigt, versuchen Sie, die Aufzeichnung zu wiederholen</translation>
     </message>
     <message>
         <location filename="mtuner.cpp" line="991"/>
@@ -1362,7 +1363,7 @@ Informationen kann aus dem profil fehlen!</translation>
     <message>
         <location filename="projectsmanager.ui" line="20"/>
         <source>Projects manager</source>
-        <translation>Projekte-manager</translation>
+        <translation>Projektmanager</translation>
     </message>
     <message>
         <location filename="projectsmanager.ui" line="27"/>
@@ -1944,7 +1945,7 @@ Möchten sie die toolchain jetzt konfigurieren?</translation>
     <message>
         <location filename="stats.ui" line="84"/>
         <source>Usage peak</source>
-        <translation>Verwendung von spitze</translation>
+        <translation>Verwendung Spitze</translation>
     </message>
     <message>
         <location filename="stats.ui" line="89"/>
@@ -1964,22 +1965,22 @@ Möchten sie die toolchain jetzt konfigurieren?</translation>
     <message>
         <location filename="stats.ui" line="104"/>
         <source>Frees</source>
-        <translation>Befreit</translation>
+        <translation>Freigaben</translation>
     </message>
     <message>
         <location filename="stats.ui" line="109"/>
         <source>Live blocks</source>
-        <translation>Live blöcke</translation>
+        <translation>Lebendige Blöcke</translation>
     </message>
     <message>
         <location filename="stats.ui" line="114"/>
         <source>Overhead</source>
-        <translation>Aufwand</translation>
+        <translation>Mehraufwand</translation>
     </message>
     <message>
         <location filename="stats.ui" line="119"/>
         <source>Overhead peak</source>
-        <translation>Aufwand spitze</translation>
+        <translation>Mehraufwand Spitze</translation>
     </message>
     <message>
         <location filename="stats.ui" line="124"/>
@@ -2087,7 +2088,7 @@ Möchten sie die toolchain jetzt konfigurieren?</translation>
     <message>
         <location filename="symbolstore.cpp" line="127"/>
         <source>select local symbol store directory</source>
-        <translation>Wählen sie lokalen speicher symbolverzeichnis</translation>
+        <translation>Wählen sie das lokale Verzeichnis für den Symbolspeicher</translation>
     </message>
 </context>
 <context>
@@ -2201,7 +2202,7 @@ Möchten sie die toolchain jetzt konfigurieren?</translation>
     <message>
         <location filename="welcome.ui" line="78"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Thank you for choosing MTuner!&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Before starting to profile MSVC based applications it is important to setup PDB symbol servers.&lt;br/&gt;For more information please visit MTuner website, just click the Documentation button below.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Vielen Dank für die Auswahl der MTuner!&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt; Bevor ab Profil MSVC-Anwendungen basierten ist es wichtig, Einrichten PDB symbolserver.&lt;br/&gt; Weitere Informationen finden Sie unter MTuner Website, klicken Sie einfach unten auf dies &lt;br/&gt;schaltfläche dokumentation.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Vielen Dank für die Wahl von MTuner!&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Vor der Profilierung einer MSVC-Anwendungen ist es wichtig den PDB-Symbolserver einzurichten.&lt;br/&gt; Weitere Informationen finden Sie auf der MTuner-Webseite, klicken Sie einfach unten auf&lt;br/&gt;den Knopf Dokumentation.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="welcome.ui" line="205"/>
@@ -2221,7 +2222,7 @@ Möchten sie die toolchain jetzt konfigurieren?</translation>
     <message>
         <location filename="welcome.ui" line="291"/>
         <source>Close</source>
-        <translation>Enger</translation>
+        <translation>Schließen</translation>
     </message>
 </context>
 <context>
