@@ -152,7 +152,7 @@ void BigTable::resetView()
 	uint32_t rowHeight = m_tree->rowHeight(0);
 	uint32_t numRows = m_tree->size().height() / rowHeight;
 
-	uint32_t visibleRows = numRows-1;
+	uint32_t visibleRows = numRows ? numRows-1 : 0;
 
 	if (visibleRows > m_source->getNumberOfRows())
 	{
@@ -195,7 +195,7 @@ void BigTable::resizeEvent(QResizeEvent* _event)
 	uint32_t numRows = m_tree->size().height() / rowHeight;
 	rowHeight = rowHeight;
 
-	uint32_t visibleRows = numRows-1;
+	uint32_t visibleRows = numRows ? numRows-1 : 0;
 	uint32_t numItems = m_source->getNumberOfRows();
 
 	if ((numItems > visibleRows) && (m_scroll->isHidden() || (m_visibleRows != static_cast<int32_t>(visibleRows))))

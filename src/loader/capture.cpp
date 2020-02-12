@@ -942,6 +942,9 @@ void Capture::setFilteringEnabled(bool inState)
 //--------------------------------------------------------------------------
 bool Capture::isInFilter(MemoryOperation* _op)
 {
+	if (!_op->m_isValid)
+		return false;
+
 	if (!m_filteringEnabled)
 		return true;
 

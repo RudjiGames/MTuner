@@ -13,9 +13,9 @@ struct CaptureContext;
 
 struct GroupMapping
 {
-	uint32_t									m_columnIndex;
+	uint32_t								m_columnIndex;
 	rtm_vector<rtm::MemoryOperationGroup*>*	m_allGroups;
-	rtm_vector<uint32_t>						m_sortedIdx;
+	rtm_vector<uint32_t>					m_sortedIdx;
 };
 
 class GroupList : public QWidget
@@ -31,10 +31,10 @@ private:
 	QAction*			m_selectAction;
 	QMenu*				m_contextMenu;
 
-	int						m_savedColumn;
-	Qt::SortOrder			m_savedOrder;
-	QByteArray				m_headerState;
-	QString					m_settingsGroupName;
+	int					m_savedColumn;
+	Qt::SortOrder		m_savedOrder;
+	QByteArray			m_headerState;
+	QString				m_settingsGroupName;
 
 public:
 	GroupList(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);

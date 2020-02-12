@@ -6,7 +6,7 @@
 #include <MTuner_pch.h>
 #include <MTuner/src/hotspots.h>
 
-static const uint32_t s_numRows = 16;
+static const uint32_t s_numRows = 32;
 
 HotspotsWidget::HotspotsWidget(QWidget* _parent, Qt::WindowFlags _flags) : 
 	QWidget(_parent, _flags)

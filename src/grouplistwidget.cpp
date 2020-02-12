@@ -364,8 +364,8 @@ void GroupTableSource::prepareData()
 
 	m_numColumns	= GroupColumn::ColumnCount;
 	m_numRows		= (uint32_t)groups->size();
-	m_currentGroupMapping= NULL;
-	m_sortOrder			= Qt::DescendingOrder;
+	m_currentGroupMapping	= NULL;
+	m_sortOrder				= Qt::DescendingOrder;
 
 	// populate array of groups
 	uint32_t numItems = getNumberOfRows();
