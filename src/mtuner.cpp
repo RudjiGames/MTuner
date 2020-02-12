@@ -902,13 +902,20 @@ void MTuner::openFileFromPath(const QString& _file)
 		// load binary
 		rtm::Capture::LoadResult res = rtm::Capture::LoadFail;
 
-		// process may still be alive and keeping lock on capture file, give it a second
-		for (int i=0; (i<20) && (res == rtm::Capture::LoadFail); ++i)
+		QTime preLoadTime = QTime::currentTime();
+		// process may still be alive and keeping lock on capture file
+		res = ctx->m_capture->loadBin(fn.c_str());
+		if (res == rtm::Capture::LoadFail)
 		{
-			rtm::Thread::sleep(50);
-			res = ctx->m_capture->loadBin(fn.c_str());
+			QTime postLoadTime = QTime::currentTime();
+			// give it a moment
+			if (postLoadTime.msecsSinceStartOfDay() - preLoadTime.msecsSinceStartOfDay() < 500.0f)
+			{
+				rtm::Thread::sleep(1000);
+				res = ctx->m_capture->loadBin(fn.c_str());
+			}
 		}
-
+		
 		if (res != rtm::Capture::LoadFail)
 		{
 			if (res == rtm::Capture::LoadPartial)
