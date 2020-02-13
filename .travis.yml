@@ -11,7 +11,7 @@ addons:
   apt:
     sources:
     - ubuntu-toolchain-r-test
-    - sourceline: 'ppa:beineri/opt-qt-5130-trusty'
+    - sourceline: 'ppa:beineri/opt-qt-513-trusty'
     packages:
     - gcc-5
     - g++-5
@@ -20,7 +20,7 @@ addons:
     - qt512base
 
 before_install:
-    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-add-repository ppa:beineri/opt-qt5130-trusty -y; fi
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-add-repository ppa:beineri/opt-qt513-trusty -y; fi
 
 install:
     - sudo apt-get install -qq qt513base; source /opt/qt513/bin/qt13-env.sh;
