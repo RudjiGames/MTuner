@@ -23,11 +23,13 @@ before_install:
     - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-add-repository ppa:beineri/opt-qt-5.13.2-bionic -y; fi
 
 install:
-    - sudo apt-get install -qq qt513base; source /opt/qt513/bin/qt513-env.sh;
-    - sudo apt-get -qq update
-    - export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/opt/qt513:/lib/pkgconfig
-    - sudo apt-get install luarocks
-    - sudo luarocks install luafilesystem
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install -qq qt513base; source /opt/qt513/bin/qt513-env.sh; fi
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get -qq update; fi
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then export QTDIR_GMAKE_x86=/opt/qt513; fi
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then export QTDIR_GMAKE_x64=/opt/qt513; fi
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/opt/qt513:/lib/pkgconfig; fi
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install luarocks; fi
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo luarocks install luafilesystem; fi
 
 before_script:
     - git clone --depth 1 https://github.com/milostosic/build  ../build
