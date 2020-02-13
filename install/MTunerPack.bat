@@ -20,14 +20,14 @@ copy ..\..\..\..\..\..\3rd\DIA\bin\x64\symchk.exe                               
 copy ..\..\..\..\..\..\3rd\DIA\bin\x64\symsrv.dll                                           symsrv.dll
 copy ..\..\..\..\..\..\3rd\DIA\bin\x64\msdia140.dll                                         msdia140.dll
 
-copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x32\retail\bin\MTunerInject_retail.exe   MTunerInject32.exe
-copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x64\retail\bin\MTunerInject_retail.exe   MTunerInject64.exe
+copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x32\retail\bin\MTunerInject_retail.exe  MTunerInject32.exe
+copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x64\retail\bin\MTunerInject_retail.exe  MTunerInject64.exe
 
-copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x32\retail\bin\MTunerDLL_retail.dll       MTunerDLL32.dll
-copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x64\retail\bin\MTunerDLL_retail.dll       MTunerDLL64.dll
+copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x32\retail\bin\MTunerDLL_retail.dll     MTunerDLL32.dll
+copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x64\retail\bin\MTunerDLL_retail.dll     MTunerDLL64.dll
 
-copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x64\retail\bin\platforms\qwindows.dll platforms\qwindows.dll
-copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x64\retail\bin\platforms\qminimal.dll platforms\qminimal.dll
+copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x64\retail\bin\platforms\qwindows.dll   platforms\qwindows.dll
+copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x64\retail\bin\platforms\qminimal.dll   platforms\qminimal.dll
 
 copy ..\..\src\mtuner_en.qm translation\MTuner_en.qm
 copy ..\..\src\mtuner_rs.qm translation\MTuner_rs.qm					

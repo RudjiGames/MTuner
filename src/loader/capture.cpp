@@ -546,7 +546,6 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					//
 					// handle stack trace compression/hashing
 					//
-					bool readFullStack = false;
 
 					uint32_t stackTraceHash = 0;
 					uint32_t numFrames32 = 0;
@@ -564,7 +563,6 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					if (stackTraceTag == rmem::EntryTags::Add)
 					{
 						VERIFY_READ_SIZE(numFrames16)
-						readFullStack = true;
 					}
 					else
 					{
@@ -587,7 +585,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 					StackTrace* st = NULL;
 
-					if (readFullStack)
+					if (stackTraceTag == rmem::EntryTags::Add)
 					{
 						if (m_64bit)
 						{
@@ -604,9 +602,6 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 							if (m_swapEndian)
 								for (uint32_t i=0; i<numFrames32; i++)
 									backTrace64[i] = Endian::swap(backTrace64[i]);
-
-							if (!stackTraceHash)
-								stackTraceHash = (uint32_t)stackTraceGetHash( backTrace64, numFrames32 );
 						}
 						else
 						{
@@ -626,10 +621,10 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 							for (uint32_t i=0; i<numFrames32; i++)
 								backTrace64[i] = (uint64_t)backTrace32[i];
-
-							if (!stackTraceHash)
-								stackTraceHash = (uint32_t)stackTraceGetHash( backTrace64, numFrames32 );
 						}
+
+						if (!stackTraceHash)
+							stackTraceHash = (uint32_t)stackTraceGetHash(backTrace64, numFrames32);
 
 						bool allocateAndAdd = true;
 
@@ -646,7 +641,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 						if (allocateAndAdd)
 						{
-							st = (StackTrace*)m_stackPool.Alloc((uint32_t)(sizeof(StackTrace) + ((numFrames32*4)-1)*sizeof(uint64_t)));
+							st = (StackTrace*)m_stackPool.Alloc((uint32_t)(sizeof(StackTrace) + (numFrames32*4-1)*sizeof(uint64_t)));
 							st->m_next = (StackTrace**)m_stackPool.Alloc((uint32_t)(sizeof(StackTrace*) * (numFrames32+1)));
 							memset(st->m_next, 0, sizeof(StackTrace*) * (numFrames32+1));
 							memcpy(&st->m_entries[0], backTrace64, numFrames32*sizeof(uint64_t));
@@ -1222,7 +1217,7 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 		// remove mtunerdll from the top of call stack
 		if (skip)
 		{
-			const uint32_t newCount = numFrames - skip;
+			const uint32_t newCount = numFrames > skip ? numFrames - skip : 1;
 			for (uint32_t i=0; i<newCount; ++i)
 				st->m_entries[i]			= st->m_entries[i + skip];
 
@@ -1419,6 +1414,7 @@ bool Capture::setLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 
 	return true;
 }
+
 //--------------------------------------------------------------------------
 /// Adds module to list of infos
 //--------------------------------------------------------------------------
