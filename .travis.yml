@@ -11,21 +11,21 @@ addons:
   apt:
     sources:
     - ubuntu-toolchain-r-test
-    - sourceline: 'ppa:beineri/opt-qt-5.10.1-trusty'
+    - sourceline: 'ppa:beineri/opt-qt-5.13.2-trusty'
     packages:
     - gcc-5
     - g++-5
     - clang
-    - qt510tools
-    - qt510base
+    - qt513tools
+    - qt513base
 
 before_install:
-    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-add-repository ppa:beineri/opt-qt-5.10.1-trusty -y; fi
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-add-repository ppa:beineri/opt-qt-5.13.2-trusty -y; fi
 
 install:
-    - sudo apt-get install -qq qt510base; source /opt/qt510/bin/qt510-env.sh;
+    - sudo apt-get install -qq qt513base; source /opt/qt513/bin/qt513-env.sh;
     - sudo apt-get -qq update
-    - export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/opt/qt512:/lib/pkgconfig
+    - export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/opt/qt513:/lib/pkgconfig
     - sudo apt-get install luarocks
     - sudo luarocks install luafilesystem
 
