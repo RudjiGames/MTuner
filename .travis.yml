@@ -16,8 +16,8 @@ addons:
     - gcc-7
     - g++-7
     - clang
-    - qt512tools
-    - qt512base
+#    - qt512tools
+#    - qt512base
 
 before_install:
     - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-add-repository ppa:beineri/opt-qt5.12.2-xenial -y; fi
