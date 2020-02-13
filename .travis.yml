@@ -13,17 +13,19 @@ addons:
     - ubuntu-toolchain-r-test
     - sourceline: 'ppa:beineri/opt-qt-5.12.2-xenial'
     packages:
-    - gcc-5
-    - g++-5
+    - gcc-7
+    - g++-7
     - clang
-    - qt512tools
-    - qt512base
+#    - qt512tools
+#    - qt512base
 
 before_install:
     - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-add-repository ppa:beineri/opt-qt5.12.2-xenial -y; fi
 
 install:
-    - sudo apt-get install -qq qt512base; source /opt/qt512/bin/qt12-env.sh;
+    - sudo apt-get update -qq
+    - sudo apt-get install qtbase5-dev
+    - sudo apt-get install qt5-default qttools5-dev-tools     
     - export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/opt/qt512:/lib/pkgconfig
     - sudo apt-get install luarocks
     - sudo luarocks install luafilesystem
