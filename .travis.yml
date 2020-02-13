@@ -20,10 +20,10 @@ addons:
     - qt512base
 
 before_install:
-    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-add-repository ppa:beineri/opt-qt5120-trusty -y; fi
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-add-repository ppa:beineri/opt-qt5130-trusty -y; fi
 
 install:
-    - sudo apt-get install -qq qt512base; source /opt/qt512/bin/qt12-env.sh;
+    - sudo apt-get install -qq qt513base; source /opt/qt513/bin/qt13-env.sh;
     - export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/opt/qt512:/lib/pkgconfig
     - sudo apt-get install luarocks
     - sudo luarocks install luafilesystem
