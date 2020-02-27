@@ -19,6 +19,10 @@
 
 #if RTM_PLATFORM_WINDOWS
 #include "shellapi.h"
+#if RTM_COMPILER_MSVC
+#include <DIA/include/diacreate.h>
+#include <DIA/include/dia2.h>
+#endif
 #endif // RTM_PLATFORM_WINDOWS
 
 static const char* g_banner = "Copyright (c) 2019 by Milos Tosic. All rights reserved.\n";
@@ -436,7 +440,15 @@ int main(int argc, const char* argv[])
 	QString regArg = mtuner_dir + "/msdia140.dll";
 	QFileInfo info(regArg);
 
-	if (info.exists())
+	bool skipDiaRegister = false;
+#if RTM_COMPILER_MSVC
+	void* ptr;
+	HRESULT hr = NoRegCoCreate(L"msdia140.dll", __uuidof(DiaSource), __uuidof(IDiaDataSource), &ptr);
+	if(SUCCEEDED(hr))
+		skipDiaRegister = true;
+#endif // RTM_COMPILER_MSVC
+
+	if (info.exists() && !skipDiaRegister)
 	{
 		regArg.replace("/","\\");
 		regArg = "/s \"" + regArg + "\"";
