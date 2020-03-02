@@ -1,6 +1,6 @@
 #
 # Copyright (c) 2017 Milos Toisc. All rights reserved.
-# License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
+# License: http://www.opensource.org/licenses/BSD-2-Clause
 #
 
 GENIE=../build/tools/bin/$(OS)/genie
