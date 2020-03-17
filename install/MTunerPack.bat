@@ -40,7 +40,6 @@ mkdir src
 mkdir genie
 mkdir samples
 mkdir 3rd
-mkdir src\rpmalloc
 cd ..
 
 copy ..\..\..\..\..\libs\rmem\inc\rmem.h            SDK\inc\rmem.h
@@ -51,7 +50,7 @@ copy ..\..\..\..\..\libs\rmem\inc\rmem_entry.h      SDK\inc\rmem_entry.h
 
 copy ..\..\..\..\..\libs\rmem\src\rmem_config.h             SDK\src\rmem_config.h
 copy ..\..\..\..\..\libs\rmem\src\rmem_enums.h              SDK\src\rmem_enums.h 
-copy ..\..\..\..\..\libs\rmem\src\rmem_get_symbol_info.cpp  SDK\src\rmem_get_symbol_info.cpp
+copy ..\..\..\..\..\libs\rmem\src\rmem_get_module_info.cpp  SDK\src\rmem_get_module_info.cpp
 copy ..\..\..\..\..\libs\rmem\src\rmem_hook.cpp             SDK\src\rmem_hook.cpp
 copy ..\..\..\..\..\libs\rmem\src\rmem_hook.h               SDK\src\rmem_hook.h
 copy ..\..\..\..\..\libs\rmem\src\rmem_lib.cpp              SDK\src\rmem_lib.cpp
