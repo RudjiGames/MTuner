@@ -367,24 +367,33 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 	rtm_unordered_map<uint64_t, rtm_vector<uint32_t>>  perThreadTagStack;
 
-	uint64_t nextProgressPoint = 0;
-	uint64_t minMarkerTime = (uint64_t)-1;
+	uint64_t minMarkerTime		= (uint64_t)-1;
+	int64_t  filePos			= 0;
+	uint64_t fileEntries		= 0;
+	uint64_t fileProgress		= 1;
 
 	for (;loadSuccess;)
 	{
 		if (loader.eof())
 			break;
 
+		++fileEntries;
+		uint64_t newFileProgress = fileEntries >> 16;
+
 		uint8_t	marker;
 		if (loader.readVar(marker) == 0)
 			break;
 
-		uint64_t pos = loader.tell();
-		if ((pos > nextProgressPoint) && m_loadProgressCallback)
+		if (newFileProgress != fileProgress)
 		{
-			nextProgressPoint += fileSizeOver100;
-			float percent = float(pos) / fileSizeOver100;
-			m_loadProgressCallback(m_loadProgressCustomData, percent, "Loading capture file...");
+			fileProgress = newFileProgress;
+
+			filePos = (int64_t)loader.fileTell();
+			if (m_loadProgressCallback)
+			{
+				float percent = float(filePos) / fileSizeOver100;
+				m_loadProgressCallback(m_loadProgressCustomData, percent, "Loading capture file...");
+			}
 		}
 
 		switch (marker)
