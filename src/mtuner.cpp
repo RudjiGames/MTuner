@@ -33,7 +33,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Shlobj.h>
 #include <versionhelpers.h>
-#endif
+#endif // RTM_PLATFORM_WINDOWS
 
 namespace rqt {
 	rtm_string appPreProcessStyleSheet(const rtm_string& _in);
@@ -55,7 +55,7 @@ void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSet
 	rdebug::Toolchain tc;
 	rtm_string executable;
 
-	// if not a windows toolchain - locate the executable
+	// if not a MSVC toolchain - locate the executable
 	if (_context->m_capture->getToolchain() != rmem::ToolChain::Win_MSVC)
 	{
 		const char* extensions = "All files (*.*)";
@@ -134,7 +134,7 @@ void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSet
 		executable = _context->m_capture->getModuleInfos()[0].m_modulePath;
 	}
 
-	_context->setToolchain(tc, executable);
+	_context->setupResolver(tc, executable);
 }
 
 MTuner::MTuner(QWidget* _parent, Qt::WindowFlags _flags) :

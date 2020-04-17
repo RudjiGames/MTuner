@@ -1168,7 +1168,7 @@ bool Capture::loadModuleInfo(BinLoader& _loader, uint64_t _fileSize)
 
 			float percent = float(pos)*100.0f / float(_fileSize);
 			char message[2048];
-			rtm::strlCpy(message, RTM_NUM_ELEMENTS(message), "Loading symbols ");
+			rtm::strlCpy(message, RTM_NUM_ELEMENTS(message), "Loading module information ");
 			rtm::strlCat(message, RTM_NUM_ELEMENTS(message), executablePath.constData());
 			m_loadProgressCallback(m_loadProgressCustomData, percent, message);
 		}

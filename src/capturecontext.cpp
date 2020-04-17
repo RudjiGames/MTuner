@@ -25,33 +25,30 @@ CaptureContext::~CaptureContext()
 	}
 }
 
-void CaptureContext::setToolchain(rdebug::Toolchain& _tc, rtm_string& _executable)
+void CaptureContext::setupResolver(rdebug::Toolchain& _tc, rtm_string& _executable)
 {
 	switch (_tc.m_type)
 	{
 		case rdebug::Toolchain::MSVC:
 			{
-				m_symbolStorePath = _tc.m_toolchainPath;
-				size_t len = m_symbolStorePath.length();
+				rtm_string symbolStorePath = _tc.m_toolchainPath;
+				size_t len = symbolStorePath.length();
 				if (len)
 				while (--len)
 				{
-					if (m_symbolStorePath.c_str()[len] == L'\\') break;
-					if (m_symbolStorePath.c_str()[len] == L'/') break;
+					if (symbolStorePath.c_str()[len] == L'\\') break;
+					if (symbolStorePath.c_str()[len] == L'/') break;
 				}
 
 				if (len)
 				{
-					const char* fname = &m_symbolStorePath.c_str()[len+1];
-					m_symbolStoreFName = fname;
 					char buffer[512];
-					strcpy(buffer, m_symbolStorePath.c_str());
+					strcpy(buffer, symbolStorePath.c_str());
 					buffer[len+1] = L'\0';
 					m_symbolStoreDName = buffer;
 				}
 				else
 				{
-					m_symbolStoreFName = "Unknown";
 					m_symbolStoreDName = "";
 				}
 			}
@@ -63,7 +60,7 @@ void CaptureContext::setToolchain(rdebug::Toolchain& _tc, rtm_string& _executabl
 			break;
 	};
 
-	m_symbolResolver = rdebug::symbolResolverCreate(m_capture->getModuleInfos().data(), (uint32_t)m_capture->getModuleInfos().size(), &_tc, _executable.c_str());
+	m_symbolResolver = rdebug::symbolResolverCreate(m_capture->getModuleInfos().data(), (uint32_t)m_capture->getModuleInfos().size(), _executable.c_str());
 }
 
 void CaptureContext::resolveStackFrame(uint64_t _address, rdebug::StackFrame& _frame)

@@ -155,7 +155,7 @@ class Capture
 		void								setCurrentModule(rdebug::ModuleInfo* _module) { m_currentModule = _module; }
 
 	private:
-		bool		loadModuleInfo(BinLoader& _loader, uint64_t inFileSize );
+		bool		loadModuleInfo(BinLoader& _loader, uint64_t inFileSize);
 		bool		setLinksAndRemoveInvalid(uint64_t inMinMarkerTime);
 		void		addModule(const char* inName, uint64_t inModBase, uint64_t inModSize);
 		void		calculateGlobalStats();
