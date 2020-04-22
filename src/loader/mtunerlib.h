@@ -52,7 +52,7 @@ struct MemoryOperation
 	uint32_t			m_indexMapping;
 	uint32_t			m_allocSize;
 	uint32_t			m_overhead;
-	uint32_t			m_tag;
+	uint16_t			m_tag;
 	uint8_t				m_operationType : 7;
 	uint8_t				m_isValid		: 1;
 	uint8_t				m_alignment;
