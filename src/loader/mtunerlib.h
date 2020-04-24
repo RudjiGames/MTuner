@@ -144,7 +144,7 @@ struct MemoryStats
 	uint32_t		m_numberOfLiveBlocksPeak;
 	HistogramBin	m_histogram[NUM_HISTOGRAM_BINS];
 
-	void Reset()
+	void reset()
 	{
 		memset(this,0,sizeof(MemoryStats));
 	}

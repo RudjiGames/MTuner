@@ -212,12 +212,12 @@ void Capture::clearData()
 	m_64bit				= false;
 
 	m_loadedFile.clear();
-	m_operationPool.Reset();
-	m_stackPool.Reset();
+	m_operationPool.reset();
+	m_stackPool.reset();
 	m_operations.clear();
 	m_operationsInvalid.clear();
-	m_statsGlobal.Reset();
-	m_statsSnapshot.Reset();
+	m_statsGlobal.reset();
+	m_statsSnapshot.reset();
 
 	// symbols
 
@@ -406,7 +406,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 			case rmem::LogMarkers::OpReallocAligned:
 				{
 					// read memory op
-					MemoryOperation* op = m_operationPool.Alloc();
+					MemoryOperation* op = m_operationPool.alloc();
 
 					if (loader.readVar(op->m_allocatorHandle) != 1)
 					{
@@ -650,8 +650,8 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 						if (allocateAndAdd)
 						{
-							st = (StackTrace*)m_stackPool.Alloc((uint32_t)(sizeof(StackTrace) + (numFrames32*4-1)*sizeof(uint64_t)));
-							st->m_next = (StackTrace**)m_stackPool.Alloc((uint32_t)(sizeof(StackTrace*) * (numFrames32+1)));
+							st = (StackTrace*)m_stackPool.alloc((uint32_t)(sizeof(StackTrace) + (numFrames32*4-1)*sizeof(uint64_t)));
+							st->m_next = (StackTrace**)m_stackPool.alloc((uint32_t)(sizeof(StackTrace*) * (numFrames32+1)));
 							memset(st->m_next, 0, sizeof(StackTrace*) * (numFrames32+1));
 							memcpy(&st->m_entries[0], backTrace64, numFrames32*sizeof(uint64_t));
 							st->m_numEntries = (uint64_t)numFrames32;
@@ -1424,6 +1424,17 @@ bool Capture::setLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 	return true;
 }
 
+rdebug::Toolchain::Type convertToolchain(rmem::ToolChain::Enum _tc)
+{
+	switch (_tc)
+	{
+	case rmem::ToolChain::Win_MSVC:		return rdebug::Toolchain::MSVC;
+	case rmem::ToolChain::PS3_snc:		return rdebug::Toolchain::PS3SNC;
+	case rmem::ToolChain::PS4_clang:	return rdebug::Toolchain::PS4;
+	default:							return rdebug::Toolchain::GCC;
+	};
+}
+
 //--------------------------------------------------------------------------
 /// Adds module to list of infos
 //--------------------------------------------------------------------------
@@ -1472,8 +1483,9 @@ void Capture::addModule(const char* _path, uint64_t inModBase, uint64_t inModSiz
 	}
 
 	rdebug::ModuleInfo info;
-	info.m_baseAddress	= inModBase;
-	info.m_size			= inModSize;
+	info.m_baseAddress		= inModBase;
+	info.m_size				= inModSize;
+	info.m_toolchain.m_type	= convertToolchain(m_toolchain);
 	rtm::strlCpy(info.m_modulePath, RTM_NUM_ELEMENTS(info.m_modulePath), &m_modulePathBuffer[m_modulePathBufferPtr]);
 	m_modulePathBufferPtr += (uint32_t)strlen(_path)+1;
 

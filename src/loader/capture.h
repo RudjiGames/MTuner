@@ -56,7 +56,7 @@ class Capture
 		bool							m_swapEndian;
 		bool							m_64bit;
 		rmem::ToolChain::Enum			m_toolchain;
-		ChunkAllocator<MemoryOperation>	m_operationPool;
+		ChunkAllocator<MemoryOperation> m_operationPool;
 		StackAllocator					m_stackPool;
 		rtm_vector<MemoryOperation*>	m_operations;
 		rtm_vector<MemoryOperation*>	m_operationsInvalid;
