@@ -301,7 +301,9 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 #endif
 
 	uint32_t compressSignature;
-	fread(&compressSignature, 1, sizeof(uint32_t), f);
+	if (!fread(&compressSignature, 1, sizeof(uint32_t), f))
+		return Capture::LoadFail;
+
 #if RTM_PLATFORM_WINDOWS
 	_fseeki64(f, 0, SEEK_SET);
 #elif RTM_PLATFORM_LINUX

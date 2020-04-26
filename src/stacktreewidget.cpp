@@ -660,17 +660,11 @@ int TreeModel::rowCount(const QModelIndex& _parent) const
 void TreeModel::updateData()
 {
 	const rtm::StackTraceTree*	tree = 0;
-	const rtm::MemoryStats*		stats = 0;
+
 	if (m_context->m_capture->getFilteringEnabled())
-	{
-		tree	= &m_context->m_capture->getStackTraceTreeFiltered();
-		stats	= &m_context->m_capture->getSnapshotStats();
-	}
+		tree = &m_context->m_capture->getStackTraceTreeFiltered();
 	else
-	{
-		tree	= &m_context->m_capture->getStackTraceTree();
-		stats	= &m_context->m_capture->getGlobalStats();
-	}
+		tree = &m_context->m_capture->getStackTraceTree();
 
 	m_rootItem = new TreeItem(m_context, 0, 0, tree, 0);
 

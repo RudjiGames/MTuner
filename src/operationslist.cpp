@@ -185,8 +185,8 @@ struct pSetOpMappings
 
 OperationTableSource::OperationTableSource(CaptureContext* _context, bool _valid, OperationsList* _list)
 	: m_context(_context)
-	, m_valid(_valid)
 	, m_list(_list)
+	, m_valid(_valid)
 {
 	m_numColumns	= OperationColumn::Count;
 	m_context		= _context;

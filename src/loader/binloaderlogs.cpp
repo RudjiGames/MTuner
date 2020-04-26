@@ -8,6 +8,8 @@
 #include <MTuner/src/loader/util.h>
 #include <rdebug/inc/rdebug.h>
 
+#include <inttypes.h>
+
 namespace rtm {
 
 static const char* g_LogBanner = "MTuner v1.0 analysis log file\nCopyright (c) 2019 by Milos Tosic\n\n";
@@ -329,7 +331,7 @@ bool Capture::saveGroupsLogXML(const char* _path, eGroupSort _sorting, uintptr_t
 		fprintf(f, "        <SizeMin>%d</SizeMin>\n", group->m_minSize);
 		fprintf(f, "        <SizeMax>%d</SizeMax>\n", group->m_maxSize);
 		fprintf(f, "        <Operations>%d</Operations>\n", group->m_count);
-		fprintf(f, "        <Leaked>%I64d</Leaked>\n", group->m_liveSize);
+		fprintf(f, "        <Leaked>%" PRIx64 "</Leaked>\n", group->m_liveSize);
 
 		StackTrace* trace = opEx->m_stackTrace;
 

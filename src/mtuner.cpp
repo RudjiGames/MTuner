@@ -658,7 +658,7 @@ bool isProcessRunning(uint64_t _pid)
 	return ret == WAIT_TIMEOUT;
 }
 #else
-bool isProcessRunning(uint64_t pid)
+bool isProcessRunning(uint64_t)
 {
 	return false;
 }
@@ -711,10 +711,6 @@ void MTuner::readSettings()
 	uint8_t major  = 0;
 	uint8_t minor  = 0;
 	uint8_t detail = 0;
-
-	const uint8_t verMajor = MTunerVersion[0] - '0';
-	const uint8_t verMinor = MTunerVersion[2] - '0';
-	const uint8_t verDetail = MTunerVersion[4] - '0';
 
 	settings.beginGroup("Version");
 	if (settings.contains("major"))		major  = (uint8_t)settings.value("major").toInt();

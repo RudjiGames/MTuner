@@ -590,7 +590,7 @@ QString GroupTableSource::getItem(uint32_t _index, int32_t _column, QColor*, boo
 
 void GroupTableSource::getItem(uint32_t _index, void** _pointer)
 {
-	if (_index == -1)
+	if (_index == 0xffffffff)
 		return;
 
 	uint32_t index = _index;
