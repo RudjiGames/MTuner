@@ -183,6 +183,14 @@ void ProjectsManager::run(const QString& _executable, const QString& _cmd, const
 	process->setWorkingDirectory(_workingDir);
 	process->setArguments(QStringList() << arguments);
 
+#if RTM_PLATFORM_WINDOWS
+	process->setCreateProcessArgumentsModifier(
+		[](QProcess::CreateProcessArguments *args) {
+		args->flags |= CREATE_NEW_CONSOLE;
+		args->startupInfo->dwFlags &= ~STARTF_USESTDHANDLES;
+	});
+#endif // RTM_PLATFORM_WINDOWS
+
 	QStringList env;
 	if (_inheritEnv)
 		env = QProcess::systemEnvironment();
