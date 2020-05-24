@@ -1122,8 +1122,11 @@ bool Capture::loadModuleInfo(BinLoader& _loader, uint64_t _fileSize)
 
 	uint8_t charSize;
 	_loader.readVar(charSize);
-	--symSize;
 
+	if (!symSize)
+		return true;
+
+	--symSize;
 	while (symSize > 0)
 	{
 		char16_t	exePath[1024];
