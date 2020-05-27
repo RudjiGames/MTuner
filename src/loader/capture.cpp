@@ -1120,11 +1120,11 @@ bool Capture::loadModuleInfo(BinLoader& _loader, uint64_t _fileSize)
 
 	int64_t symSize = (int64_t)symbolInfoSize;
 
-	uint8_t charSize;
-	_loader.readVar(charSize);
-
 	if (!symSize)
 		return true;
+
+	uint8_t charSize;
+	_loader.readVar(charSize);
 
 	--symSize;
 	while (symSize > 0)
