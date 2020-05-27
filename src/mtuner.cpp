@@ -131,7 +131,9 @@ void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSet
 	{
 		tc.m_type = rdebug::Toolchain::MSVC;
 		strcpy(tc.m_toolchainPath, _symSource.toUtf8());
-		executable = _context->m_capture->getModuleInfos()[0].m_modulePath;
+		rtm_vector<rdebug::ModuleInfo>& modInfos = _context->m_capture->getModuleInfos();
+		if (modInfos.size())
+			executable = _context->m_capture->getModuleInfos()[0].m_modulePath;
 	}
 
 	_context->setupResolver(tc, executable);
