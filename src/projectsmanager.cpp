@@ -146,7 +146,7 @@ extern void getStoragePath(wchar_t _path[512]);
 
 void ProjectsManager::run(const QString& _executable, const QString& _cmd, const QString& _workingDir, const QStringList& _environment, bool _inheritEnv, int _allocator, bool _shouldCapture, bool _shouldLoad)
 {
-	QString currpath = QDir::currentPath();
+	QString currpath = QCoreApplication::applicationDirPath();
 
 	QString watchDir;
 	if (_workingDir.length() == 0)
