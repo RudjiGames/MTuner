@@ -265,12 +265,13 @@ void TreeMapView::mouseMoveEvent(QMouseEvent* _event)
 										QObject::tr("    Allocs: ") + locale.toString(qulonglong(tt->m_allocs)) + QString("\n") +
 										QObject::tr("  Reallocs: ") + locale.toString(qulonglong(tt->m_reallocs)) + QString("\n") +
 										QObject::tr("     Frees: ") + locale.toString(qulonglong(tt->m_frees)) + QString("\n----------------\n") +
-										QObject::tr("Click to see call stack") + tt->m_text, this, QRect(globalPos,globalPos));
+										QObject::tr("Click to see call stack") + tt->m_text, this);
 		QGraphicsView::mouseMoveEvent(_event);
 		return;
 	}
 
-	QToolTip::hideText();
+	//QToolTip::hideText();
+
 	QGraphicsView::mouseMoveEvent(_event);
 }
 

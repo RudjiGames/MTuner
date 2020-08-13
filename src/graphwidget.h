@@ -53,6 +53,7 @@ private:
 	QAction*				m_actionSelectFromMarker;
 	QAction*				m_actionSelectToMarker;
 	QLocale					m_locale;
+	QTimer*					m_timer;
 
 public:
 	static const int	s_marginLeft	= 45;
@@ -113,6 +114,7 @@ public Q_SLOTS:
 	void markerSelectFrom();
 	void markerSelectTo();
 	void showToolTip();
+	void leaveContextMenu();
 	void selectFromTimes(uint64_t, uint64_t);
 
 Q_SIGNALS:

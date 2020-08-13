@@ -34,10 +34,10 @@ bool QToolTipper::eventFilter(QObject* _object, QEvent* _event)
 
 		// only elided text
 		if ((itemTextWidth > rectWidth) && !itemTooltip.isEmpty())
-			QToolTip::showText(helpEvent->globalPos(), itemTooltip, view, rect);
+			QToolTip::showText(helpEvent->globalPos(), itemTooltip, view);
 		else
 			{
-				QToolTip::hideText();
+				//QToolTip::hideText();
 				_event->ignore();
 			}
 

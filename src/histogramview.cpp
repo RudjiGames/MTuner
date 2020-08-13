@@ -96,17 +96,17 @@ void HistogramView::mouseMoveEvent(QMouseEvent* _event)
 	{
 		QPointF scenePos = mapToScene(_event->pos());
 		QPoint p(scenePos.x(), scenePos.y());
-		
+
 		const QVector<HistogramToolTip>& toolTips = m_histogram->getTooltips();
 		int len = toolTips.size();
-		
+
 		for (int i=0; i<len; ++i)
 		{
 			const HistogramToolTip& tt = toolTips[i];
 			if (tt.m_rect.contains(p))
 			{
 				QPoint globalPos = mapToGlobal(_event->pos());
-				QToolTip::showText(globalPos, tt.m_text, this, QRect(globalPos,globalPos));
+				QToolTip::showText(globalPos, tt.m_text, this);
 				QGraphicsView::mouseMoveEvent(_event);
 				m_histogram->setHighlight(p, tt.m_bin);
 				return;
@@ -114,12 +114,13 @@ void HistogramView::mouseMoveEvent(QMouseEvent* _event)
 		}
 
 		QRect _rect = getDrawRect();
-		int left = _rect.x()-1;
-		int top = _rect.y()-1;
-		m_histogram->setHighlight(QPoint(left,top),-1); // outside
+		int left = _rect.x() - 1;
+		int top = _rect.y() - 1;
+		m_histogram->setHighlight(QPoint(left, top), -1); // outside
 	}
-	
+
 	QToolTip::hideText();
+
 	QGraphicsView::mouseMoveEvent(_event);
 }
 
