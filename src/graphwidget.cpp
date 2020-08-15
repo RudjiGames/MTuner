@@ -105,12 +105,17 @@ void GraphWidget::setMinMaxTime(uint64_t _minTime, uint64_t _maxTime)
 	invalidateScene();
 }
 
+bool GraphWidget::event(QEvent* _event)
+{
+	if (_event->type() == QEvent::ToolTip)
+		return false;
+	return QGraphicsView::event(_event);
+}
+
 void GraphWidget::setContext(CaptureContext* _context, BinLoaderView* _view)
 {
 	m_context = _context;
-	if (_context == NULL)
-		setToolTip(tr(""));
-	else
+	if (!_context == NULL)
 	{
 		//setToolTip(tr("Click inside the graph area and drag\nleft mouse button to select a time slice"));
 		m_minTime = _view->getMinTime();
@@ -265,6 +270,12 @@ void GraphWidget::animateRange(uint64_t _min, uint64_t _max)
 	animation->setStartValue(qulonglong(m_maxTime));
 	animation->setEndValue(qulonglong(_max));
 	animation->start();
+}
+
+void GraphWidget::myShowTooltip()
+{
+	if (m_toolTip != "")
+		QToolTip::showText(m_toolTipPos, m_toolTip, this, QRect(), 30000);
 }
 
 void GraphWidget::zoomIn()
@@ -476,7 +487,7 @@ void GraphWidget::mouseMovement(const QPoint& _position, Qt::MouseButtons _butto
 	QPoint gpt = mapToGlobal(_position);
 	QPointF spt = mapToScene(_position);
 
-	bool dontHideToolTip = false;
+	bool toolTipSet = false;
 	const QVector<MarkerToolTip>&	toolTips = m_markers->getTooltips();
 	for (int i=0; i<toolTips.size(); ++i)
 	{
@@ -485,9 +496,13 @@ void GraphWidget::mouseMovement(const QPoint& _position, Qt::MouseButtons _butto
 			QString text(toolTips[i].m_text);
 			text += "\n" + tr("Time") + ": " + getTimeString(m_context->m_capture->getFloatTime(toolTips[i].m_time));
 			text += "\n" + tr("Thread") + ": 0x" + QString::number(toolTips[i].m_threadID, 16);
-			QToolTip::showText(gpt, text, this);
 
-			dontHideToolTip = true;
+			m_toolTip = text;
+			m_toolTipPos = gpt;
+
+			QTimer::singleShot(60, this, &GraphWidget::myShowTooltip);
+			toolTipSet = true;
+
 			m_hoverMarkerTime = toolTips[i].m_time;
 			break;
 		}
@@ -509,12 +524,10 @@ void GraphWidget::mouseMovement(const QPoint& _position, Qt::MouseButtons _butto
 		QString ttip =	tr("Start time") + ": " + getTimeString(startTimeF) + "\n" + tr("End time") + ": " + getTimeString(endTimeF) + "\n" +
 						tr("Duration") + ": " + getTimeString(endTimeF - startTimeF) + "\n" + tr("Usage at end") + ": " + m_locale.toString(qulonglong(entry.m_usage)) + "\n" +
 						tr("Live blocks") + ": " + m_locale.toString(qulonglong(entry.m_numLiveBlocks));
-		QToolTip::showText(gpt, ttip, this);
-	}
-	else
-	{
-		if (dontHideToolTip == false)
-			QToolTip::hideText();
+		m_toolTip = ttip;
+		m_toolTipPos = gpt;
+		toolTipSet = true;
+		QTimer::singleShot(60, this, &GraphWidget::myShowTooltip);
 	}
 
 	if ((_buttons & Qt::LeftButton) && m_LButtonDown && !m_isDragging)
@@ -583,6 +596,9 @@ void GraphWidget::mouseMovement(const QPoint& _position, Qt::MouseButtons _butto
 
 uint64_t GraphWidget::currentPos()
 {
+	if (!m_context)
+		return 0;
+
 	QRect drawRect = getDrawRect();
 	QPoint gpt = QCursor::pos();
 
@@ -597,13 +613,18 @@ uint64_t GraphWidget::currentPos()
 		m_context->m_capture->getGraphAtTime(pL, entry);
 		QString timeStr = getTimeString(timeF);
 
-		QString ttip =	tr("Time") + ": " + timeStr + "\n" +
-						tr("Usage") + ": " + m_locale.toString(qulonglong(entry.m_usage)) + "\n" +
-						tr("Live blocks") + ": " + m_locale.toString(qulonglong(entry.m_numLiveBlocks));
-		QToolTip::showText(gpt, ttip, this);
+		QString ttip =	"<p size=\"-1\">" + tr("<font color=\"#ffffffff\">Time</font>") + ": " + timeStr + "\n" +
+						"<font color=\"#ff83cf67\">" + tr("Usage</font>") + ": " + m_locale.toString(qulonglong(entry.m_usage)) + "\n" +
+						tr("<font color=\"#ff42a6ba\">Live blocks</font>") + ": " + m_locale.toString(qulonglong(entry.m_numLiveBlocks)) + "</p>";
 
+		m_toolTip = ttip;
+		m_toolTipPos = gpt;
+		QTimer::singleShot(60, this, &GraphWidget::myShowTooltip);
 		return pL;
 	}
+
+	m_toolTip = "";
+	m_toolTipPos = QPoint(0,0);
 
 	return 0;
 }
@@ -724,7 +745,7 @@ void GraphWidget::createCustomContextMenu()
 
 void GraphWidget::showToolTip()
 {
-	currentPos();
+	myShowTooltip();
 	m_timer->start();
 }
 

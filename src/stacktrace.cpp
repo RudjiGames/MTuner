@@ -37,7 +37,7 @@ bool QToolTipper::eventFilter(QObject* _object, QEvent* _event)
 			QToolTip::showText(helpEvent->globalPos(), itemTooltip, view);
 		else
 			{
-				//QToolTip::hideText();
+				QToolTip::hideText();
 				_event->ignore();
 			}
 
