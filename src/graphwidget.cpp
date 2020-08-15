@@ -479,6 +479,11 @@ void GraphWidget::mouseMoveEvent(QMouseEvent* _event)
 
 extern QString getTimeString(float _time, uint64_t* _mSec = 0);
 
+inline QString QStringColor(const QString& _string, const char* _color)
+{
+	return "<font color=\"#" + QString(_color) + "\">" + _string + ":</font> ";
+}
+
 void GraphWidget::mouseMovement(const QPoint& _position, Qt::MouseButtons _buttons)
 {
 	if (!m_context)
@@ -521,9 +526,11 @@ void GraphWidget::mouseMovement(const QPoint& _position, Qt::MouseButtons _butto
 		float startTimeF = m_context->m_capture->getFloatTime(startTime);
 		float endTimeF = m_context->m_capture->getFloatTime(endTime);
 
-		QString ttip =	tr("Start time") + ": " + getTimeString(startTimeF) + "\n" + tr("End time") + ": " + getTimeString(endTimeF) + "\n" +
-						tr("Duration") + ": " + getTimeString(endTimeF - startTimeF) + "\n" + tr("Usage at end") + ": " + m_locale.toString(qulonglong(entry.m_usage)) + "\n" +
-						tr("Live blocks") + ": " + m_locale.toString(qulonglong(entry.m_numLiveBlocks));
+		QString ttip =	"<p><nobr>" + QStringColor(tr("Start time") + ":", "ffffffff") + getTimeString(startTimeF) + "</nobr>\n" +
+						   "<nobr>" + QStringColor(tr("End time") + ":", "ffffffff") + getTimeString(endTimeF) + "</nobr>\n" +
+						   "<nobr>" + QStringColor(tr("Duration") + ":", "ffffffff") + getTimeString(endTimeF - startTimeF) + "</nobr>\n" +
+						   "<nobr>" + QStringColor(tr("Usage at end"), "ff83cf67") + m_locale.toString(qulonglong(entry.m_usage)) + "</nobr>\n" +
+						   "<nobr>" + QStringColor(tr("Live blocks"),  "ff42a6ba") + m_locale.toString(qulonglong(entry.m_numLiveBlocks)) + "</nobr></p>";
 		m_toolTip = ttip;
 		m_toolTipPos = gpt;
 		toolTipSet = true;
@@ -613,9 +620,9 @@ uint64_t GraphWidget::currentPos()
 		m_context->m_capture->getGraphAtTime(pL, entry);
 		QString timeStr = getTimeString(timeF);
 
-		QString ttip =	"<p size=\"-1\">" + tr("<font color=\"#ffffffff\">Time</font>") + ": " + timeStr + "\n" +
-						"<font color=\"#ff83cf67\">" + tr("Usage</font>") + ": " + m_locale.toString(qulonglong(entry.m_usage)) + "\n" +
-						tr("<font color=\"#ff42a6ba\">Live blocks</font>") + ": " + m_locale.toString(qulonglong(entry.m_numLiveBlocks)) + "</p>";
+		QString ttip =	"<p><nobr>" + QStringColor(tr("Time") + ":", "ffffffff") + timeStr + "</nobr>\n" +
+						   "<nobr>" + QStringColor(tr("Usage") + ":", "ff83cf67") + m_locale.toString(qulonglong(entry.m_usage)) + "</nobr>\n" +
+						   "<nobr>" + QStringColor(tr("Live blocks") + ":", "ff42a6ba") + m_locale.toString(qulonglong(entry.m_numLiveBlocks)) + "</nobr>\n";
 
 		m_toolTip = ttip;
 		m_toolTipPos = gpt;
