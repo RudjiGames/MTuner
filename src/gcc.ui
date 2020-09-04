@@ -105,6 +105,15 @@
            </item>
            <item>
             <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="mtuner.qrc">
+              <normaloff>:/MTuner/resources/images/toolchain_switch.png</normaloff>:/MTuner/resources/images/toolchain_switch.png</iconset>
+            </property>
+           </item>
+           <item>
+            <property name="text">
              <string>Custom toolchain 1</string>
             </property>
            </item>

@@ -93,7 +93,9 @@ void GCCSetup::readSettings(QSettings& _settings)
 				m_toolchains[j].m_ToolchainPrefix32	= _settings.value("tcPrefix32").toString();
 				m_toolchains[j].m_Environment64		= _settings.value("tcEnv64").toString();
 				m_toolchains[j].m_ToolchainPath64	= _settings.value("tcPath64").toString();
+				qDebug() << m_toolchains[j].m_ToolchainPrefix64;
 				m_toolchains[j].m_ToolchainPrefix64	= _settings.value("tcPrefix64").toString();
+				qDebug() << m_toolchains[j].m_ToolchainPrefix64;
 				break;
 			}
 		}
@@ -207,6 +209,7 @@ bool GCCSetup::resolveToolchain(Toolchain& _toolchain, bool _64bit, rdebug::Tool
 
 	fullPath = fullPath.replace("//","/");
 	fullPath = fullPath.replace("\\","/");
+
 	if ((QFileInfo(fullPath + append1).exists()) &&
 		(QFileInfo(fullPath + append2).exists()) &&
 		(QFileInfo(fullPath + append3).exists()))
@@ -321,12 +324,23 @@ void GCCSetup::setupDefaultTC(QVector<Toolchain>& _toolchains)
 	androidX86.m_ToolchainPrefix64	= "aarch64-linux-android-";
 	androidX86.m_toolchain			= rmem::ToolChain::Android_x86;
 
+	Toolchain nintSwitch;
+	nintSwitch.m_name				= "Nintendo Switch";
+	nintSwitch.m_Environment32		= "";
+	nintSwitch.m_ToolchainPath32	= "";
+	nintSwitch.m_ToolchainPrefix32	= "";
+	nintSwitch.m_Environment64		= "NINTENDO_SDK_ROOT";
+	nintSwitch.m_ToolchainPath64	= "/Compilers/NX/nx/aarch64/bin/";
+	nintSwitch.m_ToolchainPrefix64	= "aarch64-nintendo-nx-elf-";
+	nintSwitch.m_toolchain			= rmem::ToolChain::Nintendo_Switch;
+
 	_toolchains.append(minGW);
 	_toolchains.append(ps3gcc);
 	_toolchains.append(ps4clang);
 	_toolchains.append(androidARM);
 	_toolchains.append(androidMIPS);
 	_toolchains.append(androidX86);
+	_toolchains.append(nintSwitch);
 
 	for (int i=0; i<9; ++i)
 	{
