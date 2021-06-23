@@ -108,7 +108,7 @@ void Highlighter::highlightBlock(const QString& _text)
         }
 	}
 
-	QRegularExpression comment("/\\*(.*?)\\*\\", QRegularExpression::DotMatchesEverythingOption);
+	QRegularExpression comment("/\\*(.*?)\\*/", QRegularExpression::DotMatchesEverythingOption);
 
 	QRegularExpressionMatch matches = comment.match(_text);
 	for (int i=0; i<matches.lastCapturedIndex(); i++) {
