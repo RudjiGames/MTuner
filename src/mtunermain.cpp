@@ -396,10 +396,7 @@ int main(int argc, const char* argv[])
 	SetProcessDPIAware(); // call before the main event loop
 #endif // Q_OS_WIN 
 
-#if QT_VERSION >= QT_VERSION_CHECK(5,6,0)
-//	QApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
-	QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#else
+#if QT_VERSION < QT_VERSION_CHECK(5,6,0)
 	qputenv("QT_DEVICE_PIXEL_RATIO", QByteArray("1"));
 #endif // QT_VERSION
 
@@ -410,9 +407,9 @@ int main(int argc, const char* argv[])
 	getStoragePath( path );
 	wcscat(path, L"\\");
 	QDir dirAppData;
-	dirAppData.mkdir(QString::fromUtf16((const ushort*)path));
+	dirAppData.mkdir(QString::fromUtf16((const char16_t*)path));
 	wcscat(path, L"MTuner\\");
-	dirAppData.mkdir(QString::fromUtf16((const ushort*)path));
+	dirAppData.mkdir(QString::fromUtf16((const char16_t*)path));
 
 	RQtErrorHandler error;
 	rtmLibInterface libInterface;

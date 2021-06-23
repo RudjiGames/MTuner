@@ -44,6 +44,7 @@
 #include <QtCore/QMimeData>
 #include <QtCore/QProcess>
 #include <QtCore/QPropertyAnimation>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QSettings>
 #include <QtCore/QStringList>
 #include <QtCore/QTextStream>

@@ -227,7 +227,7 @@ bool GCCSetup::resolveToolchain(Toolchain& _toolchain, bool _64bit, rdebug::Tool
 #if RTM_PLATFORM_WINDOWS
 		std::wstring env = (wchar_t*)envVar.utf16();
 		wchar_t* envData = _wgetenv(env.c_str());
-		basePath = QString::fromUtf16((const ushort*)envData) + "/";
+		basePath = QString::fromUtf16((const char16_t*)envData) + "/";
 #else
 		auto env = envVar.toUtf8();
 		const char *const envData = getenv(env.constData());

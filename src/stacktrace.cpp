@@ -246,7 +246,7 @@ void StackTrace::saveState(QSettings& _settings)
 	_settings.endGroup();
 }
 
-void StackTrace::incClicked()
+void StackTrace::incPressed()
 {
 	if (m_currentTraceIdx == (m_currentTraceCnt-1))
 		return;
@@ -254,7 +254,7 @@ void StackTrace::incClicked()
 	updateView();
 }
 
-void StackTrace::decClicked()
+void StackTrace::decPressed()
 {
 	if (m_currentTraceIdx == 0)
 		return;

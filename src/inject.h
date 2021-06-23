@@ -13,7 +13,7 @@ class Inject : public QDialog
 	Q_OBJECT
 
 public:
-	Inject(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
+	Inject(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 
 	void	changeEvent(QEvent* _event);
 	int		getAllocator() { return ui.allocatorCombo->currentIndex(); }

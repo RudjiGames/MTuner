@@ -18,7 +18,7 @@ OperationSearch::OperationSearch(QWidget* _parent, Qt::WindowFlags _flags)	:
 	m_searchAddress	= findChild<QLineEdit*>("lineEditSearch");
 	m_searchType	= findChild<QComboBox*>("comboBox");
 
-	m_searchAddress->setValidator(new QRegExpValidator(QRegExp("0x?[0-9A-Fa-f]{1,16}")));
+	m_searchAddress->setValidator(new QRegularExpressionValidator(QRegularExpression("0x?[0-9A-Fa-f]{1,16}")));
 
 	connect(m_buttonPrev, SIGNAL(clicked()), this, SIGNAL(findPrev()));
 	connect(m_buttonNext, SIGNAL(clicked()), this, SIGNAL(findNext()));
@@ -79,9 +79,9 @@ void OperationSearch::search()
 void OperationSearch::searchTypeChanged(int _type)
 {
 	if (_type==0)
-		m_searchAddress->setValidator(new QRegExpValidator(QRegExp("0x?[0-9A-Fa-f]{1,16}")));
+		m_searchAddress->setValidator(new QRegularExpressionValidator(QRegularExpression("0x?[0-9A-Fa-f]{1,16}")));
 	else
-		m_searchAddress->setValidator(new QRegExpValidator(QRegExp("[0-9]{1,16}")));
+		m_searchAddress->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9]{1,16}")));
 	m_searchAddress->setText("");
 }
 

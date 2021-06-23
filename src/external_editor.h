@@ -16,7 +16,7 @@ class ExternalEditor : public QDialog
 	QLineEdit*	m_editorArgs;
 
 public:
-	ExternalEditor(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
+	ExternalEditor(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 
 	void	changeEvent(QEvent* _event);
 	void	setEditor(const QString& _editorPath);

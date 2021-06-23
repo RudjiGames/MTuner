@@ -13,7 +13,7 @@ class AboutDialog : public QDialog
 	Q_OBJECT
 
 public:
-	AboutDialog(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
+	AboutDialog(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 	void changeEvent(QEvent* _event);
 
 private:

@@ -25,7 +25,7 @@ private:
 	QString			m_restoreLocalStore;
 
 public:
-	SymbolStore(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
+	SymbolStore(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 
 	void	changeEvent(QEvent* _event);
 

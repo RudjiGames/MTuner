@@ -27,7 +27,7 @@ class DockWidget : public QDockWidget
 {
 	Q_OBJECT
 public:
-	DockWidget(const QString& _title, QWidget* _parent = 0, Qt::WindowFlags _flags = 0)
+	DockWidget(const QString& _title, QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0)
 		: QDockWidget(_title, _parent, _flags)	{}
 
 public Q_SLOTS:
@@ -94,7 +94,7 @@ private:
 	TagTreeWidget*			m_tagTree;
 
 public:
-	MTuner(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
+	MTuner(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 
 	void show();
 	void setLoadingProgress(float _progress, const QString &_message);
@@ -120,7 +120,7 @@ public Q_SLOTS:
 	void setupEditor();
 	void saveCaptureWindowLayout();
 	// Help
-	void readDocumentation();
+	void openDocumentation();
 	void about();
 
 	void heapSelected(uint64_t);

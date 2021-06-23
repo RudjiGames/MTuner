@@ -20,7 +20,7 @@ class StackAndSource : public QWidget
 	ExternalEditor*	m_editorDialog;
 
 public:
-	StackAndSource(ExternalEditor* inEditorDlg, QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
+	StackAndSource(ExternalEditor* inEditorDlg, QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 
 	void changeEvent(QEvent* _event);
 	StackTrace*	getStackTrace() { return m_stackTrace; }

@@ -46,7 +46,7 @@ private:
 	QString				m_settingsGroupName;
 
 public:
-	StackTrace(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
+	StackTrace(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 
 	void changeEvent(QEvent* _event);
 	void contextMenuEvent(QContextMenuEvent* _event);
@@ -59,8 +59,8 @@ public:
 public Q_SLOTS:
 	void currentCellChanged(int _currentRow, int _currentColumn, int _previousRow, int _previousColumn);
 	void setStackTrace(rtm::StackTrace** _stackTrace, int);
-	void incClicked();
-	void decClicked();
+	void incPressed();
+	void decPressed();
 	void copy();
 	void copyAll();
 	void copyResetIndex();

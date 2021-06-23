@@ -260,8 +260,8 @@ void SourceView::openInEditor()
 	launchEditor->start("\"" + m_editorDialog->getEditorPath() + "\" " + args);
 	if (!launchEditor->waitForStarted())
 	{
-		int r = QMessageBox::question(this, tr("Failed to start editor!"), tr("Setup external editor now?"), QMessageBox::Yes|QMessageBox::Default, QMessageBox::No|QMessageBox::Escape);
-		if (r == QMessageBox::Yes)
+		int b = QMessageBox::question(this, tr("Failed to start editor!"), tr("Setup external editor now?"), (QMessageBox::StandardButtons)(QMessageBox::Yes | QMessageBox::No), QMessageBox::No);
+		if (b == QMessageBox::StandardButton::Yes)
 		{
 			m_editorDialog->run();
 			openInEditor();

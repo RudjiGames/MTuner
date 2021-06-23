@@ -64,7 +64,7 @@ QString	SymbolStore::getSymbolStoreString() const
 	}
 
 	// http server need a local cache folder to store the symbol
-	if (m_publicStore->text().contains(QRegExp("https?://")))
+	if (m_publicStore->text().contains(QRegularExpression("https?://")))
 	{
 		if (ret.length())
 			ret += ";";

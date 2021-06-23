@@ -16,7 +16,7 @@ class EnvVar : public QDialog
 	QString m_val;
 
 public:
-	EnvVar(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
+	EnvVar(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 
 	void changeEvent(QEvent* _event);
 

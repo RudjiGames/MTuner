@@ -55,7 +55,7 @@ class GCCSetup : public QDialog
 	QLabel*				m_labelFoundProDGps3;
 
 public:
-	GCCSetup(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
+	GCCSetup(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 
 	void	changeEvent(QEvent* _event);
 	int		exec();

@@ -4,15 +4,15 @@ mkdir platforms
 mkdir translation
 mkdir SDK
 
-copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x64\retail\bin\MTuner_retail.exe        MTuner.exe
+copy ..\..\..\..\..\..\.build\windows\vs2019\MTuner\x64\retail\bin\MTuner_retail.exe        MTuner.exe
 
-copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x64\retail\bin\Qt5Core.dll              Qt5Core.dll
-copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x64\retail\bin\Qt5Gui.dll               Qt5Gui.dll
-copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x64\retail\bin\Qt5Network.dll           Qt5Network.dll
-copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x64\retail\bin\Qt5Widgets.dll           Qt5Widgets.dll
-copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x64\retail\bin\libEGL.dll               libEGL.dll
-copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x64\retail\bin\libGLESv2.dll            libGLESv2.dll
-copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x64\retail\bin\MTunerCmd_retail.exe     MTuner.com
+copy ..\..\..\..\..\..\.build\windows\vs2019\MTuner\x64\retail\bin\Qt6Core.dll              Qt6Core.dll
+copy ..\..\..\..\..\..\.build\windows\vs2019\MTuner\x64\retail\bin\Qt6Gui.dll               Qt6Gui.dll
+copy ..\..\..\..\..\..\.build\windows\vs2019\MTuner\x64\retail\bin\Qt6Network.dll           Qt6Network.dll
+copy ..\..\..\..\..\..\.build\windows\vs2019\MTuner\x64\retail\bin\Qt6Widgets.dll           Qt6Widgets.dll
+copy ..\..\..\..\..\..\.build\windows\vs2019\MTuner\x64\retail\bin\libEGL.dll               libEGL.dll
+copy ..\..\..\..\..\..\.build\windows\vs2019\MTuner\x64\retail\bin\libGLESv2.dll            libGLESv2.dll
+copy ..\..\..\..\..\..\.build\windows\vs2019\MTuner\x64\retail\bin\MTunerCmd_retail.exe     MTuner.com
 
 copy ..\..\..\..\..\..\3rd\DIA\bin\x64\dbghelp.dll                                          dbghelp.dll
 copy ..\..\..\..\..\..\3rd\DIA\bin\x64\SymbolCheck.dll                                      SymbolCheck.dll
@@ -20,14 +20,14 @@ copy ..\..\..\..\..\..\3rd\DIA\bin\x64\symchk.exe                               
 copy ..\..\..\..\..\..\3rd\DIA\bin\x64\symsrv.dll                                           symsrv.dll
 copy ..\..\..\..\..\..\3rd\DIA\bin\x64\msdia140.dll                                         msdia140.dll
 
-copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x32\retail\bin\MTunerInject_retail.exe  MTunerInject32.exe
-copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x64\retail\bin\MTunerInject_retail.exe  MTunerInject64.exe
+copy ..\..\..\..\..\..\.build\windows\vs2019\MTuner\x32\retail\bin\MTunerInject_retail.exe  MTunerInject32.exe
+copy ..\..\..\..\..\..\.build\windows\vs2019\MTuner\x64\retail\bin\MTunerInject_retail.exe  MTunerInject64.exe
 
-copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x32\retail\bin\MTunerDLL_retail.dll     MTunerDLL32.dll
-copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x64\retail\bin\MTunerDLL_retail.dll     MTunerDLL64.dll
+copy ..\..\..\..\..\..\.build\windows\vs2019\MTuner\x32\retail\bin\MTunerDLL_retail.dll     MTunerDLL32.dll
+copy ..\..\..\..\..\..\.build\windows\vs2019\MTuner\x64\retail\bin\MTunerDLL_retail.dll     MTunerDLL64.dll
 
-copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x64\retail\bin\platforms\qwindows.dll   platforms\qwindows.dll
-copy ..\..\..\..\..\..\.build\windows\vs2017\MTuner\x64\retail\bin\platforms\qminimal.dll   platforms\qminimal.dll
+copy ..\..\..\..\..\..\.build\windows\vs2019\MTuner\x64\retail\bin\platforms\qwindows.dll   platforms\qwindows.dll
+copy ..\..\..\..\..\..\.build\windows\vs2019\MTuner\x64\retail\bin\platforms\qminimal.dll   platforms\qminimal.dll
 
 copy ..\..\src\mtuner_en.qm translation\MTuner_en.qm
 copy ..\..\src\mtuner_rs.qm translation\MTuner_rs.qm					
@@ -88,7 +88,7 @@ mkdir hde
 cd ..
 cd ..
 mkdir msvc
-mkdir lz4-r173
+mkdir lz4-r191
 cd ..
 cd ..
 
@@ -108,8 +108,8 @@ copy ..\..\..\..\..\libs\rmem\3rd\minhook\src\hde\table32.h       SDK\3rd\minhoo
 copy ..\..\..\..\..\libs\rmem\3rd\minhook\src\hde\table64.h       SDK\3rd\minhook\src\hde\table64.h
 copy ..\..\..\..\..\libs\rmem\3rd\minhook\include\MinHook.h       SDK\3rd\minhook\include\MinHook.h
 
-copy ..\..\..\..\..\libs\rmem\3rd\lz4-r173\lz4.h                  SDK\3rd\lz4-r173\lz4.h
-copy ..\..\..\..\..\libs\rmem\3rd\lz4-r173\lz4.c                  SDK\3rd\lz4-r173\lz4.c
+copy ..\..\..\..\..\libs\rmem\3rd\lz4-r191\lz4.h                  SDK\3rd\lz4-r191\lz4.h
+copy ..\..\..\..\..\libs\rmem\3rd\lz4-r191\lz4.c                  SDK\3rd\lz4-r191\lz4.c
                       
 copy ..\..\..\..\..\libs\rmem\3rd\msvc\inttypes.h                 SDK\3rd\msvc\inttypes.h
 copy ..\..\..\..\..\libs\rmem\3rd\msvc\stdint.h                   SDK\3rd\msvc\stdint.h

@@ -28,7 +28,7 @@ private:
 	CaptureContext*	m_context;
 
 public:
-	Stats(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
+	Stats(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 
 	void changeEvent(QEvent* event);
 	void setContext(CaptureContext* _context);

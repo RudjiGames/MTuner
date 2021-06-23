@@ -22,7 +22,7 @@ private:
 	rdebug::ModuleInfo* m_currentInfo;
 
 public:
-	ModulesWidget(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
+	ModulesWidget(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 
 	void changeEvent(QEvent* _event);
 	void setContext(CaptureContext* _capture);

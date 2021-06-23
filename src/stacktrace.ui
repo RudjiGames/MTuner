@@ -174,7 +174,7 @@
    <sender>button_inc</sender>
    <signal>clicked()</signal>
    <receiver>StackTrace</receiver>
-   <slot>incClicked()</slot>
+   <slot>incPressed()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>237</x>
@@ -190,7 +190,7 @@
    <sender>button_dec</sender>
    <signal>clicked()</signal>
    <receiver>StackTrace</receiver>
-   <slot>decClicked()</slot>
+   <slot>decPressed()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>180</x>

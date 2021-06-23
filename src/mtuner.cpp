@@ -187,6 +187,8 @@ MTuner::MTuner(QWidget* _parent, Qt::WindowFlags _flags) :
 	connect(ui.action_Save_capture_window_layout, SIGNAL(triggered(bool)), this, SLOT(saveCaptureWindowLayout()));
 	ui.action_Save_capture_window_layout->setEnabled(false);
 
+	connect(ui.action_Contents, SIGNAL(triggered(bool)), this, SLOT(openDocumentation()));
+
 	readSettings();
 	emit binLoaded(false);
 }
@@ -366,7 +368,7 @@ void MTuner::saveCaptureWindowLayout()
 	}
 }
 
-void MTuner::readDocumentation()
+void MTuner::openDocumentation()
 {
 	QDesktopServices::openUrl(QUrl("https://milostosic.github.io/MTuner/", QUrl::TolerantMode));
 }
@@ -416,7 +418,7 @@ void MTuner::setDockWindowIcon(DockWidget* _widget, const QString& _icon)
 {
 	QWidget* title = new QWidget();
 	QHBoxLayout* l = new QHBoxLayout();
-	l->setMargin(2);
+	l->setContentsMargins(QMargins(2,2,2,2));
 
 	QLabel* iconLabel = new QLabel();
 	iconLabel->setPixmap(QIcon(_icon).pixmap(QSize(16, 16)));
@@ -690,7 +692,7 @@ void MTuner::showWelcomeDialog()
 	{
 		WelcomeDialog w(this);
 		connect(&w, &WelcomeDialog::setupSymbols, this, &MTuner::setupSymbols);
-		connect(&w, &WelcomeDialog::readDocumentation, this, &MTuner::readDocumentation);
+		connect(&w, &WelcomeDialog::readDocumentation, this, &MTuner::openDocumentation);
 		w.exec();
 		m_showWelcomeDialog = w.shouldShowNextTime();
 	}

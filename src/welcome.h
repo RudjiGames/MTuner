@@ -13,7 +13,7 @@ class WelcomeDialog : public QDialog
 	Q_OBJECT
 
 public:
-	WelcomeDialog(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
+	WelcomeDialog(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 	void changeEvent(QEvent* _event);
 
 	bool shouldShowNextTime() const;

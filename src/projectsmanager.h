@@ -58,7 +58,7 @@ public:
 	QStringList			m_currentEnvironment;
 
 public:
-	ProjectsManager(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
+	ProjectsManager(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 
 	void			save();
 	void			changeEvent(QEvent* _event);

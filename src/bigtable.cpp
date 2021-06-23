@@ -218,7 +218,7 @@ void BigTable::resizeEvent(QResizeEvent* _event)
 
 void BigTable::wheelEvent(QWheelEvent* _event)
 {
-	int delta = _event->delta();
+	int delta = _event->angleDelta().y();
 	delta /= 120;
 	delta = -delta;
 	if (delta < 0)

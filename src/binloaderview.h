@@ -40,7 +40,7 @@ private:
 	bool				m_filteringEnabled;
 
 public:
-	BinLoaderView(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
+	BinLoaderView(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 	virtual ~BinLoaderView();
 
 	CaptureContext*		getContext() { return m_context; }

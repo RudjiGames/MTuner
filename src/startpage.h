@@ -13,7 +13,7 @@ class StartPageWidget : public QWidget
 	Q_OBJECT
 
 public:
-	StartPageWidget(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
+	StartPageWidget(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 
 	void changeEvent(QEvent* _event);
 

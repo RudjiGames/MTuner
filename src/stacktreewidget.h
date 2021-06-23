@@ -69,7 +69,7 @@ class StackTreeWidget : public QWidget
 	QString							m_settingsGroupName;
 
 public:
-	StackTreeWidget(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
+	StackTreeWidget(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 	virtual ~StackTreeWidget();
 
 	void changeEvent(QEvent* _event);

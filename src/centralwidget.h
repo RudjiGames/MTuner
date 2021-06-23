@@ -20,7 +20,7 @@ class CentralWidget : public QWidget
 	QTabWidget*	m_tabWidget;
 
 public:
-	CentralWidget(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
+	CentralWidget(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 
 	void changeEvent(QEvent* _event);
 	void addTab(CaptureContext* _context, const QString& _name);

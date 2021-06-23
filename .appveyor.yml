@@ -1,11 +1,11 @@
 shallow_clone: true
 
 os:
-  - Visual Studio 2017
+  - Visual Studio 2019
 
 environment:
   matrix:
-    - TOOLSET: vs2017
+    - TOOLSET: vs2019
 
 platform:
     - x64
@@ -17,9 +17,9 @@ configuration:
     - Retail
 
 install:
-    - set QTDIR_VS2017_x64=C:\Qt\5.13\msvc2017_64
-    - set QTDIR_VS2017_x86=C:\Qt\5.13\msvc2017
-    - set PATH=C:\projects\luaforwindows\files;%QTDIR_VS2017_x64%\bin;%PATH%
+    - set QTDIR_VS2019_x64=C:\Qt\6.0.1\msvc2019_64
+    - set QTDIR_VS2019_x86=C:\Qt\6.0.1\msvc2019
+    - set PATH=C:\projects\luaforwindows\files;%QTDIR_VS2019_x64%\bin;%PATH%
     - git clone --depth 1 https://github.com/milostosic/build   ..\build
     - git clone --depth 1 https://github.com/milostosic/rbase   ..\rbase
     - git clone --depth 1 https://github.com/milostosic/rdebug  ..\rdebug

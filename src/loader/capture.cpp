@@ -1149,7 +1149,7 @@ bool Capture::loadModuleInfo(BinLoader& _loader, uint64_t _fileSize)
 		bytesRead += sizeof(uint64_t) * _loader.readVar(modSize);
 
 		if (charSize == 2)
-			executablePath = QString::fromUtf16((const ushort*)exePath).toUtf8();
+			executablePath = QString::fromUtf16((const char16_t*)exePath).toUtf8();
 		else
 			executablePath = QString::fromUtf8((const char*)exePathA).toUtf8();
 

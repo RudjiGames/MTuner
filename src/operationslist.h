@@ -29,7 +29,7 @@ private:
 	QString					m_settingsGroupName;
 
 public:
-	OperationsList(QWidget* _parent = 0, Qt::WindowFlags _flags = 0);
+	OperationsList(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 	~OperationsList();
 
 	void changeEvent(QEvent* _event);
