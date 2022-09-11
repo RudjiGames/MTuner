@@ -597,7 +597,7 @@ QVariant TreeModel::data(const QModelIndex& _index, int _role) const
 Qt::ItemFlags TreeModel::flags(const QModelIndex& _index) const
 {
 	if (!_index.isValid())
-		return 0;
+		return Qt::NoItemFlags;
 
 	return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }

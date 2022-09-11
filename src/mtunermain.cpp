@@ -25,7 +25,7 @@
 #endif
 #endif // RTM_PLATFORM_WINDOWS
 
-static const char* g_banner = "Copyright (c) 2019 by Milos Tosic. All rights reserved.\n";
+static const char* g_banner = "Copyright (c) 2022 by Milos Tosic. All rights reserved.\n";
 
 void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSetup* inGCCSetup, 
 							QFileDialog* _fileDialog, MTuner* _MTuner, const QString& _symSource);
@@ -48,7 +48,7 @@ bool handleInject(rtm::CommandLine& _cmdLine)
 		return false;
 
 	char profileExe[1024];
-	strcpy(profileExe, profileExeConst);
+	rtm::strlCpy(profileExe, 1024, profileExeConst);
 	rtm::pathCanonicalize(profileExe);
 
 	_cmdLine.getArg('w', profileWorkDir);
@@ -56,25 +56,23 @@ bool handleInject(rtm::CommandLine& _cmdLine)
 
 	const char* MTunerDirConst = _cmdLine.getArg(0);
 	char MTunerDir[1024];
-	strcpy(MTunerDir, MTunerDirConst);
+	rtm::strlCpy(MTunerDir, 1024, MTunerDirConst);
 	rtm::pathCanonicalize(MTunerDir);
-	
-	char* exePos = strstr(MTunerDir, "MTuner.exe");
-	if (!exePos)
-		exePos = strstr(MTunerDir, "mtuner.exe");
 
-	exePos[0] = L'\0';
+	char* exePos = MTunerDir + rtm::strLen(MTunerDir) - 1;
+	while ((*exePos != '/') && (*exePos != '\\')) exePos--;
+	exePos[1] = L'\0';
 
 	char workingDir[512];
 	if (profileWorkDir == NULL)
 	{
-		strcpy(workingDir, profileExe);
+		rtm::strlCpy(workingDir, 512, profileExe);
 		size_t end = strlen(workingDir) - 1;
 		while ((workingDir[end] != '/') && (workingDir[end] != '\\')) --end;
 		workingDir[end+1] = '\0';
 	}
 	else
-		strcpy(workingDir, profileWorkDir);
+		rtm::strlCpy(workingDir, 512, profileWorkDir);
 	rtm::pathCanonicalize(workingDir);
 
 	char cmdArgs[512];
@@ -85,44 +83,42 @@ bool handleInject(rtm::CommandLine& _cmdLine)
 
 	char inject32[512];
 	char inject64[512];
-	strcpy(inject32, MTunerDir);
-	strcpy(inject64, MTunerDir);
-	strcat(inject32, "MTunerInject32.exe");
-	strcat(inject64, "MTunerInject64.exe");
+	rtm::strlCpy(inject32, 512, MTunerDir);
+	rtm::strlCpy(inject64, 512, MTunerDir);
+	rtm::strlCat(inject32, 512, "MTunerInject32.exe");
+	rtm::strlCat(inject64, 512, "MTunerInject64.exe");
 
 	char cmdLine32[4096];
-	strcpy(cmdLine32, "\"");
-	strcat(cmdLine32, inject32);
-	strcat(cmdLine32, "\" #23#");
-	strcat(cmdLine32, profileExe);
-	strcat(cmdLine32, "#23# #23#");
-	strcat(cmdLine32, cmdArgs);
-	strcat(cmdLine32, "#23# #23#");
-	strcat(cmdLine32, workingDir);
-	strcat(cmdLine32, "#23#");
+	rtm::strlCpy(cmdLine32, 4096, "\"");
+	rtm::strlCat(cmdLine32, 4096, inject32);
+	rtm::strlCat(cmdLine32, 4096, "\" #23#");
+	rtm::strlCat(cmdLine32, 4096, profileExe);
+	rtm::strlCat(cmdLine32, 4096, "#23# #23#");
+	rtm::strlCat(cmdLine32, 4096, cmdArgs);
+	rtm::strlCat(cmdLine32, 4096, "#23# #23#");
+	rtm::strlCat(cmdLine32, 4096, workingDir);
+	rtm::strlCat(cmdLine32, 4096, "#23#");
 
 	char cmdLine64[4096];
-	strcpy(cmdLine64, "\"");
-	strcat(cmdLine64, inject64);
-	strcat(cmdLine64, "\" #23#");
-	strcat(cmdLine64, profileExe);
-	strcat(cmdLine64, "#23# #23#");
-	strcat(cmdLine64, cmdArgs);
-	strcat(cmdLine64, "#23# #23#");
-	strcat(cmdLine64, workingDir);
-	strcat(cmdLine64, "#23#");
+	rtm::strlCpy(cmdLine64, 4096, "\"");
+	rtm::strlCat(cmdLine64, 4096, inject64);
+	rtm::strlCat(cmdLine64, 4096, "\" #23#");
+	rtm::strlCat(cmdLine64, 4096, profileExe);
+	rtm::strlCat(cmdLine64, 4096, "#23# #23#");
+	rtm::strlCat(cmdLine64, 4096, cmdArgs);
+	rtm::strlCat(cmdLine64, 4096, "#23# #23#");
+	rtm::strlCat(cmdLine64, 4096, workingDir);
+	rtm::strlCat(cmdLine64, 4096, "#23#");
 
-	if (!rdebug::processRun(cmdLine32))
-	{
-		return rdebug::processRun(cmdLine64);
-	}
+	rdebug::processRun(cmdLine32);
+	rdebug::processRun(cmdLine64);
 
 	return true;
 }
 
 int handleCommandLine(int argc, char const* argv[])
 {
-	rtm::Console::info("%s",g_banner);
+	rtm::Console::print("%s",g_banner);
 
 	rtm::CommandLine cmdLine(argc, argv);
 
@@ -134,7 +130,7 @@ int handleCommandLine(int argc, char const* argv[])
 
 	if (cmdLine.hasArg("help"))
 	{
-		rtm::Console::info(
+		rtm::Console::print(
 			"\nUsage: MTuner.com [OPTION] -i <input file> -o <output file>\nOptions:\n"
 			"   -help       Prints this message\n"
 			"   -p [EXE]    Specify executable to instrument and start profiling for\n"
@@ -165,42 +161,42 @@ int handleCommandLine(int argc, char const* argv[])
 				{
 					QByteArray nameUTF8 = tc.m_name.toUtf8();
 					if (numToolchains == 0)
-						rtm::Console::info("Properly configured GCC toolchains:\n");
-					rtm::Console::info("   ");
+						rtm::Console::print("Properly configured GCC toolchains:\n");
+					rtm::Console::print("   ");
 					numToolchains++;
 					if (tc.m_toolchain == rmem::ToolChain::PS3_gcc)
-						rtm::Console::info("Playstation 3 GCC");
+						rtm::Console::print("Playstation 3 GCC");
 					else
 					{
-						rtm::Console::info(nameUTF8.data());
-						rtm::Console::info(" 64bit");
+						rtm::Console::print(nameUTF8.data());
+						rtm::Console::print(" 64bit");
 					}
-					rtm::Console::info("\n");
+					rtm::Console::print("\n");
 				}
 
 				if (gcc_setup.isConfigured(tc.m_toolchain, false))
 				{
 					QByteArray nameUTF8 = tc.m_name.toUtf8();
 					if (numToolchains == 0)
-						rtm::Console::info("Properly configured GCC toolchains:\n");
-					rtm::Console::info("   ");
+						rtm::Console::print("Properly configured GCC toolchains:\n");
+					rtm::Console::print("   ");
 					numToolchains++;
 					if (tc.m_toolchain == rmem::ToolChain::PS3_gcc)
-						rtm::Console::info("Playstation 3 SNC");
+						rtm::Console::print("Playstation 3 SNC");
 					else
 					{
-						rtm::Console::info(nameUTF8.data());
-						rtm::Console::info(" 32bit");
+						rtm::Console::print(nameUTF8.data());
+						rtm::Console::print(" 32bit");
 					}
-					rtm::Console::info("\n");
+					rtm::Console::print("\n");
 				}
 			}
 
 			if (numToolchains == 0)
-				rtm::Console::info("No GCC toolchains have been configured!\n"
+				rtm::Console::print("No GCC toolchains have been configured!\n"
 				"Symbols may not be resolved for captures made with non MSVC based executables!\n");
 
-			rtm::Console::info("\n"
+			rtm::Console::print("\n"
 			"Examples:\n"
 			"   MTuner.com: -l -xml -tag \"Tag name\" -h 256 -i \"Capture.MTuner\" -o \"Log.xml\"\n"
 			"   MTuner.com: -p \"D:\\Project Dir\\bin\\ProjectExe.exe\"\n"
@@ -216,7 +212,7 @@ int handleCommandLine(int argc, char const* argv[])
 		wchar_t capturePath[512];
 		getStoragePath( capturePath );
 		wcscat(capturePath, L"\\MTuner\\");
-		rtm::Console::info("\nCapture location: %s\n", rtm::WideToMulti(capturePath));
+		rtm::Console::print("\nCapture location: %s\n", rtm::WideToMulti(capturePath));
 #endif
 		handleInject(cmdLine);
 		return 0;
