@@ -213,7 +213,6 @@ void MTuner::setLoadingProgress(float _progress, const QString &_message)
 	{
 		m_loadingProgressBar->setValue(newVal);
 		setStatusBarText(_message);
-		QApplication::processEvents(QEventLoop::AllEvents,1);
 	}
 }
 
