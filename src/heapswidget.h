@@ -27,7 +27,7 @@ public:
 	void setCurrentHeap(uint64_t _handle);
 
 public Q_SLOTS:
-	void itemClicked(QTreeWidgetItem*, int);
+	void selectionChanged();
 
 Q_SIGNALS:
 	void heapSelected(uint64_t);

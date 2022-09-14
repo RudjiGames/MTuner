@@ -14,7 +14,7 @@ HeapsWidget::HeapsWidget(QWidget* _parent, Qt::WindowFlags _flags)
 	ui.setupUi(this);
 	
 	m_treeWidget = findChild<QTreeWidget*>("treeWidget");
-	connect(m_treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(itemClicked(QTreeWidgetItem*, int)));
+	connect(m_treeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(selectionChanged()));
 }
 
 void HeapsWidget::changeEvent(QEvent* _event)
@@ -52,23 +52,20 @@ void HeapsWidget::setContext(CaptureContext* _context)
 		m_treeWidget->clear();
 }
 
-void HeapsWidget::itemClicked(QTreeWidgetItem* _currentItem, int _column)
+void HeapsWidget::selectionChanged()
 {
-	RTM_UNUSED(_column);
-	if (!_currentItem)
-		return;
-
-	if (m_currentItem == _currentItem)
+	QTreeWidgetItem* currItem = m_treeWidget->currentItem();
+	if (m_currentItem == currItem)
 	{
 		m_currentItem = 0;
 		m_treeWidget->setCurrentItem(0);
-		emit heapSelected(0);
+		emit heapSelected((uint64_t)-1);
 	}
 	else
 	{
-		m_currentItem = _currentItem;
-		m_treeWidget->setCurrentItem(_currentItem);
-		uint64_t address = _currentItem->data(0,Qt::UserRole).toULongLong();
+		m_currentItem = currItem;
+		m_treeWidget->setCurrentItem(currItem);
+		uint64_t address = currItem->data(0, Qt::UserRole).toULongLong();
 		emit heapSelected(address);
 	}
 }
