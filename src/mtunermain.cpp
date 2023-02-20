@@ -307,7 +307,7 @@ int handleCommandLine(int argc, char const* argv[])
 	{
 		CaptureContext context;
 
-		if (context.m_capture->loadBin(inFilePath))
+		if (context.m_capture->loadBin(inFilePath) == rtm::Capture::LoadResult::LoadSuccess)
 		{
 			setupLoaderToolchain(&context, inFilePath, &gcc_setup, NULL, NULL,  symSource ? QString(symSource) : QString(""));
 
