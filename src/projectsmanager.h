@@ -53,7 +53,7 @@ public:
 	QPushButton*		m_buttonRemove;
 	QPushButton*		m_buttonRun;
 	QFileSystemWatcher*	m_watcher;
-	bool				m_processRunning;
+	bool				m_injecting;
 	QString				m_currentCaptureFile;
 	QStringList			m_currentEnvironment;
 
@@ -82,11 +82,13 @@ public Q_SLOTS:
 	void dirChanged(const QString&);
 	void inheritEnv(bool);
 	void restore();
-	void processFinished(int _exitCode, QProcess::ExitStatus _status);
+	void processInjectFinished(int _exitCode, QProcess::ExitStatus _status);
+	bool isInjecting();
 
 Q_SIGNALS:
 	void captureCreated(const QString& _path);
 	void captureSetProcessID(uint64_t _pid);
+	void captureStartMonitoring();
 
 private:
 	void updateProjectList();

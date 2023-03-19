@@ -139,6 +139,7 @@ public Q_SLOTS:
 
 	void setStatusBarText(const QString&);
 	void checkCaptureStatus();
+	void startCaptureStatusTimer();
 	void captureStarted(const QString&);
 	void captureSetProcessID(uint64_t);
 

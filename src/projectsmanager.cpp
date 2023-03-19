@@ -24,6 +24,7 @@ ProjectsManager::ProjectsManager(QWidget* _parent, Qt::WindowFlags _flags)
 	m_buttonRun			= findChild<QPushButton*>("buttonRun");
 
 	m_watcher			= NULL;
+	m_injecting			= false;
 
 	m_buttonAdd->setEnabled(false);
 	m_buttonRemove->setEnabled(false);
@@ -38,8 +39,6 @@ ProjectsManager::ProjectsManager(QWidget* _parent, Qt::WindowFlags _flags)
 	connect(m_listProjects, SIGNAL(itemSelectionChanged()), this, SLOT(projectSelectionChanged()));
 
 	connect(this, SIGNAL(rejected()), this, SLOT(restore()));
-
-	m_processRunning = false;
 }
 
 void ProjectsManager::save()
@@ -148,16 +147,6 @@ void ProjectsManager::run(const QString& _executable, const QString& _cmd, const
 {
 	QString currpath = QCoreApplication::applicationDirPath();
 
-	QString watchDir;
-	if (_workingDir.length() == 0)
-	{
-		QFileInfo info(_executable);
-		QDir d = info.absoluteDir();
-		watchDir = d.absolutePath();
-	}
-	else
-		watchDir = _workingDir;
-
 	if (_shouldLoad)
 	{
 		m_watcher = new QFileSystemWatcher(this);
@@ -185,7 +174,7 @@ void ProjectsManager::run(const QString& _executable, const QString& _cmd, const
 
 #if RTM_PLATFORM_WINDOWS
 	process->setCreateProcessArgumentsModifier(
-		[](QProcess::CreateProcessArguments *args) {
+		[](QProcess::CreateProcessArguments* args) {
 		args->flags |= CREATE_NEW_CONSOLE;
 		args->startupInfo->dwFlags &= ~STARTF_USESTDHANDLES;
 	});
@@ -203,11 +192,11 @@ void ProjectsManager::run(const QString& _executable, const QString& _cmd, const
 	env << _environment;
 	process->setEnvironment(env);
 
+	m_injecting	= true;
 	if (_shouldLoad)
-		connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
+		connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processInjectFinished(int, QProcess::ExitStatus)));
 
 	process->start();
-	m_processRunning = true;
 }
 
 void ProjectsManager::loadSettings(QSettings& _settings)
@@ -258,6 +247,7 @@ void ProjectsManager::buttonRun()
 	QString dir = m_txtWorkingDir->text();
 	
 	run(exe, cmd, dir, m_currentEnvironment);
+	emit captureStartMonitoring();
 }
 
 void ProjectsManager::textParamsChanged()
@@ -422,28 +412,22 @@ void ProjectsManager::restore()
 	updateProjectList();
 }
 
-void ProjectsManager::processFinished(int _exitCode, QProcess::ExitStatus /*_status*/)
+void ProjectsManager::processInjectFinished(int _exitCode, QProcess::ExitStatus /*_status*/)
 {
 	QProcess* process = qobject_cast<QProcess*>(sender());
 	if (!process)
 		return;
 
-	bool tryAnotherArch = m_processRunning && (_exitCode == 0);
-	m_processRunning = false;
-
-	if (tryAnotherArch)
+	if (process->exitStatus() == QProcess::ExitStatus::NormalExit)
 	{
-		QProcess* proc = qobject_cast<QProcess*>(sender());
-		QString program = proc->program();
-		if (program.endsWith("64.exe"))
-			program.replace("64.exe", "32.exe");
-		else
-			program.replace("32.exe", "64.exe");
-		proc->setProgram(program);
-		proc->start();
-		return;
+		emit captureSetProcessID((uint64_t)_exitCode);
+		m_injecting	= false;
 	}
 
-	emit captureSetProcessID((uint64_t)_exitCode);
 	process->deleteLater();
+}
+
+bool ProjectsManager::isInjecting()
+{
+	return m_injecting;
 }

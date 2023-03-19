@@ -150,6 +150,8 @@ MTuner::MTuner(QWidget* _parent, Qt::WindowFlags _flags) :
 	m_projectsManager = new ProjectsManager(this);
 	connect(m_projectsManager, SIGNAL(captureCreated(const QString&)), this, SLOT(captureStarted(const QString&)));
 	connect(m_projectsManager, SIGNAL(captureSetProcessID(uint64_t)), this, SLOT(captureSetProcessID(uint64_t)));
+	connect(m_projectsManager, SIGNAL(captureStartMonitoring()), this, SLOT(startCaptureStatusTimer()));
+
 	m_watchTimer = NULL;
 	m_capturePid = 0;
 
@@ -622,18 +624,23 @@ void MTuner::setStatusBarText(const QString& _text)
 
 static const uint32_t g_watchInterval = 460;
 
-void MTuner::captureStarted(const QString& _file)
+void MTuner::startCaptureStatusTimer()
 {
-	setStatusBarText(QString(tr("Created ")) + _file);
 	if (m_watchTimer)
 		m_watchTimer->stop();
-
-	m_watchedFile		= _file;
 
 	m_watchTimer = new QTimer(this);
 	m_watchTimer->setInterval(g_watchInterval);
 	connect(m_watchTimer, SIGNAL(timeout()), this, SLOT(checkCaptureStatus()));
 	m_watchTimer->start();
+}
+
+void MTuner::captureStarted(const QString& _file)
+{
+	setStatusBarText(QString(tr("Created ")) + _file);
+	m_watchedFile		= _file;
+
+	startCaptureStatusTimer();
 }
 
 void MTuner::captureSetProcessID(uint64_t _pid)
@@ -662,20 +669,25 @@ bool isProcessRunning(uint64_t)
 void MTuner::checkCaptureStatus()
 {
 	statusBar()->showMessage(tr("Capture in progress") + " - " + m_watchedFile, g_watchInterval);
+	bool running =
+		((m_projectsManager->isInjecting()) ||
+		((m_capturePid != 0) && isProcessRunning(m_capturePid)));
 
-	m_statusBarRedDot->setVisible(!m_statusBarRedDot->isVisible());
-	if (m_capturePid && (!isProcessRunning(m_capturePid)))
+	m_statusBarRedDot->setVisible(m_statusBarRedDot->isHidden());
+	if (!running)
 	{
-		m_capturePid = 0;
+		captureSetProcessID(0);
 		m_projectsManager->close();
 		m_statusBarRedDot->setVisible(false);
 		openFileFromPath(m_watchedFile);
 		m_watchedFile = "";
-		m_watchTimer->stop();
+		if (m_watchTimer)
+			m_watchTimer->stop();
 	}
 	else
 	{
-		m_watchTimer->start();
+		if (m_watchTimer)
+			m_watchTimer->start();
 	}
 }
 
@@ -978,6 +990,7 @@ void MTuner::dropEvent(QDropEvent* _event)
 		{
 			QString filePath = url.toLocalFile();
 			handleFile(filePath);
+			startCaptureStatusTimer();
 		}
 	}
 }
@@ -998,16 +1011,8 @@ void MTuner::handleFile(const QString& _file)
 		}
 		else
 		{
-			//Inject inject;
-			//if (inject.exec() == QDialog::Rejected)
-			//	return;
-
-			//int allocator		= inject.getAllocator();
-			//bool shouldCapture	= inject.shouldCapture();
-			//bool shouldLoad		= inject.loadAfterCapture();
-
-			//m_projectsManager->run(_file, QString(), QString(), QStringList(), true, allocator, shouldCapture, shouldLoad);
-			m_projectsManager->run(_file);
+			QFileInfo fi(_file); // for working dir
+			m_projectsManager->run(_file, QString(), fi.path());
 		}
 	}
 }
