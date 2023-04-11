@@ -21,25 +21,25 @@ environment:
      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
      buildcfg: debug64
 
-   - job_name: Linux
-     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
-     buildcfg: release64
+#   - job_name: Linux
+#     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
+#     buildcfg: release64
 
-   - job_name: Linux
-     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
-     buildcfg: retail64
+#   - job_name: Linux
+#     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
+#     buildcfg: retail64
 
    - job_name: OSX
      APPVEYOR_BUILD_WORKER_IMAGE: macOS-monterey
      buildcfg: debug64
 
-   - job_name: OSX
-     APPVEYOR_BUILD_WORKER_IMAGE: macOS-monterey
-     buildcfg: release64
+#   - job_name: OSX
+#     APPVEYOR_BUILD_WORKER_IMAGE: macOS-monterey
+#     buildcfg: release64
 
-   - job_name: OSX
-     APPVEYOR_BUILD_WORKER_IMAGE: macOS-monterey
-     buildcfg: retail64
+#   - job_name: OSX
+#     APPVEYOR_BUILD_WORKER_IMAGE: macOS-monterey
+#     buildcfg: retail64
 
 shallow_clone: true
 
@@ -92,6 +92,7 @@ for:
       - sudo apt-get install -y lua5.3 lua-filesystem build-essential libgl1-mesa-dev
       - export QTDIR="$HOME/Qt/6.4/gcc_64"
       - ls $HOME/Qt/6.4/gcc_64/ -l
+      - ls $HOME/Qt/6.4/gcc_64/lib/pkgconfig
       - export PATH="$HOME/Qt/6.4/gcc_64/bin:$HOME/Qt/6.4/gcc_64/libexec:/home/appveyor/Qt/6.4/gcc_64/libexec:$PATH"
       - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/Qt/6.4/gcc_64/lib/pkgconfig"
       - export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/home/appveyor/Qt/6.4/gcc_64/lib/pkgconfig
