@@ -91,8 +91,10 @@ for:
       - sudo apt-get update
       - sudo apt-get install -y lua5.3 lua-filesystem build-essential libgl1-mesa-dev
       - export QTDIR="$HOME/Qt/6.4/gcc_64"
+      - ls $HOME/Qt/6.4/gcc_64/ -l
       - export PATH="$HOME/Qt/6.4/gcc_64/bin:$HOME/Qt/6.4/gcc_64/libexec:/home/appveyor/Qt/6.4/gcc_64/libexec:$PATH"
       - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/Qt/6.4/gcc_64/lib/pkgconfig"
+      - export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/home/appveyor/Qt/6.4/gcc_64/lib/pkgconfig
       - export QTDIR_GMAKE_x64="$HOME/Qt/6.4/gcc_64"
       - export QTDIR_GMAKE_x86="$HOME/Qt/6.4/gcc_64" 
       - git clone --depth 1 https://github.com/milostosic/MTuner  MTuner
