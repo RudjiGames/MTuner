@@ -5,14 +5,17 @@ environment:
    - job_name: Windows
      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
      configuration: Debug
+     platform: x64
 
    - job_name: Windows
      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
      configuration: Release
+     platform: x64
 
    - job_name: Windows
      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
      configuration: Retail
+     platform: x64
 
    - job_name: Linux
      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
