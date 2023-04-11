@@ -60,6 +60,7 @@ for:
     - set QTDIR_VS2019_x64=C:\Qt\6.4.2\msvc2019_64
     - set QTDIR_VS2019_x86=C:\Qt\6.4.2\msvc2019 
     - set PATH=C:\projects\MTuner\luaforwindows\files;%QTDIR_VS2019_x64%\bin;%PATH%
+    - dir C:\Qt\6.4.2\msvc2019_64 /r
     - git clone --depth 1 https://github.com/milostosic/MTuner  MTuner
     - git clone --depth 1 https://github.com/milostosic/build   build
     - git clone --depth 1 https://github.com/milostosic/rbase   rbase
