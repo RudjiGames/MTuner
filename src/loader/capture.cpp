@@ -705,7 +705,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 #if RTM_COMPILER_MSVC
 						sprintf(buff, "0x%llx", op->m_allocatorHandle);
 #else
-						sprintf(buff, "0x%lux", op->m_allocatorHandle);
+						snprintf(buff, 512, "0x%llux", op->m_allocatorHandle);
 #endif
 						m_Heaps[op->m_allocatorHandle] = buff;
 					}
