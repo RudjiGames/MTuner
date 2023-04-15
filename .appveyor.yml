@@ -130,6 +130,9 @@ for:
     init:
     - if [ ! -d ../vcpkg ]; then git clone https://github.com/microsoft/vcpkg.git ../vcpkg ; fi
     - "(cd ../vcpkg && git pull && ./bootstrap-vcpkg.sh)"
+    - ls /Users/appveyor/Qt/6.4/macos/libexec
+    - ls /Users/appveyor/Qt/6.4/macos/
+    - ls /Users/appveyor/Qt/6.4/macos/lib
     - export VCPKG_DIR=`dirname $(pwd)/../vcpkg/vcpkg`
     - export QTDIR="$HOME/Qt/6.4/macos"
     - export PATH="$HOME/Qt/6.4/macos/bin:$HOME/Qt/6.4/macos/share/qt/libexec:/Users/appveyor/Qt/6.4/macos/libexec:$PATH"
