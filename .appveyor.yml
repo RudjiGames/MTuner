@@ -93,10 +93,6 @@ for:
     init:
     - sudo apt-get update
     - sudo apt-get install -y lua5.3 lua-filesystem build-essential libgl1-mesa-dev
-    - ls $HOME/Qt/6.4/gcc_64
-    - ls $HOME/Qt/6.4/gcc_64/lib
-    - ls $HOME/Qt/6.4/gcc_64/lib/pkgconfig
-    - ls $HOME/Qt/6.4/gcc_64/libexec
     - export QTDIR="$HOME/Qt/6.4/gcc_64"
     - export PATH="$HOME/Qt/6.4/gcc_64/bin:$HOME/Qt/6.4/gcc_64/libexec:/home/appveyor/Qt/6.4/gcc_64/libexec:$PATH"
     - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/Qt/6.4/gcc_64/lib/pkgconfig"
@@ -135,6 +131,9 @@ for:
     - if [ ! -d ../vcpkg ]; then git clone https://github.com/microsoft/vcpkg.git ../vcpkg ; fi
     - "(cd ../vcpkg && git pull && ./bootstrap-vcpkg.sh)"
     - export VCPKG_DIR=`dirname $(pwd)/../vcpkg/vcpkg`
+    - ls /Users/appveyor/Qt/6.4/macos/libexec
+    - ls /Users/appveyor/Qt/6.4/macos/
+    - ls /Users/appveyor/Qt/6.4/macos/lib
     - export QTDIR="$HOME/Qt/6.4/macos"
     - export PATH="$HOME/Qt/6.4/macos/bin:$HOME/Qt/6.4/macos/share/qt/libexec:/Users/appveyor/Qt/6.4/macos/libexec:$PATH"
     - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/Qt/6.4/macos/lib/pkgconfig"
@@ -142,7 +141,7 @@ for:
     - export QTDIR_GMAKE_x86="$HOME/Qt/6.4/macos" 
     - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     - brew update
-    - brew install lua luarocks qt6
+    - brew install lua luarocks gcc qt6
     - sudo luarocks install luafilesystem	--check-lua-versions
     - git clone --depth 1 https://github.com/milostosic/MTuner       MTuner
     - git clone --depth 1 https://github.com/milostosic/MTunerDLL    MTunerDLL
