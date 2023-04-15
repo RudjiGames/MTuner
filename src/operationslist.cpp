@@ -29,8 +29,6 @@ static bool __uncaught_exception() { return true; }
 #endif // RTM_COMPILER_GCC
 
 #ifndef RTM_PARALLEL_FOR_EACH // fallback
-#include <parallel/algorithm>
-
 #define RTM_PARALLEL_FOR_EACH	std::for_each
 #define RTM_PARALLEL_SORT		std::sort
 #endif // ifndef RTM_PARALLEL_FOR_EACH
