@@ -129,9 +129,6 @@ for:
     init:
     - if [ ! -d ../vcpkg ]; then git clone https://github.com/microsoft/vcpkg.git ../vcpkg ; fi
     - "(cd ../vcpkg && git pull && ./bootstrap-vcpkg.sh)"
-    - ls /Users/appveyor/Qt/6.4/macos/libexec
-    - ls /Users/appveyor/Qt/6.4/macos/
-    - ls /Users/appveyor/Qt/6.4/macos/lib
     - export VCPKG_DIR=`dirname $(pwd)/../vcpkg/vcpkg`
     - export QTDIR="$HOME/Qt/6.4/macos"
     - export PATH="$HOME/Qt/6.4/macos/bin:$HOME/Qt/6.4/macos/share/qt/libexec:/Users/appveyor/Qt/6.4/macos/libexec:$PATH"
@@ -141,7 +138,7 @@ for:
     - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     - brew update
     - brew install lua luarocks qt6
-    - sudo luarocks install luafilesystem	--check-lua-versions
+    - sudo luarocks install luafilesystem --check-lua-versions
     - git clone --depth 1 https://github.com/milostosic/MTuner       MTuner
     - git clone --depth 1 https://github.com/milostosic/MTunerDLL    MTunerDLL
     - git clone --depth 1 https://github.com/milostosic/MTunerCmd    MTunerCmd
