@@ -8,7 +8,7 @@ function projectDependencies_MTuner()
 end 
 
 function projectExtraConfig_MTuner()
- 	configuration { "*-gcc* or osx" }
+ 	configuration { "*-gcc*" }
  		buildoptions {
 			"-fopenmp",	
  		}
@@ -17,7 +17,7 @@ function projectExtraConfig_MTuner()
 end
 
 function projectExtraConfigExecutable_MTuner()
-	if getTargetOS() == "linux" or getTargetOS() == "osx" then
+	if getTargetOS() == "linux" then
 		links {	
 			"gomp", 	
 		}
