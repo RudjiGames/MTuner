@@ -298,6 +298,12 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 	fseeko64(f, 0, SEEK_END);
 	uint64_t fileSize = (uint64_t)ftello64(f);
 	fseeko64(f, 0, SEEK_SET);
+#elif RTM_PLATFORM_OSX
+	fseeko(f, 0, SEEK_END);
+	uint64_t fileSize = (uint64_t)ftello(f);
+	fseeko(f, 0, SEEK_SET);
+#else
+	#error "Not implemented for target platform!"
 #endif
 
 	uint32_t compressSignature;
