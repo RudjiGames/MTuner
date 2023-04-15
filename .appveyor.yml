@@ -17,9 +17,9 @@ environment:
 #     configuration: Retail
 #     platform: x64
 
-   - job_name: Linux
-     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
-     buildcfg: debug64
+#   - job_name: Linux
+#     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
+#     buildcfg: debug64
 
 #   - job_name: Linux
 #     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
@@ -131,9 +131,6 @@ for:
     - if [ ! -d ../vcpkg ]; then git clone https://github.com/microsoft/vcpkg.git ../vcpkg ; fi
     - "(cd ../vcpkg && git pull && ./bootstrap-vcpkg.sh)"
     - export VCPKG_DIR=`dirname $(pwd)/../vcpkg/vcpkg`
-    - ls /Users/appveyor/Qt/6.4/macos/libexec
-    - ls /Users/appveyor/Qt/6.4/macos/
-    - ls /Users/appveyor/Qt/6.4/macos/lib
     - export QTDIR="$HOME/Qt/6.4/macos"
     - export PATH="$HOME/Qt/6.4/macos/bin:$HOME/Qt/6.4/macos/share/qt/libexec:/Users/appveyor/Qt/6.4/macos/libexec:$PATH"
     - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/Qt/6.4/macos/lib/pkgconfig"
