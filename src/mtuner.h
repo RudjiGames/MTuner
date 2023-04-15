@@ -53,7 +53,7 @@ public:
 
 	void setDefaultAction(QAction* _action) { _action->setIcon(m_default); QToolButton::setDefaultAction(_action); }
 	void leaveEvent(QEvent*) { defaultAction()->setIcon(m_default); }
-	void enterEvent(QEvent*) { defaultAction()->setIcon(m_hover); }
+	virtual void enterEvent(QEvent*) { defaultAction()->setIcon(m_hover); }
 };
 
 class MTuner : public QMainWindow

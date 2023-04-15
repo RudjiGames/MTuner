@@ -193,7 +193,6 @@ void BigTable::resizeEvent(QResizeEvent* _event)
 	m_tree->setRowCount(2);
 	uint32_t rowHeight = m_tree->rowHeight(0);
 	uint32_t numRows = m_tree->size().height() / rowHeight;
-	rowHeight = rowHeight;
 
 	uint32_t visibleRows = numRows ? numRows-1 : 0;
 	uint32_t numItems = m_source->getNumberOfRows();

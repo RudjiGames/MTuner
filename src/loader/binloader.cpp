@@ -60,7 +60,7 @@ uint64_t BinLoader::fileTell()
 {
 #if RTM_PLATFORM_WINDOWS
 	uint64_t pos = (uint64_t)_ftelli64(m_file);
-#elif RTM_PLATFORM_LINUX
+#elif RTM_PLATFORM_LINUX || RTM_PLATFORM_OSX
 	uint64_t pos = (uint64_t)ftello64(m_file);
 #endif
 	return pos;
