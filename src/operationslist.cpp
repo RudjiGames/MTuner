@@ -334,7 +334,7 @@ QString OperationTableSource::getItem(uint32_t _index, int32_t _column, QColor* 
 
 void OperationTableSource::getItem(uint32_t _index, void** _pointer)
 {
-	if (_index == -1)
+	if (_index == (uint32_t)-1)
 		return;
 
 	uint32_t index = _index;

@@ -115,7 +115,7 @@ bool GraphWidget::event(QEvent* _event)
 void GraphWidget::setContext(CaptureContext* _context, BinLoaderView* _view)
 {
 	m_context = _context;
-	if (!_context == NULL)
+	if (_context)
 	{
 		//setToolTip(tr("Click inside the graph area and drag\nleft mouse button to select a time slice"));
 		m_minTime = _view->getMinTime();
@@ -492,7 +492,6 @@ void GraphWidget::mouseMovement(const QPoint& _position, Qt::MouseButtons _butto
 	QPoint gpt = mapToGlobal(_position);
 	QPointF spt = mapToScene(_position);
 
-	bool toolTipSet = false;
 	const QVector<MarkerToolTip>&	toolTips = m_markers->getTooltips();
 	for (int i=0; i<toolTips.size(); ++i)
 	{
@@ -506,7 +505,6 @@ void GraphWidget::mouseMovement(const QPoint& _position, Qt::MouseButtons _butto
 			m_toolTipPos = gpt;
 
 			QTimer::singleShot(60, this, &GraphWidget::myShowTooltip);
-			toolTipSet = true;
 
 			m_hoverMarkerTime = toolTips[i].m_time;
 			break;
@@ -533,7 +531,6 @@ void GraphWidget::mouseMovement(const QPoint& _position, Qt::MouseButtons _butto
 						   "<nobr>" + QStringColor(tr("Live blocks"),  "ff42a6ba") + m_locale.toString(qulonglong(entry.m_numLiveBlocks)) + "</nobr></p>";
 		m_toolTip = ttip;
 		m_toolTipPos = gpt;
-		toolTipSet = true;
 		QTimer::singleShot(60, this, &GraphWidget::myShowTooltip);
 	}
 
