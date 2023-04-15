@@ -57,24 +57,23 @@ for:
     matrix:
       only:
       - job_name: Windows
-      - QTDIR: C:\Qt\6.4.2\msvc2019_64
+      - QTDIR: C:\Qt\6.4\msvc2019_64
     
     init:
-    - set QTDIR_VS2019_x64=C:\Qt\6.4.2\msvc2019_64
-    - set QTDIR_VS2019_x86=C:\Qt\6.4.2\msvc2019 
-    - set PATH=C:\projects\MTuner\luaforwindows\files;%QTDIR_VS2019_x64%\bin;%PATH%
-    - dir C:\Qt\6.4.2\msvc2019_64 /s
-    - git clone --depth 1 https://github.com/milostosic/MTuner       MTuner
-    - git clone --depth 1 https://github.com/milostosic/MTunerDLL    MTunerDLL
-    - git clone --depth 1 https://github.com/milostosic/MTunerCmd    MTunerCmd
-    - git clone --depth 1 https://github.com/milostosic/MTunerInject MTunerInject
-    - git clone --depth 1 https://github.com/milostosic/build        build
-    - git clone --depth 1 https://github.com/milostosic/rbase        rbase
-    - git clone --depth 1 https://github.com/milostosic/rdebug       rdebug
-    - git clone --depth 1 https://github.com/milostosic/rmem         rmem
-    - git clone --depth 1 https://github.com/milostosic/rqt          rqt
-    - git clone --depth 1 https://github.com/milostosic/DIA            DIA
-    - git clone --depth 1 https://github.com/milostosic/luaforwindows  luaforwindows
+    - set QTDIR_VS2019_x64=C:\Qt\6.4\msvc2019_64
+    - set QTDIR_VS2019_x86=C:\Qt\6.4\msvc2019 
+    - set PATH=C:\projects\rqt\luaforwindows\files;C:\Qt\6.4\msvc2019_64\bin;%PATH%
+    - git clone --depth 1 https://github.com/milostosic/MTuner        MTuner
+    - git clone --depth 1 https://github.com/milostosic/MTunerDLL     MTunerDLL
+    - git clone --depth 1 https://github.com/milostosic/MTunerCmd     MTunerCmd
+    - git clone --depth 1 https://github.com/milostosic/MTunerInject  MTunerInject
+    - git clone --depth 1 https://github.com/milostosic/build         build
+    - git clone --depth 1 https://github.com/milostosic/rbase         rbase
+    - git clone --depth 1 https://github.com/milostosic/rdebug        rdebug
+    - git clone --depth 1 https://github.com/milostosic/rmem          rmem
+    - git clone --depth 1 https://github.com/milostosic/rqt           rqt
+    - git clone --depth 1 https://github.com/milostosic/DIA           DIA
+    - git clone --depth 1 https://github.com/milostosic/luaforwindows luaforwindows
 
     install:
       - build\tools\bin\windows\genie.exe --file=MTuner\genie\genie.lua vs2019
