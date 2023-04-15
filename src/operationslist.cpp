@@ -21,14 +21,14 @@ static bool __uncaught_exception() { return true; }
 //radixsort
 #endif // RTM_PLATFORM_WINDOWS && RTM_COMPILER_MSVC
 
-#if RTM_COMPILER_GCC || RTM_COMPILER_CLANG
+#if RTM_COMPILER_GCC
 #include <parallel/algorithm>
 
 #define RTM_PARALLEL_FOR_EACH	__gnu_parallel::for_each
 #define RTM_PARALLEL_SORT		__gnu_parallel::sort
 #endif // RTM_COMPILER_GCC
 
-#ifndef RTM_PARALLEL_FOR_EACH
+#ifndef RTM_PARALLEL_FOR_EACH // fallback
 #include <parallel/algorithm>
 
 #define RTM_PARALLEL_FOR_EACH	std::for_each
