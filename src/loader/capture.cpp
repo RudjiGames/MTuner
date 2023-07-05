@@ -259,6 +259,24 @@ void Capture::clearData()
 	destroyStackTree(m_stackTraceTree);
 }
 
+
+uint32_t StackTrace::calculateSize(uint32_t numFrames32)
+{
+	return (uint32_t)(sizeof(StackTrace) + (numFrames32 * 2 - 1) * sizeof(uint64_t) + (numFrames32 * 2) * sizeof(uint16_t));
+}
+
+void StackTrace::init(StackTrace* st, uint32_t numFrames32)
+{
+	memset(st->m_next, 0, sizeof(StackTrace*) * (numFrames32 + 1));
+	st->m_numEntries = (uint64_t)numFrames32;
+}
+
+uint16_t* StackTrace::getIndexArray(StackTrace* st)
+{
+	uint32_t offset = (uint32_t)sizeof(StackTrace) + (st->m_numEntries * 2 - 1) * sizeof(uint64_t);
+	return (uint16_t*)(((uint8_t*)(st)) + offset);
+}
+
 //--------------------------------------------------------------------------
 #define VERIFY_READ_SIZE(x)				\
 	if (1 != loader.readVar(x))			\
@@ -658,11 +676,10 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 						if (allocateAndAdd)
 						{
-							st = (StackTrace*)m_stackPool.alloc((uint32_t)(sizeof(StackTrace) + (numFrames32*4-1)*sizeof(uint64_t)));
-							st->m_next = (StackTrace**)m_stackPool.alloc((uint32_t)(sizeof(StackTrace*) * (numFrames32+1)));
-							memset(st->m_next, 0, sizeof(StackTrace*) * (numFrames32+1));
-							memcpy(&st->m_entries[0], backTrace64, numFrames32*sizeof(uint64_t));
-							st->m_numEntries = (uint64_t)numFrames32;
+							st = (StackTrace*)m_stackPool.alloc(StackTrace::calculateSize(numFrames32));
+							st->m_next = (StackTrace**)m_stackPool.alloc((uint32_t)(sizeof(StackTrace*) * (numFrames32 + 1)));
+							StackTrace::init(st, numFrames32);
+							memcpy(&st->m_entries[0], backTrace64, numFrames32 * sizeof(uint64_t));
 							m_stackTracesHash[stackTraceHash] = st;
 							m_stackTraces.push_back(st);
 						}
@@ -924,6 +941,9 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 		clearData();
 		return Capture::LoadFail;
 	}
+
+	if (m_loadProgressCallback)
+		m_loadProgressCallback(m_loadProgressCustomData, 100.0f, "Calculating global stats..");
 
 	calculateGlobalStats();
 
@@ -1206,6 +1226,8 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 	uint32_t numOpsOver100 = numStackTraces/100;
 	uint32_t idx = 0;
 
+	rtm_unordered_map<uint64_t, uint64_t> address_IDs;
+
 	while (it != end)
 	{
 		if ((idx > nextProgressPoint) && m_loadProgressCallback)
@@ -1219,19 +1241,18 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 		
 		int numFrames = (int)st->m_numEntries;
 
-		bool countSkippable = true;
 		int skip = 0;
 
 		for (int i=0; i<numFrames; ++i)
 		{
-			bool currentSymbolInMTunerDLL = true;
-			st->m_entries[i + numFrames] = rdebug::symbolResolverGetAddressID(_symResolver, st->m_entries[i], &currentSymbolInMTunerDLL);
-
-			if (!currentSymbolInMTunerDLL)
-				countSkippable = false;
-
-			if (countSkippable)
-				++skip;
+			auto itAdd = address_IDs.find(st->m_entries[i]);
+			if (itAdd != address_IDs.end())
+				st->m_entries[i + numFrames] = itAdd->second;
+			else
+			{
+				st->m_entries[i + numFrames] = rdebug::symbolResolverGetAddressID(_symResolver, st->m_entries[i], skip);
+				address_IDs[st->m_entries[i]] = st->m_entries[i + numFrames];
+			}
 		}
 
 		// remove mtunerdll from the top of call stack
@@ -1247,7 +1268,7 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 			st->m_numEntries = newCount;
 		}
 
-		memset(&st->m_entries[st->m_numEntries*2], 0xff, st->m_numEntries*2*sizeof(uint64_t));
+		memset(StackTrace::getIndexArray(st), 0xff, st->m_numEntries*2*sizeof(uint16_t));
 
 		st->m_addedToTree[StackTrace::Global] = 0;
 		++it;
@@ -1410,6 +1431,9 @@ bool Capture::setLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 		};
 	}
 
+	if (m_loadProgressCallback)
+		m_loadProgressCallback(m_loadProgressCustomData, 100.0f, "Removing invalid operations..");
+
 	/// Remove invalid operations
 	rtm_vector<MemoryOperation*>::iterator newEnd = std::remove_if( m_operations.begin(), m_operations.end(), isInvalid );
 	size_t newSize = newEnd -  m_operations.begin();
@@ -1430,7 +1454,7 @@ bool Capture::setLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 	m_filter.m_maxTimeSnapshot = m_maxTime;
 
 	if (m_loadProgressCallback)
-		m_loadProgressCallback(m_loadProgressCustomData, 100.0f, "Processing...");
+		m_loadProgressCallback(m_loadProgressCustomData, 100.0f, "2Processing...");
 
 	return true;
 }
@@ -1640,7 +1664,7 @@ void Capture::calculateFilteredData()
 	{
 		StackTrace* st = *it;
 		st->m_addedToTree[StackTrace::Filtered] = 0;
-		memset(&st->m_entries[st->m_numEntries*3], 0xff, (size_t)st->m_numEntries*sizeof(uint64_t));
+		memset(StackTrace::getIndexArray(st) + st->m_numEntries, 0xff, (size_t)st->m_numEntries*sizeof(uint16_t));
 
 		++it;
 
@@ -2087,12 +2111,13 @@ static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, 
 	{
 		int32_t depth = numFrames-currFrame;
 
-		const uint64_t currUniqueID = _trace->m_entries[currFrame+numFrames];
-		uint64_t& currUniqueIDIdx	= _trace->m_entries[currFrame+numFrames*(_offset+2)];
+		const uint64_t	currUniqueID = _trace->m_entries[currFrame+numFrames];
+		uint16_t* IDIdxArray = StackTrace::getIndexArray(_trace);
+		uint16_t& currUniqueIDIdx	= IDIdxArray[currFrame+numFrames*_offset];
 
 		StackTraceTree* nextNode = 0;
 
-		if (currUniqueIDIdx == (uint64_t)-1)
+		if (currUniqueIDIdx == (uint16_t)-1)
 		{
 			size_t numChildren = currNode->m_children.size();
 			size_t found = numChildren;
@@ -2101,7 +2126,7 @@ static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, 
 				if (currNode->m_children[i].m_addressID == currUniqueID)
 				{
 					found			= i;
-					currUniqueIDIdx	= (uint64_t)i;
+					currUniqueIDIdx	= (uint16_t)i;
 					break;
 				}
 			}
@@ -2114,7 +2139,7 @@ static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, 
 				newNode.m_addressID	= currUniqueID;
 				newNode.m_depth		= depth;
 				currNode->m_children.emplace_back(newNode);
-				currUniqueIDIdx	= (uint64_t)(currNode->m_children.size() - 1);
+				currUniqueIDIdx	= (uint16_t)(currNode->m_children.size() - 1);
 				nextNode = &currNode->m_children[numChildren];
 			}
 			else

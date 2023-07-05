@@ -200,6 +200,10 @@ struct StackTrace
 	uint64_t		m_numEntries;
 	int32_t			m_addedToTree[2];
 	uint64_t		m_entries[1];
+
+	static uint32_t		calculateSize(uint32_t numFrames32);
+	static void			init(StackTrace* st, uint32_t numFrames32);
+	static uint16_t*	getIndexArray(StackTrace* st);
 };
 
 //--------------------------------------------------------------------------

@@ -28,7 +28,7 @@
 static const char* g_banner = "Copyright (c) 2022 by Milos Tosic. All rights reserved.\n";
 
 void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSetup* inGCCSetup, 
-							QFileDialog* _fileDialog, MTuner* _MTuner, const QString& _symSource);
+							QFileDialog* _fileDialog, MTuner* _MTuner, const QString& _symSource, rdebug::module_load_cb _callBack);
 
 extern void getStoragePath(wchar_t _path[512]);
 
@@ -114,6 +114,14 @@ bool handleInject(rtm::CommandLine& _cmdLine)
 	rdebug::processRun(cmdLine64);
 
 	return true;
+}
+
+void resolverCallBack(const char* _name, void* _customData)
+{
+	MTuner* mt = (MTuner*)_customData;
+
+	mt->statusBar()->showMessage(QString("Loading symbols for: ") + _name, 2300);
+	mt->statusBar()->repaint();
 }
 
 int handleCommandLine(int argc, char const* argv[])
@@ -309,7 +317,7 @@ int handleCommandLine(int argc, char const* argv[])
 
 		if (context.m_capture->loadBin(inFilePath) == rtm::Capture::LoadResult::LoadSuccess)
 		{
-			setupLoaderToolchain(&context, inFilePath, &gcc_setup, NULL, NULL,  symSource ? QString(symSource) : QString(""));
+			setupLoaderToolchain(&context, inFilePath, &gcc_setup, NULL, NULL,  symSource ? QString(symSource) : QString(""), resolverCallBack);
 
 			rtm::Console::debug("Building analysis data...\n");
 			context.m_capture->buildAnalyzeData(context.m_symbolResolver);

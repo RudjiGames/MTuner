@@ -49,8 +49,10 @@ QString getDirFromFile(const QString& _file)
 	return workdir;
 }
 
+void resolverCallBack(const char* _name, void* _customData);
+
 void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSetup* _gccSetup,
-						  QFileDialog* _fileDialog, MTuner* _mtuner, const QString& _symSource)
+						  QFileDialog* _fileDialog, MTuner* _mtuner, const QString& _symSource, rdebug::module_load_cb _callBack)
 {
 	rdebug::Toolchain tc;
 	rtm_string executable;
@@ -136,7 +138,7 @@ void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSet
 			executable = _context->m_capture->getModuleInfos()[0].m_modulePath;
 	}
 
-	_context->setupResolver(tc, executable);
+	_context->setupResolver(tc, executable, _callBack, _mtuner);
 }
 
 MTuner::MTuner(QWidget* _parent, Qt::WindowFlags _flags) :
@@ -918,7 +920,9 @@ void MTuner::openFileFromPath(const QString& _file)
 				res = ctx->m_capture->loadBin(fn.c_str());
 			}
 		}
-		
+
+		statusBar()->showMessage(tr("Creating symbol resolver and downloading symbols, please wait..."), 230);
+
 		if (res != rtm::Capture::LoadFail)
 		{
 			if (res == rtm::Capture::LoadPartial)
@@ -929,7 +933,7 @@ void MTuner::openFileFromPath(const QString& _file)
 			}
 
 			// if not a windows toolchain - locate the executable
-			setupLoaderToolchain(ctx, _file, m_gccSetup, m_fileDialog, this, symStore);
+			setupLoaderToolchain(ctx, _file, m_gccSetup, m_fileDialog, this, symStore, resolverCallBack);
 
 			ctx->m_capture->buildAnalyzeData(ctx->m_symbolResolver);
 

@@ -25,7 +25,7 @@ CaptureContext::~CaptureContext()
 	}
 }
 
-void CaptureContext::setupResolver(rdebug::Toolchain& _tc, rtm_string& _executable)
+void CaptureContext::setupResolver(rdebug::Toolchain& _tc, rtm_string& _executable, rdebug::module_load_cb _callback, void* _data)
 {
 	switch (_tc.m_type)
 	{
@@ -60,7 +60,7 @@ void CaptureContext::setupResolver(rdebug::Toolchain& _tc, rtm_string& _executab
 			break;
 	};
 
-	m_symbolResolver = rdebug::symbolResolverCreate(m_capture->getModuleInfos().data(), (uint32_t)m_capture->getModuleInfos().size(), _executable.c_str());
+	m_symbolResolver = rdebug::symbolResolverCreate(m_capture->getModuleInfos().data(), (uint32_t)m_capture->getModuleInfos().size(), _executable.c_str(), _callback, _data);
 }
 
 void CaptureContext::resolveStackFrame(uint64_t _address, rdebug::StackFrame& _frame)
