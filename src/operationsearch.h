@@ -18,10 +18,12 @@ class OperationSearch : public QWidget
 	QLineEdit*		m_address;
 	QLineEdit*		m_searchAddress;
 	QComboBox*		m_searchType;
+	QCheckBox*		m_leaksOnly;
 
 public:
 	OperationSearch(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 
+	bool isLeaksOnlyChecked() const { return m_leaksOnly->isChecked(); }
 	void changeEvent(QEvent* _event);
 	void setPrevEnabled(bool);
 	void setNextEnabled(bool);
@@ -32,11 +34,13 @@ Q_SIGNALS:
 	void searchBySize(uint64_t);
 	void findPrev();
 	void findNext();
+	void showLeaksOnly(bool);
 
 public Q_SLOTS:
 	void search();
 	void searchTypeChanged(int);
 	void searchStringChanged(const QString&);
+	void leaksOnlyChanged(int);
 
 private:
 	Ui::OperationSearchWidget ui;

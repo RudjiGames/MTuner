@@ -32,10 +32,11 @@ public:
 	OperationsList(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 	~OperationsList();
 
+	bool isLeaksOnlyChecked() const { return m_operationSearch->isLeaksOnlyChecked(); }
 	void changeEvent(QEvent* _event);
 
 	void setContext(CaptureContext* _context, bool _valid = false);
-	void setFilteringState(bool _state);
+	void setFilteringState(bool _state, bool _leaksOnly);
 	bool getFilteringState() const;
 	void setSearchVisible(bool _visible) { m_operationSearch->setVisible(_visible);  }
 
@@ -52,6 +53,7 @@ public Q_SLOTS:
 	void selectNext();
 	void selectNextByAddress(uint64_t);
 	void selectNextBySize(uint64_t);
+	void toggleLeaksOnly(bool);
 
 private:
 	Ui::OperationsListWidget ui;

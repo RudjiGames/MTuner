@@ -84,8 +84,8 @@ void BinLoaderView::setFilteringEnabled(bool _filter)
 {
 	m_filteringEnabled = _filter;
 	m_context->m_capture->setFilteringEnabled(_filter);
-	m_operationList->setFilteringState(_filter);
-	m_operationListInvalid->setFilteringState(_filter);
+	m_operationList->setFilteringState(_filter, m_operationList->isLeaksOnlyChecked());
+	m_operationListInvalid->setFilteringState(_filter, m_operationList->isLeaksOnlyChecked());
 	m_groupList->setFilteringState(_filter);
 	m_stackTree->setFilteringState(_filter);
 	m_treeMap->setFilteringState(_filter);

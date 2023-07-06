@@ -58,6 +58,7 @@ struct OperationColumn
 class OperationTableSource : public BigTableSource
 {
 	private:
+	public:
 		CaptureContext*	m_context;
 		OperationsList*	m_list;
 		uint32_t		m_numColumns;
@@ -69,10 +70,10 @@ class OperationTableSource : public BigTableSource
 		const rtm_vector<rtm::MemoryOperation*>*	m_allOps;
 
 	public:
-		OperationTableSource(CaptureContext* _context, bool _valid, OperationsList* _list);
+		OperationTableSource(CaptureContext* _context, bool _valid, OperationsList* _list, bool _leaksOnly);
 		virtual ~OperationTableSource() {}
 
-		void prepareData();
+		void prepareData(bool _onlyLeaks);
 
 		virtual QStringList	getHeaderInfo(int32_t& _sortColumn, Qt::SortOrder& _sortOrder, QList<int>& _widths);
 		virtual uint32_t	getNumberOfRows();
@@ -188,17 +189,17 @@ struct pSetOpMappings
 	}
 };
 
-OperationTableSource::OperationTableSource(CaptureContext* _context, bool _valid, OperationsList* _list)
+OperationTableSource::OperationTableSource(CaptureContext* _context, bool _valid, OperationsList* _list, bool _leaksOnly)
 	: m_context(_context)
 	, m_list(_list)
 	, m_valid(_valid)
 {
 	m_numColumns	= OperationColumn::Count;
 	m_context		= _context;
-	prepareData();
+	prepareData(_leaksOnly);
 }
 
-void OperationTableSource::prepareData()
+void OperationTableSource::prepareData(bool _onlyLeaks)
 {
 	bool filterEnabled = m_list->getFilteringState();
 	const rtm_vector<rtm::MemoryOperation*>& _ops = (m_valid == false)
@@ -486,6 +487,7 @@ OperationsList::OperationsList(QWidget* _parent, Qt::WindowFlags _flags) :
 	connect(m_operationSearch, SIGNAL(findNext()), this, SLOT(selectNext()));
 	connect(m_operationSearch, SIGNAL(searchByAddress(uint64_t)), this, SLOT(selectNextByAddress(uint64_t)));
 	connect(m_operationSearch, SIGNAL(searchBySize(uint64_t)), this, SLOT(selectNextBySize(uint64_t)));
+	connect(m_operationSearch, SIGNAL(showLeaksOnly(bool)), this, SLOT(toggleLeaksOnly(bool)));
 }
 
 OperationsList::~OperationsList()
@@ -503,7 +505,7 @@ void OperationsList::changeEvent(QEvent* _event)
 void OperationsList::setContext(CaptureContext* _context, bool _valid)
 {
 	m_context = _context;
-	m_tableSource = new OperationTableSource(_context, _valid, this);
+	m_tableSource = new OperationTableSource(_context, _valid, this, m_operationSearch->isLeaksOnlyChecked());
 	m_operationList->setSource(m_tableSource);
 
 	m_tableSource->sortColumn(m_savedColumn, m_savedOrder);
@@ -513,10 +515,10 @@ void OperationsList::setContext(CaptureContext* _context, bool _valid)
 		m_operationList->getHeader()->restoreState(m_headerState);
 }
 
-void OperationsList::setFilteringState(bool _state)
+void OperationsList::setFilteringState(bool _state, bool _leaksOnly)
 {
 	m_enableFiltering = _state;
-	m_tableSource->prepareData();
+	m_tableSource->prepareData(_leaksOnly);
 	m_operationList->resetView();
 }
 
@@ -621,4 +623,9 @@ void OperationsList::selectNextBySize(uint64_t _size)
 		m_operationList->select(item);
 		selectionChanged(item);
 	}
+}
+
+void OperationsList::toggleLeaksOnly(bool _show)
+{
+	m_tableSource->m_list->m_tableSource->prepareData(_show);
 }

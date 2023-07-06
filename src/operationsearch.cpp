@@ -17,6 +17,9 @@ OperationSearch::OperationSearch(QWidget* _parent, Qt::WindowFlags _flags)	:
 	m_address		= findChild<QLineEdit*>("lineEditAddress");
 	m_searchAddress	= findChild<QLineEdit*>("lineEditSearch");
 	m_searchType	= findChild<QComboBox*>("comboBox");
+	m_leaksOnly		= findChild<QCheckBox*>("leaksCheckBox");
+	m_leaksOnly->setEnabled(false);
+	m_leaksOnly->setVisible(false);
 
 	m_searchAddress->setValidator(new QRegularExpressionValidator(QRegularExpression("0x?[0-9A-Fa-f]{1,16}")));
 
@@ -25,6 +28,7 @@ OperationSearch::OperationSearch(QWidget* _parent, Qt::WindowFlags _flags)	:
 	connect(m_searchAddress, SIGNAL(textChanged(const QString&)), this, SLOT(searchStringChanged(const QString&)));
 	connect(m_buttonSearch, SIGNAL(clicked()), this, SLOT(search()));
 	connect(m_searchType, SIGNAL(activated(int)), this, SLOT(searchTypeChanged(int)));
+	connect(m_leaksOnly, SIGNAL(stateChanged(int)), this, SLOT(leaksOnlyChanged(int)));
 }
 
 void OperationSearch::changeEvent(QEvent* _event)
@@ -88,4 +92,9 @@ void OperationSearch::searchTypeChanged(int _type)
 void OperationSearch::searchStringChanged(const QString& _text)
 {
 	m_buttonSearch->setEnabled(_text.length()!=0);
+}
+
+void OperationSearch::leaksOnlyChanged(int)
+{
+	emit showLeaksOnly(m_leaksOnly->isChecked());
 }

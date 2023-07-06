@@ -166,6 +166,13 @@
      </property>
     </widget>
    </item>
+   <item>
+    <widget class="QCheckBox" name="leaksCheckBox">
+     <property name="text">
+      <string>Leaks only</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources>
