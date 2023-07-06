@@ -1263,8 +1263,6 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 		
 		int numFrames = (int)st->m_numFrames;
 
-		int skip = 0;
-
 		for (int i=0; i<numFrames; ++i)
 		{
 			auto itAdd = address_IDs.find(st->m_frames[i]);
@@ -1272,25 +1270,30 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 				st->m_frames[i + numFrames] = itAdd->second;
 			else
 			{
-				st->m_frames[i + numFrames] = rdebug::symbolResolverGetAddressID(_symResolver, st->m_frames[i], skip);
-				address_IDs[st->m_frames[i]] = st->m_frames[i + numFrames];
+				uint64_t addID = rdebug::symbolResolverGetAddressID(_symResolver, st->m_frames[i]);
+				st->m_frames[i + numFrames] = addID;
+				address_IDs[st->m_frames[i]] = addID;
 			}
 		}
+
+		int skip = 0;
+		while (st->m_frames[skip + numFrames] == 0)
+			skip++;
 
 		// remove mtunerdll from the top of call stack
 		if (skip)
 		{
 			const uint32_t newCount = numFrames > skip ? numFrames - skip : 1;
 			for (uint32_t i=0; i<newCount; ++i)
-				st->m_frames[i]			= st->m_frames[i + skip];
-
-			for (uint32_t i=0; i<newCount; ++i)
+			{
+				st->m_frames[i]				= st->m_frames[i + skip];
 				st->m_frames[i + newCount]	= st->m_frames[i + numFrames + skip];
+			}
 
 			st->m_numFrames = newCount;
 		}
 
-		memset(StackTrace::getIndexArray(st), 0xff, st->m_numFrames*2*sizeof(uint16_t));
+		memset(StackTrace::getIndexArray(st), 0xff, getStackTraceIndexArraySize(st->m_numFrames));
 
 		st->m_addedToTree[StackTrace::Global] = 0;
 		++it;
@@ -1686,7 +1689,8 @@ void Capture::calculateFilteredData()
 	{
 		StackTrace* st = *it;
 		st->m_addedToTree[StackTrace::Filtered] = 0;
-		memset(StackTrace::getIndexArray(st) + st->m_numFrames, 0xff, (size_t)st->m_numFrames*sizeof(uint16_t));
+		// clear second half
+		memset(StackTrace::getIndexArray(st) + (getStackTraceIndexArraySize(st->m_numFrames) / 4), 0xff, getStackTraceIndexArraySize(st->m_numFrames) / 2);
 
 		++it;
 
