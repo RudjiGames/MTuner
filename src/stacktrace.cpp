@@ -184,7 +184,7 @@ void StackTrace::updateView()
 
 	setCount(m_currentTraceCnt);
 
-	const uint32_t rows = m_currentTrace[m_currentTraceIdx]->m_numEntries;
+	const uint32_t rows = m_currentTrace[m_currentTraceIdx]->m_numFrames;
 	m_table->model()->removeRows(0, m_table->model()->rowCount());
 	m_table->viewport()->installEventFilter(new QToolTipper(m_table));
 	m_table->setRowCount(rows);
@@ -192,7 +192,7 @@ void StackTrace::updateView()
 
 	for (uint32_t i=0; i<rows; ++i)
 	{
-		uint64_t address = m_currentTrace[m_currentTraceIdx]->m_entries[i];
+		uint64_t address = m_currentTrace[m_currentTraceIdx]->m_frames[i];
 		rdebug::StackFrame frame;
 		m_context->resolveStackFrame(address, frame);
 
@@ -277,7 +277,7 @@ void StackTrace::copy()
 
 void StackTrace::copyAll()
 {
-	const uint32_t rows = m_currentTrace[m_currentTraceIdx]->m_numEntries;
+	const uint32_t rows = m_currentTrace[m_currentTraceIdx]->m_numFrames;
 
 	QString text;
 	for (uint32_t i=0; i<rows; ++i)

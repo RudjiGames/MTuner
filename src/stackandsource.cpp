@@ -16,8 +16,10 @@ StackAndSource::StackAndSource(ExternalEditor* _editorDlg, QWidget* _parent, Qt:
 	m_source = findChild<SourceView*>("sourceViewWidget");
 	m_source->setEditorDialog(m_editorDialog);
 	m_stackTrace = findChild<StackTrace*>("stackTraceWidget");
+	m_fileName = findChild<QLabel*>("fileName");
 
 	connect(m_stackTrace, SIGNAL(openFile(const QString&,int,int)), m_source, SLOT(openFile(const QString&,int,int)));
+	connect(m_stackTrace, SIGNAL(openFile(const QString&,int,int)), this, SLOT(setFileName(const QString&,int,int)));
 }
 
 void StackAndSource::changeEvent(QEvent* _event)
@@ -36,4 +38,12 @@ void StackAndSource::setContext(CaptureContext* _context)
 void StackAndSource::setStackTrace(rtm::StackTrace** _trace, int _num)
 {
 	m_stackTrace->setStackTrace(_trace, _num);
+}
+
+void StackAndSource::setFileName(const QString& _file, int, int)
+{
+	if (_file != QString("Unknown"))
+		m_fileName->setText("<b>" + _file + "</b>");
+	else
+		m_fileName->setText("");
 }

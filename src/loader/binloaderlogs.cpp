@@ -138,11 +138,11 @@ bool Capture::saveLog(const char* _path, uintptr_t _symResolver )
 			continue;
 		}
 
-		uint32_t numFrames = (uint32_t)trace->m_numEntries;
+		uint32_t numFrames = (uint32_t)trace->m_numFrames;
 		for (uint32_t e=0; e<numFrames; e++)
 		{
 			rdebug::StackFrame st;
-			symbolResolverGetFrame(_symResolver, trace->m_entries[e], &st);
+			symbolResolverGetFrame(_symResolver, trace->m_frames[e], &st);
 			WriteStackFrame(f, st);
 		}
 	}
@@ -227,11 +227,11 @@ bool Capture::saveGroupsLog(const char* _path, eGroupSort _sorting, uintptr_t _s
 			continue;
 		}
 
-		uint32_t numFrames = (uint32_t)trace->m_numEntries;
+		uint32_t numFrames = (uint32_t)trace->m_numFrames;
 		for (uint32_t e=0; e<numFrames; e++)
 		{
 			rdebug::StackFrame st;
-			symbolResolverGetFrame(_symResolver, trace->m_entries[e], &st);
+			symbolResolverGetFrame(_symResolver, trace->m_frames[e], &st);
 			WriteStackFrame(f, st);
 		}
 	}
@@ -338,11 +338,11 @@ bool Capture::saveGroupsLogXML(const char* _path, eGroupSort _sorting, uintptr_t
 		if (!trace)
 			continue;
 
-		uint32_t numFrames = (uint32_t)trace->m_numEntries;
+		uint32_t numFrames = (uint32_t)trace->m_numFrames;
 		for (uint32_t e=0; e<numFrames; e++)
 		{
 			rdebug::StackFrame st;
-			symbolResolverGetFrame(_symResolver, trace->m_entries[e], &st);
+			symbolResolverGetFrame(_symResolver, trace->m_frames[e], &st);
 
 			fprintf(f, "        <Frame>\n");
 			fprintf(f, "            <Module>%s</Module>\n", st.m_moduleName);

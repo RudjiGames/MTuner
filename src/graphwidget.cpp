@@ -527,8 +527,8 @@ void GraphWidget::mouseMovement(const QPoint& _position, Qt::MouseButtons _butto
 		QString ttip =	"<p><nobr>" + QStringColor(tr("Start time") + ":", "ffffffff") + getTimeString(startTimeF) + "</nobr>\n" +
 						   "<nobr>" + QStringColor(tr("End time") + ":", "ffffffff") + getTimeString(endTimeF) + "</nobr>\n" +
 						   "<nobr>" + QStringColor(tr("Duration") + ":", "ffffffff") + getTimeString(endTimeF - startTimeF) + "</nobr>\n" +
-						   "<nobr>" + QStringColor(tr("Usage at end"), "ff83cf67") + m_locale.toString(qulonglong(entry.m_usage)) + "</nobr>\n" +
-						   "<nobr>" + QStringColor(tr("Live blocks"),  "ff42a6ba") + m_locale.toString(qulonglong(entry.m_numLiveBlocks)) + "</nobr></p>";
+						   "<nobr>" + QStringColor(tr("Usage at end"), "ff42a6ba") + m_locale.toString(qulonglong(entry.m_usage)) + "</nobr>\n" +
+						   "<nobr>" + QStringColor(tr("Live blocks"),  "ff83cf67") + m_locale.toString(qulonglong(entry.m_numLiveBlocks)) + "</nobr></p>";
 		m_toolTip = ttip;
 		m_toolTipPos = gpt;
 		QTimer::singleShot(60, this, &GraphWidget::myShowTooltip);
@@ -618,8 +618,8 @@ uint64_t GraphWidget::currentPos()
 		QString timeStr = getTimeString(timeF);
 
 		QString ttip =	"<p><nobr>" + QStringColor(tr("Time") + ":", "ffffffff") + timeStr + "</nobr>\n" +
-						   "<nobr>" + QStringColor(tr("Usage") + ":", "ff83cf67") + m_locale.toString(qulonglong(entry.m_usage)) + "</nobr>\n" +
-						   "<nobr>" + QStringColor(tr("Live blocks") + ":", "ff42a6ba") + m_locale.toString(qulonglong(entry.m_numLiveBlocks)) + "</nobr>\n";
+						   "<nobr>" + QStringColor(tr("Usage") + ":", "ff42a6ba") + m_locale.toString(qulonglong(entry.m_usage)) + "</nobr>\n" +
+						   "<nobr>" + QStringColor(tr("Live blocks") + ":", "ff83cf67") + m_locale.toString(qulonglong(entry.m_numLiveBlocks)) + "</nobr>\n";
 
 		m_toolTip = ttip;
 		m_toolTipPos = gpt;

@@ -196,14 +196,14 @@ struct StackTrace
 		Filtered
 	};
 
-	StackTrace**	m_next;
-	uint64_t		m_numEntries;
-	int32_t			m_addedToTree[2];
-	uint64_t		m_entries[1];
+	uint32_t		m_numFrames;
+	int16_t			m_addedToTree[2];
+	uint64_t		m_frames[1];
 
-	static uint32_t		calculateSize(uint32_t numFrames32);
-	static void			init(StackTrace* st, uint32_t numFrames32);
+	static uint32_t		calculateSize(uint32_t numFrames);
+	static void			init(StackTrace* st, uint32_t numFrames);
 	static uint16_t*	getIndexArray(StackTrace* st);
+	static StackTrace** getNextArray(StackTrace* st);
 };
 
 //--------------------------------------------------------------------------

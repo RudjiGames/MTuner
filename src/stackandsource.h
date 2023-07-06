@@ -18,6 +18,7 @@ class StackAndSource : public QWidget
 	StackTrace*		m_stackTrace;
 	SourceView*		m_source;
 	ExternalEditor*	m_editorDialog;
+	QLabel*			m_fileName;
 
 public:
 	StackAndSource(ExternalEditor* inEditorDlg, QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
@@ -28,6 +29,7 @@ public:
 public Q_SLOTS:
 	void setContext(CaptureContext*);
 	void setStackTrace(rtm::StackTrace**, int);
+	void setFileName(const QString&, int, int);
 
 private:
 	Ui::StackAndSource ui;

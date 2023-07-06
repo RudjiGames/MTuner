@@ -926,11 +926,7 @@ void MTuner::openFileFromPath(const QString& _file)
 		if (res != rtm::Capture::LoadFail)
 		{
 			if (res == rtm::Capture::LoadPartial)
-			{
-				QMessageBox msgInfo(QMessageBox::Information, tr("Capture loaded partially!"),tr("Capture file was only partially loaded!\nInformation may be missing from the profile!"), QMessageBox::Ok);
-				msgInfo.setWindowIcon(this->windowIcon());
-				msgInfo.exec();
-			}
+				statusBar()->showMessage(tr("Capture file was only partially loaded!\nInformation may be missing from the profile!"), 2300);
 
 			// if not a windows toolchain - locate the executable
 			setupLoaderToolchain(ctx, _file, m_gccSetup, m_fileDialog, this, symStore, resolverCallBack);

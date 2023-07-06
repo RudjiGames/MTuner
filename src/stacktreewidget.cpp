@@ -374,7 +374,7 @@ QVariant TreeItem::data(int _column) const
 		if (!m_resolved)
 		{
 			rdebug::StackFrame frame;
-			m_context->resolveStackFrame(m_tree->m_stackTraceList->m_entries[m_tree->m_stackTraceList->m_numEntries - m_depth], frame);
+			m_context->resolveStackFrame(m_tree->m_stackTraceList->m_frames[m_tree->m_stackTraceList->m_numFrames - m_depth], frame);
 
 			QString file = QString::fromUtf8(frame.m_file);
 
@@ -796,10 +796,11 @@ void StackTreeWidget::rowClicked(const QModelIndex& _index)
 
 	m_stackTraces.clear();
 
+//	for (uint32_t i=0; i<trace->m_numFrames; ++i)
 	while (trace)
 	{
 		m_stackTraces.push_back(trace);
-		trace = trace->m_next[depth];
+		trace = rtm::StackTrace::getNextArray(trace)[depth];
 	}
 
 	emit setStackTrace(m_stackTraces.data(), (int)m_stackTraces.size());

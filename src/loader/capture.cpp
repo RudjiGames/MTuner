@@ -259,22 +259,45 @@ void Capture::clearData()
 	destroyStackTree(m_stackTraceTree);
 }
 
-
-uint32_t StackTrace::calculateSize(uint32_t numFrames32)
+inline static uint32_t getStackTraceAndFramesSize(uint32_t numFrames)
 {
-	return (uint32_t)(sizeof(StackTrace) + (numFrames32 * 2 - 1) * sizeof(uint64_t) + (numFrames32 * 2) * sizeof(uint16_t));
+	return (uint32_t)(sizeof(StackTrace) + (numFrames * 2 - 1) * sizeof(uint64_t));
 }
 
-void StackTrace::init(StackTrace* st, uint32_t numFrames32)
+inline static uint32_t getStackTraceIndexArraySize(uint32_t numFrames)
 {
-	memset(st->m_next, 0, sizeof(StackTrace*) * (numFrames32 + 1));
-	st->m_numEntries = (uint64_t)numFrames32;
+	return (uint32_t)((numFrames * 2) * sizeof(uint16_t));
 }
 
-uint16_t* StackTrace::getIndexArray(StackTrace* st)
+inline static uint32_t getStackTraceNextArraySize(uint32_t numFrames)
 {
-	uint32_t offset = (uint32_t)sizeof(StackTrace) + (st->m_numEntries * 2 - 1) * sizeof(uint64_t);
+	return (uint32_t)(sizeof(StackTrace*) * (numFrames + 1));
+}
+
+inline uint32_t StackTrace::calculateSize(uint32_t numFrames)
+{
+	return	getStackTraceAndFramesSize(numFrames) +
+			getStackTraceIndexArraySize(numFrames) +
+			getStackTraceNextArraySize(numFrames);
+}
+
+inline void StackTrace::init(StackTrace* st, uint32_t numFrames)
+{
+	memset(StackTrace::getNextArray(st), 0, sizeof(StackTrace*) * (numFrames));
+	st->m_numFrames = (uint64_t)numFrames;
+}
+
+inline uint16_t* StackTrace::getIndexArray(StackTrace* st)
+{
+	uint32_t offset = getStackTraceAndFramesSize(st->m_numFrames);
 	return (uint16_t*)(((uint8_t*)(st)) + offset);
+}
+
+StackTrace** StackTrace::getNextArray(StackTrace* st)
+{
+	uint32_t offset =	getStackTraceAndFramesSize(st->m_numFrames) +
+						getStackTraceIndexArraySize(st->m_numFrames);
+	return (StackTrace**)(((uint8_t*)(st)) + offset);
 }
 
 //--------------------------------------------------------------------------
@@ -667,7 +690,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 						if (it != m_stackTracesHash.end())
 						{
 							StackTrace* s = it->second;
-							if (stackTraceCompare(s->m_entries, s->m_numEntries, backTrace64, numFrames32))
+							if (stackTraceCompare(s->m_frames, s->m_numFrames, backTrace64, numFrames32))
 							{
 								allocateAndAdd = false;
 								st = s;
@@ -677,9 +700,8 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 						if (allocateAndAdd)
 						{
 							st = (StackTrace*)m_stackPool.alloc(StackTrace::calculateSize(numFrames32));
-							st->m_next = (StackTrace**)m_stackPool.alloc((uint32_t)(sizeof(StackTrace*) * (numFrames32 + 1)));
 							StackTrace::init(st, numFrames32);
-							memcpy(&st->m_entries[0], backTrace64, numFrames32 * sizeof(uint64_t));
+							memcpy(&st->m_frames[0], backTrace64, numFrames32 * sizeof(uint64_t));
 							m_stackTracesHash[stackTraceHash] = st;
 							m_stackTraces.push_back(st);
 						}
@@ -999,11 +1021,11 @@ bool Capture::isInFilter(MemoryOperation* _op)
 	if (m_currentModule)
 	{
 		bool moduleInStack = false;
-		const uint32_t numEntries = (uint32_t)_op->m_stackTrace->m_numEntries;
+		const uint32_t numEntries = (uint32_t)_op->m_stackTrace->m_numFrames;
 		for (uint32_t i=0; i<numEntries; ++i)
 		{
 			rdebug::ModuleInfo info;
-			if (m_currentModule->checkAddress(_op->m_stackTrace->m_entries[i]))
+			if (m_currentModule->checkAddress(_op->m_stackTrace->m_frames[i]))
 			{
 				moduleInStack = true;
 				break;
@@ -1239,19 +1261,19 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 
 		StackTrace* st = *it;
 		
-		int numFrames = (int)st->m_numEntries;
+		int numFrames = (int)st->m_numFrames;
 
 		int skip = 0;
 
 		for (int i=0; i<numFrames; ++i)
 		{
-			auto itAdd = address_IDs.find(st->m_entries[i]);
+			auto itAdd = address_IDs.find(st->m_frames[i]);
 			if (itAdd != address_IDs.end())
-				st->m_entries[i + numFrames] = itAdd->second;
+				st->m_frames[i + numFrames] = itAdd->second;
 			else
 			{
-				st->m_entries[i + numFrames] = rdebug::symbolResolverGetAddressID(_symResolver, st->m_entries[i], skip);
-				address_IDs[st->m_entries[i]] = st->m_entries[i + numFrames];
+				st->m_frames[i + numFrames] = rdebug::symbolResolverGetAddressID(_symResolver, st->m_frames[i], skip);
+				address_IDs[st->m_frames[i]] = st->m_frames[i + numFrames];
 			}
 		}
 
@@ -1260,15 +1282,15 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 		{
 			const uint32_t newCount = numFrames > skip ? numFrames - skip : 1;
 			for (uint32_t i=0; i<newCount; ++i)
-				st->m_entries[i]			= st->m_entries[i + skip];
+				st->m_frames[i]			= st->m_frames[i + skip];
 
 			for (uint32_t i=0; i<newCount; ++i)
-				st->m_entries[i + newCount]	= st->m_entries[i + numFrames + skip];
+				st->m_frames[i + newCount]	= st->m_frames[i + numFrames + skip];
 
-			st->m_numEntries = newCount;
+			st->m_numFrames = newCount;
 		}
 
-		memset(StackTrace::getIndexArray(st), 0xff, st->m_numEntries*2*sizeof(uint16_t));
+		memset(StackTrace::getIndexArray(st), 0xff, st->m_numFrames*2*sizeof(uint16_t));
 
 		st->m_addedToTree[StackTrace::Global] = 0;
 		++it;
@@ -1664,7 +1686,7 @@ void Capture::calculateFilteredData()
 	{
 		StackTrace* st = *it;
 		st->m_addedToTree[StackTrace::Filtered] = 0;
-		memset(StackTrace::getIndexArray(st) + st->m_numEntries, 0xff, (size_t)st->m_numEntries*sizeof(uint16_t));
+		memset(StackTrace::getIndexArray(st) + st->m_numFrames, 0xff, (size_t)st->m_numFrames*sizeof(uint16_t));
 
 		++it;
 
@@ -2090,7 +2112,7 @@ void Capture::addToMemoryGroups(MemoryGroupsHashType& _groups, MemoryOperation* 
 
 static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, int32_t _overhead, StackTrace::Scope _offset, StackTraceTree::Enum _opType)
 {
-	const int32_t numFrames = (int32_t)_trace->m_numEntries;
+	const int32_t numFrames = (int32_t)_trace->m_numFrames;
 	int32_t currFrame = numFrames;
 	StackTraceTree* currNode = _root;
 
@@ -2104,14 +2126,16 @@ static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, 
 		++currNode->m_opCount[_opType];
 
 	// add stack trace to root node
-	_trace->m_next[0]		= _root->m_stackTraceList;
+	StackTrace::getNextArray(_trace);
+		StackTrace** ar = StackTrace::getNextArray(_trace);
+		ar[0]		= _root->m_stackTraceList;
 	_root->m_stackTraceList	= _trace;
 
 	while (--currFrame >= 0)
 	{
 		int32_t depth = numFrames-currFrame;
 
-		const uint64_t	currUniqueID = _trace->m_entries[currFrame+numFrames];
+		const uint64_t	currUniqueID = _trace->m_frames[currFrame+numFrames];
 		uint16_t* IDIdxArray = StackTrace::getIndexArray(_trace);
 		uint16_t& currUniqueIDIdx	= IDIdxArray[currFrame+numFrames*_offset];
 
@@ -2152,7 +2176,7 @@ static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, 
 
 		if (_trace->m_addedToTree[_offset] < depth)
 		{
-			_trace->m_next[depth] = currNode->m_stackTraceList;
+			StackTrace::getNextArray(_trace)[depth] = currNode->m_stackTraceList;
 			currNode->m_stackTraceList = _trace;
 			_trace->m_addedToTree[_offset] = depth;
 		}
