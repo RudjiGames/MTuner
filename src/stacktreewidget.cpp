@@ -338,17 +338,12 @@ QString formatPercentageView(uint64_t _num, uint64_t _total, bool _countAndPct =
 	if (_countAndPct)
 	{
 		if (_total)
-			return locale.toString(_num) + " (" + QString::number(pct, 'f', 2) + "%)";
+			return locale.toString(_num) + " (" + QString::number(pct, 'f', 3) + "%)";
 		else
 			return locale.toString(_num) + " (0%)";
 	}
 	else
-	{
-		if (_total)
-			return QString::number(pct, 'f', 2) + "%";
-		else
-			return "0%";
-	}
+		return QString::number(pct, 'f', 3) + "%";
 }
 
 QVariant TreeItem::data(int _column) const
