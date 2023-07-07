@@ -12,23 +12,18 @@ struct CaptureContext;
 
 struct TreeMapNode
 {
-	QRectF					m_rect;		///< Rectangle in the scene
-	QString					m_text;		///< Tool tip text
-	uint64_t				m_size;		///< Size of the node, based on the view type (usage, peak, etc.)
-	uint64_t				m_allocs;	///< Number of allocations
-	uint64_t				m_reallocs;	///< Number of reallocations
-	uint64_t				m_frees;	///< Number of frees
 	rtm::StackTraceTree*	m_tree;		///< Pointer to the actual stact trace tree node, used to resolve symbols
+	uint64_t				m_size;		///< Size of the node, based on the view type (usage, peak, etc.)
+	uint32_t				m_allocs;	///< Number of allocations
+	uint32_t				m_reallocs;	///< Number of reallocations
+	uint32_t				m_frees;	///< Number of frees
 	
 	TreeMapNode()
 		: m_size(0)
 		, m_allocs(0)
 		, m_reallocs(0)
 		, m_frees(0)
-		, m_tree(NULL)
 	{}
-	
-	void reset() { m_text.clear(); }
 };
 
 class TreeMapView : public QGraphicsView
@@ -39,11 +34,16 @@ private:
 	QGraphicsScene*					m_scene;
 	CaptureContext*					m_context;
 	rtm_vector<TreeMapNode>			m_tree;
+	QVector<QRectF>					m_treeRects;
+	QVector<QString>				m_treeTooltips;
 	TreeMapNode*					m_highlightNode;
-	QElapsedTimer					m_timer;
+	int								m_highlightNodeRect;
 	qint64							m_lastClick;
 	uint32_t						m_mapType;
 	TreeMapGraphicsItem*			m_item;
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event);
 
 public:
 	TreeMapView(QWidget* _parent = 0);
@@ -52,10 +52,11 @@ public:
 	void						setContext(CaptureContext* _context);
 	void						setMapType(uint32_t _type);
 	uint32_t					getMapType() const { return m_mapType; }
-	TreeMapNode*				findNode(QPoint& _point);
+	TreeMapNode*				findNode(QPoint& _point, int* _toolTipIndex);
 	inline TreeMapNode*			getHighlightNode() { return m_highlightNode; }
+	inline QRectF				getHighlightRect() { return m_highlightNodeRect == -1 ? QRectF() : m_treeRects[m_highlightNodeRect]; }
 	rtm_vector<TreeMapNode>&	getTree() { return m_tree; }
-	
+	QVector<QRectF>&			getTreeRects() { return m_treeRects; }
 	/// QWidget
 	void resizeEvent(QResizeEvent* _event);
 	void mousePressEvent(QMouseEvent* _event);

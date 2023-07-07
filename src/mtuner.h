@@ -101,7 +101,7 @@ public:
 	void changeEvent(QEvent* _event);
 	void closeEvent(QCloseEvent* _event);
 	void openFileFromPath(const QString& _file);
-	void handleFile(const QString& _file);
+	bool handleFile(const QString& _file);
 
 public Q_SLOTS:
 

@@ -143,9 +143,27 @@ void ProjectsManager::buttonRemove()
 
 extern void getStoragePath(wchar_t _path[512]);
 
-void ProjectsManager::run(const QString& _executable, const QString& _cmd, const QString& _workingDir, const QStringList& _environment, bool _inheritEnv, int _allocator, bool _shouldCapture, bool _shouldLoad)
+bool ProjectsManager::run(const QString& _executable, const QString& _cmd, const QString& _workingDir, const QStringList& _environment, bool _inheritEnv, int _allocator, bool _shouldCapture, bool _shouldLoad)
 {
-	QString currpath = QCoreApplication::applicationDirPath();
+	const bool exe64bit = rdebug::processIs64bitBinary(_executable.toUtf8());
+
+	QString currPath = QCoreApplication::applicationDirPath();
+	QString currPath2 = QDir::currentPath();
+
+	QString exePath = currPath + (exe64bit ? "/MTunerInject64.exe" : "/MTunerInject32.exe");
+
+	// maybe we're debugging?
+	if (!QFile::exists(exePath))
+		exePath = currPath2 + (exe64bit ? "/MTunerInject64.exe" : "/MTunerInject32.exe");
+
+	if (!QFile::exists(exePath))
+	{
+		QMessageBox::warning(	this,
+								tr("Process inject failed!"),
+								tr("Process inject has failed,\nmissing MTuner inject binaries\n(MTunerInject*.*)"),
+								QMessageBox::Ok);
+		return false;
+	}
 
 	if (_shouldLoad)
 	{
@@ -159,12 +177,6 @@ void ProjectsManager::run(const QString& _executable, const QString& _cmd, const
 	}
 
 	QString arguments = " #23#" + _executable + "#23# #23#" + _cmd + "#23# #23#" + _workingDir + "#23#";
-
-	QString exePath;
-	if (rdebug::processIs64bitBinary(_executable.toUtf8()))
-		exePath = currpath + "/MTunerInject64.exe";
-	else
-		exePath = currpath + "/MTunerInject32.exe";
 
 	QProcess* process;
 	process = new QProcess(this);
@@ -197,6 +209,8 @@ void ProjectsManager::run(const QString& _executable, const QString& _cmd, const
 		connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processInjectFinished(int, QProcess::ExitStatus)));
 
 	process->start();
+	bool state = process->state() != QProcess::ProcessState::NotRunning;
+	return state;
 }
 
 void ProjectsManager::loadSettings(QSettings& _settings)

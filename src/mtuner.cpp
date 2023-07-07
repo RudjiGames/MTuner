@@ -670,9 +670,8 @@ bool isProcessRunning(uint64_t)
 
 void MTuner::checkCaptureStatus()
 {
-	statusBar()->showMessage(tr("Capture in progress") + " - " + m_watchedFile, g_watchInterval);
 	bool running =
-		((m_projectsManager->isInjecting()) ||
+		((m_projectsManager->isInjecting() && (m_capturePid != 0)) ||
 		((m_capturePid != 0) && isProcessRunning(m_capturePid)));
 
 	m_statusBarRedDot->setVisible(m_statusBarRedDot->isHidden());
@@ -688,6 +687,7 @@ void MTuner::checkCaptureStatus()
 	}
 	else
 	{
+		statusBar()->showMessage(tr("Capture in progress") + " - " + m_watchedFile, g_watchInterval);
 		if (m_watchTimer)
 			m_watchTimer->start();
 	}
@@ -995,7 +995,7 @@ void MTuner::dropEvent(QDropEvent* _event)
 	}
 }
 
-void MTuner::handleFile(const QString& _file)
+bool MTuner::handleFile(const QString& _file)
 {
 	QString workdir = getDirFromFile(_file);
 
@@ -1008,11 +1008,14 @@ void MTuner::handleFile(const QString& _file)
 		{
 			QMessageBox message(QMessageBox::Information, tr("Capture in progress"), tr("Cannot start a new capture while capture is in progress"));
 			message.exec();
+			return false;
 		}
 		else
 		{
 			QFileInfo fi(_file); // for working dir
-			m_projectsManager->run(_file, QString(), fi.path());
+			return m_projectsManager->run(_file, QString(), fi.path());
 		}
 	}
+
+	return false;
 }
