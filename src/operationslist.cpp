@@ -199,7 +199,7 @@ OperationTableSource::OperationTableSource(CaptureContext* _context, bool _valid
 	prepareData(_leaksOnly);
 }
 
-void OperationTableSource::prepareData(bool _onlyLeaks)
+void OperationTableSource::prepareData(bool /*_onlyLeaks*/)
 {
 	bool filterEnabled = m_list->getFilteringState();
 	const rtm_vector<rtm::MemoryOperation*>& _ops = (m_valid == false)
