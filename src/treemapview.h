@@ -31,19 +31,14 @@ class TreeMapView : public QGraphicsView
 	Q_OBJECT
 
 private:
-	QGraphicsScene*					m_scene;
 	CaptureContext*					m_context;
 	rtm_vector<TreeMapNode>			m_tree;
 	QVector<QRectF>					m_treeRects;
 	QVector<QString>				m_treeTooltips;
 	TreeMapNode*					m_highlightNode;
 	int								m_highlightNodeRect;
-	qint64							m_lastClick;
 	uint32_t						m_mapType;
 	TreeMapGraphicsItem*			m_item;
-
-protected:
-    bool eventFilter(QObject *obj, QEvent *event);
 
 public:
 	TreeMapView(QWidget* _parent = 0);
@@ -62,7 +57,8 @@ public:
 	void mousePressEvent(QMouseEvent* _event);
 	void mouseMoveEvent(QMouseEvent* _event);
 	void mouseReleaseEvent(QMouseEvent* _event);
-	void leaveEvent(QEvent* _event);
+    void enterEvent(QEnterEvent *event);
+    void leaveEvent(QEvent *event);
 
 Q_SIGNALS:
 	void setStackTrace(rtm::StackTrace**, int);
@@ -87,8 +83,9 @@ public:
 
 	/// QWidget
 	virtual QRectF			boundingRect() const;
-	virtual QPainterPath	shape() const;
 	virtual void			paint(QPainter* _painter, const QStyleOptionGraphicsItem* _option, QWidget* _widget);
+
+	virtual void			hoverMoveEvent(QGraphicsSceneHoverEvent* mouseEvent);
 };
 
 #endif // RTM_MTUNER_TREEMAPVIEW_H

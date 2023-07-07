@@ -154,32 +154,15 @@ static inline uint64_t getNodeValueByType(TreeMapNode& _tree, uint32_t _type)
 	return 0;
 }
 
-bool TreeMapView::eventFilter(QObject* obj, QEvent* event)
-{
-	if ((event->type() == QEvent::MouseMove) &&
-		(obj != this))
-	{
-		mouseMoveEvent((QMouseEvent*)event);
-        return false;
-    }
-    return false;
-}
-
 TreeMapView::TreeMapView(QWidget* _parent) :
 	QGraphicsView(_parent)
 {
 	m_context		= NULL;
 	m_highlightNode	= NULL;
-	m_lastClick		= 0;
 	m_mapType		= 0;
-	m_scene			= new QGraphicsScene(this);
-    m_scene->setItemIndexMethod(QGraphicsScene::NoIndex);
-
-    setScene(m_scene);
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-	QCoreApplication::instance()->installEventFilter(this);
+	setMouseTracking(true);
 }
 
 void TreeMapView::setContext(CaptureContext* _context)
@@ -276,8 +259,8 @@ void TreeMapView::mouseMoveEvent(QMouseEvent* _event)
 	{
 		m_highlightNode = tt;
 		m_highlightNodeRect = toolTipIndex;
-		invalidateScene();
 	}
+	invalidateScene();
 
 	if (tt)
 	{
@@ -314,13 +297,17 @@ void TreeMapView::mouseReleaseEvent(QMouseEvent* _event)
 	QGraphicsView::mouseReleaseEvent(_event);
 }
 
+void TreeMapView::enterEvent(QEnterEvent* event)
+{
+	invalidateScene();
+}
+
 void TreeMapView::leaveEvent(QEvent*)
 {
-	if (m_highlightNode)
-	{
-		m_highlightNode = NULL;
-		invalidateScene();
-	}
+	m_highlightNode		= NULL;
+	m_highlightNodeRect	= -1;
+
+	invalidateScene();
 }
 
 TreeMapGraphicsItem::TreeMapGraphicsItem(TreeMapView* _treeView, CaptureContext* _context)
@@ -329,6 +316,7 @@ TreeMapGraphicsItem::TreeMapGraphicsItem(TreeMapView* _treeView, CaptureContext*
 	m_treeView				= _treeView;
 	m_context				= _context;
 	_treeView->setItem(this);
+	setAcceptHoverEvents(true);
 }
 
 void TreeMapGraphicsItem::redraw()
@@ -338,16 +326,11 @@ void TreeMapGraphicsItem::redraw()
 
 QRectF TreeMapGraphicsItem::boundingRect() const
 {
-	QSizeF sz = m_treeView->size();
-	return QRectF(-sz.width()/2, -sz.height()/2, sz.width(), sz.height());
+	return QRectF(m_treeView->geometry());
 }
 
-QPainterPath TreeMapGraphicsItem::shape() const
-{
-    QPainterPath path;
-	path.addRect( QRectF(0, 0, 0, 0) );
-    return path;
-}
+static QFont s_sizeFont(QFont("Verdana", 6));
+
 
 static inline void drawBlockText(const QString& _text, QPainter* _painter, int _fontHeight, int _fontWidths[17], QRectF& _rect, bool _highlight)
 {
@@ -360,6 +343,7 @@ static inline void drawBlockText(const QString& _text, QPainter* _painter, int _
 	if ((_rect.width() - _fontWidths[len] > 6.0f) && (_rect.height() > _fontHeight))
 	{
 		QRectF textRect = _rect.adjusted(3.0f,0,-3.0f,14-_rect.height());
+		_painter->setFont(s_sizeFont);
 		_painter->drawText(textRect,_text);
 	}
 }
@@ -431,7 +415,7 @@ void TreeMapGraphicsItem::paint(QPainter* _painter, const QStyleOptionGraphicsIt
 	{
 		initialized = true;
 		for (int i = 0; i < 17; ++i)
-			textWidth[i] = m_treeView->fontMetrics().horizontalAdvance(lenStrs[i]);
+			textWidth[i] = QFontMetrics(s_sizeFont).horizontalAdvance(lenStrs[i]);
 	}
 
 	for (size_t i=0; i<tree.size(); ++i)
@@ -440,8 +424,13 @@ void TreeMapGraphicsItem::paint(QPainter* _painter, const QStyleOptionGraphicsIt
 		if (info.m_tree->m_children.empty())
 		{
 			QLocale locale;
-			int fontHeight = m_treeView->fontMetrics().height();
-			drawBlockText(locale.toString(qulonglong(info.m_size)), _painter, fontHeight, textWidth, rects[i], &info == highlight);
+			int s_fontHeight = QFontMetrics(s_sizeFont).height();
+			drawBlockText(locale.toString(qulonglong(info.m_size)), _painter, s_fontHeight, textWidth, rects[i], &info == highlight);
 		}
 	}
+}
+
+void TreeMapGraphicsItem::hoverMoveEvent(QGraphicsSceneHoverEvent* _mouseEvent)
+{
+	// hmmm ?
 }
