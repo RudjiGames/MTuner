@@ -163,6 +163,9 @@ TreeMapView::TreeMapView(QWidget* _parent) :
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setMouseTracking(true);
+	m_toolTipLabel = new QLabel;
+	m_toolTipLabel->setWindowFlag(Qt::ToolTip);
+	m_toolTipLabel->setFont(QFont("Consolas", 8));
 }
 
 void TreeMapView::setContext(CaptureContext* _context)
@@ -248,6 +251,8 @@ void TreeMapView::mousePressEvent(QMouseEvent* _event)
 	QGraphicsView::mousePressEvent(_event);
 }
 
+QString QStringColor(const QString& _string, const char* _color);
+
 void TreeMapView::mouseMoveEvent(QMouseEvent* _event)
 {
 	QPoint scenePos = mapToScene(_event->pos()).toPoint();
@@ -261,22 +266,22 @@ void TreeMapView::mouseMoveEvent(QMouseEvent* _event)
 		m_highlightNodeRect = toolTipIndex;
 	}
 	invalidateScene();
+	static int cnt = 0;
 
 	if (tt)
 	{
-		QString& str = m_treeTooltips[toolTipIndex];
-		if (!str.size())
-		{
-			QLocale locale;
-			str =	QObject::tr("Total size: ") + locale.toString(qulonglong(tt->m_size)) + QString("\n\n") +
-					QObject::tr("Operations: ") + locale.toString(qulonglong(tt->m_allocs + tt->m_reallocs + tt->m_frees)) + QString("\n") +
-					QObject::tr("    Allocs: ") + locale.toString(qulonglong(tt->m_allocs)) + QString("\n") +
-					QObject::tr("  Reallocs: ") + locale.toString(qulonglong(tt->m_reallocs)) + QString("\n") +
-					QObject::tr("     Frees: ") + locale.toString(qulonglong(tt->m_frees));
-		}
-
-		QToolTip::showText(_event->globalPosition().toPoint(), str);
+		QLocale locale;
+		QString str =	"<p>" + QStringColor(tr("Total size"), "ff42a6ba") + locale.toString(qulonglong(tt->m_size)) + QString("\n\n") + "<br>" +
+								QStringColor(tr("Operations"), "ff83cf67") + locale.toString(qulonglong(tt->m_allocs + tt->m_reallocs + tt->m_frees)) + "<br>" +
+								QStringColor(tr("    Allocs"), "ffffffff") + locale.toString(qulonglong(tt->m_allocs)) + "<br>" +
+								QStringColor(tr("  Reallocs"), "ffffffff") + locale.toString(qulonglong(tt->m_reallocs)) + "<br>" +
+								QStringColor(tr("     Frees"), "ffffffff") + locale.toString(qulonglong(tt->m_frees)) + "<br></p>";
+		m_toolTipLabel->setText(str);
 	}
+
+	m_toolTipLabel->move(QCursor::pos() + QPoint(3,3));
+	if(m_toolTipLabel->isHidden())
+		m_toolTipLabel->show();
 
 	QGraphicsView::mouseMoveEvent(_event);
 }
@@ -306,6 +311,7 @@ void TreeMapView::leaveEvent(QEvent*)
 {
 	m_highlightNode		= NULL;
 	m_highlightNodeRect	= -1;
+	m_toolTipLabel->hide();
 
 	invalidateScene();
 }

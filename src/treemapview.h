@@ -39,6 +39,7 @@ private:
 	int								m_highlightNodeRect;
 	uint32_t						m_mapType;
 	TreeMapGraphicsItem*			m_item;
+	QLabel*							m_toolTipLabel;
 
 public:
 	TreeMapView(QWidget* _parent = 0);
