@@ -53,10 +53,7 @@ private:
 	QAction*				m_actionSelectFromMarker;
 	QAction*				m_actionSelectToMarker;
 	QLocale					m_locale;
-	QTimer*					m_timer;
-
-	QString					m_toolTip;
-	QPoint					m_toolTipPos;
+	QLabel*					m_toolTipLabel;
 public:
 	static const int	s_marginLeft	= 45;
 	static const int	s_marginRight	= 21;
@@ -88,7 +85,7 @@ public:
 	uint64_t		getHighlightTimeEnd() const { return m_hightlightTimeEnd; }
 	void			zoomIn(uint64_t _time);
 	void			zoomOut(uint64_t _time);
-	uint64_t		currentPos();
+	void			updateToolTip(const QPoint& _position);
 
 	/// QGraphicsView
 	void drawBackground(QPainter* _painter, const QRectF& _rect);
@@ -100,6 +97,7 @@ public:
 	void mouseMoveEvent(QMouseEvent* _event);
 	void mouseReleaseEvent(QMouseEvent* _event);
 	void contextMenuEvent(QContextMenuEvent* _event);
+	void leaveEvent(QEvent*) { m_toolTipLabel->hide(); }
 
 protected:
 	void mouseMovement(const QPoint& _position, Qt::MouseButtons _buttons = Qt::NoButton);
@@ -109,7 +107,6 @@ protected:
 	bool	event(QEvent *event);
 
 public Q_SLOTS:
-	void myShowTooltip();
 	void zoomIn();
 	void zoomOut();
 	void zoomReset();

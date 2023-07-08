@@ -62,6 +62,7 @@
 #include <QtGui/QStandardItem>
 #include <QtGui/QSyntaxHighlighter>
 #include <QtGui/QTextCharFormat>
+#include <QtGui/QFontDatabase>
 
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>

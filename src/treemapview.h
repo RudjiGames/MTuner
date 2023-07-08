@@ -34,7 +34,6 @@ private:
 	CaptureContext*					m_context;
 	rtm_vector<TreeMapNode>			m_tree;
 	QVector<QRectF>					m_treeRects;
-	QVector<QString>				m_treeTooltips;
 	TreeMapNode*					m_highlightNode;
 	int								m_highlightNodeRect;
 	uint32_t						m_mapType;
@@ -85,8 +84,6 @@ public:
 	/// QWidget
 	virtual QRectF			boundingRect() const;
 	virtual void			paint(QPainter* _painter, const QStyleOptionGraphicsItem* _option, QWidget* _widget);
-
-	virtual void			hoverMoveEvent(QGraphicsSceneHoverEvent* mouseEvent);
 };
 
 #endif // RTM_MTUNER_TREEMAPVIEW_H

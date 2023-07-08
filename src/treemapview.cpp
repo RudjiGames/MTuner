@@ -8,6 +8,9 @@
 #include <MTuner/src/treemap.h>
 #include <MTuner/src/capturecontext.h>
 
+static QFont s_sizeFont(QFont("Arial", 7));
+static QFont s_toolTipFont(QFont("Arial", 8));
+
 static inline uint64_t getTotalMem(rtm_vector<TreeMapNode>& _items, int _start, int _end)
 {
 	uint64_t sum = 0;
@@ -165,7 +168,9 @@ TreeMapView::TreeMapView(QWidget* _parent) :
 	setMouseTracking(true);
 	m_toolTipLabel = new QLabel;
 	m_toolTipLabel->setWindowFlag(Qt::ToolTip);
-	m_toolTipLabel->setFont(QFont("Consolas", 8));
+
+	s_sizeFont.setStyleHint(QFont::Monospace);
+	s_toolTipFont.setStyleHint(QFont::Monospace);
 }
 
 void TreeMapView::setContext(CaptureContext* _context)
@@ -179,7 +184,6 @@ void TreeMapView::setMapType(uint32_t _type)
 	m_mapType = _type;
 	m_tree.clear();
 	m_treeRects.clear();
-	m_treeTooltips.clear();
 	buildTree();
 	m_item->redraw();
 	invalidateScene();
@@ -213,7 +217,6 @@ void TreeMapView::buildTreeRecurse(rtm::StackTraceTree* _tree)
 
 		m_tree.push_back(node);
 		m_treeRects.append(QRectF());
-		m_treeTooltips.append(QString());
 	}
 
 	rtm::StackTraceTree::ChildNodes& children = _tree->m_children;
@@ -251,7 +254,7 @@ void TreeMapView::mousePressEvent(QMouseEvent* _event)
 	QGraphicsView::mousePressEvent(_event);
 }
 
-QString QStringColor(const QString& _string, const char* _color);
+QString QStringColor(const QString& _string, const char* _color, bool _addColon = true);
 
 void TreeMapView::mouseMoveEvent(QMouseEvent* _event)
 {
@@ -271,15 +274,17 @@ void TreeMapView::mouseMoveEvent(QMouseEvent* _event)
 	if (tt)
 	{
 		QLocale locale;
-		QString str =	"<p>" + QStringColor(tr("Total size"), "ff42a6ba") + locale.toString(qulonglong(tt->m_size)) + QString("\n\n") + "<br>" +
-								QStringColor(tr("Operations"), "ff83cf67") + locale.toString(qulonglong(tt->m_allocs + tt->m_reallocs + tt->m_frees)) + "<br>" +
-								QStringColor(tr("    Allocs"), "ffffffff") + locale.toString(qulonglong(tt->m_allocs)) + "<br>" +
-								QStringColor(tr("  Reallocs"), "ffffffff") + locale.toString(qulonglong(tt->m_reallocs)) + "<br>" +
-								QStringColor(tr("     Frees"), "ffffffff") + locale.toString(qulonglong(tt->m_frees)) + "<br></p>";
+		QString str =	"<pre>" +
+								QStringColor(tr("Total size"), "ff42a6ba") + QStringColor(locale.toString(qulonglong(tt->m_size)), "ffffff33", false) + "<br>" +
+								QStringColor(tr("Operations"), "ff83cf67") + locale.toString(qulonglong(tt->m_allocs + tt->m_reallocs + tt->m_frees)) + "<br><br>" +
+								QStringColor(tr("  Allocs"), "ffffffff") + locale.toString(qulonglong(tt->m_allocs)) + "<br>" +
+								QStringColor(tr("Reallocs"), "ffffffff") + locale.toString(qulonglong(tt->m_reallocs)) + "<br>" +
+								QStringColor(tr("   Frees"), "ffffffff") + locale.toString(qulonglong(tt->m_frees)) + "</pre>";
 		m_toolTipLabel->setText(str);
 	}
 
-	m_toolTipLabel->move(QCursor::pos() + QPoint(3,3));
+	m_toolTipLabel->move(QCursor::pos() + QPoint(12,12));
+	m_toolTipLabel->setFont(s_toolTipFont);
 	if(m_toolTipLabel->isHidden())
 		m_toolTipLabel->show();
 
@@ -302,7 +307,7 @@ void TreeMapView::mouseReleaseEvent(QMouseEvent* _event)
 	QGraphicsView::mouseReleaseEvent(_event);
 }
 
-void TreeMapView::enterEvent(QEnterEvent* event)
+void TreeMapView::enterEvent(QEnterEvent*)
 {
 	invalidateScene();
 }
@@ -334,9 +339,6 @@ QRectF TreeMapGraphicsItem::boundingRect() const
 {
 	return QRectF(m_treeView->geometry());
 }
-
-static QFont s_sizeFont(QFont("Verdana", 6));
-
 
 static inline void drawBlockText(const QString& _text, QPainter* _painter, int _fontHeight, int _fontWidths[17], QRectF& _rect, bool _highlight)
 {
@@ -434,9 +436,4 @@ void TreeMapGraphicsItem::paint(QPainter* _painter, const QStyleOptionGraphicsIt
 			drawBlockText(locale.toString(qulonglong(info.m_size)), _painter, s_fontHeight, textWidth, rects[i], &info == highlight);
 		}
 	}
-}
-
-void TreeMapGraphicsItem::hoverMoveEvent(QGraphicsSceneHoverEvent* _mouseEvent)
-{
-	// hmmm ?
 }

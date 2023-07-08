@@ -201,14 +201,6 @@ void GraphGrid::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 		}
 	}
 
-	uint64_t position = m_graphWidget->currentPos();
-	if (position != 0)
-	{
-		int highlightX = m_graphWidget->mapTimeToPos(position);
-		_painter->setPen(QPen(QColor(50, 150, 170), 1.0, Qt::SolidLine));
-		_painter->drawLine(highlightX, top, highlightX, bottom);
-	}
-
 	uint64_t highlightTimeStart = m_graphWidget->getHighlightTime();
 	uint64_t highlightTimeEnd	= m_graphWidget->getHighlightTimeEnd();
 
