@@ -25,8 +25,8 @@ typedef rtm_unordered_map<uint64_t,  rtm_string>											HeapsType;
 //--------------------------------------------------------------------------
 struct GraphEntry
 {
-	uint64_t	m_usage;
-	uint64_t	m_numLiveBlocks;
+	uint64_t	m_usage			: 37;	// 128 GB max
+	uint64_t	m_numLiveBlocks	: 27;	// 128 * 1024 * 1024 M live blocks max
 };
 
 //--------------------------------------------------------------------------
