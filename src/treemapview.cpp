@@ -284,7 +284,7 @@ void TreeMapView::mouseMoveEvent(QMouseEvent* _event)
 
 	if (m_highlightNode)
 	{
-		m_toolTipLabel->move(QCursor::pos() + QPoint(12,12));
+		m_toolTipLabel->move(QCursor::pos() + QPoint(15,15));
 		m_toolTipLabel->setFont(s_toolTipFont);
 		m_toolTipLabel->adjustSize();
 		if(m_toolTipLabel->isHidden())

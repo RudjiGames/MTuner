@@ -744,7 +744,7 @@ void GraphWidget::showToolTip()
 {
 	if (m_toolTipLabel->text().size())
 	{
-		m_toolTipLabel->move(QCursor::pos() + QPoint(12,12));
+		m_toolTipLabel->move(QCursor::pos() + QPoint(15,15));
 		m_toolTipLabel->setFont(s_toolTipFont);
 		if(m_toolTipLabel->isHidden())
 			m_toolTipLabel->show();

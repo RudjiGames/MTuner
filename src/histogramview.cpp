@@ -8,9 +8,13 @@
 #include <MTuner/src/histogramview.h>
 #include <MTuner/src/capturecontext.h>
 
+static QFont s_toolTipFont(QFont("Arial", 8));
+
 HistogramView::HistogramView(QWidget* _parent) : 
 	QGraphicsView(_parent)
 {
+	m_toolTipLabel = new QLabel();
+	m_toolTipLabel->setWindowFlag(Qt::ToolTip);
 	m_scene = new QGraphicsScene(this);
     m_scene->setItemIndexMethod(QGraphicsScene::NoIndex);
 
@@ -90,6 +94,7 @@ void HistogramView::mousePressEvent(QMouseEvent* _event)
 	QGraphicsView::mousePressEvent(_event);
 }
 
+QString QStringColor(const QString& _string, const char* _color, bool _addColon = true);
 void HistogramView::mouseMoveEvent(QMouseEvent* _event)
 {
 	if (m_histogram)
@@ -100,23 +105,41 @@ void HistogramView::mouseMoveEvent(QMouseEvent* _event)
 		const QVector<HistogramToolTip>& toolTips = m_histogram->getTooltips();
 		int len = toolTips.size();
 
+		bool found = false;
 		for (int i=0; i<len; ++i)
 		{
 			const HistogramToolTip& tt = toolTips[i];
 			if (tt.m_rect.contains(p))
 			{
 				QPoint globalPos = mapToGlobal(_event->pos());
-				QToolTip::showText(globalPos, tt.m_text, this);
+				m_toolTipLabel->setText("<pre>" + QStringColor(tt.m_text, "ffefef33", false) + "</pre>");
+				m_toolTipLabel->adjustSize();
+
 				QGraphicsView::mouseMoveEvent(_event);
 				m_histogram->setHighlight(p, tt.m_bin);
-				return;
+
+				found = true;
+				break;
 			}
 		}
 
-		QRect _rect = getDrawRect();
-		int left = _rect.x() - 1;
-		int top = _rect.y() - 1;
-		m_histogram->setHighlight(QPoint(left, top), -1); // outside
+		if (found && m_toolTipLabel->text().size())
+		{
+			m_toolTipLabel->move(QCursor::pos() + QPoint(15,15));
+			m_toolTipLabel->setFont(s_toolTipFont);
+			if(m_toolTipLabel->isHidden())
+				m_toolTipLabel->show();
+		}
+		else
+			m_toolTipLabel->hide();
+
+		if (!found)
+		{
+			QRect _rect = getDrawRect();
+			int left = _rect.x() - 1;
+			int top = _rect.y() - 1;
+			m_histogram->setHighlight(QPoint(left, top), -1); // outside
+		}
 	}
 
 	QToolTip::hideText();

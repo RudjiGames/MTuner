@@ -17,6 +17,7 @@ private:
     QGraphicsScene*	m_scene;
 	CaptureContext*	m_context;
 	Histogram*		m_histogram;
+	QLabel*			m_toolTipLabel;
 	int				m_mode;
 	bool			m_showPeaks;
 	int				m_histogramType;
