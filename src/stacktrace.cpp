@@ -34,12 +34,14 @@ bool QToolTipper::eventFilter(QObject* _object, QEvent* _event)
 
 		// only elided text
 		if ((itemTextWidth > rectWidth) && !itemTooltip.isEmpty())
-			QToolTip::showText(helpEvent->globalPos(), itemTooltip, view);
+		{
+			m_stackTrace->showToolTip(helpEvent->globalPos(), itemTooltip);
+		}
 		else
-			{
-				QToolTip::hideText();
-				_event->ignore();
-			}
+		{
+			m_stackTrace->hideToolTip();
+			_event->ignore();
+		}
 
 		return true;
 	}
@@ -58,6 +60,11 @@ enum StackTraceColumns
 StackTrace::StackTrace(QWidget* _parent, Qt::WindowFlags _flags) : 
 	QWidget(_parent, _flags)
 {
+	m_toolTipLabel = new QLabel();
+	//m_toolTipLabel->setFont(QFont("Verdana", 9));
+	m_toolTipLabel->setWindowFlag(Qt::ToolTip);
+	m_toolTipLabel->hide();
+
 	m_context			= NULL;
 	m_currentTrace		= NULL;
 	m_currentTraceCnt	= 0;
@@ -186,7 +193,7 @@ void StackTrace::updateView()
 
 	const uint32_t rows = m_currentTrace[m_currentTraceIdx]->m_numFrames;
 	m_table->model()->removeRows(0, m_table->model()->rowCount());
-	m_table->viewport()->installEventFilter(new QToolTipper(m_table));
+	m_table->viewport()->installEventFilter(new QToolTipper(m_table, this));
 	m_table->setRowCount(rows);
 	uint32_t selectedRow = rows;
 
@@ -244,6 +251,20 @@ void StackTrace::saveState(QSettings& _settings)
 	_settings.setValue("stackTraceGeometry", saveGeometry());
 	_settings.setValue("stackTraceHeader", m_table->horizontalHeader()->saveState());
 	_settings.endGroup();
+}
+
+QString QStringColor(const QString& _string, const char* _color, bool _addColon = true);
+void StackTrace::showToolTip(const QPoint& _pos, const QString& _itemTooltip)
+{
+	m_toolTipLabel->move(_pos + QPoint(15,15));
+	m_toolTipLabel->setText("<b>" + QStringColor(_itemTooltip, "ffefef33", false) + "</b>");
+	m_toolTipLabel->adjustSize();
+	m_toolTipLabel->show();
+}
+
+void StackTrace::hideToolTip()
+{
+	m_toolTipLabel->hide();
 }
 
 void StackTrace::incPressed()

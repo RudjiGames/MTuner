@@ -9,15 +9,20 @@
 #include <MTuner/.qt/qt_ui/stacktrace_ui.h>
 
 class QSpinBox;
+class StackTrace;
 struct CaptureContext;
 
 class QToolTipper : public QObject
 {
 	Q_OBJECT
 
+	StackTrace* m_stackTrace;
+
 public:
-	explicit QToolTipper(QObject* parent = NULL)
-		: QObject(parent) {}
+	explicit QToolTipper(QObject* parent = NULL, StackTrace* _trace = 0)
+		: QObject(parent)
+		, m_stackTrace(_trace)
+	{}
 
 protected:
 	bool eventFilter(QObject* obj, QEvent* event);
@@ -28,6 +33,7 @@ class StackTrace : public QWidget
 	Q_OBJECT
 
 private:
+	QLabel*				m_toolTipLabel;
 	rtm::StackTrace**	m_currentTrace;
 	uint32_t			m_currentTraceCnt;
 	uint32_t			m_currentTraceIdx;
@@ -48,6 +54,7 @@ private:
 public:
 	StackTrace(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 
+	void leaveEvent(QEvent*) { m_toolTipLabel->hide(); }
 	void changeEvent(QEvent* _event);
 	void contextMenuEvent(QContextMenuEvent* _event);
 	void setContext(CaptureContext* _context);
@@ -55,6 +62,9 @@ public:
 	void updateView();
 	void loadState(QSettings& _settings, const QString& _name, bool _resetGeometry);
 	void saveState(QSettings& _settings);
+
+	void showToolTip(const QPoint& _pos, const QString& _itemTooltip);
+	void hideToolTip();
 
 public Q_SLOTS:
 	void currentCellChanged(int _currentRow, int _currentColumn, int _previousRow, int _previousColumn);
