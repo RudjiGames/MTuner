@@ -10,32 +10,46 @@
 
 #include <rbase/inc/path.h>
 
+extern QString QStringColor(const QString& _string, const char* _color, bool _addColon = true);
+
 bool QToolTipper::eventFilter(QObject* _object, QEvent* _event)
 {
 	if (_event->type() == QEvent::ToolTip)
+		return true;
+
+	if (_event->type() == QEvent::MouseMove)//ToolTip)
 	{
 		QAbstractItemView* view = qobject_cast<QAbstractItemView*>(_object->parent());
 		if (!view)
 			return false;
 
-		QHelpEvent* helpEvent = static_cast<QHelpEvent*>(_event);
-		QPoint pos = helpEvent->pos();
+		QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(_event);
+		QPoint pos = mouseEvent->pos();
 		QModelIndex index = view->indexAt(pos);
 		if (!index.isValid())
 			return false;
 
-		QString itemText = view->model()->data(index).toString();
-		QString itemTooltip = view->model()->data(index, Qt::ToolTipRole).toString();
+		//view->index
+		QModelIndex idxmodule	= index.siblingAtColumn(0);
+		QModelIndex idxfunction	= index.siblingAtColumn(1);
+		QModelIndex idxfile		= index.siblingAtColumn(2);
+		QModelIndex idxline		= index.siblingAtColumn(3);
 
-		QFontMetrics fm(view->font());
-		int itemTextWidth = fm.horizontalAdvance(itemText);
-		QRect rect = view->visualRect(index);
-		int rectWidth = rect.width();
+		QString textModule   = view->model()->data(idxmodule).toString();
+		QString textFunction = view->model()->data(idxfunction).toString();
+		QString textFile     = view->model()->data(idxfile).toString();
+		QString textLine     = view->model()->data(idxline).toString();
+
+		QString itemTooltip =
+			   "<pre><b>" + QStringColor("Func: ", "ff42a6ba", false) + textFunction + "</b><br>" +
+					"<b>" + QStringColor("File: ", "ff83cf67", false) + "</b>" + textFile + ":" + textLine + "<br>" +
+					"<b>" + QStringColor("Module: ", "ffefef33", false) + "</b>" + textModule + "<br>" +
+					"</pre>";
 
 		// only elided text
-		if ((itemTextWidth > rectWidth) && !itemTooltip.isEmpty())
+		if (!itemTooltip.isEmpty())
 		{
-			m_stackTrace->showToolTip(helpEvent->globalPos(), itemTooltip);
+			m_stackTrace->showToolTip(mouseEvent->globalPosition().toPoint(), itemTooltip);
 		}
 		else
 		{
@@ -62,6 +76,7 @@ StackTrace::StackTrace(QWidget* _parent, Qt::WindowFlags _flags) :
 {
 	m_toolTipLabel = new QLabel();
 	//m_toolTipLabel->setFont(QFont("Verdana", 9));
+	m_toolTipLabel->setStyleSheet("border: 1px solid gray");
 	m_toolTipLabel->setWindowFlag(Qt::ToolTip);
 	m_toolTipLabel->hide();
 
@@ -74,6 +89,7 @@ StackTrace::StackTrace(QWidget* _parent, Qt::WindowFlags _flags) :
 
 	m_table = findChild<QTableWidget*>("tableWidget");
 	m_table->horizontalHeader()->setHighlightSections(false);
+	m_table->setGridStyle(Qt::NoPen);
 	connect(m_table, SIGNAL(currentCellChanged(int, int, int, int)), this, SLOT(currentCellChanged(int, int, int, int)));
 
 	m_buttonDec		= findChild<QToolButton*>("button_dec");
@@ -253,11 +269,10 @@ void StackTrace::saveState(QSettings& _settings)
 	_settings.endGroup();
 }
 
-QString QStringColor(const QString& _string, const char* _color, bool _addColon = true);
 void StackTrace::showToolTip(const QPoint& _pos, const QString& _itemTooltip)
 {
 	m_toolTipLabel->move(_pos + QPoint(15,15));
-	m_toolTipLabel->setText("<b>" + QStringColor(_itemTooltip, "ffefef33", false) + "</b>");
+	m_toolTipLabel->setText(_itemTooltip);
 	m_toolTipLabel->adjustSize();
 	m_toolTipLabel->show();
 }

@@ -30,13 +30,13 @@ Stats::Stats(QWidget* _parent, Qt::WindowFlags _flags) :
 	QWidget(_parent, _flags)
 {
 	ui.setupUi(this);
-	m_table = findChild<QTableWidget*>("tableWidget");
 	m_context = NULL;
-	m_table->setItemDelegate( new StatsDelegate() );
-//	m_table->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
-	m_table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-	m_table->verticalHeader()->setHighlightSections(false);
 
+	m_table = findChild<QTableWidget*>("tableWidget");
+	m_table->setGridStyle(Qt::NoPen);
+	m_table->setItemDelegate( new StatsDelegate() );
+	m_table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	m_table->horizontalHeader()->setHighlightSections(true);
 }
 
 void Stats::changeEvent(QEvent* _event)
