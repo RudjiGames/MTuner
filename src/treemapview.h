@@ -17,6 +17,7 @@ struct TreeMapNode
 	uint32_t				m_allocs;	///< Number of allocations
 	uint32_t				m_reallocs;	///< Number of reallocations
 	uint32_t				m_frees;	///< Number of frees
+	QRectF					m_rect;
 	
 	TreeMapNode()
 		: m_size(0)
@@ -33,9 +34,8 @@ class TreeMapView : public QGraphicsView
 private:
 	CaptureContext*					m_context;
 	rtm_vector<TreeMapNode>			m_tree;
-	QVector<QRectF>					m_treeRects;
+	QList<QLineF>					m_treeLines;
 	TreeMapNode*					m_highlightNode;
-	int								m_highlightNodeRect;
 	uint32_t						m_mapType;
 	TreeMapGraphicsItem*			m_item;
 	QLabel*							m_toolTipLabel;
@@ -47,11 +47,10 @@ public:
 	void						setContext(CaptureContext* _context);
 	void						setMapType(uint32_t _type);
 	uint32_t					getMapType() const { return m_mapType; }
-	TreeMapNode*				findNode(QPoint& _point, int* _toolTipIndex);
+	void						updateHighlight(const QPoint& _pos);
 	inline TreeMapNode*			getHighlightNode() { return m_highlightNode; }
-	inline QRectF				getHighlightRect() { return m_highlightNodeRect == -1 ? QRectF() : m_treeRects[m_highlightNodeRect]; }
 	rtm_vector<TreeMapNode>&	getTree() { return m_tree; }
-	QVector<QRectF>&			getTreeRects() { return m_treeRects; }
+	QVector<QLineF>&			getTreeLines() { return m_treeLines; }
 	/// QWidget
 	void resizeEvent(QResizeEvent* _event);
 	void mousePressEvent(QMouseEvent* _event);

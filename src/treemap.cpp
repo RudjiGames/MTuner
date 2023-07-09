@@ -20,10 +20,12 @@ TreeMapWidget::TreeMapWidget(QWidget* _parent, Qt::WindowFlags _flags) :
 	m_scene = new QGraphicsScene(this);
     m_scene->setItemIndexMethod(QGraphicsScene::NoIndex);
 
+	
+
+	m_scene->setBackgroundBrush(QColor(33, 80, 90, 235));
+
     m_graphicsView->setScene(m_scene);
-    m_graphicsView->setCacheMode(QGraphicsView::CacheBackground);
     m_graphicsView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
-    m_graphicsView->scale(qreal(1.0), qreal(1.0));
 	connect(m_graphicsView, SIGNAL(setStackTrace(rtm::StackTrace**,int)), this, SIGNAL(setStackTrace(rtm::StackTrace**,int)));
 }
 
