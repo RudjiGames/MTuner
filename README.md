@@ -1,4 +1,4 @@
-![MTuner logo](https://github.com/milostosic/MTuner/blob/master/img/logo.png)
+viru![MTuner logo](https://github.com/milostosic/MTuner/blob/master/img/logo.png)
 
 [![Build status](https://ci.appveyor.com/api/projects/status/fo9uy9h3bcka20kk?svg=true)](https://ci.appveyor.com/project/milostosic/MTuner)
 [![License](https://img.shields.io/badge/license-BSD--2%20clause-blue.svg)](https://github.com/milostosic/MTuner/blob/master/LICENSE)
@@ -23,15 +23,17 @@ Download
 
 Binaries can be downloaded from [releases](https://github.com/milostosic/MTuner/releases) page  
 
+NB: If your application crashes while being profiled with **MTuner**, you can try adding **MTuner** folder to 'Exclusions' list under 'Virus & threat protection settings'
+
 Documentation
 ======
 
-MTuner documentation can be found [here](https://milostosic.github.io/MTuner/).  
+**MTuner** documentation can be found [here](https://milostosic.github.io/MTuner/).  
 
 Dependencies
 ======
 
-MTuner uses [Qt](https://www.qt.io/) framework for user interface.
+**MTuner** uses [Qt](https://www.qt.io/) framework for user interface.
 
 Dependencies can be obtained by cloning the following repositories:
 
@@ -51,9 +53,9 @@ DIA (Debug Interface Access) SDK - **Windows only**
 Build
 ======
 
-MTuner build system is based on [GENie](https://github.com/bkaradzic/GENie) and [build](https://github.com/milostosic/build) in order to dramatically simplify managing build configurations and dependencies.
+**MTuner** build system is based on [GENie](https://github.com/bkaradzic/GENie) and [build](https://github.com/milostosic/build) in order to dramatically simplify managing build configurations and dependencies.
 
-After cloning the repository and dependencies, here are the steps to build MTuner.
+After cloning the repository and dependencies, here are the steps to build *MTuner*.
 
 **MinGW**
 
