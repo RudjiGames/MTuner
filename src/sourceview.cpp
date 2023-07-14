@@ -257,8 +257,10 @@ void SourceView::openInEditor()
 	args.replace("%L", QString::number(y));
 	
 	QProcess* launchEditor = new QProcess(this);
-	launchEditor->start("\"" + m_editorDialog->getEditorPath() + "\" " + args);
-	if (!launchEditor->waitForStarted())
+	launchEditor->setProgram(m_editorDialog->getEditorPath());
+	launchEditor->setArguments(QStringList(args));
+
+	if (!launchEditor->startDetached())
 	{
 		int b = QMessageBox::question(this, tr("Failed to start editor!"), tr("Setup external editor now?"), (QMessageBox::StandardButtons)(QMessageBox::Yes | QMessageBox::No), QMessageBox::No);
 		if (b == QMessageBox::StandardButton::Yes)
