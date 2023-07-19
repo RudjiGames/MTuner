@@ -345,7 +345,7 @@ TreeMapGraphicsItem::TreeMapGraphicsItem(TreeMapView* _treeView, CaptureContext*
 
 void TreeMapGraphicsItem::redraw()
 {
-////	m_oldRect = QRectF(0,0,0,0);
+	m_oldRect = QRectF(0,0,0,0);
 }
 
 QRectF TreeMapGraphicsItem::boundingRect() const
