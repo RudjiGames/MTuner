@@ -26,6 +26,9 @@ HistogramWidget::HistogramWidget(QWidget* _parent, Qt::WindowFlags _flags) :
 	m_chkPeaks = findChild<QCheckBox*>("checkBoxPeaks");
 	connect(m_chkPeaks, SIGNAL(stateChanged(int)), this, SLOT(showPeaksChanged(int)));
 
+	m_chkScale = findChild<QCheckBox*>("checkBoxScale");
+	connect(m_chkScale, SIGNAL(stateChanged(int)), this, SLOT(scalePeaksChanged(int)));
+	
 	setContext(NULL,NULL);
 }
 
@@ -45,9 +48,11 @@ void HistogramWidget::setContext(CaptureContext* _capture, BinLoaderView* _binVi
 		m_comboType->setEnabled(true);
 		m_comboHist->setEnabled(true);
 		m_chkPeaks->setEnabled(true);
+		m_chkScale->setEnabled(true);
 		displayTypeChanged(m_binView->getHistogramType());
 		displayModeChanged(m_binView->getHistogramMode());
 		showPeaksChanged(m_binView->getHistogramPeaks()?1:0);
+		scalePeaksChanged(m_binView->getHistogramScale()?1:0);
 	}
 	else
 	{
@@ -55,9 +60,11 @@ void HistogramWidget::setContext(CaptureContext* _capture, BinLoaderView* _binVi
 		m_comboType->setEnabled(false);
 		m_comboHist->setEnabled(false);
 		m_chkPeaks->setEnabled(false);
+		m_chkScale->setEnabled(false);
 		displayTypeChanged(0);
 		displayModeChanged(0);
 		showPeaksChanged(0);
+		scalePeaksChanged(0);
 	}
 }
 
@@ -102,4 +109,13 @@ void HistogramWidget::showPeaksChanged(int _state)
 	if (m_binView)
 		m_binView->setHistogramPeaks(_state!=0);
 	m_chkPeaks->setChecked(_state!=0);
+}
+
+void HistogramWidget::scalePeaksChanged(int _state)
+{
+	Histogram* h = m_histogramView->getHistogram();
+	h->setScale(_state!=0);
+	if (m_binView)
+		m_binView->setHistogramScale(_state!=0);
+	m_chkScale->setChecked(_state!=0);
 }

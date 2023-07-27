@@ -19,6 +19,7 @@ BinLoaderView::BinLoaderView(QWidget* _parent, Qt::WindowFlags _flags) :
 	m_histogramType		= 0;
 	m_histogramMode		= 0;
 	m_histogramPeaks	= false;
+	m_histogramScale	= false;
 	m_filteringEnabled	= false;
 	m_currentHeap		= (uint64_t)-1;
 

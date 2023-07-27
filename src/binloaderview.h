@@ -37,6 +37,7 @@ private:
 	int					m_histogramType;
 	int					m_histogramMode;
 	bool				m_histogramPeaks;
+	bool				m_histogramScale;
 	bool				m_filteringEnabled;
 
 public:
@@ -53,9 +54,11 @@ public:
 	void		setHistogramType(int _type) { m_histogramType = _type; }
 	void		setHistogramMode(int _mode) { m_histogramMode = _mode; }
 	void		setHistogramPeaks(bool _peaks) { m_histogramPeaks = _peaks; }
-	int			getHistogramType() { return m_histogramType; }
-	int			getHistogramMode() { return m_histogramMode; }
-	bool		getHistogramPeaks() { return m_histogramPeaks; }
+	void		setHistogramScale(bool _scale) { m_histogramPeaks = _scale; }
+	int			getHistogramType() const { return m_histogramType; }
+	int			getHistogramMode() const { return m_histogramMode; }
+	bool		getHistogramPeaks() const { return m_histogramPeaks; }
+	bool		getHistogramScale() const { return m_histogramScale; }
 	uint64_t	getMinTime() { return m_minTime; }
 	uint64_t	getMaxTime() { return m_maxTime; }
 	void		setMinTime(uint64_t	_minTime) { m_minTime = _minTime; }
