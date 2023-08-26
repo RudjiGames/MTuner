@@ -14,16 +14,10 @@ struct TreeMapNode
 {
 	rtm::StackTraceTree*	m_tree;		///< Pointer to the actual stact trace tree node, used to resolve symbols
 	uint64_t				m_size;		///< Size of the node, based on the view type (usage, peak, etc.)
-	uint32_t				m_allocs;	///< Number of allocations
-	uint32_t				m_reallocs;	///< Number of reallocations
-	uint32_t				m_frees;	///< Number of frees
 	QRectF					m_rect;
 	
 	TreeMapNode()
 		: m_size(0)
-		, m_allocs(0)
-		, m_reallocs(0)
-		, m_frees(0)
 	{}
 };
 
@@ -36,6 +30,7 @@ private:
 	rtm_vector<TreeMapNode>			m_tree;
 	QList<QLineF>					m_treeLines;
 	TreeMapNode*					m_highlightNode;
+	TreeMapNode*					m_clickedNode;
 	uint32_t						m_mapType;
 	TreeMapGraphicsItem*			m_item;
 	QLabel*							m_toolTipLabel;
@@ -49,6 +44,7 @@ public:
 	uint32_t					getMapType() const { return m_mapType; }
 	void						updateHighlight(const QPoint& _pos);
 	inline TreeMapNode*			getHighlightNode() { return m_highlightNode; }
+	inline TreeMapNode*			getClickedNode() { return m_clickedNode; }
 	rtm_vector<TreeMapNode>&	getTree() { return m_tree; }
 	QVector<QLineF>&			getTreeLines() { return m_treeLines; }
 	/// QWidget
@@ -61,6 +57,8 @@ public:
 
 Q_SIGNALS:
 	void setStackTrace(rtm::StackTrace**, int);
+	void highlightTime(uint64_t);
+	void highlightRange(uint64_t, uint64_t);
 
 private:
 	void buildTreeRecurse(rtm::StackTraceTree* _tree);

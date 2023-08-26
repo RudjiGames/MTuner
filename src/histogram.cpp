@@ -21,6 +21,7 @@ Histogram::Histogram(HistogramView* _histogramWidget)
 	m_displayMode		= DisplayMode::Global;
 	m_type				= HistogramType::Size;
 	m_showPeaks			= false;
+	m_scalePeaks		= false;
 	m_highlight			= QPoint(0, 0); // outside
 	m_highlightBin		= -1;
 }
@@ -118,7 +119,7 @@ uint64_t Histogram::getValue(rtm::MemoryStats& _stats, HistogramType::Enum _type
 	return 0;
 }
 
-QString Histogram::getTypeString(HistogramType::Enum _type, uint64_t _val, bool _peak)
+QString Histogram::getTypeString(HistogramType::Enum _type, uint64_t _val)
 {
 	QString ret;
 	switch (_type)
@@ -142,10 +143,7 @@ QString Histogram::getTypeString(HistogramType::Enum _type, uint64_t _val, bool 
 		break;
 	}
 
-	if (_peak)
-		ret += " " + QObject::tr("at peak");
-
-	return ret;
+	return "\n" + ret;
 }
 
 static QColor boostColor(const QColor& _color, bool _boost)
@@ -158,6 +156,8 @@ static QColor boostColor(const QColor& _color, bool _boost)
 		              _color.alpha());
 	return _color;
 }
+
+QString QStringColor(const QString& _string, const char* _color, bool _addColon = true);
 
 void Histogram::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _option, QWidget* _widget)
 {
@@ -182,7 +182,7 @@ void Histogram::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 	_painter->setFont(font);
 
 	int numBins = rtm::MemoryStats::NUM_HISTOGRAM_BINS;
-	int delta = (right-left) / (numBins+1);
+	int delta = (right-left) / (numBins);
 
 	QRectF boundRect = boundingRect();
 	int deltaW = (boundRect.width() - (right-left))/2;
@@ -234,6 +234,11 @@ void Histogram::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 
 	m_toolTips.clear();
 
+	static QString s_global       = QStringColor(QObject::tr("Global"),   "ff42a6ba", true);
+	static QString s_snapshot     = QStringColor(QObject::tr("Snapshot"), "ff83cf67", true);
+	static QString s_globalPeak   = QStringColor(QObject::tr("Global (peak)"),   "ff42a6ba", true);
+	static QString s_snapshotPeak  = QStringColor(QObject::tr("Snapshot (peak)"), "ff83cf67", true);
+
 	switch (m_displayMode)
 	{
 	case DisplayMode::Global:
@@ -243,10 +248,12 @@ void Histogram::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 			QColor* colPeak  = &globalColPeak;
 
 			rtm::MemoryStats* stats = &statsGlobal;
-			QString statsType = "Global:\n";
+
+			QString statsType     = m_displayMode == DisplayMode::Global ? s_global : s_snapshot;
+			QString statsTypePeak = m_displayMode == DisplayMode::Global ? s_globalPeak : s_snapshotPeak;
+
 			if (m_displayMode == DisplayMode::Snapshot)
 			{
-				statsType = "Snapshot:\n";
 				stats = &statsSnapshot;
 				col  = &snapshotCol;
 				colPeak  = &snapshotColPeak;
@@ -255,47 +262,36 @@ void Histogram::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 			uint64_t maxVal = getMaxValue(*stats,m_type,false);
 			uint64_t maxValPeak = getMaxValue(*stats,m_type,true);
 
+			if (m_scalePeaks && m_showPeaks)
+				maxVal = maxValPeak;
+
 			int position = left + delta;
 			for (int i=0; i<numBins; ++i)
 			{
+				uint64_t binVal = getValue(*stats, m_type,i,false);
+				uint64_t binHeight = maxVal ? ((bottom - top) * binVal) / maxVal : 0;
+				if (binHeight != 0)
+				{
+					QRect rect1(position-thickness/2,bottom-binHeight,thickness/2,binHeight);
+					_painter->setBrush(boostColor(*col, shouldHighlight(rect1, m_highlight, m_highlightBin)));
+					_painter->drawRect(rect1);
+					m_toolTips.push_back(HistogramToolTip(rect1, statsType + getTypeString(m_type,binVal),i));
+				}
+
 				if (m_showPeaks)
 				{
-					uint64_t binVal = getValue(*stats, m_type,i,false);
-					uint64_t binHeight = maxVal ? ((bottom - top) * binVal) / maxVal : 0;
-					if (binHeight != 0)
-					{
-						QRect rect1(position-thickness/2,bottom-binHeight,thickness/2,binHeight);
-						_painter->setBrush(boostColor(*col, shouldHighlight(rect1, m_highlight, m_highlightBin)));
-						_painter->drawRect(rect1);
-						m_toolTips.push_back(HistogramToolTip(rect1, getTypeString(m_type,binVal,false),i));
-					}
-
-					binVal = getValue(*stats, m_type,i,true);
+					binVal = getValue(*stats, m_type, i, true);
 					binHeight = maxValPeak ? ((bottom - top) * binVal) / maxValPeak : 0;
 					if (binHeight != 0)
 					{
-						QRect rect2(position,bottom-binHeight,thickness/2,binHeight);
+						QRect rect2(position, bottom - binHeight, thickness / 2, binHeight);
 						_painter->setBrush(boostColor(*colPeak, shouldHighlight(rect2, m_highlight, m_highlightBin)));
-						_painter->drawRect(QRect(position,bottom-binHeight,thickness/2,binHeight));
-						m_toolTips.push_back(HistogramToolTip(rect2, getTypeString(m_type,binVal,true),i));
+						_painter->drawRect(QRect(position, bottom - binHeight, thickness / 2, binHeight));
+						m_toolTips.push_back(HistogramToolTip(rect2, statsTypePeak + getTypeString(m_type, binVal), i));
 					}
-
-					position += delta;
 				}
-				else
-				{
-					uint64_t binVal = getValue(*stats, m_type,i,false);
-					uint64_t binHeight = maxVal ? ((bottom - top) * binVal) / maxVal : 0;
-					if (binHeight != 0)
-					{
-						QRect rect1(position-thickness/2,bottom-binHeight,thickness,binHeight);
-						_painter->setBrush(boostColor(*col, shouldHighlight(rect1, m_highlight, m_highlightBin)));
-						_painter->drawRect(rect1);
-						m_toolTips.push_back(HistogramToolTip(rect1, getTypeString(m_type,binVal,false),i));
-					}
 
-					position += delta;
-				}
+				position += delta;
 			}
 		}
 		break;
@@ -306,6 +302,12 @@ void Histogram::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 			uint64_t maxValPeakGlobal	= getMaxValue(statsGlobal,m_type,true);
 			uint64_t maxValSnapshot		= getMaxValue(statsSnapshot,m_type,false);
 			uint64_t maxValPeakSnapshot	= getMaxValue(statsSnapshot,m_type,true);
+
+			if (m_scalePeaks && m_showPeaks)
+			{
+				maxValGlobal   = maxValPeakGlobal;
+				maxValSnapshot = maxValPeakSnapshot;
+			}
 
 			int position = left + delta;
 			for (int i=0; i<numBins; ++i)
@@ -319,7 +321,7 @@ void Histogram::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 						QRect rect1(position-thickness/2,bottom-binHeight,thickness/4,binHeight);
 						_painter->setBrush(boostColor(globalCol, shouldHighlight(rect1, m_highlight, m_highlightBin)));
 						_painter->drawRect(rect1);
-						m_toolTips.push_back(HistogramToolTip(rect1,"Global:\n" + getTypeString(m_type,binVal,false),i));
+						m_toolTips.push_back(HistogramToolTip(rect1, s_global + getTypeString(m_type,binVal),i));
 					}
 
 					binVal = getValue(statsGlobal, m_type,i,true);
@@ -329,7 +331,7 @@ void Histogram::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 						QRect rect2(position-thickness/2+thickness/4,bottom-binHeight,thickness/4,binHeight);
 						_painter->setBrush(boostColor(globalColPeak, shouldHighlight(rect2, m_highlight, m_highlightBin)));
 						_painter->drawRect(rect2);
-						m_toolTips.push_back(HistogramToolTip(rect2,"Global:\n" + getTypeString(m_type,binVal,true),i));
+						m_toolTips.push_back(HistogramToolTip(rect2, s_globalPeak + getTypeString(m_type,binVal),i));
 					}
 					
 					binVal = getValue(statsSnapshot, m_type,i,false);
@@ -339,7 +341,7 @@ void Histogram::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 						QRect rect3(position,bottom-binHeight,thickness/4,binHeight);
 						_painter->setBrush(boostColor(snapshotCol, shouldHighlight(rect3, m_highlight, m_highlightBin)));
 						_painter->drawRect(rect3);
-						m_toolTips.push_back(HistogramToolTip(rect3,"Snapshot:\n" + getTypeString(m_type,binVal,false),i));
+						m_toolTips.push_back(HistogramToolTip(rect3, s_snapshot + getTypeString(m_type,binVal),i));
 					}
 
 					binVal = getValue(statsSnapshot, m_type,i,true);
@@ -349,7 +351,7 @@ void Histogram::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 						QRect rect4(position+thickness/4,bottom-binHeight,thickness/4,binHeight);
 						_painter->setBrush(boostColor(snapshotColPeak, shouldHighlight(rect4, m_highlight, m_highlightBin)));
 						_painter->drawRect(rect4);
-						m_toolTips.push_back(HistogramToolTip(rect4,"Snapshot:\n" + getTypeString(m_type,binVal,true),i));
+						m_toolTips.push_back(HistogramToolTip(rect4, s_snapshotPeak + getTypeString(m_type,binVal),i));
 					}
 
 					position += delta;
@@ -363,7 +365,7 @@ void Histogram::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 						QRect rect1(position-thickness/2,bottom-binHeight,thickness/2,binHeight);
 						_painter->setBrush(boostColor(globalCol, shouldHighlight(rect1, m_highlight, m_highlightBin)));
 						_painter->drawRect(rect1);
-						m_toolTips.push_back(HistogramToolTip(rect1,"Global:\n" + getTypeString(m_type,binVal,false),i));
+						m_toolTips.push_back(HistogramToolTip(rect1, s_global + getTypeString(m_type,binVal),i));
 					}
 					binVal = getValue(statsSnapshot, m_type,i,false);
 					binHeight = maxValSnapshot ? ((bottom - top) * binVal) / maxValSnapshot : 0;
@@ -372,7 +374,7 @@ void Histogram::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 						QRect rect2(position,bottom-binHeight,thickness/2,binHeight);
 						_painter->setBrush(boostColor(snapshotCol, shouldHighlight(rect2, m_highlight, m_highlightBin)));
 						_painter->drawRect(rect2);
-						m_toolTips.push_back(HistogramToolTip(rect2,"Snapshot:\n" + getTypeString(m_type,binVal,false),i));
+						m_toolTips.push_back(HistogramToolTip(rect2, s_snapshot + getTypeString(m_type,binVal),i));
 					}
 
 					position += delta;

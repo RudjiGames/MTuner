@@ -32,6 +32,8 @@ public Q_SLOTS:
 	
 Q_SIGNALS:
 	void setStackTrace(rtm::StackTrace**, int);
+	void highlightTime(uint64_t);
+	void highlightRange(uint64_t, uint64_t);
 
 private:
 	Ui::TreeMap ui;

@@ -49,6 +49,7 @@ private:
 	DisplayMode::Enum			m_displayMode;
 	HistogramType::Enum			m_type;
 	bool						m_showPeaks;
+	bool						m_scalePeaks;
 	QVector<HistogramToolTip>	m_toolTips;
 	QPoint						m_highlight;
 	int							m_highlightBin;
@@ -61,6 +62,7 @@ public:
 	void setDisplayMode(DisplayMode::Enum _mode) { m_displayMode = _mode; parentResized(); }
 	void setHistogramType(HistogramType::Enum _type) { m_type = _type; parentResized(); }
 	void setPeaks(bool _show) { m_showPeaks = _show; parentResized(); }
+	void setScale(bool _scale) { m_scalePeaks = _scale; parentResized(); }
 	void setHighlight(const QPoint& _point, int _binIndex) { m_highlight = _point; m_highlightBin = _binIndex; parentResized(); }
 	int  getHighlightIndex() const { return m_highlightBin; }
 
@@ -75,7 +77,7 @@ private:
 	QString		fromVal(int _val);
 	uint64_t	getMaxValue(rtm::MemoryStats& _stats, HistogramType::Enum _type, bool _usePeak);
 	uint64_t	getValue(rtm::MemoryStats& _stats, HistogramType::Enum _type, int _bin, bool _peak);
-	QString		getTypeString(HistogramType::Enum _type, uint64_t _val, bool _peak);
+	QString		getTypeString(HistogramType::Enum _type, uint64_t _val);
 };
 
 #endif // RTM_MTUNER_HISTOGRAM_H

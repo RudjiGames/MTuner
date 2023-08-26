@@ -19,6 +19,7 @@ private:
 	QComboBox*		m_comboType;
 	QComboBox*		m_comboHist;
 	QCheckBox*		m_chkPeaks;
+	QCheckBox*		m_chkScale;
 	HistogramView*	m_histogramView;
 	BinLoaderView*	m_binView;
 
@@ -33,6 +34,7 @@ public Q_SLOTS:
 	void displayTypeChanged(int _index);
 	void displayModeChanged(int _index);
 	void showPeaksChanged(int _state);
+	void scalePeaksChanged(int _state);
 
 Q_SIGNALS:
 	void binClicked();

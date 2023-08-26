@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>391</width>
+    <width>434</width>
     <height>149</height>
    </rect>
   </property>
@@ -30,7 +30,7 @@
    <property name="sizeConstraint">
     <enum>QLayout::SetMinimumSize</enum>
    </property>
-   <property name="margin">
+   <property name="margin" stdset="0">
     <number>0</number>
    </property>
    <item>
@@ -111,6 +111,17 @@
        </property>
        <property name="text">
         <string>Show peaks</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBoxScale">
+       <property name="toolTip">
+        <string>If checked, all values are normalized to peak values.
+Otherwise, relative scale is used.</string>
+       </property>
+       <property name="text">
+        <string>Scale to peaks</string>
        </property>
       </widget>
      </item>

@@ -1537,8 +1537,10 @@ void Capture::addModule(const char* _path, uint64_t inModBase, uint64_t inModSiz
 		rdebug::ModuleInfo& info = m_moduleInfos[i];
 		if (rtm::strCmp(rtm::pathGetFileName(info.m_modulePath), rtm::pathGetFileName(_path)) == 0)
 		{
-			if (inModBase == info.m_baseAddress)
-				return;
+			// update base address if new one encountered
+			info.m_baseAddress		= inModBase;
+			info.m_size				= inModSize;
+			return;
 		}
 	}
 
@@ -2131,7 +2133,7 @@ void Capture::addToMemoryGroups(MemoryGroupsHashType& _groups, MemoryOperation* 
 	};
 }
 
-static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, int32_t _overhead, StackTrace::Scope _offset, StackTraceTree::Enum _opType)
+static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, int32_t _overhead, StackTrace::Scope _offset, StackTraceTree::Enum _opType, uint64_t _operationTime)
 {
 	const int32_t numFrames = (int32_t)_trace->m_numFrames;
 	int32_t currFrame = numFrames;
@@ -2145,6 +2147,11 @@ static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, 
 
 	if (_opType != StackTraceTree::Count)
 		++currNode->m_opCount[_opType];
+
+	if (currNode->m_minTime == 0)
+		currNode->m_minTime = _operationTime;
+
+	currNode->m_maxTime = _operationTime;
 
 	// add stack trace to root node
 	StackTrace::getNextArray(_trace);
@@ -2210,6 +2217,11 @@ static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, 
 
 		if (_opType != StackTraceTree::Count)
 			++currNode->m_opCount[_opType];
+
+		if (currNode->m_minTime == 0)
+			currNode->m_minTime = _operationTime;
+
+		currNode->m_maxTime = _operationTime;
 	}
 }
 
@@ -2221,7 +2233,7 @@ void Capture::addToStackTraceTree(StackTraceTree& _tree, MemoryOperation* _op, S
 		case rmem::LogMarkers::OpCalloc:
 		case rmem::LogMarkers::OpAllocAligned:
 			{
-				addToTree(&_tree, _op->m_stackTrace, _op->m_allocSize, _op->m_overhead, _offset, StackTraceTree::Alloc);
+				addToTree(&_tree, _op->m_stackTrace, _op->m_allocSize, _op->m_overhead, _offset, StackTraceTree::Alloc, _op->m_operationTime);
 			}
 			break;
 
@@ -2231,10 +2243,10 @@ void Capture::addToStackTraceTree(StackTraceTree& _tree, MemoryOperation* _op, S
 				RTM_ASSERT(prevOp != NULL, "");
 
 				if (isInFilter(prevOp))
-					addToTree(&_tree, prevOp->m_stackTrace, -(int64_t)prevOp->m_allocSize, -(int32_t)prevOp->m_overhead, _offset, StackTraceTree::Free);
+					addToTree(&_tree, prevOp->m_stackTrace, -(int64_t)prevOp->m_allocSize, -(int32_t)prevOp->m_overhead, _offset, StackTraceTree::Free, _op->m_operationTime);
 				else
 					// prev op not in filter, do not reduce used memory to avoid going (possibly) negative
-					addToTree(&_tree, prevOp->m_stackTrace, 0, 0, _offset, StackTraceTree::Free);
+					addToTree(&_tree, prevOp->m_stackTrace, 0, 0, _offset, StackTraceTree::Free, _op->m_operationTime);
 			}
 			break;
 
@@ -2245,9 +2257,9 @@ void Capture::addToStackTraceTree(StackTraceTree& _tree, MemoryOperation* _op, S
 				if (prevOp)
 				{
 					if (isInFilter(prevOp))
-						addToTree(&_tree, prevOp->m_stackTrace, -(int64_t)prevOp->m_allocSize, -(int32_t)prevOp->m_overhead, _offset, StackTraceTree::Count);
+						addToTree(&_tree, prevOp->m_stackTrace, -(int64_t)prevOp->m_allocSize, -(int32_t)prevOp->m_overhead, _offset, StackTraceTree::Count, _op->m_operationTime);
 				}
-				addToTree(&_tree, _op->m_stackTrace, _op->m_allocSize, _op->m_overhead, _offset, StackTraceTree::Realloc);
+				addToTree(&_tree, _op->m_stackTrace, _op->m_allocSize, _op->m_overhead, _offset, StackTraceTree::Realloc, _op->m_operationTime);
 			}
 			break;
 	};

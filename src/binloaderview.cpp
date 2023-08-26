@@ -19,6 +19,7 @@ BinLoaderView::BinLoaderView(QWidget* _parent, Qt::WindowFlags _flags) :
 	m_histogramType		= 0;
 	m_histogramMode		= 0;
 	m_histogramPeaks	= false;
+	m_histogramScale	= false;
 	m_filteringEnabled	= false;
 	m_currentHeap		= (uint64_t)-1;
 
@@ -35,6 +36,8 @@ BinLoaderView::BinLoaderView(QWidget* _parent, Qt::WindowFlags _flags) :
 	connect(m_operationList, SIGNAL(setStackTrace(rtm::StackTrace**,int)), this, SIGNAL(setStackTrace(rtm::StackTrace**,int)));
 	connect(m_operationListInvalid, SIGNAL(setStackTrace(rtm::StackTrace**, int)), this, SIGNAL(setStackTrace(rtm::StackTrace**, int)));
 	connect(m_treeMap, SIGNAL(setStackTrace(rtm::StackTrace**,int)), this, SIGNAL(setStackTrace(rtm::StackTrace**,int)));
+	connect(m_treeMap, SIGNAL(highlightTime(uint64_t)), this, SIGNAL(highlightTime(uint64_t)));
+	connect(m_treeMap, SIGNAL(highlightRange(uint64_t, uint64_t)), this, SIGNAL(highlightRange(uint64_t, uint64_t)));
 	connect(m_hotspots, SIGNAL(setStackTrace(rtm::StackTrace**,int)), this, SIGNAL(setStackTrace(rtm::StackTrace**,int)));
 	connect(m_stackTree, SIGNAL(setStackTrace(rtm::StackTrace**,int)), this, SIGNAL(setStackTrace(rtm::StackTrace**,int)));
 	connect(this, SIGNAL(setStackTrace(rtm::StackTrace**,int)), this, SLOT(saveStackTrace(rtm::StackTrace**,int)));

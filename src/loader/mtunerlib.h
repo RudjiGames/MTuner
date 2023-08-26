@@ -233,6 +233,8 @@ struct StackTraceTree
 	uint64_t			m_addressID;
 	int64_t				m_memUsage;
 	int64_t				m_memUsagePeak;
+	uint64_t			m_minTime;
+	uint64_t			m_maxTime;
 	int32_t				m_overhead;
 	int32_t				m_overheadPeak;
 	int32_t				m_depth;
@@ -245,6 +247,8 @@ struct StackTraceTree
 		m_addressID(0),
 		m_memUsage(0),
 		m_memUsagePeak(0), 
+		m_minTime(0),
+		m_maxTime(0),
 		m_overhead(0),
 		m_overheadPeak(0),
 		m_depth(0),

@@ -173,6 +173,7 @@ TreeMapView::TreeMapView(QWidget* _parent) :
 {
 	m_context		= NULL;
 	m_highlightNode	= NULL;
+	m_clickedNode	= NULL;
 	m_mapType		= 0;
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -214,10 +215,10 @@ void TreeMapView::updateHighlight(const QPoint& _pos)
 				QLocale locale;
 				QString str =	"<pre>" +
 										QStringColor(tr("Total size"), "ff42a6ba") + QStringColor(locale.toString(qulonglong(m_highlightNode->m_size)), "ffffff33", false) + "<br>" +
-										QStringColor(tr("Operations"), "ff83cf67") + locale.toString(qulonglong(m_highlightNode->m_allocs + m_highlightNode->m_reallocs + m_highlightNode->m_frees)) + "<br><br>" +
-										QStringColor(tr("  Allocs"), "ffffffff") + locale.toString(qulonglong(m_highlightNode->m_allocs)) + "<br>" +
-										QStringColor(tr("Reallocs"), "ffffffff") + locale.toString(qulonglong(m_highlightNode->m_reallocs)) + "<br>" +
-										QStringColor(tr("   Frees"), "ffffffff") + locale.toString(qulonglong(m_highlightNode->m_frees)) + "</pre>";
+										QStringColor(tr("Operations"), "ff83cf67") + locale.toString(qulonglong(m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Alloc] + m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Realloc] + m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Free])) + "<br><br>" +
+										QStringColor(tr("  Allocs"), "ffffffff") + locale.toString(qulonglong(m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Alloc])) + "<br>" +
+										QStringColor(tr("Reallocs"), "ffffffff") + locale.toString(qulonglong(m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Realloc])) + "<br>" +
+										QStringColor(tr("   Frees"), "ffffffff") + locale.toString(qulonglong(m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Free])) + "</pre>";
 				m_toolTipLabel->setText(str);
 				m_item->redraw();
 				invalidateScene();
@@ -233,9 +234,6 @@ void TreeMapView::buildTreeRecurse(rtm::StackTraceTree* _tree)
 
 		node.m_tree		= _tree;
 		node.m_size		= getNodeValueByType( node, m_mapType );
-		node.m_allocs	= node.m_tree->m_opCount[rtm::StackTraceTree::Alloc];
-		node.m_reallocs	= node.m_tree->m_opCount[rtm::StackTraceTree::Realloc];
-		node.m_frees	= node.m_tree->m_opCount[rtm::StackTraceTree::Free];
 
 		m_tree.push_back(node);
 		m_treeLines.append(QLineF());
@@ -311,9 +309,26 @@ void TreeMapView::mouseReleaseEvent(QMouseEvent* _event)
 		{
 			rtm::StackTrace** trace = &m_highlightNode->m_tree->m_stackTraceList;
 			emit setStackTrace(trace, 1);
+
+			if (m_clickedNode != m_highlightNode)
+			{
+				m_clickedNode = m_highlightNode;
+				repaint();
+			}
+
+			const uint32_t numOps =	m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Alloc] +
+									m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Free]  +
+									m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Realloc];
+			if (numOps == 1)
+				emit highlightTime(m_highlightNode->m_tree->m_minTime);
+			else
+				emit highlightRange(m_highlightNode->m_tree->m_minTime, m_highlightNode->m_tree->m_maxTime);
 		}
 		else
+		{
 			emit setStackTrace(NULL, 0);
+			m_clickedNode = NULL;
+		}
 	}
 
 	QGraphicsView::mouseReleaseEvent(_event);
@@ -386,14 +401,23 @@ void TreeMapGraphicsItem::paint(QPainter* _painter, const QStyleOptionGraphicsIt
 	}
 
 	TreeMapNode* highlight = m_treeView->getHighlightNode();
+	TreeMapNode* clicked   = m_treeView->getClickedNode();
 
 	_painter->setPen(QPen(Qt::black, 1.0, Qt::SolidLine));
 
 	QColor c1(33, 80, 70, 255);
 	QColor c2(33, 80, 90, 255);
+	QColor c3(33, 70, 80, 255);
 
 	_painter->setBrush(c2);
 	_painter->drawLines(lines.data(), lines.size());
+
+	if (clicked && (clicked != highlight))
+	{
+		QRectF highlightRect = clicked->m_rect;
+		_painter->setBrush(c3);
+		_painter->drawRect(highlightRect);
+	}
 
 	if (highlight)
 	{
