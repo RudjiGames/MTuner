@@ -2025,6 +2025,10 @@ void Capture::addToMemoryGroups(MemoryGroupsHashType& _groups, MemoryOperation* 
 
 				group.m_liveSize += _op->m_allocSize;
 
+				const uint32_t binIdx = getHistogramBinIndex(_op->m_allocSize);
+				group.m_histogram[binIdx]++;
+				group.m_histogramPeak[binIdx] = qMax(group.m_histogram[binIdx], group.m_histogramPeak[binIdx]);
+
 				int64_t newPeakSize = qMax(group.m_peakSize, group.m_liveSize);
 				if (newPeakSize > group.m_peakSize)
 				{
@@ -2052,6 +2056,9 @@ void Capture::addToMemoryGroups(MemoryGroupsHashType& _groups, MemoryOperation* 
 
 					prevGroup.m_liveCount--;
 					prevGroup.m_liveSize -= prevOp->m_allocSize;
+
+					const uint32_t prevBinIdx = getHistogramBinIndex(prevOp->m_allocSize);
+					prevGroup.m_histogram[prevBinIdx]--;
 				}
 
 				groupHash = calcGroupHash(_op);
@@ -2064,6 +2071,10 @@ void Capture::addToMemoryGroups(MemoryGroupsHashType& _groups, MemoryOperation* 
 
 				//group.m_liveSize -= _op->m_allocSize;
 				group.m_peakSize  = qMax(group.m_peakSize, group.m_liveSize);
+
+				const uint32_t binIdx = getHistogramBinIndex(_op->m_allocSize);
+				group.m_histogram[binIdx]--;
+
 			}
 			break;
 
@@ -2081,6 +2092,9 @@ void Capture::addToMemoryGroups(MemoryGroupsHashType& _groups, MemoryOperation* 
 
 						prevGroup.m_liveCount--;
 						prevGroup.m_liveSize -= prevOp->m_allocSize;
+
+						const uint32_t prevBinIdx = getHistogramBinIndex(prevOp->m_allocSize);
+						prevGroup.m_histogram[prevBinIdx]--;
 					}
 				}
 
@@ -2109,6 +2123,9 @@ void Capture::addToMemoryGroups(MemoryGroupsHashType& _groups, MemoryOperation* 
 					group.m_liveCountPeakGlobal = _liveBlocks;
 				}
 
+				const uint32_t binIdx = getHistogramBinIndex(_op->m_allocSize);
+				group.m_histogram[binIdx]++;
+				group.m_histogramPeak[binIdx] = qMax(group.m_histogram[binIdx], group.m_histogramPeak[binIdx]);
 			}
 			break;
 	};

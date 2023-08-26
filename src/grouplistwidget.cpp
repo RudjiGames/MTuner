@@ -654,6 +654,7 @@ GroupList::GroupList(QWidget* _parent, Qt::WindowFlags _flags) :
 	m_groupList			= findChild<BigTable*>("bigTableWidget");
 	connect(m_groupList, SIGNAL(itemSelected(void*)), this, SLOT(selectionChanged(void*)));
 	connect(m_groupList, SIGNAL(itemRightClicked(void*,const QPoint&)), this, SLOT(groupRightClick(void*,const QPoint&)));
+	setMouseTracking(true);
 }
 
 GroupList::~GroupList()
@@ -797,4 +798,9 @@ void GroupList::selectTriggered()
 
 	m_lastRange[0] = 0;
 	m_lastRange[1] = 0;
+}
+
+void GroupList::mouseMoveEvent(QMouseEvent* _event)
+{
+
 }

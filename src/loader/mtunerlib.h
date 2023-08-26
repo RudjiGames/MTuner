@@ -78,37 +78,6 @@ enum eGroupSort
 };
 
 //--------------------------------------------------------------------------
-/// Group of memory operations
-//--------------------------------------------------------------------------
-struct MemoryOperationGroup
-{
-	enum { INDEX_MAPPINGS = 11 };
-
-	uint32_t						m_minSize;			// single allocation size
-	uint32_t						m_maxSize;			// single allocation size
-	int64_t							m_peakSize;			// group size
-	int64_t							m_peakSizeGlobal;	// total memory usage at the time of group peak size
-	int64_t							m_liveSize;			// group size
-	uint32_t						m_count;
-	uint32_t						m_liveCount;
-	uint32_t						m_liveCountPeak;
-	uint32_t						m_liveCountPeakGlobal;
-	rtm_vector<MemoryOperation*>	m_operations;
-	uint32_t						m_indexMappings[INDEX_MAPPINGS];
-
-	inline MemoryOperationGroup()
-		: m_minSize(0xffffffff)
-		, m_maxSize(0)
-		, m_peakSize(0)
-		, m_liveSize(0)
-		, m_count(0)
-		, m_liveCount(0)
-		, m_liveCountPeak(0)
-		, m_liveCountPeakGlobal(0)
-	{}
-};
-
-//--------------------------------------------------------------------------
 /// Histogram data for a single bin (memory size range) - AOS
 //--------------------------------------------------------------------------
 struct HistogramBin
@@ -151,6 +120,45 @@ struct MemoryStats
 
 	void setPeaksToCurrent();
 	void setPeaksFrom(MemoryStatsLocalPeak& _peaks);
+};
+
+//--------------------------------------------------------------------------
+/// Group of memory operations
+//--------------------------------------------------------------------------
+struct MemoryOperationGroup
+{
+	enum { INDEX_MAPPINGS = 11 };
+
+	uint32_t						m_minSize;			// single allocation size
+	uint32_t						m_maxSize;			// single allocation size
+	int64_t							m_peakSize;			// group size
+	int64_t							m_peakSizeGlobal;	// total memory usage at the time of group peak size
+	int64_t							m_liveSize;			// group size
+	uint32_t						m_count;
+	uint32_t						m_liveCount;
+	uint32_t						m_liveCountPeak;
+	uint32_t						m_liveCountPeakGlobal;
+	rtm_vector<MemoryOperation*>	m_operations;
+	uint32_t						m_indexMappings[INDEX_MAPPINGS];
+	uint32_t						m_histogram[rtm::MemoryStats::NUM_HISTOGRAM_BINS];
+	uint32_t						m_histogramPeak[rtm::MemoryStats::NUM_HISTOGRAM_BINS];
+
+	inline MemoryOperationGroup()
+		: m_minSize(0xffffffff)
+		, m_maxSize(0)
+		, m_peakSize(0)
+		, m_liveSize(0)
+		, m_count(0)
+		, m_liveCount(0)
+		, m_liveCountPeak(0)
+		, m_liveCountPeakGlobal(0)
+	{
+		for (int i=0; i<rtm::MemoryStats::NUM_HISTOGRAM_BINS; i++)
+		{
+			m_histogram[i] = 0;
+			m_histogramPeak[i] = 0;
+		}
+	}
 };
 
 //--------------------------------------------------------------------------

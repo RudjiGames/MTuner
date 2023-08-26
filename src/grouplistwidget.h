@@ -48,6 +48,8 @@ public:
 	void loadState(QSettings& _settings, const QString& _name, bool _resetGeometry);
 	void saveState(QSettings& _settings);
 
+	void mouseMoveEvent(QMouseEvent* _event);
+
 Q_SIGNALS:
 	void setStackTrace(rtm::StackTrace**, int);
 	void usageSortingDone(GroupMapping*);
