@@ -73,7 +73,7 @@ for:
     - git clone --depth 1 https://github.com/milostosic/rmem          rmem
     - git clone --depth 1 https://github.com/milostosic/rqt           rqt
     - git clone --depth 1 https://github.com/milostosic/DIA           DIA
-    - git clone --depth 1 https://github.com/milostosic/luaforwindows luaforwindows
+    - git clone --depth 1 https://github.com/rjpcomputing/luaforwindows luaforwindows
 
     install:
       - build\tools\bin\windows\genie.exe --file=MTuner\genie\genie.lua vs2019
