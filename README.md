@@ -1,4 +1,4 @@
-viru![MTuner logo](https://github.com/milostosic/MTuner/blob/master/img/logo.png)
+![MTuner logo](https://github.com/milostosic/MTuner/blob/master/img/logo.png)
 
 [![Build status](https://ci.appveyor.com/api/projects/status/fo9uy9h3bcka20kk?svg=true)](https://ci.appveyor.com/project/milostosic/MTuner)
 [![License](https://img.shields.io/badge/license-BSD--2%20clause-blue.svg)](https://github.com/milostosic/MTuner/blob/master/LICENSE)
