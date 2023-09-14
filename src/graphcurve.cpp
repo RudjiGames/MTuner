@@ -182,7 +182,7 @@ void GraphCurve::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _opti
 	}
 
 	_painter->setBrush(Qt::NoBrush);
-	_painter->setPen(QPen(QColor(131, 207, 183, 150), 2.0, Qt::SolidLine));
+	_painter->setPen(QPen(QColor(131, 207, 183, 90), 2.0, Qt::SolidLine));
 	_painter->drawPath(pathLiveCurve);
 	_painter->setPen(QPen(QColor(50, 150, 170), 2.0, Qt::SolidLine));
 	_painter->drawPath(pathUsageCurve);
