@@ -157,7 +157,8 @@ class Capture
 	private:
 		bool		loadModuleInfo(BinLoader& _loader, uint64_t inFileSize);
 		bool		setLinksAndRemoveInvalid(uint64_t inMinMarkerTime);
-		void		addModule(const char* inName, uint64_t inModBase, uint64_t inModSize);
+		void		addModule(const char* inName, uint64_t inModBase, uint64_t inModSize, uint64_t inTimeStamp);
+		void		removeModule(const char* _path, uint64_t inModBase, uint64_t inModSize, uint64_t inTimeStamp);
 		void		calculateGlobalStats();
 		void		calculateSnapshotStats();
 		bool		verifyGlobalStats();
