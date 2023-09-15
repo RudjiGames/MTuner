@@ -71,14 +71,14 @@ Tested with [TDM64 MinGW](http://tdm-gcc.tdragon.net/download) using [OpenMP pac
 	> genie vs2022
 Solution will be located here: *{Clone root}/.build/windows/vs2022/projects/MTuner/MTuner.sln*
 
-NB: building Qt based projects with [build](https://github.com/milostosic/build) requires Lua to be installed.
+NB: building [Qt](https://www.qt.io/) based projects with [build](https://github.com/milostosic/build) requires Lua to be installed.
 
-Environment variables are used to locate Qt installation, example:
+Environment variables are used to locate [Qt](https://www.qt.io/) installation, example:
 
 	set QTDIR_VS2022_x86=C:\<some_path>\Qt\6.3.1\msvc2019_64 *
 	set QTDIR_VS2022_x64=C:\<some_path>\Qt\6.3.1\msvc2019_64
 
-Note that Qt deprecated 32bit builds which is why both variables point to same location.
+Note that [Qt](https://www.qt.io/) deprecated 32bit builds which is why both variables point to same location.
 
 License (BSD 2-clause)
 ======
