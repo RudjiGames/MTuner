@@ -1,6 +1,5 @@
 ![MTuner logo](https://github.com/milostosic/MTuner/blob/master/img/logo.png)
 
-[![Build status](https://ci.appveyor.com/api/projects/status/fo9uy9h3bcka20kk?svg=true)](https://ci.appveyor.com/project/milostosic/MTuner)
 [![License](https://img.shields.io/badge/license-BSD--2%20clause-blue.svg)](https://github.com/milostosic/MTuner/blob/master/LICENSE)
 
 **MTuner** is a C/C++ memory profiler and memory leak finder for Windows, PlayStation 4 and 3, Android and other platforms.
@@ -69,39 +68,28 @@ Tested with [TDM64 MinGW](http://tdm-gcc.tdragon.net/download) using [OpenMP pac
 **Visual Studio**
 
 	> cd MTuner/genie
-	> genie vs2015
-Solution will be located here: *{Clone root}/.build/windows/vs2015/projects/MTuner/MTuner.sln*
+	> genie vs2022
+Solution will be located here: *{Clone root}/.build/windows/vs2022/projects/MTuner/MTuner.sln*
 
-NB: building Qt based projects with [build](https://github.com/milostosic/build) requires additional dependencies:
-
-	Lua
-	Lua lfs module
+NB: building Qt based projects with [build](https://github.com/milostosic/build) requires Lua to be installed.
 
 Environment variables are used to locate Qt installation, example:
 
-	set QTDIR_VS2017_x86=C:\<some_path>\Qt\5.13.0\msvc2017_64 *
-	set QTDIR_VS2017_x64=C:\<some_path>\Qt\5.13.0\msvc2017_64
+	set QTDIR_VS2022_x86=C:\<some_path>\Qt\6.3.1\msvc2019_64 *
+	set QTDIR_VS2022_x64=C:\<some_path>\Qt\6.3.1\msvc2019_64
 
-Note that Qt deprecated 32bit builds, hence both variables point to same location.
-
-Latest release made with: Visual Studio 2017 Community edition, Qt 5.13.0 and Lua 5.1.4
-
-Author
-======
-
-The author of **MTuner** is Milos Tosic  
-[ <img src="https://github.com/milostosic/build/raw/gh-pages/images/twitter.png">](https://twitter.com/milostosic)[ <img src="https://github.com/milostosic/build/raw/gh-pages/images/mail.png">](mailto:milostosic77@gmail.com)  
+Note that Qt deprecated 32bit builds which is why both variables point to same location.
 
 License (BSD 2-clause)
 ======
 
 <a href="http://opensource.org/licenses/BSD-2-Clause" target="_blank">
-<img align="right" src="http://opensource.org/trademarks/opensource/OSI-Approved-License-100x137.png">
+<img align="right" src="https://opensource.org/wp-content/uploads/2022/10/osi-badge-dark.svg" width="100" height="137">
 </a>
 
-	Copyright (c) 2019 Milos Tosic. All rights reserved.
+	Copyright 2023 Milos Tosic. All rights reserved.
 	
-	https://github.com/milostosic/MTuner
+	https://github.com/RudjiGames/MTuner
 	
 	Redistribution and use in source and binary forms, with or without
 	modification, are permitted provided that the following conditions are met:
