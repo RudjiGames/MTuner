@@ -1,3 +1,6 @@
+@echo off
+echo Packing MTuner
+
 mkdir MTuner
 cd    MTuner
 mkdir platforms
@@ -56,10 +59,6 @@ copy ..\..\src\libs\rmem\src\rmem_platform.h			SDK\src\rmem_platform.h
 copy ..\..\src\libs\rmem\src\rmem_utils.h				SDK\src\rmem_utils.h
 copy ..\..\src\libs\rmem\src\rmem_wrap_win.cpp			SDK\src\rmem_wrap_win.cpp
 copy ..\..\src\libs\rmem\src\rmem_wrap_win.h			SDK\src\rmem_wrap_win.h
-copy ..\..\src\libs\rmem\src\rmem_allocator.cpp			SDK\src\rmem_allocator.cpp
-copy ..\..\src\libs\rmem\src\rmem_allocator.h	        SDK\src\rmem_allocator.h
-copy ..\..\src\libs\rmem\src\rpmalloc\rpmalloc.h		SDK\src\rpmalloc\rpmalloc.h
-copy ..\..\src\libs\rmem\src\rpmalloc\rpmalloc.c		SDK\src\rpmalloc\rpmalloc.c
 
 copy ..\..\src\libs\rmem\genie\genie.lua				SDK\genie\genie.lua
 copy ..\..\src\libs\rmem\genie\rmem.lua					SDK\genie\rmem.lua
