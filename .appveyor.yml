@@ -98,7 +98,7 @@ for:
   
     build_script:
       - ls -l
-      - cd ./.build/linux/gcc-9/MTuner/projects/
+      - cd ../.build/linux/gcc-9/MTuner/projects/
       - make config=${buildcfg}
 
 # ======================================
@@ -122,19 +122,11 @@ for:
     - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     - brew update
     - brew install lua qt6
-    - git clone --depth 1 https://github.com/milostosic/MTuner       MTuner
-    - git clone --depth 1 https://github.com/milostosic/MTunerDLL    MTunerDLL
-    - git clone --depth 1 https://github.com/milostosic/MTunerCmd    MTunerCmd
-    - git clone --depth 1 https://github.com/milostosic/MTunerInject MTunerInject
-    - git clone --depth 1 https://github.com/milostosic/build        build
-    - git clone --depth 1 https://github.com/milostosic/rbase        rbase
-    - git clone --depth 1 https://github.com/milostosic/rdebug       rdebug
-    - git clone --depth 1 https://github.com/milostosic/rmem         rmem
-    - git clone --depth 1 https://github.com/milostosic/rqt          rqt
+    - git clone --recursive --depth 1 https://github.com/milostosic/MTuner       MTuner
     
     install:
       - ./build/tools/bin/darwin/genie --file=MTuner/genie/genie.lua --gcc=osx gmake
     
     build_script:
-      - cd ./.build/osx/clang/MTuner/projects/
+      - cd ../.build/osx/clang/MTuner/projects/
       - make config=${buildcfg}
