@@ -1,5 +1,6 @@
 ![MTuner logo](https://github.com/RudjiGames/MTuner/blob/master/img/logo.png)
 
+[![Build status](https://ci.appveyor.com/api/projects/status/8ops3q96bhvpoy4t?svg=true)](https://ci.appveyor.com/project/milostosic/mtuner)
 [![License](https://img.shields.io/badge/license-BSD--2%20clause-blue.svg)](https://github.com/RudjiGames/MTuner/blob/master/LICENSE)
 
 **MTuner** is a C/C++ memory profiler and memory leak finder for Windows, PlayStation 4 and 3, Android and other platforms.
