@@ -13,10 +13,10 @@ solution "MTuner"
 	configurations { "debug", "release", "retail" }
 	setPlatforms()
 
-	startproject("MTuner")
-
+	loadProject( "MTuner" )
 	loadProject( "MTunerDLL" )
 	loadProject( "MTunerCmd" )
 	loadProject( "MTunerInject" )
-	loadProject( "MTuner" )
-
+	
+	startproject "MTuner"
+	

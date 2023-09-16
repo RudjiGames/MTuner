@@ -10,3 +10,18 @@
 [submodule "src/libs/rqt"]
 	path = src/libs/rqt
 	url = https://github.com/RudjiGames/rqt.git
+[submodule "src/tools/cmdline/MTunerCmd"]
+	path = src/tools/cmdline/MTunerCmd
+	url = https://github.com/RudjiGames/MTunerCmd.git
+[submodule "src/tools/cmdline/MTunerInject"]
+	path = src/tools/cmdline/MTunerInject
+	url = https://github.com/RudjiGames/MTunerInject.git
+[submodule "src/tools/cmdline/MTunerDLL"]
+	path = src/tools/cmdline/MTunerDLL
+	url = https://github.com/RudjiGames/MTunerDLL.git
+[submodule "src/libs/rdebug"]
+	path = src/libs/rdebug
+	url = https://github.com/RudjiGames/rdebug.git
+[submodule "3rd/DIA"]
+	path = 3rd/DIA
+	url = https://github.com/RudjiGames/DIA.git
