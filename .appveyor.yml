@@ -82,7 +82,7 @@ for:
 
     init:
     - sudo apt-get update
-    - sudo apt-get install -y lua5.3 lua-filesystem build-essential libgl1-mesa-dev
+    - sudo apt-get install -y lua5.3 build-essential libgl1-mesa-dev
     - export QTDIR="$HOME/Qt/6.4/gcc_64"
     - export PATH="$HOME/Qt/6.4/gcc_64/bin:$HOME/Qt/6.4/gcc_64/libexec:/home/appveyor/Qt/6.4/gcc_64/libexec:$PATH"
     - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/Qt/6.4/gcc_64/lib/pkgconfig"
