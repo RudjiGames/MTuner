@@ -18,7 +18,7 @@ extern QString getTimeString(float _time, uint64_t* _mSec = 0);
 
 QString QStringColor(const QString& _string, const char* _color, bool _addColon = true)
 {
-	return "<font color=\"#" + QString(_color) + "\">" + _string + (_addColon ? ":</font> " : "</font> ");
+	return QString("<font color=\"#") + QString(_color) + QString("\">") + _string + (_addColon ? QString(":</font> ") : QString("</font> "));
 }
 
 GraphWidget::GraphWidget(QWidget* _parent) :
@@ -543,8 +543,8 @@ void GraphWidget::mouseMovement(const QPoint& _position, Qt::MouseButtons _butto
 		if (toolTips[i].m_rect.contains(spt) && !m_inContextMenu)
 		{
 			QString text(toolTips[i].m_text);
-			text += "\n" + tr("Time") + ": " + getTimeString(m_context->m_capture->getFloatTime(toolTips[i].m_time));
-			text += "\n" + tr("Thread") + ": 0x" + QString::number(toolTips[i].m_threadID, 16);
+			text += "\n" + tr("Time") + QString(": ") + getTimeString(m_context->m_capture->getFloatTime(toolTips[i].m_time));
+			text += "\n" + tr("Thread") + QString(": 0x") + QString::number(toolTips[i].m_threadID, 16);
 
 			m_toolTipLabel->setText(text);
 

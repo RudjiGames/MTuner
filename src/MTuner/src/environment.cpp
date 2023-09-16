@@ -46,7 +46,7 @@ QStringList Environment::getEnvironment()
 	{
 		QString key = ui.tableWidget->item(i, 0)->text();
 		QString val = ui.tableWidget->item(i, 1)->text();
-		ret << key + "=" + val;
+		ret << key + QString("=") + val;
 	}
 
 	return ret;

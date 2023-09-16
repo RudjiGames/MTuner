@@ -193,9 +193,9 @@ bool GCCSetup::resolveToolchain(Toolchain& _toolchain, bool _64bit, rdebug::Tool
 	}
 
 #if RTM_PLATFORM_WINDOWS
-	append1 += ".exe";
-	append2 += ".exe";
-	append3 += ".exe";
+	append1 += QString(".exe");
+	append2 += QString(".exe");
+	append3 += QString(".exe");
 #endif
 
 	QString envVar = _64bit ? _toolchain.m_Environment64		: _toolchain.m_Environment32;
@@ -203,12 +203,12 @@ bool GCCSetup::resolveToolchain(Toolchain& _toolchain, bool _64bit, rdebug::Tool
 	QString prefix = _64bit ? _toolchain.m_ToolchainPrefix64	: _toolchain.m_ToolchainPrefix32;
 
 	// try to match absolute path + prefix + postfix
-	QString basePath = tcPath + "/";
+	QString basePath = tcPath + QString("/");
 
 	QString fullPath = basePath + prefix;
 
-	fullPath = fullPath.replace("//","/");
-	fullPath = fullPath.replace("\\","/");
+	fullPath = fullPath.replace("//", "/");
+	fullPath = fullPath.replace("\\", "/");
 
 	if ((QFileInfo(fullPath + append1).exists()) &&
 		(QFileInfo(fullPath + append2).exists()) &&
@@ -227,11 +227,11 @@ bool GCCSetup::resolveToolchain(Toolchain& _toolchain, bool _64bit, rdebug::Tool
 #if RTM_PLATFORM_WINDOWS
 		std::wstring env = (wchar_t*)envVar.utf16();
 		wchar_t* envData = _wgetenv(env.c_str());
-		basePath = QString::fromUtf16((const char16_t*)envData) + "/";
+		basePath = QString::fromUtf16((const char16_t*)envData) + QString("/");
 #else
 		auto env = envVar.toUtf8();
 		const char *const envData = getenv(env.constData());
-		basePath = QString::fromUtf8(envData) + "/";
+		basePath = QString::fromUtf8(envData) + QString("/");
 #endif
 
 #if RTM_PLATFORM_WINDOWS
@@ -240,7 +240,7 @@ bool GCCSetup::resolveToolchain(Toolchain& _toolchain, bool _64bit, rdebug::Tool
 		QString slash("/");
 #endif
 
-		basePath += tcPath + "/";
+		basePath += tcPath + QString("/");
 		fixSlashes(basePath, slash);
 
 		fullPath = basePath + prefix;
@@ -346,7 +346,7 @@ void GCCSetup::setupDefaultTC(QVector<Toolchain>& _toolchains)
 	{
 		rmem::ToolChain::Enum tc = (rmem::ToolChain::Enum)(rmem::ToolChain::Custom1 + i);
 		Toolchain ctc;
-		ctc.m_name				= "Custom Toolchain " + QString::number(i+1);
+		ctc.m_name				= QString("Custom Toolchain ") + QString::number(i+1);
 		ctc.m_toolchain			= tc;
 
 		_toolchains.append(ctc);

@@ -484,11 +484,11 @@ QStringList	GroupTableSource::getHeaderInfo(int32_t& _sortCol, Qt::SortOrder& _s
 			<< QObject::tr("Block size")
 			<< QObject::tr("Total count")
 			<< QObject::tr("Live peak count")
-			<< QObject::tr("Peak count") + " %"
+			<< QObject::tr("Peak count") + QString(" %")
 			<< QObject::tr("Alignment")
 			<< QObject::tr("Size")
 			<< QObject::tr("Peak size")
-			<< QObject::tr("Peak size") + " %"
+			<< QObject::tr("Peak size") + QString(" %")
 			<< QObject::tr("Leaked");
 
 	_widths << 40
@@ -546,12 +546,12 @@ QString GroupTableSource::getItem(uint32_t _index, int32_t _column, QColor*, boo
 				if (it != heaps.end())
 					return it->second.c_str();
 				else
-					return "0x" + QString::number(group->m_operations[0]->m_allocatorHandle, 16);
+					return QString("0x") + QString::number(group->m_operations[0]->m_allocatorHandle, 16);
 			}
 		
 		case GroupColumn::Size:
 			if (group->m_maxSize != group->m_minSize)
-				return locale.toString(group->m_minSize) + '-' + locale.toString(group->m_maxSize);
+				return locale.toString(group->m_minSize) + QString("-") + locale.toString(group->m_maxSize);
 			else
 				return locale.toString(group->m_minSize);
 	

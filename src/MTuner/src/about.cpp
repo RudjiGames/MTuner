@@ -13,7 +13,7 @@ AboutDialog::AboutDialog(QWidget* _parent, Qt::WindowFlags _flags) :
 	RTM_UNUSED(_flags);
 	ui.setupUi(this);
 	QLabel* version = findChild<QLabel*>("labelVersion");
-	version->setText(tr("Version") + " " + MTunerVersion);
+	version->setText(tr("Version") + QString(" ") + QString(MTunerVersion));
 }
 
 void AboutDialog::changeEvent(QEvent* _event)

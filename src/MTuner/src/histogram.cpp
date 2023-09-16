@@ -43,15 +43,15 @@ QString Histogram::fromVal(int _val)
 {
 	QString s;
 	if (_val < 1024)
-		s = QString::number(_val) + " b";
+		s = QString::number(_val) + QString(" b");
 	else
 		if (_val < 1024*1024)
-			s = QString::number(_val/1024) + " Kb";
+			s = QString::number(_val/1024) + QString(" Kb");
 		else
-			s = QString::number(_val/(1024*1024)) + " Mb";
+			s = QString::number(_val/(1024*1024)) + QString(" Mb");
 
 	while (s.length() < 6)
-		s = " " + s;
+		s = QString(" ") + s;
 	return s;
 }
 
@@ -126,24 +126,24 @@ QString Histogram::getTypeString(HistogramType::Enum _type, uint64_t _val)
 	{
 	case HistogramType::Size:
 		if (_val == 1)
-			ret = "1 " + QObject::tr("byte used");
+			ret = QString("1 ") + QObject::tr("byte used");
 		else
-			ret = m_locale.toString(qulonglong(_val)) + " " + QObject::tr("bytes used");
+			ret = m_locale.toString(qulonglong(_val)) + QString(" ") + QObject::tr("bytes used");
 		break;
 
 	case HistogramType::Overhead:
-		ret = m_locale.toString(qulonglong(_val)) + " " + QObject::tr("bytes of overhead");
+		ret = m_locale.toString(qulonglong(_val)) + QString(" ") + QObject::tr("bytes of overhead");
 		break;
 
 	case HistogramType::Count:
 		if (_val == 1)
-			ret = "1 " + QObject::tr("allocation");
+			ret = QString("1 ") + QObject::tr("allocation");
 		else
-			ret = m_locale.toString(qulonglong(_val)) + " " + QObject::tr("allocations");
+			ret = m_locale.toString(qulonglong(_val)) + QString(" ") + QObject::tr("allocations");
 		break;
 	}
 
-	return "\n" + ret;
+	return QString("\n") + ret;
 }
 
 static QColor boostColor(const QColor& _color, bool _boost)
