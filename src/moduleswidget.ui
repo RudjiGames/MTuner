@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>302</width>
-    <height>316</height>
+    <width>659</width>
+    <height>489</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -45,6 +45,9 @@
      </property>
      <property name="selectionMode">
       <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="sortingEnabled">
+      <bool>true</bool>
      </property>
      <property name="columnCount">
       <number>5</number>

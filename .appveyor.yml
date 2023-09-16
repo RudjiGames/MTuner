@@ -73,7 +73,7 @@ for:
     - git clone --depth 1 https://github.com/milostosic/rmem          rmem
     - git clone --depth 1 https://github.com/milostosic/rqt           rqt
     - git clone --depth 1 https://github.com/milostosic/DIA           DIA
-    - git clone --depth 1 https://github.com/milostosic/luaforwindows luaforwindows
+    - git clone --depth 1 https://github.com/rjpcomputing/luaforwindows luaforwindows
 
     install:
       - build\tools\bin\windows\genie.exe --file=MTuner\genie\genie.lua vs2019
@@ -137,8 +137,7 @@ for:
     - export QTDIR_GMAKE_x86="$HOME/Qt/6.4/macos" 
     - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     - brew update
-    - brew install lua luarocks qt6
-    - sudo luarocks install luafilesystem --check-lua-versions
+    - brew install lua qt6
     - git clone --depth 1 https://github.com/milostosic/MTuner       MTuner
     - git clone --depth 1 https://github.com/milostosic/MTunerDLL    MTunerDLL
     - git clone --depth 1 https://github.com/milostosic/MTunerCmd    MTunerCmd

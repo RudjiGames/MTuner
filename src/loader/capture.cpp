@@ -874,6 +874,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					uint8_t sz;
 					uint64_t modBase;
 					uint32_t modSize;
+					uint64_t time;
 					VERIFY_READ_SIZE(sz);
 					char modName[1024];
 					if (sz == 1)
@@ -889,6 +890,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 					VERIFY_READ_SIZE(modBase);
 					VERIFY_READ_SIZE(modSize);
+					VERIFY_READ_SIZE(time)
 
 					if (m_swapEndian)
 					{
@@ -896,7 +898,40 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 						modSize = Endian::swap(modSize);
 					}
 
-					addModule(modName, modBase, modSize);
+					addModule(modName, modBase, modSize, time);
+				}
+				break;
+
+			case rmem::LogMarkers::ModuleUnload:
+				{
+					uint8_t sz;
+					uint64_t modBase;
+					uint32_t modSize;
+					uint64_t time;
+					VERIFY_READ_SIZE(sz);
+					char modName[1024];
+					if (sz == 1)
+					{
+						ReadString<1024>(modName, loader, m_swapEndian);
+					}
+					else
+					{
+						char16_t modNameC[1024];
+						ReadString<1024>(modNameC, loader, m_swapEndian);
+						rtm::strlCpy(modName, RTM_NUM_ELEMENTS(modName), QString::fromUtf16(modNameC).toUtf8().constData());
+					}
+
+					VERIFY_READ_SIZE(modBase);
+					VERIFY_READ_SIZE(modSize);
+					VERIFY_READ_SIZE(time)
+
+					if (m_swapEndian)
+					{
+						modBase = Endian::swap(modBase);
+						modSize = Endian::swap(modSize);
+					}
+
+					removeModule(modName, modBase, modSize, time);
 				}
 				break;
 
@@ -1025,7 +1060,7 @@ bool Capture::isInFilter(MemoryOperation* _op)
 		for (uint32_t i=0; i<numEntries; ++i)
 		{
 			rdebug::ModuleInfo info;
-			if (m_currentModule->checkAddress(_op->m_stackTrace->m_frames[i]))
+			if (m_currentModule->checkAddress(_op->m_stackTrace->m_frames[i])) // , _op->m_operationTime))
 			{
 				moduleInStack = true;
 				break;
@@ -1213,7 +1248,7 @@ bool Capture::loadModuleInfo(BinLoader& _loader, uint64_t _fileSize)
 			modSize = Endian::swap(modSize);
 		}
 
-		addModule(pathBuffer, modBase, modSize);
+		addModule(pathBuffer, modBase, modSize, 0);
 
 		if (m_loadProgressCallback)
 		{
@@ -1498,12 +1533,12 @@ rdebug::Toolchain::Type convertToolchain(rmem::ToolChain::Enum _tc)
 //--------------------------------------------------------------------------
 /// Adds module to list of infos
 //--------------------------------------------------------------------------
-void Capture::addModule(const char* _path, uint64_t inModBase, uint64_t inModSize)
+void Capture::addModule(const char* _path, uint64_t inModBase, uint64_t inModSize, uint64_t inTimeStamp)
 {
 	char exePath[1024];
 	rtm::strlCpy(exePath, RTM_NUM_ELEMENTS(exePath), _path);
 
-	const int modulePathBufferSize = 128 * 1024;
+	const int modulePathBufferSize = 512 * 1024;
 	if (!m_modulePathBuffer)
 	{
 		m_modulePathBuffer = new char[modulePathBufferSize];
@@ -1547,11 +1582,37 @@ void Capture::addModule(const char* _path, uint64_t inModBase, uint64_t inModSiz
 	rdebug::ModuleInfo info;
 	info.m_baseAddress		= inModBase;
 	info.m_size				= inModSize;
+	info.m_loadTime			= inTimeStamp;
+	info.m_unloadTime		= 0xffffffffffffffffUL;
 	info.m_toolchain.m_type	= convertToolchain(m_toolchain);
 	rtm::strlCpy(info.m_modulePath, RTM_NUM_ELEMENTS(info.m_modulePath), &m_modulePathBuffer[m_modulePathBufferPtr]);
 	m_modulePathBufferPtr += (uint32_t)strlen(_path)+1;
 
 	m_moduleInfos.push_back(info);
+}
+
+void Capture::removeModule(const char* _path, uint64_t inModBase, uint64_t inModSize, uint64_t inTimeStamp)
+{
+	for (auto& module : m_moduleInfos)
+		if (rtm::strCmp(module.m_modulePath, _path) == 0)
+		{
+			// try and match the correct module
+
+			if (inTimeStamp < module.m_loadTime)				// should never happen
+				continue;
+
+			if (module.m_unloadTime != 0xffffffffffffffffUL)	// already unloaded
+				continue;
+
+			if (module.m_baseAddress != inModBase)
+				continue;
+
+			if (module.m_size != inModSize)
+				continue;
+
+			module.m_unloadTime = inTimeStamp;
+			return;
+		}
 }
 
 //--------------------------------------------------------------------------

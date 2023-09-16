@@ -205,9 +205,9 @@ void GraphGrid::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 	uint64_t highlightTimeEnd	= m_graphWidget->getHighlightTimeEnd();
 
 	if (highlightTimeStart < minTime)
-		return;
+		highlightTimeStart = minTime;
 	if (highlightTimeEnd > maxTime)
-		return;
+		highlightTimeEnd = maxTime;
 
 	float intensity = m_graphWidget->highlightIntensity();
 	int highlightXstart	= m_graphWidget->mapTimeToPos(highlightTimeStart);

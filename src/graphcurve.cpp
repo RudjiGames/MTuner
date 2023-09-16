@@ -182,7 +182,7 @@ void GraphCurve::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _opti
 	}
 
 	_painter->setBrush(Qt::NoBrush);
-	_painter->setPen(QPen(QColor(131, 207, 183, 150), 2.0, Qt::SolidLine));
+	_painter->setPen(QPen(QColor(131, 207, 183, 90), 2.0, Qt::SolidLine));
 	_painter->drawPath(pathLiveCurve);
 	_painter->setPen(QPen(QColor(50, 150, 170), 2.0, Qt::SolidLine));
 	_painter->drawPath(pathUsageCurve);
@@ -195,13 +195,13 @@ void GraphCurve::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _opti
 
 	QLinearGradient gradLive(QPoint(left, top), QPoint(left, bottom));
 	gradLive.setColorAt(0, QColor(131, 207, 183, 0));
-	gradLive.setColorAt(1, QColor(131, 207, 183, 46));
+	gradLive.setColorAt(1, QColor(131, 207, 183, 23));
 	_painter->setPen(Qt::NoPen);
 	_painter->fillPath(pathLiveCurve, gradLive);
 
 	QLinearGradient gradUsage(QPoint(left, top), QPoint(left, bottom));
-	gradUsage.setColorAt(0, QColor(50, 150, 170, 0));
-	gradUsage.setColorAt(1, QColor(50, 150, 170, 46));
+	gradUsage.setColorAt(0, QColor(50, 150, 170, 33));
+	gradUsage.setColorAt(1, QColor(50, 150, 170, 0));
 	_painter->setPen(Qt::NoPen);
 	_painter->fillPath(pathUsageCurve, gradUsage);
 }
