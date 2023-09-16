@@ -97,8 +97,7 @@ for:
       - ./GENie/bin/linux/genie --file=MTuner/src/MTuner/genie/genie.lua --gcc=linux-gcc-9 gmake
   
     build_script:
-      - ls -l
-      - cd ../.build/linux/gcc-9/MTuner/projects/
+      - cd MTuner/.build/linux/gcc-9/MTuner/projects/
       - make config=${buildcfg}
 
 # ======================================
@@ -128,5 +127,5 @@ for:
       - ./build/tools/bin/darwin/genie --file=MTuner/genie/genie.lua --gcc=osx gmake
     
     build_script:
-      - cd ../.build/osx/clang/MTuner/projects/
+      - cd MTuner/.build/osx/clang/MTuner/projects/
       - make config=${buildcfg}
