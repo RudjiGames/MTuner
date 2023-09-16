@@ -124,7 +124,7 @@ for:
     - git clone --recursive --depth 1 https://github.com/milostosic/MTuner       MTuner
     
     install:
-      - ./build/tools/bin/darwin/genie --file=MTuner/src/MTuner/genie/genie.lua --gcc=osx gmake
+      - ./MTuner/build/tools/bin/darwin/genie --file=MTuner/src/MTuner/genie/genie.lua --gcc=osx gmake
     
     build_script:
       - cd MTuner/.build/osx/clang/MTuner/projects/
