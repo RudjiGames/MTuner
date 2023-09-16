@@ -1,0 +1,12 @@
+[submodule "build"]
+	path = build
+	url = https://github.com/RudjiGames/build.git
+[submodule "src/libs/rbase"]
+	path = src/libs/rbase
+	url = https://github.com/RudjiGames/rbase.git
+[submodule "src/libs/rmem"]
+	path = src/libs/rmem
+	url = https://github.com/RudjiGames/rmem.git
+[submodule "src/libs/rqt"]
+	path = src/libs/rqt
+	url = https://github.com/RudjiGames/rqt.git
