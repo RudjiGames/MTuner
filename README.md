@@ -1,6 +1,6 @@
-![MTuner logo](https://github.com/milostosic/MTuner/blob/master/img/logo.png)
+![MTuner logo](https://github.com/RudjiGames/MTuner/blob/master/img/logo.png)
 
-[![License](https://img.shields.io/badge/license-BSD--2%20clause-blue.svg)](https://github.com/milostosic/MTuner/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/license-BSD--2%20clause-blue.svg)](https://github.com/RudjiGames/MTuner/blob/master/LICENSE)
 
 **MTuner** is a C/C++ memory profiler and memory leak finder for Windows, PlayStation 4 and 3, Android and other platforms.
 
@@ -8,51 +8,36 @@
 
 While **MTuner** was created for profiling C/C++ applications, it is possible to profile memory for programs written in other languages as long as there is corresponding debug symbol information. Users can convert DMD CodeView/DWARF debug symbols to PDB format using [cv2pdb](https://github.com/rainers/cv2pdb).
 
-![MTuner screenshot](https://github.com/milostosic/MTuner/blob/master/img/mtuner_screenshot.png)
+![MTuner screenshot](https://github.com/RudjiGames/MTuner/blob/master/img/mtuner_screenshot.png)
 
 Source Code
 ======
 
 You can get the latest source code by cloning it from github:
 
-      git clone https://github.com/milostosic/MTuner.git 
+    git clone https://github.com/RudjiGames/MTuner.git
+
+After cloning, we need to download dependencies:
+
+ 	git submodule init
+ 	git submodule update
 
 Download
 ======
 
-Binaries can be downloaded from [releases](https://github.com/milostosic/MTuner/releases) page  
+Binaries can be downloaded from [releases](https://github.com/RudjiGames/MTuner/releases) page  
 
 NB: If your application crashes while being profiled with **MTuner**, you can try adding **MTuner** folder to 'Exclusions' list under 'Virus & threat protection settings'
 
 Documentation
 ======
 
-**MTuner** documentation can be found [here](https://milostosic.github.io/MTuner/).  
-
-Dependencies
-======
-
-**MTuner** uses [Qt](https://www.qt.io/) framework for user interface.
-
-Dependencies can be obtained by cloning the following repositories:
-
-	git clone https://github.com/milostosic/build.git
-	git clone https://github.com/milostosic/rbase.git
-	git clone https://github.com/milostosic/rdebug.git
-	git clone https://github.com/milostosic/rmem.git
-	git clone https://github.com/milostosic/rqt.git
-	git clone https://github.com/milostosic/MTunerCmd.git
-	git clone https://github.com/milostosic/MTunerDLL.git
-	git clone https://github.com/milostosic/MTunerInject.git
-
-DIA (Debug Interface Access) SDK - **Windows only**
-
-	git clone https://github.com/milostosic/DIA.git 
+**MTuner** documentation can be found [here](https://RudjiGames.github.io/MTuner/).  
 
 Build
 ======
 
-**MTuner** build system is based on [GENie](https://github.com/bkaradzic/GENie) and [build](https://github.com/milostosic/build) in order to dramatically simplify managing build configurations and dependencies.
+**MTuner** uses [**Qt**](https://www.qt.io/) framework for user interface so it needs to be installed on the build machine. The build system is based on [**GENie**](https://github.com/bkaradzic/GENie) and [**build**](https://github.com/RudjiGames/build) in order to dramatically simplify managing build configurations and dependencies.
 
 After cloning the repository and dependencies, here are the steps to build *MTuner*.
 
@@ -71,14 +56,14 @@ Tested with [TDM64 MinGW](http://tdm-gcc.tdragon.net/download) using [OpenMP pac
 	> genie vs2022
 Solution will be located here: *{Clone root}/.build/windows/vs2022/projects/MTuner/MTuner.sln*
 
-NB: building [Qt](https://www.qt.io/) based projects with [build](https://github.com/milostosic/build) requires Lua to be installed.
+NB: building [**Qt**](https://www.qt.io/) based projects with [**build**](https://github.com/RudjiGames/build) requires Lua to be installed.
 
-Environment variables are used to locate [Qt](https://www.qt.io/) installation, example:
+Environment variables are used to locate [**Qt**](https://www.qt.io/) installation, example:
 
 	set QTDIR_VS2022_x86=C:\<some_path>\Qt\6.3.1\msvc2019_64 *
 	set QTDIR_VS2022_x64=C:\<some_path>\Qt\6.3.1\msvc2019_64
 
-Note that [Qt](https://www.qt.io/) deprecated 32bit builds which is why both variables point to same location.
+*\* Note that [**Qt**](https://www.qt.io/) deprecated 32bit builds which is why both variables point to same location.*
 
 License (BSD 2-clause)
 ======
