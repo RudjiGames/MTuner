@@ -111,7 +111,6 @@ void HistogramView::mouseMoveEvent(QMouseEvent* _event)
 			const HistogramToolTip& tt = toolTips[i];
 			if (tt.m_rect.contains(p))
 			{
-				QPoint globalPos = mapToGlobal(_event->pos());
 				m_toolTipLabel->setText("<pre>" + QStringColor(tt.m_text, "ffefef33", false) + "</pre>");
 				m_toolTipLabel->adjustSize();
 

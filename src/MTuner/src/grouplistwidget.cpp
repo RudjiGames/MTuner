@@ -800,7 +800,7 @@ void GroupList::selectTriggered()
 	m_lastRange[1] = 0;
 }
 
-void GroupList::mouseMoveEvent(QMouseEvent* _event)
+void GroupList::mouseMoveEvent(QMouseEvent* /*_event*/)
 {
 
 }

@@ -815,7 +815,7 @@ void MTuner::writeSettings()
 
 	const uint8_t verMajor  = MTunerVersion[0] - '0';
 	const uint8_t verMinor  = MTunerVersion[2] - '0';
-	const uint8_t verDetail = MTunerVersion[4] - '0';
+	const uint8_t verDetail = 0;// MTunerVersion[4] - '0';
 
 	settings.beginGroup("Version");
 	settings.setValue("major",  (int)verMajor);

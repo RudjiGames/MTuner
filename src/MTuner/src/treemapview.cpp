@@ -206,7 +206,7 @@ void TreeMapView::updateHighlight(const QPoint& _pos)
 	QPoint scenePos = mapToScene(_pos).toPoint();
 
 	m_highlightNode = 0;
-	for (int i=0; i<m_tree.size(); ++i)
+	for (size_t i=0; i<m_tree.size(); ++i)
 		if (m_tree[i].m_rect.contains(scenePos))
 			if (m_highlightNode != &m_tree[i])
 			{

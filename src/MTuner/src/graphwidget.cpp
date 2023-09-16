@@ -360,7 +360,6 @@ void GraphWidget::zoomOut(uint64_t _time)
 void GraphWidget::updateToolTip(const QPoint& _position)
 {
 	QPoint gpt = mapToGlobal(_position);
-	QPointF spt = mapToScene(_position);
 	QRect drawRect = getDrawRect();
 	QPoint position = mapFromGlobal(gpt);
 	QPointF pt = mapToScene(position);
@@ -536,7 +535,6 @@ void GraphWidget::mouseMovement(const QPoint& _position, Qt::MouseButtons _butto
 	if (!m_context)
 		return;
 
-	QPoint gpt = mapToGlobal(_position);
 	QPointF spt = mapToScene(_position);
 
 	const QVector<MarkerToolTip>& toolTips = m_markers->getTooltips();
