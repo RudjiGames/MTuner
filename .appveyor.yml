@@ -89,22 +89,15 @@ for:
     - export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/home/appveyor/Qt/6.4/gcc_64/lib/pkgconfig
     - export QTDIR_GMAKE_x64="$HOME/Qt/6.4/gcc_64"
     - export QTDIR_GMAKE_x86="$HOME/Qt/6.4/gcc_64" 
-    - git clone --depth 1 https://github.com/milostosic/MTuner       MTuner
-    - git clone --depth 1 https://github.com/milostosic/MTunerDLL    MTunerDLL
-    - git clone --depth 1 https://github.com/milostosic/MTunerCmd    MTunerCmd
-    - git clone --depth 1 https://github.com/milostosic/MTunerInject MTunerInject
-    - git clone --depth 1 https://github.com/milostosic/build        build
-    - git clone --depth 1 https://github.com/milostosic/rbase        rbase
-    - git clone --depth 1 https://github.com/milostosic/rdebug       rdebug
-    - git clone --depth 1 https://github.com/milostosic/rmem         rmem
-    - git clone --depth 1 https://github.com/milostosic/rqt          rqt
-    - git clone --depth 1 https://github.com/bkaradzic/GENie         GENie		# build GENie from source: `GLIBC_2.29' not found
+    - git clone --recursive --depth 1 https://github.com/milostosic/MTuner    MTuner
+    - git clone --depth 1 https://github.com/bkaradzic/GENie                  GENie		# build GENie from source: `GLIBC_2.29' not found
     - cd GENie && make && cd ..
 
     install:
-      - ./GENie/bin/linux/genie --file=MTuner/genie/genie.lua --gcc=linux-gcc-9 gmake
+      - ./GENie/bin/linux/genie --file=MTuner/src/MTuner/genie/genie.lua --gcc=linux-gcc-9 gmake
   
     build_script:
+      - ls -l
       - cd ./.build/linux/gcc-9/MTuner/projects/
       - make config=${buildcfg}
 
