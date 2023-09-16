@@ -21,14 +21,6 @@ static inline uint64_t getTotalMem(rtm_vector<TreeMapNode>& _nodes, int _start, 
 	return sum;
 }
 
-static inline bool isTotalMemZero(rtm_vector<TreeMapNode>& _nodes, int _start, int _end)
-{
-	for (int i = _start; i <= _end; ++i)
-		if (_nodes[i].m_size)
-			return false;
-	return true;
-}
-
 void sliceLayout(rtm_vector<TreeMapNode>& _nodes, int _start, int _end, QRectF& _rect)
 {
 	float total = getTotalMem(_nodes, _start, _end);

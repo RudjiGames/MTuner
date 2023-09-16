@@ -12,7 +12,8 @@ function projectExtraConfig_MTuner()
  		buildoptions {
 			"-fopenmp",	
  		}
-
+	configuration { "osx" }
+		defines { "QT_STRINGVIEW_LEVEL=2" }
 	configuration {}
 end
 

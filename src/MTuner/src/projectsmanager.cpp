@@ -150,11 +150,11 @@ bool ProjectsManager::run(const QString& _executable, const QString& _cmd, const
 	QString currPath = QCoreApplication::applicationDirPath();
 	QString currPath2 = QDir::currentPath();
 
-	QString exePath = currPath + (exe64bit ? "/MTunerInject64.exe" : "/MTunerInject32.exe");
+	QString exePath = currPath + (exe64bit ? QString("/MTunerInject64.exe") : QString("/MTunerInject32.exe"));
 
 	// maybe we're debugging?
 	if (!QFile::exists(exePath))
-		exePath = currPath2 + (exe64bit ? "/MTunerInject64.exe" : "/MTunerInject32.exe");
+		exePath = currPath2 + (exe64bit ? QString("/MTunerInject64.exe") : QString("/MTunerInject32.exe"));
 
 	if (!QFile::exists(exePath))
 	{
@@ -176,7 +176,7 @@ bool ProjectsManager::run(const QString& _executable, const QString& _cmd, const
 		m_watcher->addPath(QString::fromWCharArray(watchPath));
 	}
 
-	QString arguments = " #23#" + _executable + "#23# #23#" + _cmd + "#23# #23#" + _workingDir + "#23#";
+	QString arguments = QString(" #23#") + _executable + QString("#23# #23#") + _cmd + QString("#23# #23#") + _workingDir + QString("#23#");
 
 	QProcess* process;
 	process = new QProcess(this);
@@ -199,7 +199,7 @@ bool ProjectsManager::run(const QString& _executable, const QString& _cmd, const
 	if (!_shouldCapture)
 		_allocator |= RMEM_ALLOCATOR_NOPROFILING;
 
-	env << "MTuner_Allocator=" + QString::number(_allocator);
+	env << QString("MTuner_Allocator=") + QString::number(_allocator);
 	env << "_NO_DEBUG_HEAP=1";
 	env << _environment;
 	process->setEnvironment(env);
@@ -226,8 +226,8 @@ void ProjectsManager::loadSettings(QSettings& _settings)
 		p.m_workingDir		= _settings.value(key + "Dir").toString();
 		p.m_environment		= _settings.value(key + "Env").toStringList();
 
-		if (_settings.contains(key + "EnvInherit"))
-			p.m_inheritEnv	= _settings.value(key + "EnvInherit").toBool();
+		if (_settings.contains(key + QString("EnvInherit")))
+			p.m_inheritEnv	= _settings.value(key + QString("EnvInherit")).toBool();
 		else
 			p.m_inheritEnv	= true;
 
@@ -245,11 +245,11 @@ void ProjectsManager::saveSettings(QSettings& _settings)
 		_settings.setArrayIndex(i);
 		const Project& p = getProject(i);
 		QString key = QString("Project") + QString::number(i);
-		_settings.setValue(key + "Exe",			p.m_executablePath);
-		_settings.setValue(key + "Cmd",			p.m_cmdArgs);
-		_settings.setValue(key + "Dir",			p.m_workingDir);
-		_settings.setValue(key + "Env",			p.m_environment);
-		_settings.setValue(key + "EnvInherit",	p.m_inheritEnv);
+		_settings.setValue(key + QString("Exe"),			p.m_executablePath);
+		_settings.setValue(key + QString("Cmd"),			p.m_cmdArgs);
+		_settings.setValue(key + QString("Dir"),			p.m_workingDir);
+		_settings.setValue(key + QString("Env"),			p.m_environment);
+		_settings.setValue(key + QString("EnvInherit"),		p.m_inheritEnv);
 	}
 	_settings.endArray();
 }
@@ -378,9 +378,9 @@ void ProjectsManager::updateProjectList()
 	{
 		QTreeWidgetItem* item = new QTreeWidgetItem(QStringList(it->m_executablePath));
 		QString toolTip;
-		toolTip += "<b>Exe:</b> " + it->m_executablePath + "<br>";
-		toolTip += "<b>Args:</b> " + it->m_cmdArgs + "<br>";
-		toolTip += "<b>Work dir:</b> " + it->m_workingDir;
+		toolTip += QString("<b>Exe:</b> ") + it->m_executablePath + QString("<br>");
+		toolTip += QString("<b>Args:</b> ") + it->m_cmdArgs + QString("<br>");
+		toolTip += QString("<b>Work dir:</b> ") + it->m_workingDir;
 		item->setToolTip(0,toolTip);
 		QIcon icon = iconProv.icon(QFileInfo(it->m_executablePath));
 		item->setIcon(0,icon);
