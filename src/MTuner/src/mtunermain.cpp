@@ -120,7 +120,7 @@ void resolverCallBack(const char* _name, void* _customData)
 {
 	MTuner* mt = (MTuner*)_customData;
 
-	mt->statusBar()->showMessage(QString("Loading symbols for: ") + _name, 2300);
+	mt->statusBar()->showMessage(QString("Loading symbols for: ") + QString(_name), 2300);
 	mt->statusBar()->repaint();
 }
 

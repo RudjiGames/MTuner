@@ -41,9 +41,9 @@ bool QToolTipper::eventFilter(QObject* _object, QEvent* _event)
 		QString textLine     = view->model()->data(idxline).toString();
 
 		QString itemTooltip =
-			   "<pre><b>" + QStringColor("Func: ", "ff42a6ba", false) + textFunction + "</b><br>" +
-					"<b>" + QStringColor("File: ", "ff83cf67", false) + "</b>" + textFile + ":" + textLine + "<br>" +
-					"<b>" + QStringColor("Module: ", "ffefef33", false) + "</b>" + textModule + "</pre>";
+			QString("<pre><b>") + QStringColor("Func: ", "ff42a6ba", false) + textFunction + QString("</b><br>") +
+			QString("<b>") + QStringColor("File: ", "ff83cf67", false) + QString("</b>") + textFile + QString(":") + textLine + QString("<br>") +
+			QString("<b>") + QStringColor("Module: ", "ffefef33", false) + QString("</b>") + textModule + QString("</pre>");
 
 		// only elided text
 		if (!itemTooltip.isEmpty())

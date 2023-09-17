@@ -43,7 +43,7 @@ void StackAndSource::setStackTrace(rtm::StackTrace** _trace, int _num)
 void StackAndSource::setFileName(const QString& _file, int, int)
 {
 	if (_file != QString("Unknown"))
-		m_fileName->setText("<b>" + _file + "</b>");
+		m_fileName->setText(QString("<b>") + _file + QString("</b>"));
 	else
 		m_fileName->setText("");
 }

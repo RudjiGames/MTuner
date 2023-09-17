@@ -364,6 +364,9 @@ void GraphWidget::updateToolTip(const QPoint& _position)
 	QPoint position = mapFromGlobal(gpt);
 	QPointF pt = mapToScene(position);
 
+	static const QString sqs_BR("<br>");
+	static const QString sqs_PRE("<pre>");
+
 	if (rect().contains(_position) && m_LButtonDown && !m_inContextMenu)
 	{
 		uint64_t pL = mapPosToTime(m_dragStartPos.x());
@@ -377,11 +380,17 @@ void GraphWidget::updateToolTip(const QPoint& _position)
 		float startTimeF = m_context->m_capture->getFloatTime(startTime);
 		float endTimeF = m_context->m_capture->getFloatTime(endTime);
 
-		QString ttip = "<pre>" +QStringColor(tr("Start time"), "ffffffff") + getTimeString(startTimeF) + "<br>" +
-								QStringColor(tr("  End time"), "ffffffff") + getTimeString(endTimeF) + "<br>" +
-								QStringColor(tr("  Duration"), "ffffffff") + getTimeString(endTimeF - startTimeF) + "<br><br>" +
-								QStringColor(tr("Usage at end"), "ff42a6ba") + m_locale.toString(qulonglong(entry.m_usage)) + "<br>" +
-								QStringColor(tr(" Live blocks"), "ff83cf67") + m_locale.toString(qulonglong(entry.m_numLiveBlocks)) + "</pre>";
+		const static QString sqs_1 = QStringColor(("Start time"), "ffffffff");
+		const static QString sqs_2 = QStringColor(("  End time"), "ffffffff");
+		const static QString sqs_3 = QStringColor(("  Duration"), "ffffffff");
+		const static QString sqs_4 = QStringColor(("Usage at end"), "ff42a6ba");
+		const static QString sqs_5 = QStringColor((" Live blocks"), "ff83cf67");
+
+		QString ttip = sqs_PRE + sqs_1 + getTimeString(startTimeF) + sqs_BR +
+								 sqs_2 + getTimeString(endTimeF) + sqs_BR +
+								 sqs_3 + getTimeString(endTimeF - startTimeF) + sqs_BR + sqs_BR +
+								 sqs_4 + m_locale.toString(qulonglong(entry.m_usage)) + sqs_BR +
+								 sqs_5 + m_locale.toString(qulonglong(entry.m_numLiveBlocks)) + QString("</pre>");
 
 		m_toolTipLabel->setText(ttip);
 		m_toolTipLabel->adjustSize();
@@ -395,9 +404,13 @@ void GraphWidget::updateToolTip(const QPoint& _position)
 			m_context->m_capture->getGraphAtTime(pL, entry);
 			QString timeStr = getTimeString(timeF);
 
-			QString ttip = "<pre>" +QStringColor(tr(" Time"), "ffffffff") + timeStr + "<br>" +
-									QStringColor(tr("Usage"), "ff42a6ba") + m_locale.toString(qulonglong(entry.m_usage)) + "<br>" +
-									QStringColor(tr("Live blocks"), "ff83cf67") + m_locale.toString(qulonglong(entry.m_numLiveBlocks)) + "</pre>\n";
+			static const QString sqs_1 = QStringColor(tr(" Time"), "ffffffff");
+			static const QString sqs_2 = QStringColor(tr("Usage"), "ff42a6ba");
+			static const QString sqs_3 = QStringColor(tr("Live blocks"), "ff83cf67");
+
+			QString ttip = sqs_PRE + sqs_1 + timeStr + sqs_BR +
+									 sqs_2 + m_locale.toString(qulonglong(entry.m_usage)) + sqs_BR +
+									 sqs_3 + m_locale.toString(qulonglong(entry.m_numLiveBlocks)) + sqs_PRE + QString("\n");
 
 			m_toolTipLabel->setText(ttip);
 			m_toolTipLabel->adjustSize();

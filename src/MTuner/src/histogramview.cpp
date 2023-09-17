@@ -111,7 +111,7 @@ void HistogramView::mouseMoveEvent(QMouseEvent* _event)
 			const HistogramToolTip& tt = toolTips[i];
 			if (tt.m_rect.contains(p))
 			{
-				m_toolTipLabel->setText("<pre>" + QStringColor(tt.m_text, "ffefef33", false) + "</pre>");
+				m_toolTipLabel->setText(QString("<pre>") + QStringColor(tt.m_text, "ffefef33", false) + QString("</pre>"));
 				m_toolTipLabel->adjustSize();
 
 				QGraphicsView::mouseMoveEvent(_event);

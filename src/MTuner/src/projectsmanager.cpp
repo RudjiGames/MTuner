@@ -200,7 +200,7 @@ bool ProjectsManager::run(const QString& _executable, const QString& _cmd, const
 		_allocator |= RMEM_ALLOCATOR_NOPROFILING;
 
 	env << QString("MTuner_Allocator=") + QString::number(_allocator);
-	env << "_NO_DEBUG_HEAP=1";
+	env << QString("_NO_DEBUG_HEAP=1");
 	env << _environment;
 	process->setEnvironment(env);
 
@@ -221,10 +221,10 @@ void ProjectsManager::loadSettings(QSettings& _settings)
 		_settings.setArrayIndex(i);
 		QString key = QString("Project") + QString::number(i);
 		Project p;
-		p.m_executablePath	= _settings.value(key + "Exe").toString();
-		p.m_cmdArgs			= _settings.value(key + "Cmd").toString();
-		p.m_workingDir		= _settings.value(key + "Dir").toString();
-		p.m_environment		= _settings.value(key + "Env").toStringList();
+		p.m_executablePath	= _settings.value(key + QString("Exe")).toString();
+		p.m_cmdArgs			= _settings.value(key + QString("Cmd")).toString();
+		p.m_workingDir		= _settings.value(key + QString("Dir")).toString();
+		p.m_environment		= _settings.value(key + QString("Env")).toStringList();
 
 		if (_settings.contains(key + QString("EnvInherit")))
 			p.m_inheritEnv	= _settings.value(key + QString("EnvInherit")).toBool();
@@ -341,7 +341,7 @@ void ProjectsManager::editEnvironment()
 void ProjectsManager::dirChanged(const QString& _dir)
 {
 	QDir dir(_dir);
-	QStringList list = dir.entryList(QStringList() << "*.MTuner", QDir::Files, QDir::Time);
+	QStringList list = dir.entryList(QStringList() << QString("*.MTuner"), QDir::Files, QDir::Time);
 	if (list.size())
 	{
 		m_watcher->deleteLater();

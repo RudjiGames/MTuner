@@ -687,7 +687,7 @@ void MTuner::checkCaptureStatus()
 	}
 	else
 	{
-		statusBar()->showMessage(tr("Capture in progress") + " - " + m_watchedFile, g_watchInterval);
+		statusBar()->showMessage(tr("Capture in progress") + QString(" - ") + m_watchedFile, g_watchInterval);
 		if (m_watchTimer)
 			m_watchTimer->start();
 	}
