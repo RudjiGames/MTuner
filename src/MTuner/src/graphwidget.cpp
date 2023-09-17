@@ -556,8 +556,8 @@ void GraphWidget::mouseMovement(const QPoint& _position, Qt::MouseButtons _butto
 		if (toolTips[i].m_rect.contains(spt) && !m_inContextMenu)
 		{
 			QString text(toolTips[i].m_text);
-			text += "\n" + tr("Time") + QString(": ") + getTimeString(m_context->m_capture->getFloatTime(toolTips[i].m_time));
-			text += "\n" + tr("Thread") + QString(": 0x") + QString::number(toolTips[i].m_threadID, 16);
+			text = text + QString("\n") + tr("Time") + QString(": ") + getTimeString(m_context->m_capture->getFloatTime(toolTips[i].m_time));
+			text = text + QString("\n") + tr("Thread") + QString(": 0x") + QString::number(toolTips[i].m_threadID, 16);
 
 			m_toolTipLabel->setText(text);
 

@@ -67,18 +67,18 @@ QString	SymbolStore::getSymbolStoreString() const
 	if (m_publicStore->text().contains(QRegularExpression("https?://")))
 	{
 		if (ret.length())
-			ret += ";";
+			ret = ret + QString(";");
 
-		ret += "SRV*";
+		ret = ret + QString("SRV*");
 		if (!m_localStore->text().isEmpty())
 		{
-			ret += m_localStore->text();
+			ret = ret + m_localStore->text();
 		}
 		else
-			ret += QDir::toNativeSeparators(QDir::temp().absoluteFilePath("symbolcache"));
+			ret = ret + QDir::toNativeSeparators(QDir::temp().absoluteFilePath("symbolcache"));
 
-		ret += "*";
-		ret += m_publicStore->text();
+		ret = ret + QString("*");
+		ret = ret + m_publicStore->text();
 	}
 
 	return ret;

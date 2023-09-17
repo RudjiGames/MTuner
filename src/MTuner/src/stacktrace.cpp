@@ -299,12 +299,12 @@ void StackTrace::decPressed()
 
 void StackTrace::copy()
 {
-	QString text;
-	text += m_table->item(m_copyIndex, StackTraceColumns::Module)->text()	+ '\t';
-	text += m_table->item(m_copyIndex, StackTraceColumns::Function)->text()	+ '\t';
-	text += m_table->item(m_copyIndex, StackTraceColumns::File)->text()		+ '\t';
-	text += m_table->item(m_copyIndex, StackTraceColumns::Line)->text()		+ '\t';
-	text += m_table->item(m_copyIndex, StackTraceColumns::Path)->text()		+ '\n';
+	QString text =
+	QString(m_table->item(m_copyIndex, StackTraceColumns::Module)->text()	+ QString('\t')) +
+	QString(m_table->item(m_copyIndex, StackTraceColumns::Function)->text()	+ QString('\t')) +
+	QString(m_table->item(m_copyIndex, StackTraceColumns::File)->text()		+ QString('\t')) +
+	QString(m_table->item(m_copyIndex, StackTraceColumns::Line)->text()		+ QString('\t')) +
+	QString(m_table->item(m_copyIndex, StackTraceColumns::Path)->text()		+ QString('\n'));
 
 	QApplication::clipboard()->setText(text);
 	copyResetIndex();
@@ -317,11 +317,12 @@ void StackTrace::copyAll()
 	QString text;
 	for (uint32_t i=0; i<rows; ++i)
 	{
-		text += m_table->item(i, StackTraceColumns::Module)->text()		+ '\t';
-		text += m_table->item(i, StackTraceColumns::Function)->text()	+ '\t';
-		text += m_table->item(i, StackTraceColumns::File)->text()		+ '\t';
-		text += m_table->item(i, StackTraceColumns::Line)->text()		+ '\t';
-		text += m_table->item(i, StackTraceColumns::Path)->text()		+ '\n';
+		text = text +
+		QString(m_table->item(i, StackTraceColumns::Module)->text()		+ QString('\t')) +
+		QString(m_table->item(i, StackTraceColumns::Function)->text()	+ QString('\t')) +
+		QString(m_table->item(i, StackTraceColumns::File)->text()		+ QString('\t')) +
+		QString(m_table->item(i, StackTraceColumns::Line)->text()		+ QString('\t')) +
+		QString(m_table->item(i, StackTraceColumns::Path)->text()		+ QString('\n'));
 	}
 
 	QApplication::clipboard()->setText(text);

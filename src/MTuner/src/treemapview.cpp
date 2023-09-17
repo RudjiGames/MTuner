@@ -421,7 +421,7 @@ void TreeMapGraphicsItem::paint(QPainter* _painter, const QStyleOptionGraphicsIt
 		_painter->drawRect(highlightRect);
 	}
 	
-	static const char* lenStrs[17] = {
+	static const QString lenStrs[17] = {
 		"0",
 		"00",
 		"000",
