@@ -177,7 +177,7 @@ void StackTrace::setStackTrace(rtm::StackTrace** _stackTrace, int _num)
 
 void StackTrace::setCount(uint32_t _cnt)
 {
-	m_totalTraces->setText(tr("of") + " " + QString::number(_cnt));
+	m_totalTraces->setText(tr("of") + QString(" ") + QString::number(_cnt));
 	m_spinBox->setValue(_cnt ? m_currentTraceIdx + 1 : 0);
 	m_spinBox->setMinimum(_cnt ? 1 : 0);
 	m_spinBox->setMaximum(_cnt ? _cnt : 0);

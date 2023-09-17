@@ -338,12 +338,12 @@ QString formatPercentageView(uint64_t _num, uint64_t _total, bool _countAndPct =
 	if (_countAndPct)
 	{
 		if (_total)
-			return locale.toString(_num) + " (" + QString::number(pct, 'f', 3) + "%)";
+			return locale.toString(_num) + QString(" (") + QString::number(pct, 'f', 3) + QString("%)");
 		else
-			return locale.toString(_num) + " (0%)";
+			return locale.toString(_num) + QString(" (0%)");
 	}
 	else
-		return QString::number(pct, 'f', 3) + "%";
+		return QString::number(pct, 'f', 3) + QString("%");
 }
 
 QVariant TreeItem::data(int _column) const
@@ -435,7 +435,7 @@ void ProgressBarDelegate::paint(QPainter* _painter, const QStyleOptionViewItem& 
 		_painter->setPen(Qt::gray);
 		_painter->drawRect(rect);
 
-		QString txt = QString::number(progress,'f',2) + "%";
+		QString txt = QString::number(progress,'f',2) + QString("%");
 		rect.adjust(1,1,0,0);
 		_painter->setPen(Qt::gray);
 		_painter->drawText(rect, txt, QTextOption(Qt::AlignCenter));
