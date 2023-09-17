@@ -2,6 +2,33 @@
 environment:
   matrix:
 
+   - job_name: Windows
+     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+     configuration: Debug
+     platform: x64
+
+   - job_name: Windows
+     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+     configuration: Release
+     platform: x64
+
+   - job_name: Windows
+     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+     configuration: Retail
+     platform: x64
+
+   - job_name: Linux
+     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
+     buildcfg: debug64
+
+   - job_name: Linux
+     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
+     buildcfg: release64
+
+   - job_name: Linux
+     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
+     buildcfg: retail64
+
    - job_name: OSX
      APPVEYOR_BUILD_WORKER_IMAGE: macOS-monterey
      buildcfg: debug64
@@ -22,6 +49,56 @@ install:
 
 for:
   
+# ======================================
+# Windows
+# ======================================
+
+  -
+    matrix:
+      only:
+      - job_name: Windows
+      - QTDIR: C:\Qt\6.4\msvc2019_64
+    
+    init:
+    - set QTDIR_VS2019_x64=C:\Qt\6.4\msvc2019_64
+    - set QTDIR_VS2019_x86=C:\Qt\6.4\msvc2019 
+    - set PATH=C:\projects\MTuner\luaforwindows\files;C:\Qt\6.4\msvc2019_64\bin;%PATH%
+    - git clone --recursive --depth 1 https://github.com/milostosic/MTuner  MTuner
+    - git clone --depth 1 https://github.com/rjpcomputing/luaforwindows     luaforwindows
+
+    install:
+      - MTuner\build\tools\bin\windows\genie.exe --file=MTuner\src\MTuner\genie\genie.lua vs2019
+
+    build: MTuner/.build/windows/vs2019/MTuner/projects/MTuner.sln
+
+# ======================================
+# Linux
+# ======================================
+
+  -
+    matrix:
+      only:
+      - job_name: Linux
+
+    init:
+    - sudo apt-get update
+    - sudo apt-get install -y lua5.3 build-essential libgl1-mesa-dev
+    - export QTDIR="$HOME/Qt/6.4/gcc_64"
+    - export PATH="$HOME/Qt/6.4/gcc_64/bin:$HOME/Qt/6.4/gcc_64/libexec:/home/appveyor/Qt/6.4/gcc_64/libexec:$PATH"
+    - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/Qt/6.4/gcc_64/lib/pkgconfig"
+    - export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/home/appveyor/Qt/6.4/gcc_64/lib/pkgconfig
+    - export QTDIR_GMAKE_x64="$HOME/Qt/6.4/gcc_64"
+    - export QTDIR_GMAKE_x86="$HOME/Qt/6.4/gcc_64" 
+    - git clone --recursive --depth 1 https://github.com/milostosic/MTuner    MTuner
+    - git clone --depth 1 https://github.com/bkaradzic/GENie                  GENie		# build GENie from source: `GLIBC_2.29' not found
+    - cd GENie && make && cd ..
+
+    install:
+      - ./GENie/bin/linux/genie --file=MTuner/src/MTuner/genie/genie.lua --gcc=linux-gcc-9 gmake
+  
+    build_script:
+      - cd MTuner/.build/linux/gcc-9/MTuner/projects/
+      - make config=${buildcfg}
 
 # ======================================
 # OSX
