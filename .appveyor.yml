@@ -88,7 +88,7 @@ for:
     - export VCPKG_DIR=`dirname $(pwd)/../vcpkg/vcpkg`
     - export QTPATH="/usr/local/Cellar/qt/6.5.1_3"
     - export QTDIR="$QTPATH" 
-    - export PATH="$QTPATH/bin:$QTPATH/share/qt/libexec
+    - export PATH="$QTPATH/bin:$QTPATH/share/qt/libexec"
     - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/Qt/6.4/macos/lib/pkgconfig"
     - export QTDIR_GMAKE_x64="$QTPATH"
     - export QTDIR_GMAKE_x86="$QTPATH" 
