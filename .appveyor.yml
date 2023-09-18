@@ -2,6 +2,33 @@
 environment:
   matrix:
 
+   - job_name: Windows
+     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+     configuration: Debug
+     platform: x64
+
+   - job_name: Windows
+     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+     configuration: Release
+     platform: x64
+
+   - job_name: Windows
+     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+     configuration: Retail
+     platform: x64
+
+   - job_name: Linux
+     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
+     buildcfg: debug64
+
+   - job_name: Linux
+     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
+     buildcfg: release64
+
+   - job_name: Linux
+     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
+     buildcfg: retail64
+
    - job_name: OSX
      APPVEYOR_BUILD_WORKER_IMAGE: macOS-monterey
      buildcfg: debug64
