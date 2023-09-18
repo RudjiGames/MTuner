@@ -95,7 +95,6 @@ for:
     - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     - brew update
     - brew install lua qt6
-    - ls /usr/local/Cellar/qt/6.5.1_3/lib -l
     - git clone --recursive --depth 1 https://github.com/milostosic/MTuner       MTuner
     
     install:
