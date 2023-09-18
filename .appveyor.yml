@@ -94,7 +94,7 @@ for:
     - export QTDIR_GMAKE_x86="$QTPATH" 
     - brew update
     - brew install lua qt6
-    - ls /usr/local/Cellar/qt/6.5.1_3/bin -l
+    - ls /usr/local/Cellar/qt/6.5.1_3 -al
     - git clone --recursive --depth 1 https://github.com/milostosic/MTuner       MTuner
     
     install:
