@@ -86,15 +86,13 @@ for:
     - if [ ! -d ../vcpkg ]; then git clone https://github.com/microsoft/vcpkg.git ../vcpkg ; fi
     - "(cd ../vcpkg && git pull && ./bootstrap-vcpkg.sh)"
     - export VCPKG_DIR=`dirname $(pwd)/../vcpkg/vcpkg`
-    - export QTPATH="/usr/local/Cellar/qt/6.5.1_3"
-    - export QTDIR="$QTPATH" 
-    - export PATH="$QTPATH/bin:$QTPATH/libexec:$PATH"
-    - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$QTPATH/lib/pkgconfig"
-    - export QTDIR_GMAKE_x64="$QTPATH"
-    - export QTDIR_GMAKE_x86="$QTPATH" 
+    - export QTDIR="/usr/local/Cellar/qt/6.5.1_3/" 
+    - export PATH="/usr/local/Cellar/qt/6.5.1_3/bin:/usr/local/Cellar/qt/6.5.1_3/share/qt/libexec:$PATH"
+    - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/local/Cellar/qt/6.5.1_3/lib/pkgconfig"
+    - export QTDIR_GMAKE_x64="/usr/local/Cellar/qt/6.5.1_3/"
+    - export QTDIR_GMAKE_x86="/usr/local/Cellar/qt/6.5.1_3/" 
     - brew update
     - brew install lua qt6
-    - ls -l -R /usr/local/Cellar/qt/6.5.1_3
     - git clone --recursive --depth 1 https://github.com/milostosic/MTuner       MTuner
     
     install:
