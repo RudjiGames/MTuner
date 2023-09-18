@@ -2,33 +2,6 @@
 environment:
   matrix:
 
-   - job_name: Windows
-     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-     configuration: Debug
-     platform: x64
-
-   - job_name: Windows
-     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-     configuration: Release
-     platform: x64
-
-   - job_name: Windows
-     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-     configuration: Retail
-     platform: x64
-
-   - job_name: Linux
-     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
-     buildcfg: debug64
-
-   - job_name: Linux
-     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
-     buildcfg: release64
-
-   - job_name: Linux
-     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
-     buildcfg: retail64
-
    - job_name: OSX
      APPVEYOR_BUILD_WORKER_IMAGE: macOS-monterey
      buildcfg: debug64
@@ -120,7 +93,8 @@ for:
     - export QTDIR_GMAKE_x86="$HOME/Qt/6.4/macos" 
     - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     - brew update
-    - brew install lua # qt6
+    - brew install lua qt6
+    - ls $HOME/Qt -l
     - git clone --recursive --depth 1 https://github.com/milostosic/MTuner       MTuner
     
     install:
