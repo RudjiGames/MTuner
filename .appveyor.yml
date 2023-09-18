@@ -92,9 +92,9 @@ for:
     - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$QTPATH/lib/pkgconfig"
     - export QTDIR_GMAKE_x64="$QTPATH"
     - export QTDIR_GMAKE_x86="$QTPATH" 
-    - ls /usr/local/Cellar/qt/6.5.1_3/bin -l
     - brew update
     - brew install lua qt6
+    - ls /usr/local/Cellar/qt/6.5.1_3/bin -l
     - git clone --recursive --depth 1 https://github.com/milostosic/MTuner       MTuner
     
     install:
