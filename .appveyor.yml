@@ -65,6 +65,7 @@ for:
     - set PATH=C:\projects\luaforwindows\files;C:\Qt\6.5.3\msvc2019_64\bin;%PATH%
     - git clone --recursive --depth 1 https://github.com/milostosic/MTuner  MTuner
     - git clone --depth 1 https://github.com/rjpcomputing/luaforwindows     luaforwindows
+    - dir
     - dir C:\
     - dir C:\projects
     - dir C:\projects\luaforwindows\files
