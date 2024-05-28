@@ -61,7 +61,7 @@ for:
     
     init:
     - set QTDIR_VS2019_x64=C:\Qt\6.5.3\msvc2019_64
-    - set QTDIR_VS2019_x86=C:\Qt\6.5.3\msvc2019
+    - set QTDIR_VS2019_x86=C:\Qt\6.5.3\msvc2019_64
     - set PATH=C:\projects\mtuner\luaforwindows\files;C:\Qt\6.5.3\msvc2019_64\bin;%PATH%
     - git clone --recursive --depth 1 https://github.com/milostosic/MTuner  MTuner
     - git clone --depth 1 https://github.com/rjpcomputing/luaforwindows     luaforwindows
