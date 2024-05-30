@@ -86,12 +86,11 @@ for:
     - sudo apt-get update
     - sudo apt-get install -y lua5.3 build-essential libgl1-mesa-dev
     - export QTDIR="$HOME/Qt/6.5.3/gcc_64"
-    - export PATH="$HOME/Qt/6.5.3/gcc_64/bin:$HOME/Qt/6.5.3/gcc_64/libexec:/home/appveyor/Qt/6.5.3/gcc_64/libexec:$PATH"
+    - export PATH="/usr/lib/qt6/:/usr/lib/qt6/bin:$HOME/Qt/6.5.3/gcc_64/bin:$HOME/Qt/6.5.3/gcc_64/libexec:/home/appveyor/Qt/6.5.3/gcc_64/libexec:$PATH"
     - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/Qt/6.5.3/gcc_64/lib/pkgconfig"
     - export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/home/appveyor/Qt/6.5.3/gcc_64/lib/pkgconfig
     - export QTDIR_GMAKE_x64="$HOME/Qt/6.5.3/gcc_64"
     - export QTDIR_GMAKE_x86="$HOME/Qt/6.5.3/gcc_64"
-    - ls $HOME/Qt/6.5.3/gcc_64/bin
     - git clone --recursive --depth 1 https://github.com/milostosic/MTuner    MTuner
     - git clone --depth 1 https://github.com/bkaradzic/GENie                  GENie		# build GENie from source: `GLIBC_2.29' not found
     - cd GENie && make && cd ..
