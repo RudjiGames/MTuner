@@ -27,7 +27,7 @@ class TreeMapView : public QGraphicsView
 
 private:
 	CaptureContext*					m_context;
-	rtm_vector<TreeMapNode>			m_tree;
+	std::vector<TreeMapNode>			m_tree;
 	QList<QLineF>					m_treeLines;
 	TreeMapNode*					m_highlightNode;
 	TreeMapNode*					m_clickedNode;
@@ -45,7 +45,7 @@ public:
 	void						updateHighlight(const QPoint& _pos);
 	inline TreeMapNode*			getHighlightNode() { return m_highlightNode; }
 	inline TreeMapNode*			getClickedNode() { return m_clickedNode; }
-	rtm_vector<TreeMapNode>&	getTree() { return m_tree; }
+	std::vector<TreeMapNode>&	getTree() { return m_tree; }
 	QVector<QLineF>&			getTreeLines() { return m_treeLines; }
 	/// QWidget
 	void resizeEvent(QResizeEvent* _event);

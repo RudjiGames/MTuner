@@ -25,8 +25,8 @@ static bool __uncaught_exception() { return true; }
 
 struct pSortOpsTime
 {
-	rtm_vector<rtm::MemoryOperation*>* m_allOps;
-	pSortOpsTime(rtm_vector<rtm::MemoryOperation*>& _ops) : m_allOps(&_ops) {}
+	std::vector<rtm::MemoryOperation*>* m_allOps;
+	pSortOpsTime(std::vector<rtm::MemoryOperation*>& _ops) : m_allOps(&_ops) {}
 
 	inline uint64_t operator()(const rtm::MemoryOperation* _val) const
 	{
@@ -414,7 +414,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 	bool loadSuccess = true;
 
-	rtm_unordered_map<uint64_t, rtm_vector<uint32_t>>  perThreadTagStack;
+	std::unordered_map<uint64_t, std::vector<uint32_t>>  perThreadTagStack;
 
 	uint64_t minMarkerTime		= (uint64_t)-1;
 	int64_t  filePos			= 0;
@@ -722,7 +722,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					uint32_t tag = 0;
 					if (isAlloc(op->m_operationType))
 					{
-						rtm_vector<uint32_t>& tagStack = perThreadTagStack[op->m_threadID];
+						std::vector<uint32_t>& tagStack = perThreadTagStack[op->m_threadID];
 						const size_t ss = tagStack.size();
 						if (ss)
 							tag = tagStack[ss-1];
@@ -790,7 +790,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 						threadID	= Endian::swap(threadID);
 					}
 
-					rtm_vector<uint32_t>& tagStack = perThreadTagStack[threadID];
+					std::vector<uint32_t>& tagStack = perThreadTagStack[threadID];
 					tagStack.push_back(tagHash);
 				}
 				break;
@@ -809,7 +809,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 						threadID	= Endian::swap(threadID);
 					}
 
-					rtm_vector<uint32_t>& tagStack = perThreadTagStack[threadID];
+					std::vector<uint32_t>& tagStack = perThreadTagStack[threadID];
 					tagStack.pop_back();
 				}
 				break;
@@ -1275,15 +1275,15 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 	RTM_ASSERT(_symResolver != 0, "Invalid symbol resolver!");
 
 	// get stack traces unique IDs
-	rtm_vector<StackTrace*>::iterator it  = m_stackTraces.begin();
-	rtm_vector<StackTrace*>::iterator end = m_stackTraces.end();
+	std::vector<StackTrace*>::iterator it  = m_stackTraces.begin();
+	std::vector<StackTrace*>::iterator end = m_stackTraces.end();
 
 	const uint32_t numStackTraces = (uint32_t)m_stackTraces.size();
 	uint32_t nextProgressPoint = 0;
 	uint32_t numOpsOver100 = numStackTraces/100;
 	uint32_t idx = 0;
 
-	rtm_unordered_map<uint64_t, uint64_t> address_IDs;
+	std::unordered_map<uint64_t, uint64_t> address_IDs;
 
 	while (it != end)
 	{
@@ -1391,7 +1391,7 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 //--------------------------------------------------------------------------
 bool Capture::setLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 {
-	rtm_unordered_map<uint64_t, MemoryOperation*> opMap;
+	std::unordered_map<uint64_t, MemoryOperation*> opMap;
 	uint32_t numOps = (uint32_t)m_operations.size();
 	uint32_t nextProgressPoint = 0;
 	uint32_t numOpsOver100 = numOps/100;
@@ -1417,7 +1417,7 @@ bool Capture::setLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 		case rmem::LogMarkers::OpCalloc:
 		case rmem::LogMarkers::OpAllocAligned:
 			{
-				rtm_unordered_map<uint64_t, MemoryOperation*>::iterator it = opMap.find(op->m_pointer);
+				std::unordered_map<uint64_t, MemoryOperation*>::iterator it = opMap.find(op->m_pointer);
 				if (it == opMap.end())
 					opMap[op->m_pointer] = op;
 				else
@@ -1433,7 +1433,7 @@ bool Capture::setLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 				// ako postoji prethodni pointer onda mora da postoji op u mapi sa tim rezultatom - rezultat moze da bude isti
 				if (op->m_previousPointer)
 				{
-					rtm_unordered_map<uint64_t, MemoryOperation*>::iterator itP = opMap.find(op->m_previousPointer);
+					std::unordered_map<uint64_t, MemoryOperation*>::iterator itP = opMap.find(op->m_previousPointer);
 					if (itP == opMap.end())
 					{
 						m_operationsInvalid.push_back(op);
@@ -1448,7 +1448,7 @@ bool Capture::setLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 				else
 				{
 					// no previous block, there can't be a block already in the map with the same address
-					rtm_unordered_map<uint64_t, MemoryOperation*>::iterator itP = opMap.find(op->m_pointer);
+					std::unordered_map<uint64_t, MemoryOperation*>::iterator itP = opMap.find(op->m_pointer);
 					if (itP != opMap.end())
 					{
 						m_operationsInvalid.push_back(op);
@@ -1468,7 +1468,7 @@ bool Capture::setLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 
 		case rmem::LogMarkers::OpFree:
 			{
-				rtm_unordered_map<uint64_t, MemoryOperation*>::iterator it = opMap.find(op->m_pointer);
+				std::unordered_map<uint64_t, MemoryOperation*>::iterator it = opMap.find(op->m_pointer);
 				if (it == opMap.end())
 				{
 					m_operationsInvalid.push_back(op);
@@ -1495,7 +1495,7 @@ bool Capture::setLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 		m_loadProgressCallback(m_loadProgressCustomData, 100.0f, "Removing invalid operations..");
 
 	/// Remove invalid operations
-	rtm_vector<MemoryOperation*>::iterator newEnd = std::remove_if( m_operations.begin(), m_operations.end(), isInvalid );
+	std::vector<MemoryOperation*>::iterator newEnd = std::remove_if( m_operations.begin(), m_operations.end(), isInvalid );
 	size_t newSize = newEnd -  m_operations.begin();
 	m_operations.resize(newSize);
 
@@ -1740,8 +1740,8 @@ bool Capture::verifyGlobalStats()
 //--------------------------------------------------------------------------
 void Capture::calculateFilteredData()
 {
-	rtm_vector<StackTrace*>::iterator it  = m_stackTraces.begin();
-	rtm_vector<StackTrace*>::iterator end = m_stackTraces.end();
+	std::vector<StackTrace*>::iterator it  = m_stackTraces.begin();
+	std::vector<StackTrace*>::iterator end = m_stackTraces.end();
 
 	const uint32_t numStackTraces = (uint32_t)m_stackTraces.size();
 	uint32_t nextProgressPoint = 0;

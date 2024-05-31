@@ -36,7 +36,7 @@
 #endif // RTM_PLATFORM_WINDOWS
 
 namespace rqt {
-	rtm_string appPreProcessStyleSheet(const rtm_string& _in);
+	std::string appPreProcessStyleSheet(const std::string& _in);
 }
 
 QString getDirFromFile(const QString& _file)
@@ -55,7 +55,7 @@ void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSet
 						  QFileDialog* _fileDialog, MTuner* _mtuner, const QString& _symSource, rdebug::module_load_cb _callBack)
 {
 	rdebug::Toolchain tc;
-	rtm_string executable;
+	std::string executable;
 
 	// if not a MSVC toolchain - locate the executable
 	if (_context->m_capture->getToolchain() != rmem::ToolChain::Win_MSVC)
@@ -133,7 +133,7 @@ void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSet
 	{
 		tc.m_type = rdebug::Toolchain::MSVC;
 		strcpy(tc.m_toolchainPath, _symSource.toUtf8());
-		rtm_vector<rdebug::ModuleInfo>& modInfos = _context->m_capture->getModuleInfos();
+		std::vector<rdebug::ModuleInfo>& modInfos = _context->m_capture->getModuleInfos();
 		if (modInfos.size())
 			executable = _context->m_capture->getModuleInfos()[0].m_modulePath;
 	}
@@ -895,7 +895,7 @@ void MTuner::openFileFromPath(const QString& _file)
 	{
 		CaptureContext* ctx = new CaptureContext();
 		ctx->m_capture->setLoadProgressCallback(this, loadProgression);
-		rtm_string fn;
+		std::string fn;
 
 		fn += _file.toUtf8().constData();
 

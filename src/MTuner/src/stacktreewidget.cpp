@@ -44,7 +44,7 @@ public:
 	int					depth() const { return m_depth; }
 
 	int							m_depth;
-	rtm_vector<TreeItem*>		m_children;
+	std::vector<TreeItem*>		m_children;
 	CaptureContext*				m_context;
 	const rtm::StackTraceTree*	m_tree;
 	TreeItem*					m_parent;

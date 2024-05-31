@@ -15,6 +15,7 @@ function projectExtraConfig_MTuner()
 	configuration { "osx" }
 		defines { "QT_STRINGVIEW_LEVEL=2" }
 	configuration {}
+		defines { "_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS" }
 end
 
 function projectExtraConfigExecutable_MTuner()

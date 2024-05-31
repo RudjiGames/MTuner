@@ -12,7 +12,7 @@ class GraphWidget;
 class GraphCurve : public QGraphicsItem
 {
 private:
-	typedef rtm_vector<rtm::GraphEntry> GraphVec;
+	typedef std::vector<rtm::GraphEntry> GraphVec;
 
 	Graph*			m_graph;
 	GraphWidget*	m_graphWidget;

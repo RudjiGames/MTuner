@@ -17,10 +17,10 @@ class BinLoader;
 
 typedef void (*LoadProgress)(void* inCustomData, float inProgress, const char* inMessage);
 
-typedef rtm_unordered_map<uint32_t,  StackTrace*,uint32_t_hash,uint32_t_equal>				StackTraceHashType;
-typedef rtm_unordered_map<uintptr_t, MemoryOperationGroup,uintptr_t_hash,uintptr_t_equal>	MemoryGroupsHashType;
-typedef rtm_unordered_map<uint32_t,  MemoryMarkerEvent,uint32_t_hash,uint32_t_equal>		MemoryMarkersHashType;
-typedef rtm_unordered_map<uint64_t,  rtm_string>											HeapsType;
+typedef std::unordered_map<uint32_t,  StackTrace*,uint32_t_hash,uint32_t_equal>				StackTraceHashType;
+typedef std::unordered_map<uintptr_t, MemoryOperationGroup,uintptr_t_hash,uintptr_t_equal>	MemoryGroupsHashType;
+typedef std::unordered_map<uint32_t,  MemoryMarkerEvent,uint32_t_hash,uint32_t_equal>		MemoryMarkersHashType;
+typedef std::unordered_map<uint64_t,  std::string>											HeapsType;
 
 //--------------------------------------------------------------------------
 struct GraphEntry
@@ -40,7 +40,7 @@ struct FilterDescription
 	uint64_t						m_minTimeSnapshot;
 	uint64_t						m_maxTimeSnapshot;
 	MemoryTagTree					m_tagTree;
-	rtm_vector<MemoryOperation*>	m_operations;
+	std::vector<MemoryOperation*>	m_operations;
 	MemoryGroupsHashType			m_operationGroups;
 	StackTraceTree					m_stackTraceTree;
 	bool							m_leakedOnly;
@@ -52,37 +52,37 @@ struct FilterDescription
 class Capture
 {
 	private:
-		rtm_string						m_loadedFile;			///< Symbol store path
+		std::string						m_loadedFile;			///< Symbol store path
 		bool							m_swapEndian;
 		bool							m_64bit;
 		rmem::ToolChain::Enum			m_toolchain;
 		ChunkAllocator<MemoryOperation> m_operationPool;
 		StackAllocator					m_stackPool;
-		rtm_vector<MemoryOperation*>	m_operations;
-		rtm_vector<MemoryOperation*>	m_operationsInvalid;
+		std::vector<MemoryOperation*>	m_operations;
+		std::vector<MemoryOperation*>	m_operationsInvalid;
 
 		MemoryStats						m_statsGlobal;			///< Memory statistics for global range
 		MemoryStats						m_statsSnapshot;		///< Memory statistics for selected snapshot
-		rtm_vector<MemoryStatsTimed>	m_timedStats;
+		std::vector<MemoryStatsTimed>	m_timedStats;
 
-		rtm_vector<rdebug::ModuleInfo>	m_moduleInfos;			///< Module information data
+		std::vector<rdebug::ModuleInfo>	m_moduleInfos;			///< Module information data
 		char*							m_modulePathBuffer;
 		uint32_t						m_modulePathBufferPtr;
 
 		StackTraceHashType				m_stackTracesHash;			///< map of stack traces, key is a stack trace hash
-		rtm_vector<StackTrace*>			m_stackTraces;
+		std::vector<StackTrace*>			m_stackTraces;
 
 		MemoryGroupsHashType			m_operationGroups;
-		rtm_vector<GraphEntry>			m_usageGraph;			///< memory usage graph data
+		std::vector<GraphEntry>			m_usageGraph;			///< memory usage graph data
 		StackTraceTree					m_stackTraceTree;		///< stack trace tree
 		MemoryTagTree					m_tagTree;		///< Global tag tree
 		MemoryMarkersHashType			m_memoryMarkers;
 		HeapsType						m_Heaps;
 		uint64_t						m_currentHeap;
 		rdebug::ModuleInfo*				m_currentModule;
-		rtm_vector<MemoryMarkerTime>	m_memoryMarkerTimes;
+		std::vector<MemoryMarkerTime>	m_memoryMarkerTimes;
 		uint64_t						m_CPUFrequency;
-		rtm_vector<MemoryOperation*>	m_memoryLeaks;			/// List of allocations without matching free
+		std::vector<MemoryOperation*>	m_memoryLeaks;			/// List of allocations without matching free
 		LoadProgress					m_loadProgressCallback;
 		void*							m_loadProgressCustomData;
 		
@@ -110,7 +110,7 @@ class Capture
 		bool is64bit() { return m_64bit; }
 		void buildAnalyzeData(uintptr_t _symResolver);
 
-		rtm_vector<rdebug::ModuleInfo>&	getModuleInfos() { return m_moduleInfos; }
+		std::vector<rdebug::ModuleInfo>&	getModuleInfos() { return m_moduleInfos; }
 
 		/// Capture file logging functions
 		bool			saveLog(const char* _path, uintptr_t _symResolver);
@@ -140,13 +140,13 @@ class Capture
 		const MemoryStats&					getGlobalStats() const { return m_statsGlobal; }
 		const MemoryStats&					getSnapshotStats() const { return m_statsSnapshot; }
 		void								getGraphAtTime(uint64_t _time, GraphEntry& _entry);
-		const rtm_vector<MemoryMarkerTime>& getMemoryMarkers() const { return m_memoryMarkerTimes; }
+		const std::vector<MemoryMarkerTime>& getMemoryMarkers() const { return m_memoryMarkerTimes; }
 		const MemoryTagTree&				getTagTree() const { return m_tagTree; }
 		const StackTraceTree&				getStackTraceTree() const { return m_stackTraceTree; }
 		const StackTraceTree&				getStackTraceTreeFiltered() const { return m_filter.m_stackTraceTree; }
-		const rtm_vector<MemoryOperation*>& getMemoryOps() const { return m_operations; }
-		const rtm_vector<MemoryOperation*>& getMemoryOpsInvalid() const { return m_operationsInvalid; }
-		const rtm_vector<MemoryOperation*>& getMemoryOpsFiltered() const { return m_filter.m_operations; }
+		const std::vector<MemoryOperation*>& getMemoryOps() const { return m_operations; }
+		const std::vector<MemoryOperation*>& getMemoryOpsInvalid() const { return m_operationsInvalid; }
+		const std::vector<MemoryOperation*>& getMemoryOpsFiltered() const { return m_filter.m_operations; }
 		const MemoryGroupsHashType&			getMemoryGroups() const { return m_operationGroups; }
 		const MemoryGroupsHashType&			getMemoryGroupsFiltered() const { return m_filter.m_operationGroups; }
 		rmem::ToolChain::Enum				getToolchain() { return m_toolchain; }

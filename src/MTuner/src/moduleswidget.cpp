@@ -69,9 +69,9 @@ void ModulesWidget::filterChanged(const QString& _text)
 	if (m_context)
 	{
 		m_list->clear();
-		rtm_vector<rdebug::ModuleInfo>&	modules = m_context->m_capture->getModuleInfos();
-		rtm_vector<rdebug::ModuleInfo>::reverse_iterator it  = modules.rbegin();
-		rtm_vector<rdebug::ModuleInfo>::reverse_iterator end = modules.rend();
+		std::vector<rdebug::ModuleInfo>&	modules = m_context->m_capture->getModuleInfos();
+		std::vector<rdebug::ModuleInfo>::reverse_iterator it  = modules.rbegin();
+		std::vector<rdebug::ModuleInfo>::reverse_iterator end = modules.rend();
 
 		QLocale locale;
 		QTreeWidgetItem* curItem = 0;

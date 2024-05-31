@@ -13,7 +13,7 @@ static QFont s_toolTipFont(QFont("Arial", 8));
 
 QString QStringColor(const QString& _string, const char* _color, bool _addColon = true);
 
-static inline uint64_t getTotalMem(rtm_vector<TreeMapNode>& _nodes, int _start, int _end)
+static inline uint64_t getTotalMem(std::vector<TreeMapNode>& _nodes, int _start, int _end)
 {
 	uint64_t sum = 0;
 	for (int i=_start; i<=_end; ++i)
@@ -21,7 +21,7 @@ static inline uint64_t getTotalMem(rtm_vector<TreeMapNode>& _nodes, int _start, 
 	return sum;
 }
 
-void sliceLayout(rtm_vector<TreeMapNode>& _nodes, int _start, int _end, QRectF& _rect)
+void sliceLayout(std::vector<TreeMapNode>& _nodes, int _start, int _end, QRectF& _rect)
 {
 	float total = getTotalMem(_nodes, _start, _end);
 	float a = 0.0;
@@ -80,7 +80,7 @@ static inline bool sortMapItems(const TreeMapNode& _in1, const TreeMapNode& _in2
 	return _in1.m_size > _in2.m_size;
 }
 
-void calcLines(const rtm_vector<TreeMapNode>& _nodes, QVector<QLineF>& _lines)
+void calcLines(const std::vector<TreeMapNode>& _nodes, QVector<QLineF>& _lines)
 {
 	_lines.clear();
 	for (const TreeMapNode& node : _nodes)
@@ -90,7 +90,7 @@ void calcLines(const rtm_vector<TreeMapNode>& _nodes, QVector<QLineF>& _lines)
 	}
 }
 
-void squaredLayout(rtm_vector<TreeMapNode>& _nodes, int _start, int _end, QRectF& _rect)
+void squaredLayout(std::vector<TreeMapNode>& _nodes, int _start, int _end, QRectF& _rect)
 {
 	if (_start > _end)
 		return;
@@ -380,7 +380,7 @@ void TreeMapGraphicsItem::paint(QPainter* _painter, const QStyleOptionGraphicsIt
 {
 	RTM_UNUSED(_item);
 	RTM_UNUSED(_widget);
-	rtm_vector<TreeMapNode>& tree = m_treeView->getTree();
+	std::vector<TreeMapNode>& tree = m_treeView->getTree();
 	QVector<QLineF>& lines = m_treeView->getTreeLines();
 
 	QSize s = m_treeView->size();

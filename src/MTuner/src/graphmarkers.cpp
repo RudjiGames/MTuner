@@ -46,7 +46,7 @@ void GraphMarkers::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _op
 	uint64_t m2 = m_graphWidget->getMarkerToTime();
 
 	_painter->setPen(QPen(Qt::darkGray, 1.0, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-	const rtm_vector<rtm::MemoryMarkerTime>& mm = ctx->m_capture->getMemoryMarkers();
+	const std::vector<rtm::MemoryMarkerTime>& mm = ctx->m_capture->getMemoryMarkers();
 	size_t numMarkers = mm.size();
 	for (size_t i=0; i<numMarkers; ++i)
 	{

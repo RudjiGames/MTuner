@@ -14,8 +14,8 @@ struct CaptureContext;
 struct GroupMapping
 {
 	uint32_t								m_columnIndex;
-	rtm_vector<rtm::MemoryOperationGroup*>*	m_allGroups;
-	rtm_vector<uint32_t>					m_sortedIdx;
+	std::vector<rtm::MemoryOperationGroup*>*	m_allGroups;
+	std::vector<uint32_t>					m_sortedIdx;
 };
 
 class GroupList : public QWidget

@@ -58,7 +58,7 @@ class StackTreeWidget : public QWidget
 {
 	Q_OBJECT
 
-	rtm_vector<rtm::StackTrace*>	m_stackTraces;
+	std::vector<rtm::StackTrace*>	m_stackTraces;
 	bool							m_headerStateRestored;
 	CaptureContext*					m_context;
 	QTreeView*						m_tree;

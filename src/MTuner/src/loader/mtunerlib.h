@@ -6,6 +6,8 @@
 #ifndef __RTM_MTUNER_MTUNERLIB_H__
 #define __RTM_MTUNER_MTUNERLIB_H__
 
+#include <string>
+#include <unordered_map>
 #include <rmem/src/rmem_enums.h>
 
 namespace rtm {
@@ -138,7 +140,7 @@ struct MemoryOperationGroup
 	uint32_t						m_liveCount;
 	uint32_t						m_liveCountPeak;
 	uint32_t						m_liveCountPeakGlobal;
-	rtm_vector<MemoryOperation*>	m_operations;
+	std::vector<MemoryOperation*>	m_operations;
 	uint32_t						m_indexMappings[INDEX_MAPPINGS];
 	uint32_t						m_histogram[rtm::MemoryStats::NUM_HISTOGRAM_BINS];
 	uint32_t						m_histogramPeak[rtm::MemoryStats::NUM_HISTOGRAM_BINS];
@@ -219,7 +221,7 @@ struct StackTrace
 //--------------------------------------------------------------------------
 struct StackTraceTree
 {
-	typedef rtm_vector<StackTraceTree>	ChildNodes;
+	typedef std::vector<StackTraceTree>	ChildNodes;
 
 	enum Enum
 	{
@@ -266,10 +268,10 @@ void destroyStackTree( StackTraceTree& _tree );
 //--------------------------------------------------------------------------
 struct MemoryTagTree
 {
-	typedef rtm_unordered_map<uint32_t,MemoryTagTree*>	ChildMap;
-	typedef rtm_vector<MemoryOperation*>				OpList;
+	typedef std::unordered_map<uint32_t,MemoryTagTree*>	ChildMap;
+	typedef std::vector<MemoryOperation*>				OpList;
 
-	rtm_string			m_name;
+	std::string			m_name;
 	uint32_t			m_hash;
 	uint64_t			m_usage;
 	uint64_t			m_usagePeak;
@@ -302,7 +304,7 @@ void tagAddOp(MemoryTagTree& _rootTag, MemoryOperation* _op, MemoryTagTree*& _pr
 
 struct MemoryMarkerEvent
 {
-	rtm_string			m_name;
+	std::string			m_name;
 	uint32_t			m_nameHash;
 	uint32_t			m_color;
 };

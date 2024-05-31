@@ -174,7 +174,7 @@ static inline bool sortGroupByTotal( const MemoryOperationGroup* _g1, const Memo
 //--------------------------------------------------------------------------
 bool Capture::saveGroupsLog(const char* _path, eGroupSort _sorting, uintptr_t _symResolver )
 {
-	rtm_vector<MemoryOperationGroup*> sortedGroups;
+	std::vector<MemoryOperationGroup*> sortedGroups;
 	sortedGroups.reserve(m_operationGroups.size());
 
 	MemoryGroupsHashType& srcGroups = m_filteringEnabled ? m_filter.m_operationGroups : m_operationGroups;
@@ -245,7 +245,7 @@ bool Capture::saveGroupsLog(const char* _path, eGroupSort _sorting, uintptr_t _s
 //--------------------------------------------------------------------------
 bool Capture::saveGroupsLogXML(const char* _path, eGroupSort _sorting, uintptr_t _symResolver)
 {
-	rtm_vector<MemoryOperationGroup*> sortedGroups;
+	std::vector<MemoryOperationGroup*> sortedGroups;
 	sortedGroups.reserve(m_operationGroups.size());
 
 	MemoryGroupsHashType& srcGroups = m_filteringEnabled ? m_filter.m_operationGroups : m_operationGroups;

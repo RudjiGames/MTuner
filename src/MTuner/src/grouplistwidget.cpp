@@ -35,7 +35,7 @@ class GroupTableSource : public BigTableSource
 		uint32_t		m_numColumns;
 		uint32_t		m_numRows;
 
-		rtm_vector<rtm::MemoryOperationGroup*>	m_allGroups;
+		std::vector<rtm::MemoryOperationGroup*>	m_allGroups;
 		const rtm::MemoryStats*					m_stats;
 
 		GroupMapping	m_groupMappings[GroupColumn::ColumnCount];
@@ -74,8 +74,8 @@ static bool __uncaught_exception() { return true; }
 // concurrency::parallel_radixsort Type
 struct pSortType
 {
-	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
-	pSortType(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortType(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
 	inline uint8_t operator()(const uint32_t _val) const { return (*m_allGroups)[_val]->m_operations[0]->m_operationType; } 
 };
@@ -83,8 +83,8 @@ struct pSortType
 // concurrency::parallel_radixsort Heap
 struct pSortHeap
 {
-	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
-	pSortHeap(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortHeap(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
 	inline uint64_t operator()(const uint32_t _val) const { return (*m_allGroups)[_val]->m_operations[0]->m_allocatorHandle; } 
 };
@@ -92,8 +92,8 @@ struct pSortHeap
 // concurrency::parallel_radixsort Size
 struct pSortSize
 {
-	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
-	pSortSize(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortSize(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
 	inline uint32_t operator()(const uint32_t _val) const { return (*m_allGroups)[_val]->m_maxSize; } 
 };
@@ -101,8 +101,8 @@ struct pSortSize
 // concurrency::parallel_radixsort Count
 struct pSortCount
 {
-	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
-	pSortCount(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortCount(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
 	inline uint32_t operator()(const uint32_t _val) const { return (*m_allGroups)[_val]->m_count; } 
 };
@@ -110,8 +110,8 @@ struct pSortCount
 // concurrency::parallel_radixsort Count peak
 struct pSortCountPeak
 {
-	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
-	pSortCountPeak(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortCountPeak(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
 	inline uint32_t operator()(const uint32_t _val) const { return (*m_allGroups)[_val]->m_liveCountPeak; } 
 };
@@ -119,8 +119,8 @@ struct pSortCountPeak
 // concurrency::parallel_radixsort Count peak percent
 struct pSortCountPeakPercent
 {
-	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
-	pSortCountPeakPercent(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortCountPeakPercent(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
 	inline uint32_t operator()(const uint32_t _val) const
 	{
@@ -135,8 +135,8 @@ struct pSortCountPeakPercent
 // concurrency::parallel_radixsort Alignment
 struct pSortAlignment
 {
-	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
-	pSortAlignment(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortAlignment(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
 	inline uint8_t operator()(const uint32_t _val) const { return (*m_allGroups)[_val]->m_operations[0]->m_alignment; } 
 };
@@ -144,8 +144,8 @@ struct pSortAlignment
 // concurrency::parallel_radixsort Group size
 struct pSortGroupSize
 {
-	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
-	pSortGroupSize(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortGroupSize(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
 	inline uint32_t operator()(const uint32_t _val) const
 	{
@@ -157,8 +157,8 @@ struct pSortGroupSize
 // concurrency::parallel_radixsort Group size
 struct pSortGroupSizePeak
 {
-	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
-	pSortGroupSizePeak(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortGroupSizePeak(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
 	inline uint32_t operator()(const uint32_t _val) const
 	{
@@ -170,8 +170,8 @@ struct pSortGroupSizePeak
 // concurrency::parallel_radixsort Group size peak percent
 struct pSortGroupSizePeakPercent
 {
-	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
-	pSortGroupSizePeakPercent(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortGroupSizePeakPercent(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
 	inline uint32_t operator()(const uint32_t _val) const
 	{
@@ -186,8 +186,8 @@ struct pSortGroupSizePeakPercent
 // concurrency::parallel_radixsort Live count
 struct pSortLive 
 {
-	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
-	pSortLive(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortLive(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
 	inline uint32_t operator()(const uint32_t _val) const { return (*m_allGroups)[_val]->m_liveCount; } 
 };
@@ -195,8 +195,8 @@ struct pSortLive
 // concurrency::parallel_radixsort Live count
 struct pSetGroupMappings
 {
-	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
-	pSetGroupMappings(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSetGroupMappings(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
 	inline void operator()(const GroupMapping* inGroupMapping) const
 	{
@@ -215,48 +215,48 @@ struct pSetGroupMappings
 
 struct pSortTypeNVC
 {
-	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
-	pSortTypeNVC(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortTypeNVC(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
 	inline bool operator()(const uint32_t _val1, const uint32_t _val2) const { return (*m_allGroups)[_val1]->m_operations[0]->m_operationType < (*m_allGroups)[_val2]->m_operations[0]->m_operationType; }
 };
 
 struct pSortHeapNVC
 {
-	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
-	pSortHeapNVC(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortHeapNVC(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
 	inline bool operator()(const uint32_t _val1, const uint32_t _val2) const { return (*m_allGroups)[_val1]->m_operations[0]->m_allocatorHandle < (*m_allGroups)[_val2]->m_operations[0]->m_allocatorHandle; }
 };
 
 struct pSortSizeNVC
 {
-	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
-	pSortSizeNVC(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortSizeNVC(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
 	inline bool operator()(const uint32_t _val1, const uint32_t _val2) const { return (*m_allGroups)[_val1]->m_maxSize< (*m_allGroups)[_val2]->m_maxSize; }
 };
 
 struct pSortCountNVC
 {
-	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
-	pSortCountNVC(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortCountNVC(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
 	inline bool operator()(const uint32_t _val1, const uint32_t _val2) const { return (*m_allGroups)[_val1]->m_count < (*m_allGroups)[_val2]->m_count; }
 };
 
 struct pSortCountPeakNVC
 {
-	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
-	pSortCountPeakNVC(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortCountPeakNVC(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
 	inline bool operator()(const uint32_t _val1, const uint32_t _val2) const { return (*m_allGroups)[_val1]->m_liveCountPeak < (*m_allGroups)[_val2]->m_liveCountPeak; }
 };
 
 struct pSortCountPeakPercentNVC
 {
-	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
-	pSortCountPeakPercentNVC(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortCountPeakPercentNVC(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
 	inline bool operator()(const uint32_t _val1, const uint32_t _val2) const
 	{
@@ -269,16 +269,16 @@ struct pSortCountPeakPercentNVC
 
 struct pSortAlignmentNVC
 {
-	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
-	pSortAlignmentNVC(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortAlignmentNVC(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
 	inline bool operator()(const uint32_t _val1, const uint32_t _val2) const { return (*m_allGroups)[_val1]->m_operations[0]->m_alignment < (*m_allGroups)[_val2]->m_operations[0]->m_alignment; }
 };
 
 struct pSortGroupSizeNVC
 {
-	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
-	pSortGroupSizeNVC(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortGroupSizeNVC(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
 	inline bool operator()(const uint32_t _val1, const uint32_t _val2) const
 	{
@@ -290,8 +290,8 @@ struct pSortGroupSizeNVC
 
 struct pSortGroupSizePeakNVC
 {
-	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
-	pSortGroupSizePeakNVC(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortGroupSizePeakNVC(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
 	inline bool operator()(const uint32_t _val1, const uint32_t _val2) const
 	{
@@ -303,8 +303,8 @@ struct pSortGroupSizePeakNVC
 
 struct pSortGroupSizePeakPercentNVC
 {
-	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
-	pSortGroupSizePeakPercentNVC(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortGroupSizePeakPercentNVC(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
 	inline bool operator()(const uint32_t _val1, const uint32_t _val2) const
 	{
@@ -317,16 +317,16 @@ struct pSortGroupSizePeakPercentNVC
 
 struct pSortLiveNVC
 {
-	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
-	pSortLiveNVC(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSortLiveNVC(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
 	inline bool operator()(const uint32_t _val1, const uint32_t _val2) const { return (*m_allGroups)[_val1]->m_liveCount < (*m_allGroups)[_val2]->m_liveCount; }
 };
 
 struct pSetGroupMappingsNVC
 {
-	rtm_vector<rtm::MemoryOperationGroup*>* m_allGroups;
-	pSetGroupMappingsNVC(rtm_vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
+	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
+	pSetGroupMappingsNVC(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
 	inline void operator()(const GroupMapping* inGroupMapping) const
 	{
@@ -435,7 +435,7 @@ void GroupTableSource::prepareData()
 	concurrency::parallel_radixsort(m_groupMappings[GroupColumn::Live].m_sortedIdx.begin(), m_groupMappings[GroupColumn::Live].m_sortedIdx.end(), psLive );
 
 	pSetGroupMappings psSetMappings(m_allGroups);
-	rtm_vector<GroupMapping*> mappings;
+	std::vector<GroupMapping*> mappings;
 	mappings.reserve(GroupColumn::ColumnCount);
 	for (uint32_t i=0; i<GroupColumn::ColumnCount; ++i)
 		mappings.push_back(&m_groupMappings[i]);
@@ -465,7 +465,7 @@ void GroupTableSource::prepareData()
 	std::stable_sort(m_groupMappings[GroupColumn::Live].m_sortedIdx.begin(), m_groupMappings[GroupColumn::Live].m_sortedIdx.end(), pSortLiveNVC(m_allGroups));
 
 	pSetGroupMappingsNVC psSetMappings(m_allGroups);
-	rtm_vector<GroupMapping*> mappings;
+	std::vector<GroupMapping*> mappings;
 	mappings.reserve(GroupColumn::ColumnCount);
 	for (uint32_t i = 0; i<GroupColumn::ColumnCount; ++i)
 		mappings.push_back(&m_groupMappings[i]);

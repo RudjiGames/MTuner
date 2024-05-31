@@ -35,8 +35,8 @@ static bool __uncaught_exception() { return true; }
 
 struct Mapping
 {
-	rtm_vector<uint32_t>						m_sortedIndex;
-	const rtm_vector<rtm::MemoryOperation*>*	m_allOps;
+	std::vector<uint32_t>						m_sortedIndex;
+	const std::vector<rtm::MemoryOperation*>*	m_allOps;
 };
 
 struct OperationColumn
@@ -67,7 +67,7 @@ class OperationTableSource : public BigTableSource
 		uint32_t		m_currentColumn;
 		bool			m_valid;
 		Qt::SortOrder	m_sortOrder;
-		const rtm_vector<rtm::MemoryOperation*>*	m_allOps;
+		const std::vector<rtm::MemoryOperation*>*	m_allOps;
 
 	public:
 		OperationTableSource(CaptureContext* _context, bool _valid, OperationsList* _list, bool _leaksOnly);
@@ -91,8 +91,8 @@ class OperationTableSource : public BigTableSource
 
 struct pSetIndex
 {
-	const rtm_vector<uint32_t>* m_Indices;
-	pSetIndex(const rtm_vector<uint32_t>& _indices) : m_Indices(&_indices) {}
+	const std::vector<uint32_t>* m_Indices;
+	pSetIndex(const std::vector<uint32_t>& _indices) : m_Indices(&_indices) {}
 	inline void operator()(uint32_t& _index) const
 	{
 		uint32_t idx = &_index - &((*m_Indices)[0]);
@@ -103,8 +103,8 @@ struct pSetIndex
 // ThreadID
 struct pSortThreadID
 {
-	const rtm_vector<rtm::MemoryOperation*>* m_allOps;
-	pSortThreadID(const rtm_vector<rtm::MemoryOperation*>* _ops) : m_allOps(_ops) {}
+	const std::vector<rtm::MemoryOperation*>* m_allOps;
+	pSortThreadID(const std::vector<rtm::MemoryOperation*>* _ops) : m_allOps(_ops) {}
 
 	inline uint64_t operator()(const uint32_t _val1, const uint32_t _val2) const 
 	{
@@ -115,8 +115,8 @@ struct pSortThreadID
 // Heap
 struct pSortHeap
 {
-	const rtm_vector<rtm::MemoryOperation*>* m_allOps;
-	pSortHeap(const rtm_vector<rtm::MemoryOperation*>* _ops) : m_allOps(_ops) {}
+	const std::vector<rtm::MemoryOperation*>* m_allOps;
+	pSortHeap(const std::vector<rtm::MemoryOperation*>* _ops) : m_allOps(_ops) {}
 
 	inline uint64_t operator()(const uint32_t _val1, const uint32_t _val2) const
 	{
@@ -127,8 +127,8 @@ struct pSortHeap
 // Address
 struct pSortAddress
 {
-	const rtm_vector<rtm::MemoryOperation*>* m_allOps;
-	pSortAddress(const rtm_vector<rtm::MemoryOperation*>* _ops) : m_allOps(_ops) {}
+	const std::vector<rtm::MemoryOperation*>* m_allOps;
+	pSortAddress(const std::vector<rtm::MemoryOperation*>* _ops) : m_allOps(_ops) {}
 
 	inline uint64_t operator()(const uint32_t _val1, const uint32_t _val2) const
 	{
@@ -139,8 +139,8 @@ struct pSortAddress
 // Type
 struct pSortOpType
 {
-	const rtm_vector<rtm::MemoryOperation*>* m_allOps;
-	pSortOpType(const rtm_vector<rtm::MemoryOperation*>* _ops) : m_allOps(_ops) {}
+	const std::vector<rtm::MemoryOperation*>* m_allOps;
+	pSortOpType(const std::vector<rtm::MemoryOperation*>* _ops) : m_allOps(_ops) {}
 
 	inline uint8_t operator()(const uint32_t _val1, const uint32_t _val2) const
 	{
@@ -151,8 +151,8 @@ struct pSortOpType
 // Size
 struct pSortOpSize
 {
-	const rtm_vector<rtm::MemoryOperation*>* m_allOps;
-	pSortOpSize(const rtm_vector<rtm::MemoryOperation*>* _ops) : m_allOps(_ops) {}
+	const std::vector<rtm::MemoryOperation*>* m_allOps;
+	pSortOpSize(const std::vector<rtm::MemoryOperation*>* _ops) : m_allOps(_ops) {}
 
 	inline uint32_t operator()(const uint32_t _val1, const uint32_t _val2) const
 	{
@@ -163,8 +163,8 @@ struct pSortOpSize
 // Alignment
 struct pSortOpAlignment
 {
-	const rtm_vector<rtm::MemoryOperation*>* m_allOps;
-	pSortOpAlignment(const rtm_vector<rtm::MemoryOperation*>* _ops) : m_allOps(_ops) {}
+	const std::vector<rtm::MemoryOperation*>* m_allOps;
+	pSortOpAlignment(const std::vector<rtm::MemoryOperation*>* _ops) : m_allOps(_ops) {}
 
 	inline uint32_t operator()(const uint32_t _val1, const uint32_t _val2) const
 	{
@@ -174,10 +174,10 @@ struct pSortOpAlignment
 
 struct pSetOpMappings
 {
-	const rtm_vector<rtm::MemoryOperation*>* m_allOps;
+	const std::vector<rtm::MemoryOperation*>* m_allOps;
 	const Mapping* m_mapping;
 
-	pSetOpMappings(const rtm_vector<rtm::MemoryOperation*>* _ops, const Mapping& _mapping) :
+	pSetOpMappings(const std::vector<rtm::MemoryOperation*>* _ops, const Mapping& _mapping) :
 		m_allOps(_ops), m_mapping(&_mapping)
 	{}
 
@@ -202,7 +202,7 @@ OperationTableSource::OperationTableSource(CaptureContext* _context, bool _valid
 void OperationTableSource::prepareData(bool /*_onlyLeaks*/)
 {
 	bool filterEnabled = m_list->getFilteringState();
-	const rtm_vector<rtm::MemoryOperation*>& _ops = (m_valid == false)
+	const std::vector<rtm::MemoryOperation*>& _ops = (m_valid == false)
 													? m_context->m_capture->getMemoryOpsInvalid()
 													: filterEnabled ? m_context->m_capture->getMemoryOpsFiltered() : m_context->m_capture->getMemoryOps();
 

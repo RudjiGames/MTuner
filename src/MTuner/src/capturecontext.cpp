@@ -25,13 +25,13 @@ CaptureContext::~CaptureContext()
 	}
 }
 
-void CaptureContext::setupResolver(rdebug::Toolchain& _tc, rtm_string& _executable, rdebug::module_load_cb _callback, void* _data)
+void CaptureContext::setupResolver(rdebug::Toolchain& _tc, std::string& _executable, rdebug::module_load_cb _callback, void* _data)
 {
 	switch (_tc.m_type)
 	{
 		case rdebug::Toolchain::MSVC:
 			{
-				rtm_string symbolStorePath = _tc.m_toolchainPath;
+				std::string symbolStorePath = _tc.m_toolchainPath;
 				size_t len = symbolStorePath.length();
 				if (len)
 				while (--len)
