@@ -25,3 +25,6 @@
 [submodule "3rd/DIA"]
 	path = 3rd/DIA
 	url = https://github.com/RudjiGames/DIA.git
+[submodule "3rd/unordered_dense"]
+	path = 3rd/unordered_dense
+	url = https://github.com/martinus/unordered_dense.git

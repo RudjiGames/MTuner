@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------//
-/// Copyright 2023 Milos Tosic. All Rights Reserved.                       ///
+/// Copyright 2024 Milos Tosic. All Rights Reserved.                       ///
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
@@ -414,7 +414,8 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 	bool loadSuccess = true;
 
-	std::unordered_map<uint64_t, std::vector<uint32_t>>  perThreadTagStack;
+	
+	ankerl::unordered_dense::map<uint64_t, std::vector<uint32_t>>  perThreadTagStack;
 
 	uint64_t minMarkerTime		= (uint64_t)-1;
 	int64_t  filePos			= 0;
@@ -1283,7 +1284,7 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 	uint32_t numOpsOver100 = numStackTraces/100;
 	uint32_t idx = 0;
 
-	std::unordered_map<uint64_t, uint64_t> address_IDs;
+	ankerl::unordered_dense::map<uint64_t, uint64_t> address_IDs;
 
 	while (it != end)
 	{
@@ -1391,7 +1392,7 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 //--------------------------------------------------------------------------
 bool Capture::setLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 {
-	std::unordered_map<uint64_t, MemoryOperation*> opMap;
+	ankerl::unordered_dense::map<uint64_t, MemoryOperation*> opMap;
 	uint32_t numOps = (uint32_t)m_operations.size();
 	uint32_t nextProgressPoint = 0;
 	uint32_t numOpsOver100 = numOps/100;
@@ -1417,7 +1418,7 @@ bool Capture::setLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 		case rmem::LogMarkers::OpCalloc:
 		case rmem::LogMarkers::OpAllocAligned:
 			{
-				std::unordered_map<uint64_t, MemoryOperation*>::iterator it = opMap.find(op->m_pointer);
+				ankerl::unordered_dense::map<uint64_t, MemoryOperation*>::iterator it = opMap.find(op->m_pointer);
 				if (it == opMap.end())
 					opMap[op->m_pointer] = op;
 				else
@@ -1433,7 +1434,7 @@ bool Capture::setLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 				// ako postoji prethodni pointer onda mora da postoji op u mapi sa tim rezultatom - rezultat moze da bude isti
 				if (op->m_previousPointer)
 				{
-					std::unordered_map<uint64_t, MemoryOperation*>::iterator itP = opMap.find(op->m_previousPointer);
+					ankerl::unordered_dense::map<uint64_t, MemoryOperation*>::iterator itP = opMap.find(op->m_previousPointer);
 					if (itP == opMap.end())
 					{
 						m_operationsInvalid.push_back(op);
@@ -1448,7 +1449,7 @@ bool Capture::setLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 				else
 				{
 					// no previous block, there can't be a block already in the map with the same address
-					std::unordered_map<uint64_t, MemoryOperation*>::iterator itP = opMap.find(op->m_pointer);
+					ankerl::unordered_dense::map<uint64_t, MemoryOperation*>::iterator itP = opMap.find(op->m_pointer);
 					if (itP != opMap.end())
 					{
 						m_operationsInvalid.push_back(op);
@@ -1468,7 +1469,7 @@ bool Capture::setLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 
 		case rmem::LogMarkers::OpFree:
 			{
-				std::unordered_map<uint64_t, MemoryOperation*>::iterator it = opMap.find(op->m_pointer);
+				ankerl::unordered_dense::map<uint64_t, MemoryOperation*>::iterator it = opMap.find(op->m_pointer);
 				if (it == opMap.end())
 				{
 					m_operationsInvalid.push_back(op);

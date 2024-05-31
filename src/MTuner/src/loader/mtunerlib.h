@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------//
-/// Copyright 2023 Milos Tosic. All Rights Reserved.                       ///
+/// Copyright 2024 Milos Tosic. All Rights Reserved.                       ///
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
@@ -7,8 +7,8 @@
 #define __RTM_MTUNER_MTUNERLIB_H__
 
 #include <string>
-#include <unordered_map>
 #include <rmem/src/rmem_enums.h>
+#include "../3rd/unordered_dense/include/ankerl/unordered_dense.h"
 
 namespace rtm {
 
@@ -268,8 +268,8 @@ void destroyStackTree( StackTraceTree& _tree );
 //--------------------------------------------------------------------------
 struct MemoryTagTree
 {
-	typedef std::unordered_map<uint32_t,MemoryTagTree*>	ChildMap;
-	typedef std::vector<MemoryOperation*>				OpList;
+	typedef ankerl::unordered_dense::map<uint32_t,MemoryTagTree*>	ChildMap;
+	typedef std::vector<MemoryOperation*>							OpList;
 
 	std::string			m_name;
 	uint32_t			m_hash;

@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------//
-/// Copyright 2023 Milos Tosic. All Rights Reserved.                       ///
+/// Copyright 2024 Milos Tosic. All Rights Reserved.                       ///
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
@@ -17,10 +17,10 @@ class BinLoader;
 
 typedef void (*LoadProgress)(void* inCustomData, float inProgress, const char* inMessage);
 
-typedef std::unordered_map<uint32_t,  StackTrace*,uint32_t_hash,uint32_t_equal>				StackTraceHashType;
-typedef std::unordered_map<uintptr_t, MemoryOperationGroup,uintptr_t_hash,uintptr_t_equal>	MemoryGroupsHashType;
-typedef std::unordered_map<uint32_t,  MemoryMarkerEvent,uint32_t_hash,uint32_t_equal>		MemoryMarkersHashType;
-typedef std::unordered_map<uint64_t,  std::string>											HeapsType;
+typedef ankerl::unordered_dense::map<uint32_t,  StackTrace*,uint32_t_hash,uint32_t_equal>				StackTraceHashType;
+typedef ankerl::unordered_dense::map<uintptr_t, MemoryOperationGroup,uintptr_t_hash,uintptr_t_equal>	MemoryGroupsHashType;
+typedef ankerl::unordered_dense::map<uint32_t,  MemoryMarkerEvent,uint32_t_hash,uint32_t_equal>			MemoryMarkersHashType;
+typedef ankerl::unordered_dense::map<uint64_t,  std::string>											HeapsType;
 
 //--------------------------------------------------------------------------
 struct GraphEntry

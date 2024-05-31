@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------//
-/// Copyright 2023 Milos Tosic. All Rights Reserved.                       ///
+/// Copyright 2024 Milos Tosic. All Rights Reserved.                       ///
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
@@ -84,5 +84,7 @@
 #include <QtWidgets/QToolTip>
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QGraphicsSceneHoverEvent>
+
+#include "../3rd/unordered_dense/include/ankerl/unordered_dense.h"
 
 #endif // RTM_MTUNER_PCH_H
