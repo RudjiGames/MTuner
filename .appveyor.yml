@@ -67,6 +67,8 @@ for:
     - git clone --depth 1 https://github.com/rjpcomputing/luaforwindows     luaforwindows
 
     install:
+      - dir
+      - dir MTuner
       - MTuner\build\tools\bin\windows\genie.exe --file=MTuner\src\MTuner\genie\genie.lua vs2022
 
     build: ../.build/windows/vs2022/MTuner/projects/MTuner.sln
