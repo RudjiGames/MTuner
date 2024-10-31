@@ -70,6 +70,8 @@ for:
       - dir
       - dir MTuner\build\tools\bin\windows\
       - dir MTuner\src\MTuner\genie\
+      - MTuner\build\tools\bin\windows\genie.exe
+      - dir MTuner\src\MTuner\genie\
       - MTuner\build\tools\bin\windows\genie.exe --file=MTuner\src\MTuner\genie\genie.lua vs2022
 
     build: ../.build/windows/vs2022/MTuner/projects/MTuner.sln
