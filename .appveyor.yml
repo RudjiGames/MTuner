@@ -108,8 +108,9 @@ for:
       - export QTDIR="$HOME/Qt/6.5.3/macos/" 
       - export PATH="$HOME/Qt/6.5.3/macos/bin:$HOME/Qt/6.5.3/macos/libexec:$PATH"
       - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/Qt/6.5.3/macos/lib/pkgconfig"
-      - brew update
-      - brew install --force lua
+      - curl -L -R -O https://www.lua.org/ftp/lua-5.4.7.tar.gz
+      - tar zxf lua-5.4.7.tar.gz
+      - cd lua-5.4.7 && sudo make all test && sudo make install && cd ..
       - git clone --recursive --depth 1 https://github.com/milostosic/MTuner MTuner
       - git clone --depth 1 https://github.com/bkaradzic/GENie GENie  # build GENie from source: we don't know the target CPU, can't use ARM binary from 'build'
       - cd GENie && make && cd ..
