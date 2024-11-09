@@ -51,7 +51,7 @@ void SymbolStore::changeEvent(QEvent* _event)
 
 QString	SymbolStore::getSymbolStoreString() const
 {
-	QString ret = "";
+	QString ret("");
 
 	if (m_srcRegistry->isChecked())
 	{
@@ -59,7 +59,6 @@ QString	SymbolStore::getSymbolStoreString() const
 		wchar_t buffer[2048];
 		GetEnvironmentVariableW(L"_NT_SYMBOL_PATH", (LPWSTR)buffer, sizeof(buffer));
 		ret = QString::fromWCharArray(buffer);
-#else
 #endif
 	}
 
