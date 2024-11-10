@@ -61,9 +61,10 @@ for:
     
     init:
     - set QTDIR=C:\Qt\6.5.3\msvc2019_64
+    - git clone --depth 1 https://github.com/rjpcomputing/luaforwindows luaforwindows
+    - copy %cd%\luaforwindows\files\lua5.1.exe %cd%\luaforwindows\files\lua.exe
     - set PATH=%cd%\luaforwindows\files;C:\Qt\6.5.3\msvc2019_64\bin;%PATH%
     - git clone --recursive --depth 1 https://github.com/milostosic/MTuner  MTuner
-    - git clone --depth 1 https://github.com/rjpcomputing/luaforwindows     luaforwindows
 
     install:
       - MTuner\build\tools\bin\windows\genie.exe --file=MTuner\src\MTuner\genie\genie.lua vs2022
