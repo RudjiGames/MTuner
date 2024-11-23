@@ -49,8 +49,6 @@ void SymbolStore::changeEvent(QEvent* _event)
 		ui.retranslateUi(this);
 }
 
-#pragma optimize("",off)
-
 QString	SymbolStore::getSymbolStoreString() const
 {
 	QString ret("");
