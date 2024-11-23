@@ -130,8 +130,8 @@ int handleCommandLine(int argc, char const* argv[])
 
 	rtm::CommandLine cmdLine(argc, argv);
 
-	QSettings	settings;
-	GCCSetup	gcc_setup;
+	QSettings settings;
+	GCCSetup gcc_setup;
 	gcc_setup.readSettings(settings);
 
 	int numToolchains = 0;

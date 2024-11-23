@@ -67,7 +67,8 @@ void HistogramView::updateUI()
 void HistogramView::drawBackground(QPainter* _painter, const QRectF& _rect)
 {
 	RTM_UNUSED(_rect);
-	QRectF fullRect = mapToScene(viewport()->geometry()).boundingRect();
+	QPolygonF polygon = mapToScene(viewport()->geometry());
+	QRectF fullRect = polygon.boundingRect();
 	QLinearGradient gradient(fullRect.topLeft(), fullRect.bottomLeft());
     gradient.setColorAt(0, QColor(Qt::darkGray).darker(180));
     gradient.setColorAt(1, QColor(Qt::darkGray).darker(230));

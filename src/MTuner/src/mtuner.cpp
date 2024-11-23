@@ -779,12 +779,6 @@ void MTuner::readSettings()
 	ui.action_View_StackTrace->setChecked( settings.value("dockStack").toBool() );
 	settings.endGroup();
 
-	//// language
-	//if (settings.contains("language"))
-	//	m_langManager.setLanguage(settings.value("language").toString());
-	//else
-	//	m_langManager.setLanguage(QLocale::system().name());
-
 	// editor
 	if (settings.contains("editorExe"))
 	{
@@ -902,6 +896,16 @@ void MTuner::openFileFromPath(const QString& _file)
 		// pass symbol store
 		QString symStore = m_symbolStore->getSymbolStoreString();
 
+		if (!symStore.isEmpty())
+		{
+			std::wstring storePathW = symStore.toStdWString();
+			rdebug::symbolSetServerSource(storePathW.c_str());
+		}
+		else
+		{
+			rdebug::symbolSetServerSource(L"");
+		}
+
 		statusBar()->showMessage(tr("Loading, please wait..."));
 
 		// load binary
@@ -958,7 +962,7 @@ void MTuner::dragEnterEvent(QDragEnterEvent* _event)
 		QList<QUrl> urls = mimeData->urls();
 		if (urls.size() == 1)
 		{
-			QUrl url = urls.at(0);
+			const QUrl& url = urls.at(0);
 
 			bool accept = false;
 			accept = accept || url.path().toLower().endsWith(".mtuner");

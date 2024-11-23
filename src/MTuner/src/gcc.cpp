@@ -73,34 +73,39 @@ void GCCSetup::readSettings(QSettings& _settings)
 {
 	setupDefaultTC(m_toolchains);
 
-	if (_settings.childGroups().contains("GCCToolchains_3"))
+#if RTM_DEBUG // Qt crashes on Windows/debug
+	return;
+#endif
+
+	QSettings& settings = _settings;
+	if (settings.childGroups().contains("GCCToolchains_3"))
 	{
-		_settings.beginGroup("GCCToolchains_3");
-		int numToolchains = _settings.beginReadArray("GCCToolchainsArray");
+		settings.beginGroup("GCCToolchains_3");
+		int numToolchains = settings.beginReadArray("GCCToolchainsArray");
 		for (int i=0; i<numToolchains; ++i)
 		{
-			_settings.setArrayIndex(i);
+			settings.setArrayIndex(i);
 
 			Toolchain tc;
-			tc.m_toolchain	= (rmem::ToolChain::Enum)_settings.value("tcToolchain").toInt();
+			tc.m_toolchain	= (rmem::ToolChain::Enum)settings.value("tcToolchain").toInt();
 
 			for (int j=0; j<m_toolchains.size(); ++j)
 			if (tc.m_toolchain == m_toolchains[j].m_toolchain)
 			{
-				m_toolchains[j].m_name				= _settings.value("tcName").toString();
-				m_toolchains[j].m_Environment32		= _settings.value("tcEnv32").toString();
-				m_toolchains[j].m_ToolchainPath32	= _settings.value("tcPath32").toString();
-				m_toolchains[j].m_ToolchainPrefix32	= _settings.value("tcPrefix32").toString();
-				m_toolchains[j].m_Environment64		= _settings.value("tcEnv64").toString();
-				m_toolchains[j].m_ToolchainPath64	= _settings.value("tcPath64").toString();
+				m_toolchains[j].m_name				= settings.value("tcName").toString();
+				m_toolchains[j].m_Environment32		= settings.value("tcEnv32").toString();
+				m_toolchains[j].m_ToolchainPath32	= settings.value("tcPath32").toString();
+				m_toolchains[j].m_ToolchainPrefix32	= settings.value("tcPrefix32").toString();
+				m_toolchains[j].m_Environment64		= settings.value("tcEnv64").toString();
+				m_toolchains[j].m_ToolchainPath64	= settings.value("tcPath64").toString();
 				qDebug() << m_toolchains[j].m_ToolchainPrefix64;
-				m_toolchains[j].m_ToolchainPrefix64	= _settings.value("tcPrefix64").toString();
+				m_toolchains[j].m_ToolchainPrefix64	= settings.value("tcPrefix64").toString();
 				qDebug() << m_toolchains[j].m_ToolchainPrefix64;
 				break;
 			}
 		}
-		_settings.endArray();
-		_settings.endGroup();
+		settings.endArray();
+		settings.endGroup();
 	}
 }
 

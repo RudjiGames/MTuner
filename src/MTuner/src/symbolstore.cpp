@@ -49,6 +49,8 @@ void SymbolStore::changeEvent(QEvent* _event)
 		ui.retranslateUi(this);
 }
 
+#pragma optimize("",off)
+
 QString	SymbolStore::getSymbolStoreString() const
 {
 	QString ret("");
@@ -132,7 +134,7 @@ void SymbolStore::selectLocalStore()
 
 void SymbolStore::defaultSymbolServer()
 {
-	m_publicStore->setText("http://msdl.microsoft.com/download/symbols");
+	m_publicStore->setText("https://msdl.microsoft.com/download/symbols");
 }
 
 void SymbolStore::visitMSDN()

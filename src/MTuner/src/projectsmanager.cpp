@@ -13,7 +13,7 @@ ProjectsManager::ProjectsManager(QWidget* _parent, Qt::WindowFlags _flags)
 	RTM_UNUSED(_flags);
 	setAcceptDrops(true);
 	ui.setupUi(this);
-
+	  
 	m_txtExecutable		= findChild<QLineEdit*>("txtExecutable");
 	m_txtCommandLine	= findChild<QLineEdit*>("txtCommandLine");
 	m_txtWorkingDir		= findChild<QLineEdit*>("txtWorkingDir");
