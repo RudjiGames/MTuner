@@ -66,6 +66,7 @@ void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSet
 		case rmem::ToolChain::Win_gcc:		extensions = "Exe files (*.exe)"; break;
 		case rmem::ToolChain::Linux_gcc:	break;
 		case rmem::ToolChain::OSX_gcc:		break;
+		case rmem::ToolChain::PS5_clang:	extensions = "Elf files (*.self)"; break;
 		case rmem::ToolChain::PS4_clang:	extensions = "Elf files (*.elf)"; break;
 		case rmem::ToolChain::PS3_gcc:		extensions = "Elf files (*.elf)"; break;
 		case rmem::ToolChain::PS3_snc:		extensions = "Self files (*.self)"; break;

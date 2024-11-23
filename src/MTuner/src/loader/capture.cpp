@@ -1527,6 +1527,7 @@ rdebug::Toolchain::Type convertToolchain(rmem::ToolChain::Enum _tc)
 	case rmem::ToolChain::Win_MSVC:		return rdebug::Toolchain::MSVC;
 	case rmem::ToolChain::PS3_snc:		return rdebug::Toolchain::PS3SNC;
 	case rmem::ToolChain::PS4_clang:	return rdebug::Toolchain::PS4;
+	case rmem::ToolChain::PS5_clang:	return rdebug::Toolchain::PS5;
 	default:							return rdebug::Toolchain::GCC;
 	};
 }

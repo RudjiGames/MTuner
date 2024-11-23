@@ -17,7 +17,8 @@
     <file>../resources/images/toolchain_android_x86.png</file>
     <file>../resources/images/toolchain_ps3.png</file>
     <file>../resources/images/toolchain_ps4.png</file>
-    <file>../resources/images/toolchain_mingw.png</file>
+	<file>../resources/images/toolchain_ps5.png</file>
+	<file>../resources/images/toolchain_mingw.png</file>
     <file>../resources/images/toolchain_switch.png</file>
     <file>../resources/images/table.png</file>
     <file>../resources/images/Documentation.png</file>

@@ -22,7 +22,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_13">
    <property name="sizeConstraint">
-    <enum>QLayout::SetFixedSize</enum>
+    <enum>QLayout::SizeConstraint::SetFixedSize</enum>
    </property>
    <property name="topMargin">
     <number>13</number>
@@ -41,7 +41,7 @@
             </font>
            </property>
            <property name="sizeAdjustPolicy">
-            <enum>QComboBox::AdjustToContents</enum>
+            <enum>QComboBox::SizeAdjustPolicy::AdjustToContents</enum>
            </property>
            <property name="iconSize">
             <size>
@@ -74,6 +74,15 @@
             <property name="icon">
              <iconset resource="mtuner.qrc">
               <normaloff>:/MTuner/resources/images/toolchain_ps4.png</normaloff>:/MTuner/resources/images/toolchain_ps4.png</iconset>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true"/>
+            </property>
+            <property name="icon">
+             <iconset resource="mtuner.qrc">
+              <normaloff>:/MTuner/resources/images/toolchain_ps5.png</normaloff>:/MTuner/resources/images/toolchain_ps5.png</iconset>
             </property>
            </item>
            <item>
@@ -258,7 +267,7 @@
               <item>
                <spacer name="horizontalSpacer_4">
                 <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
+                 <enum>Qt::Orientation::Horizontal</enum>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
@@ -360,7 +369,7 @@
                 <item>
                  <spacer name="horizontalSpacer_3">
                   <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                   <enum>Qt::Orientation::Horizontal</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -450,7 +459,7 @@
                 <item>
                  <spacer name="horizontalSpacer_5">
                   <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                   <enum>Qt::Orientation::Horizontal</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -476,7 +485,7 @@
        <item>
         <spacer name="horizontalSpacer">
          <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+          <enum>Qt::Orientation::Horizontal</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -489,10 +498,10 @@
        <item>
         <widget class="QDialogButtonBox" name="buttonBox">
          <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+          <enum>Qt::Orientation::Horizontal</enum>
          </property>
          <property name="standardButtons">
-          <set>QDialogButtonBox::Close</set>
+          <set>QDialogButtonBox::StandardButton::Close</set>
          </property>
         </widget>
        </item>

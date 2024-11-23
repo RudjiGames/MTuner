@@ -172,6 +172,7 @@ rdebug::Toolchain::Type getTCType(rmem::ToolChain::Enum _toolchain)
 		case rmem::ToolChain::Win_MSVC: return rdebug::Toolchain::MSVC;
 		case rmem::ToolChain::PS3_snc:	return rdebug::Toolchain::PS3SNC;
 		case rmem::ToolChain::PS4_clang:return rdebug::Toolchain::PS4;
+		case rmem::ToolChain::PS5_clang:return rdebug::Toolchain::PS5;
 		default:						return rdebug::Toolchain::GCC;
 	};
 }
@@ -299,6 +300,16 @@ void GCCSetup::setupDefaultTC(QVector<Toolchain>& _toolchains)
 	ps4clang.m_ToolchainPrefix64	= "orbis-";
 	ps4clang.m_toolchain			= rmem::ToolChain::PS4_clang;
 
+	Toolchain ps5clang;
+	ps5clang.m_name = "PlayStation 5";
+	ps5clang.m_Environment32		= "";
+	ps5clang.m_ToolchainPath32		= "";
+	ps5clang.m_ToolchainPrefix32	= "";
+	ps5clang.m_Environment64		= "SCE_PROSPERO_SDK_DIR";
+	ps5clang.m_ToolchainPath64		= "/host_tools/bin/";
+	ps5clang.m_ToolchainPrefix64	= "propero-";
+	ps5clang.m_toolchain			= rmem::ToolChain::PS5_clang;
+
 	Toolchain androidARM;
 	androidARM.m_name				= "Android ARM";
 	androidARM.m_Environment32		= "ANDROID_NDK_ROOT";
@@ -342,6 +353,7 @@ void GCCSetup::setupDefaultTC(QVector<Toolchain>& _toolchains)
 	_toolchains.append(minGW);
 	_toolchains.append(ps3gcc);
 	_toolchains.append(ps4clang);
+	_toolchains.append(ps5clang);
 	_toolchains.append(androidARM);
 	_toolchains.append(androidMIPS);
 	_toolchains.append(androidX86);
@@ -384,7 +396,8 @@ void GCCSetup::toolchainSelected(int _index)
 	}
 
 
-	if (m_toolchains[_index].m_toolchain == rmem::ToolChain::PS4_clang)
+	if ((m_toolchains[_index].m_toolchain == rmem::ToolChain::PS4_clang) ||
+		(m_toolchains[_index].m_toolchain == rmem::ToolChain::PS5_clang))
 		m_group32->setEnabled(false);
 	else
 		m_group32->setEnabled(true);
@@ -464,6 +477,9 @@ void GCCSetup::pathBrowse64()
 	if (tc.m_toolchain == rmem::ToolChain::PS4_clang)
 		caption = tr("Select folder with orbis-bin.exe");
 
+	if (tc.m_toolchain == rmem::ToolChain::PS5_clang)
+		caption = tr("Select folder with prospero-bin.exe");
+
 	QString path = QFileDialog::getExistingDirectory(this, caption);
 	if (path.length()>0)
 		m_leditBinutils64->setText(path);
@@ -519,6 +535,12 @@ void GCCSetup::setLabels()
 	{
 		m_labelFound64->setText( config64 ? tr("orbis tools found!") : tr("orbis tools not found!") );
 		m_labelFound32->setText( config32 ? tr("orbis tools found!") : tr("orbis tools not found!") );
+	}
+	else
+	if (tc.m_toolchain == rmem::ToolChain::PS5_clang)
+	{
+		m_labelFound64->setText(config64 ? tr("prospero tools found!") : tr("prospero tools not found!"));
+		m_labelFound32->setText(config32 ? tr("prospero tools found!") : tr("prospero tools not found!"));
 	}
 	else
 	{
