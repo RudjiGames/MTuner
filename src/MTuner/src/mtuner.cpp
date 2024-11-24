@@ -625,7 +625,7 @@ void MTuner::setStatusBarText(const QString& _text)
 	statusBar()->showMessage(_text, 2300);
 }
 
-static const uint32_t g_watchInterval = 460;
+static const uint32_t g_watchInterval = 230;
 
 void MTuner::startCaptureStatusTimer()
 {
@@ -649,7 +649,6 @@ void MTuner::captureStarted(const QString& _file)
 void MTuner::captureSetProcessID(uint64_t _pid)
 {
 	m_capturePid = _pid;
-	m_statusBarRedDot->setVisible(false);
 }
 
 #if RTM_PLATFORM_WINDOWS
@@ -669,22 +668,21 @@ bool isProcessRunning(uint64_t)
 
 void MTuner::checkCaptureStatus()
 {
-	bool running =
-		((m_projectsManager->isInjecting() && (m_capturePid != 0)) ||
-		((m_capturePid != 0) && isProcessRunning(m_capturePid)));
+	bool currPidRunning = (m_capturePid != 0) && isProcessRunning(m_capturePid);
 
-	m_statusBarRedDot->setVisible(m_statusBarRedDot->isHidden());
-	if (!running)
+	if (!currPidRunning)
 	{
 		captureSetProcessID(0);
 		m_statusBarRedDot->setVisible(false);
+
 		openFileFromPath(m_watchedFile);
 		m_watchedFile = "";
 		if (m_watchTimer)
-			m_watchTimer->stop();
+			m_watchTimer->start();
 	}
 	else
 	{
+		m_statusBarRedDot->setVisible(!m_statusBarRedDot->isVisible());
 		statusBar()->showMessage(tr("Capture in progress") + QString(" - ") + m_watchedFile, g_watchInterval);
 		if (m_watchTimer)
 			m_watchTimer->start();

@@ -6,7 +6,7 @@
 #include <MTuner_pch.h>
 #include <MTuner/src/gcc.h>
 #include <rbase/inc/winchar.h>
-#pragma optimize("",off)
+
 GCCSetup::GCCSetup(QWidget* _parent, Qt::WindowFlags _flags) :
 	QDialog(_parent, Qt::WindowSystemMenuHint | Qt::WindowTitleHint)
 {

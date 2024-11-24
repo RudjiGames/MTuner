@@ -344,8 +344,11 @@ void ProjectsManager::dirChanged(const QString& _dir)
 	QStringList list = dir.entryList(QStringList() << QString("*.MTuner"), QDir::Files, QDir::Time);
 	if (list.size())
 	{
-		m_watcher->deleteLater();
-		m_watcher = 0;
+		if (m_watcher)
+		{
+			m_watcher->deleteLater();
+			m_watcher = 0;
+		}
 		QString name = list.at(0);
 		QString captureFile = QDir::toNativeSeparators(_dir + name);
 		m_currentCaptureFile = captureFile;
