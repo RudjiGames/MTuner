@@ -6,7 +6,7 @@
 #include <MTuner_pch.h>
 #include <MTuner/src/gcc.h>
 #include <rbase/inc/winchar.h>
-
+#pragma optimize("",off)
 GCCSetup::GCCSetup(QWidget* _parent, Qt::WindowFlags _flags) :
 	QDialog(_parent, Qt::WindowSystemMenuHint | Qt::WindowTitleHint)
 {
@@ -78,9 +78,9 @@ void GCCSetup::readSettings(QSettings& _settings)
 #endif
 
 	QSettings& settings = _settings;
-	if (settings.childGroups().contains("GCCToolchains_3"))
+	if (settings.childGroups().contains("GCCToolchains_5"))
 	{
-		settings.beginGroup("GCCToolchains_3");
+		settings.beginGroup("GCCToolchains_5");
 		int numToolchains = settings.beginReadArray("GCCToolchainsArray");
 		for (int i=0; i<numToolchains; ++i)
 		{
@@ -111,7 +111,7 @@ void GCCSetup::readSettings(QSettings& _settings)
 
 void  GCCSetup::writeSettings(QSettings& _settings)
 {
-	_settings.beginGroup("GCCToolchains_3");
+	_settings.beginGroup("GCCToolchains_5");
 	_settings.beginWriteArray("GCCToolchainsArray", m_toolchains.length());
 	for (int i=0; i<m_toolchains.length(); ++i)
 	{
@@ -146,7 +146,8 @@ rdebug::Toolchain GCCSetup::getToolchainInfo(rmem::ToolChain::Enum _toolchain, b
 {
 	// special case ProDG for PS3
 	if ((_toolchain == rmem::ToolChain::PS3_gcc) ||
-		(_toolchain == rmem::ToolChain::PS4_clang))
+		(_toolchain == rmem::ToolChain::PS4_clang) ||
+		(_toolchain == rmem::ToolChain::PS5_clang))
 		_64bit = true;
 
 	if (_toolchain == rmem::ToolChain::PS3_snc)
@@ -187,21 +188,24 @@ static void fixSlashes(QString& _path, QString& _slash)
 
 bool GCCSetup::resolveToolchain(Toolchain& _toolchain, bool _64bit, rdebug::Toolchain& _tc)
 {
-	QString append1 = "nm";
-	QString append2 = "addr2line";
-	QString append3 = "c++filt";
+	QString append10 = "nm";
+	QString append11 = "llvm-nm";
+	QString append20 = "addr2line";
+	QString append21 = "llvm-symbolizer";
+	QString append30 = "c++filt";
+	QString append31 = "llvm-cxxfilt";
 
 	if ((_toolchain.m_toolchain == rmem::ToolChain::PS3_gcc) && (_64bit == false))
 	{
-		append1 = "ps3bin";
-		append2 = "ps3bin";
-		append3 = "ps3name";
+		append10 = "ps3bin";
+		append20 = "ps3bin";
+		append30 = "ps3name";
 	}
 
 #if RTM_PLATFORM_WINDOWS
-	append1 += QString(".exe");
-	append2 += QString(".exe");
-	append3 += QString(".exe");
+	append10 += QString(".exe"); append11 += QString(".exe");
+	append20 += QString(".exe"); append21 += QString(".exe");
+	append30 += QString(".exe"); append31 += QString(".exe");
 #endif
 
 	QString envVar = _64bit ? _toolchain.m_Environment64		: _toolchain.m_Environment32;
@@ -216,9 +220,9 @@ bool GCCSetup::resolveToolchain(Toolchain& _toolchain, bool _64bit, rdebug::Tool
 	fullPath = fullPath.replace("//", "/");
 	fullPath = fullPath.replace("\\", "/");
 
-	if ((QFileInfo(fullPath + append1).exists()) &&
-		(QFileInfo(fullPath + append2).exists()) &&
-		(QFileInfo(fullPath + append3).exists()))
+	if ((QFileInfo(fullPath + append10).exists() || QFileInfo(fullPath + append11).exists()) &&
+		(QFileInfo(fullPath + append20).exists() || QFileInfo(fullPath + append21).exists()) &&
+		(QFileInfo(fullPath + append30).exists() || QFileInfo(fullPath + append31).exists()))
 	{
 		strcpy(_tc.m_toolchainPath,		fullPath.toUtf8());
 		strcpy(_tc.m_toolchainPrefix,	prefix.toUtf8());
@@ -252,9 +256,9 @@ bool GCCSetup::resolveToolchain(Toolchain& _toolchain, bool _64bit, rdebug::Tool
 		fullPath = basePath + prefix;
 		fixSlashes(fullPath, slash);
 
-		if ((QFileInfo(fullPath + append1).exists()) &&
-			(QFileInfo(fullPath + append2).exists()) &&
-			(QFileInfo(fullPath + append3).exists()))
+		if ((QFileInfo(fullPath + append10).exists() || QFileInfo(fullPath + append11).exists()) &&
+			(QFileInfo(fullPath + append20).exists() || QFileInfo(fullPath + append21).exists()) &&
+			(QFileInfo(fullPath + append30).exists() || QFileInfo(fullPath + append31).exists()))
 		{
 			strcpy(_tc.m_toolchainPath,		basePath.toUtf8());
 			strcpy(_tc.m_toolchainPrefix,	prefix.toUtf8());
@@ -301,13 +305,13 @@ void GCCSetup::setupDefaultTC(QVector<Toolchain>& _toolchains)
 	ps4clang.m_toolchain			= rmem::ToolChain::PS4_clang;
 
 	Toolchain ps5clang;
-	ps5clang.m_name = "PlayStation 5";
+	ps5clang.m_name					= "PlayStation 5";
 	ps5clang.m_Environment32		= "";
 	ps5clang.m_ToolchainPath32		= "";
 	ps5clang.m_ToolchainPrefix32	= "";
 	ps5clang.m_Environment64		= "SCE_PROSPERO_SDK_DIR";
 	ps5clang.m_ToolchainPath64		= "/host_tools/bin/";
-	ps5clang.m_ToolchainPrefix64	= "propero-";
+	ps5clang.m_ToolchainPrefix64	= "prospero-";
 	ps5clang.m_toolchain			= rmem::ToolChain::PS5_clang;
 
 	Toolchain androidARM;
