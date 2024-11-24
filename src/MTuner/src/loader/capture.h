@@ -64,18 +64,15 @@ class Capture
 		MemoryStats						m_statsGlobal;			///< Memory statistics for global range
 		MemoryStats						m_statsSnapshot;		///< Memory statistics for selected snapshot
 		std::vector<MemoryStatsTimed>	m_timedStats;
-
 		std::vector<rdebug::ModuleInfo>	m_moduleInfos;			///< Module information data
-		char*							m_modulePathBuffer;
-		uint32_t						m_modulePathBufferPtr;
 
-		StackTraceHashType				m_stackTracesHash;			///< map of stack traces, key is a stack trace hash
-		std::vector<StackTrace*>			m_stackTraces;
+		StackTraceHashType				m_stackTracesHash;		///< map of stack traces, key is a stack trace hash
+		std::vector<StackTrace*>		m_stackTraces;
 
 		MemoryGroupsHashType			m_operationGroups;
 		std::vector<GraphEntry>			m_usageGraph;			///< memory usage graph data
 		StackTraceTree					m_stackTraceTree;		///< stack trace tree
-		MemoryTagTree					m_tagTree;		///< Global tag tree
+		MemoryTagTree					m_tagTree;				///< Global tag tree
 		MemoryMarkersHashType			m_memoryMarkers;
 		HeapsType						m_Heaps;
 		uint64_t						m_currentHeap;

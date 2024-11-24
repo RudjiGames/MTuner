@@ -185,9 +185,6 @@ static inline void updateLiveSize(MemoryOperation* _op, uint64_t& _liveSize)
 //--------------------------------------------------------------------------
 Capture::Capture()
 {
-	m_modulePathBuffer			= 0;
-	m_modulePathBufferPtr		= 0;
-
 	m_loadProgressCallback		= NULL;
 	m_loadProgressCustomData	= NULL;
 
@@ -222,13 +219,6 @@ void Capture::clearData()
 	// symbols
 
 	m_moduleInfos.clear();
-	if (m_modulePathBuffer)
-	{
-		delete[] m_modulePathBuffer;
-		m_modulePathBuffer = 0;
-	}
-
-	m_modulePathBufferPtr = 0;
 
 	// -----
 
@@ -1539,13 +1529,6 @@ void Capture::addModule(const char* _path, uint64_t inModBase, uint64_t inModSiz
 {
 	char exePath[1024];
 	rtm::strlCpy(exePath, RTM_NUM_ELEMENTS(exePath), _path);
-
-	const int modulePathBufferSize = 512 * 1024;
-	if (!m_modulePathBuffer)
-	{
-		m_modulePathBuffer = new char[modulePathBufferSize];
-		m_modulePathBufferPtr = 0;
-	}
 	
 	const char* moduleName = rtm::strStr(exePath, "/");
 	if (!moduleName)
@@ -1566,8 +1549,6 @@ void Capture::addModule(const char* _path, uint64_t inModBase, uint64_t inModSiz
 	if (moduleName == NULL)
 		return;
 
-	rtm::strlCpy(&m_modulePathBuffer[m_modulePathBufferPtr], modulePathBufferSize - m_modulePathBufferPtr, _path);
-
 	size_t numModules = m_moduleInfos.size();
 	for (size_t i=0; i<numModules; i++)
 	{
@@ -1587,8 +1568,7 @@ void Capture::addModule(const char* _path, uint64_t inModBase, uint64_t inModSiz
 	info.m_loadTime			= inTimeStamp;
 	info.m_unloadTime		= 0xffffffffffffffffUL;
 	info.m_toolchain.m_type	= convertToolchain(m_toolchain);
-	rtm::strlCpy(info.m_modulePath, RTM_NUM_ELEMENTS(info.m_modulePath), &m_modulePathBuffer[m_modulePathBufferPtr]);
-	m_modulePathBufferPtr += (uint32_t)strlen(_path)+1;
+	rtm::strlCpy(info.m_modulePath, RTM_NUM_ELEMENTS(info.m_modulePath), _path);
 
 	m_moduleInfos.push_back(info);
 }
