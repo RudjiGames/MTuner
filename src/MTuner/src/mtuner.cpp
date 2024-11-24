@@ -649,8 +649,6 @@ void MTuner::captureStarted(const QString& _file)
 void MTuner::captureSetProcessID(uint64_t _pid)
 {
 	m_capturePid = _pid;
-	m_projectsManager->close();
-
 	m_statusBarRedDot->setVisible(false);
 }
 
@@ -679,7 +677,6 @@ void MTuner::checkCaptureStatus()
 	if (!running)
 	{
 		captureSetProcessID(0);
-		m_projectsManager->close();
 		m_statusBarRedDot->setVisible(false);
 		openFileFromPath(m_watchedFile);
 		m_watchedFile = "";

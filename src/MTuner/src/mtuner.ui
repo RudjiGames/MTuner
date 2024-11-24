@@ -45,7 +45,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>18</height>
+     <height>33</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -73,6 +73,7 @@
     <property name="title">
      <string>&amp;Settings</string>
     </property>
+    <addaction name="action_Manage_projects"/>
     <addaction name="action_Symbols"/>
     <addaction name="action_External_editor"/>
     <addaction name="action_GCC_toolchains"/>
@@ -108,7 +109,7 @@
     <string>Main tool bar</string>
    </property>
    <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonIconOnly</enum>
+    <enum>Qt::ToolButtonStyle::ToolButtonIconOnly</enum>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
