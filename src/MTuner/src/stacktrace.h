@@ -62,7 +62,6 @@ public:
 	void updateView();
 	void loadState(QSettings& _settings, const QString& _name, bool _resetGeometry);
 	void saveState(QSettings& _settings);
-
 	void showToolTip(const QPoint& _pos, const QString& _itemTooltip);
 	void hideToolTip();
 

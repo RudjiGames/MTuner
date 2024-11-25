@@ -228,8 +228,6 @@ void TreeMapView::buildTreeRecurse(rtm::StackTraceTree* _tree)
 		node.m_size		= getNodeValueByType( node, m_mapType );
 
 		m_tree.push_back(node);
-		m_treeLines.append(QLineF());
-		m_treeLines.append(QLineF());
 	}
 
 	rtm::StackTraceTree::ChildNodes& children = _tree->m_children;
@@ -345,8 +343,7 @@ TreeMapGraphicsItem::TreeMapGraphicsItem(TreeMapView* _treeView, CaptureContext*
 	m_treeView				= _treeView;
 	m_context				= _context;
 	_treeView->setItem(this);
-	//setCacheMode(QGraphicsItem::DeviceCoordinateCache);
-	setCacheMode(QGraphicsItem::NoCache);// ItemCoordinateCache);
+	setCacheMode(QGraphicsItem::NoCache);
 	setAcceptHoverEvents(true);
 }
 
@@ -360,15 +357,16 @@ QRectF TreeMapGraphicsItem::boundingRect() const
 	return QRectF(m_treeView->pos(), m_treeView->pos() + QPointF(m_treeView->width(), m_treeView->height()));
 }
 
-static inline void drawBlockText(const QString& _text, QPainter* _painter, int _fontHeight, int _fontWidths[17], QRectF& _rect, bool _highlight)
+static inline void drawBlockText(const QString& _text, QPainter* _painter, int _fontHeight, QRectF& _rect, bool _highlight)
 {
 	if (_highlight)
 		_painter->setPen(Qt::yellow);
 	else
 		_painter->setPen(Qt::white);
 
-	int len = _text.length();
-	if ((_rect.width() - _fontWidths[len] > 6.0f) && (_rect.height() > _fontHeight))
+	int width = QFontMetrics(s_sizeFont).horizontalAdvance(_text);
+
+	if ((_rect.width() - width > 6.0f) && (_rect.height() > _fontHeight))
 	{
 		QRectF textRect = _rect.adjusted(3.0f,0,-3.0f,14-_rect.height());
 		_painter->setFont(s_sizeFont);
@@ -421,35 +419,6 @@ void TreeMapGraphicsItem::paint(QPainter* _painter, const QStyleOptionGraphicsIt
 		_painter->drawRect(highlightRect);
 	}
 	
-	static const QString lenStrs[17] = {
-		"0",
-		"00",
-		"000",
-		",000",
-		"0,000",
-		"00,000",
-		"000,000",
-		",000,000",
-		"0,000,000",
-		"00,000,000",
-		"000,000,000",
-		",000,000,000",
-		"0,000,000,000",
-		"00,000,000,000",
-		"000,000,000,000",
-		",000,000,000,000",
-		"0,000,000,000,000",
-	};
-
-	static bool initialized = false;
-	static int textWidth[17];
-	if (!initialized)
-	{
-		initialized = true;
-		for (int i = 0; i < 17; ++i)
-			textWidth[i] = QFontMetrics(s_sizeFont).horizontalAdvance(lenStrs[i]);
-	}
-
 	for (size_t i=0; i<tree.size(); ++i)
 	{
 		TreeMapNode& info = tree[i];
@@ -457,7 +426,7 @@ void TreeMapGraphicsItem::paint(QPainter* _painter, const QStyleOptionGraphicsIt
 		{
 			QLocale locale;
 			int s_fontHeight = QFontMetrics(s_sizeFont).height();
-			drawBlockText(locale.toString(qulonglong(info.m_size)), _painter, s_fontHeight, textWidth, info.m_rect, &info == highlight);
+			drawBlockText(locale.toString(qulonglong(info.m_size)), _painter, s_fontHeight, info.m_rect, &info == highlight);
 		}
 	}
 }

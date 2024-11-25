@@ -11,17 +11,14 @@ TreeMapWidget::TreeMapWidget(QWidget* _parent, Qt::WindowFlags _flags) :
 {
 	ui.setupUi(this);
 	m_graphicsView		= findChild<TreeMapView*>("graphicsView");
-	m_context			= NULL;
-	m_map				= NULL;
+	m_context			= nullptr;
+	m_map				= nullptr;
 
 	QComboBox* cb = findChild<QComboBox*>("comboBoxType");
 	connect(cb, SIGNAL(currentIndexChanged(int)), this, SLOT(treeMapTypeChanged(int)));
 
 	m_scene = new QGraphicsScene(this);
     m_scene->setItemIndexMethod(QGraphicsScene::NoIndex);
-
-	
-
 	m_scene->setBackgroundBrush(QColor(33, 80, 90, 235));
 
     m_graphicsView->setScene(m_scene);

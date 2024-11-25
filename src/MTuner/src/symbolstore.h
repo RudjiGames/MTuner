@@ -19,7 +19,6 @@ private:
 	QToolButton*	m_buttonDefault;
 	QToolButton*	m_buttonBrowse;
 	bool			m_hasRegistryEntry;
-
 	bool			m_restoreRegistryChecked;
 	QString			m_restorePublicStore;
 	QString			m_restoreLocalStore;
@@ -28,7 +27,6 @@ public:
 	SymbolStore(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 
 	void	changeEvent(QEvent* _event);
-
 	QString	getSymbolStoreString() const;
 	QString	getLocalStore() const;
 	void	setLocalStore(const QString& _localStore);
@@ -39,9 +37,9 @@ public:
 	void	save();
 
 public Q_SLOTS:
-	void selectLocalStore();
-	void defaultSymbolServer();
-	void visitMSDN();
+	void	selectLocalStore();
+	void	defaultSymbolServer();
+	void	visitMSDN();
 
 	virtual int exec();
 	virtual void accept();

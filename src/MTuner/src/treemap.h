@@ -23,7 +23,6 @@ public:
 	TreeMapWidget(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 
 	void changeEvent(QEvent* _event);
-
 	void setContext(CaptureContext* _context);
 	void setFilteringState(bool _state);
 	

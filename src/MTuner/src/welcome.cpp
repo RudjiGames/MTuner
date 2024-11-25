@@ -4,13 +4,11 @@
 //--------------------------------------------------------------------------//
 
 #include <MTuner_pch.h>
-#include <MTuner/src/mtuner.h>
 #include <MTuner/src/welcome.h>
 
-WelcomeDialog::WelcomeDialog(QWidget* _parent, Qt::WindowFlags _flags) :
+WelcomeDialog::WelcomeDialog(QWidget* _parent, Qt::WindowFlags) :
 	QDialog(_parent, Qt::WindowSystemMenuHint | Qt::WindowTitleHint)
 {
-	RTM_UNUSED(_flags);
 	ui.setupUi(this);
 
 	connect(ui.buttonSymbols,		&QPushButton::clicked, this, &WelcomeDialog::setupSymbols);

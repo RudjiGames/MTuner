@@ -8,12 +8,6 @@
 
 #include <MTuner/src/loader/capture.h>
 
-class QPaintEvent;
-class QResizeEvent;
-class QSize;
-class QWidget;
-
-class LineNumberArea;
 class ExternalEditor;
 struct CaptureContext;
 

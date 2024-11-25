@@ -37,10 +37,7 @@ public:
 	QVariant			data(int _column) const;
 	int					row() const;
 	TreeItem*			parent();
-	rtm::StackTrace*	getStackTraceListRoot()
-	{
-		return m_tree->m_stackTraceList;
-	}
+	rtm::StackTrace*	getStackTraceListRoot()	{ return m_tree->m_stackTraceList; }
 	int					depth() const { return m_depth; }
 
 	int							m_depth;
@@ -791,7 +788,6 @@ void StackTreeWidget::rowClicked(const QModelIndex& _index)
 
 	m_stackTraces.clear();
 
-//	for (uint32_t i=0; i<trace->m_numFrames; ++i)
 	while (trace)
 	{
 		m_stackTraces.push_back(trace);

@@ -34,8 +34,7 @@ public:
 	int				rowCount(const QModelIndex& _parent = QModelIndex()) const;
 	int				columnCount(const QModelIndex& _parent = QModelIndex()) const;
     void			sort(int _column, Qt::SortOrder _order);
-
-	void updateData();
+	void			updateData();
 
 private:
 	void setupModelData(const rtm::StackTraceTree& _tree, TreeItem* _parent,const rtm::StackTraceTree* _root, int _depth);
@@ -73,10 +72,8 @@ public:
 	virtual ~StackTreeWidget();
 
 	void changeEvent(QEvent* _event);
-
 	void loadState(QSettings& _settings, const QString& _name, bool _resetGeometry);
 	void saveState(QSettings& _settings);
-
 	void setContext(CaptureContext* _context);
 	void setFilteringState(bool _state);
 	bool getFilteringState() const;

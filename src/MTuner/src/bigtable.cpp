@@ -45,7 +45,7 @@ BigTable::BigTable(QWidget* _parent, Qt::WindowFlags _flags)
 	: QWidget(_parent, _flags)
 {
 	ui.setupUi(this);
-	m_source		= NULL;
+	m_source		= nullptr;
 	m_numColumns	= 0;
 	m_firstVisible	= 0;
 	m_visibleRows	= 0;
@@ -86,7 +86,7 @@ void BigTable::changeEvent(QEvent* _event)
 void BigTable::setSource(BigTableSource* _source)
 {
 	m_source = _source;
-	resizeEvent(NULL);
+	resizeEvent(nullptr);
 
 	int32_t sortCol;
 	Qt::SortOrder sortOrder;
@@ -306,7 +306,7 @@ void BigTable::scroll(int _position)
 void BigTable::rowSelected(QTableWidgetItem* _item)
 {
 	m_selectedRows = _item->row() + m_firstVisible;
-	void* item = NULL;
+	void* item = nullptr;
 	m_source->getItem(m_selectedRows,&item);
 	if (item)
 		emit itemSelected(item);
@@ -314,11 +314,11 @@ void BigTable::rowSelected(QTableWidgetItem* _item)
 
 void BigTable::rowRightClick(QTableWidgetItem* _item, const QPoint& _pos)
 {
-	if (_item == NULL)
+	if (_item == nullptr)
 		return;
 	
 	m_selectedRows = _item->row() + m_firstVisible;
-	void* item = NULL;
+	void* item = nullptr;
 	m_source->getItem(m_selectedRows,&item);
 	if (item)
 		emit itemRightClicked(item, _pos);
@@ -326,7 +326,7 @@ void BigTable::rowRightClick(QTableWidgetItem* _item, const QPoint& _pos)
 
 void BigTable::sortSelection(int _section, Qt::SortOrder _sortOrder)
 {
-	void* item = NULL;
+	void* item = nullptr;
 	if (m_selectedRows != -1)
 		m_source->getItem(m_selectedRows,&item);
 

@@ -24,9 +24,6 @@
 #include <MTuner/src/loader/mtunerlib.h>
 #include <MTuner/src/loader/capture.h>
 
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <QtCore/QByteArray>
 #include <QtCore/QCryptographicHash>
 #include <QtCore/QtDebug>

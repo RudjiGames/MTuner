@@ -4,7 +4,6 @@
 //--------------------------------------------------------------------------//
 
 #include <MTuner_pch.h>
-#include <MTuner/src/mtuner.h>
 #include <MTuner/src/sourceview.h>
 #include <MTuner/src/highlighter.h>
 #include <MTuner/src/external_editor.h>
@@ -14,12 +13,12 @@ SourceView::SourceView(QWidget* _parent) :
 	QPlainTextEdit(_parent)
 {
 	lineNumberArea			= new LineNumberArea(this);
-	m_contextMenu			= NULL;
-	m_tabWidthAction4		= NULL;
-	m_tabWidthAction8		= NULL;
-	m_openInEditorAction	= NULL;
-	m_editorDialog			= NULL;
-	m_context				= NULL;
+	m_contextMenu			= nullptr;
+	m_tabWidthAction4		= nullptr;
+	m_tabWidthAction8		= nullptr;
+	m_openInEditorAction	= nullptr;
+	m_editorDialog			= nullptr;
+	m_context				= nullptr;
 
 	connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
 	connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));

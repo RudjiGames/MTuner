@@ -8,8 +8,6 @@
 #include <MTuner/src/stacktrace.h>
 #include <MTuner/src/capturecontext.h>
 
-#include <rbase/inc/path.h>
-
 extern QString QStringColor(const QString& _string, const char* _color, bool _addColon = true);
 
 bool QToolTipper::eventFilter(QObject* _object, QEvent* _event)
@@ -17,7 +15,7 @@ bool QToolTipper::eventFilter(QObject* _object, QEvent* _event)
 	if (_event->type() == QEvent::ToolTip)
 		return true;
 
-	if (_event->type() == QEvent::MouseMove)//ToolTip)
+	if (_event->type() == QEvent::MouseMove)
 	{
 		QAbstractItemView* view = qobject_cast<QAbstractItemView*>(_object->parent());
 		if (!view)
@@ -29,7 +27,6 @@ bool QToolTipper::eventFilter(QObject* _object, QEvent* _event)
 		if (!index.isValid())
 			return false;
 
-		//view->index
 		QModelIndex idxmodule	= index.siblingAtColumn(0);
 		QModelIndex idxfunction	= index.siblingAtColumn(1);
 		QModelIndex idxfile		= index.siblingAtColumn(2);
@@ -74,7 +71,6 @@ StackTrace::StackTrace(QWidget* _parent, Qt::WindowFlags _flags) :
 	QWidget(_parent, _flags)
 {
 	m_toolTipLabel = new QLabel();
-	//m_toolTipLabel->setFont(QFont("Verdana", 9));
 	m_toolTipLabel->setStyleSheet("border: 1px solid gray");
 	m_toolTipLabel->setWindowFlag(Qt::ToolTip);
 	m_toolTipLabel->hide();

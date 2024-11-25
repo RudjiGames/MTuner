@@ -5,7 +5,6 @@
 
 #include <MTuner_pch.h>
 #include <MTuner/src/stackandsource.h>
-#include <MTuner/src/binloaderview.h>
 
 StackAndSource::StackAndSource(ExternalEditor* _editorDlg, QWidget* _parent, Qt::WindowFlags _flags) :
 	QWidget(_parent, _flags),
