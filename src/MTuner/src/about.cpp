@@ -7,10 +7,9 @@
 #include <MTuner/src/about.h>
 #include <MTuner/src/version.h>
 
-AboutDialog::AboutDialog(QWidget* _parent, Qt::WindowFlags _flags) :
+AboutDialog::AboutDialog(QWidget* _parent, Qt::WindowFlags /*_flags*/) :
 	QDialog(_parent, Qt::WindowSystemMenuHint | Qt::WindowTitleHint)
 {
-	RTM_UNUSED(_flags);
 	ui.setupUi(this);
 	QLabel* version = findChild<QLabel*>("labelVersion");
 	version->setText(tr("Version") + QString(" ") + QString(MTunerVersion));

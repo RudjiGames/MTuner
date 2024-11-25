@@ -42,10 +42,7 @@ namespace rtm {
 
 static inline uint64_t stackTraceGetHash(uint64_t* _backTrace, uint32_t _numEntries)
 {
-	uint64_t hash = 0;
-	for (uint32_t i=0; i<_numEntries; ++i)
-		hash += _backTrace[i];
-	return hash;
+	return rtm::hashCity64(_backTrace, _numEntries * sizeof(uint64_t));
 }
 
 static inline bool stackTraceCompare(uint64_t* _e1, uint64_t _c1, uint64_t* _e2, uint64_t _c2)
@@ -1607,8 +1604,8 @@ void Capture::calculateGlobalStats()
 
 	memset(&m_statsGlobal, 0, sizeof(MemoryStats));
 	
-	MemoryStatsLocalPeak localPeak;
-	memset(&localPeak, 0, sizeof(MemoryStatsLocalPeak));
+	MemoryStatLocalPeak localPeak;
+	memset(&localPeak, 0, sizeof(MemoryStatLocalPeak));
 
 	const size_t numOps = m_operations.size();
 
@@ -1628,7 +1625,7 @@ void Capture::calculateGlobalStats()
 			m_timedStats.emplace_back(st);
 
 			// reset local peak structure
-			memset(&localPeak, 0, sizeof(MemoryStatsLocalPeak));
+			memset(&localPeak, 0, sizeof(MemoryStatLocalPeak));
 		}
 
 		++m_statsGlobal.m_numberOfOperations;
@@ -1952,7 +1949,7 @@ void Capture::calculateSnapshotStats()
 		m_statsSnapshot.setPeaksToCurrent();
 		GetRangedStats(m_statsSnapshot, minTimeOpIndex, m_timedStats[minTimedIdx+1].m_operationIndex);
 
-		MemoryStatsLocalPeak localPeak;
+		MemoryStatLocalPeak localPeak;
 		localPeak.m_memoryUsagePeak = m_statsSnapshot.m_memoryUsage;
 		localPeak.m_overheadPeak	= m_statsSnapshot.m_overhead;
 		for (uint32_t i=0; i<MemoryStats::NUM_HISTOGRAM_BINS; i++)
@@ -1964,7 +1961,7 @@ void Capture::calculateSnapshotStats()
 		
 		for (uint32_t t=minTimedIdx+2; t<=maxTimedIdx; t++)
 		{
-			MemoryStatsLocalPeak& peakT = m_timedStats[t].m_localPeak;
+			MemoryStatLocalPeak& peakT = m_timedStats[t].m_localPeak;
 
 			localPeak.m_memoryUsagePeak	= qMax(localPeak.m_memoryUsagePeak, peakT.m_memoryUsagePeak);
 			localPeak.m_overheadPeak	= qMax(localPeak.m_overheadPeak, peakT.m_overheadPeak);

@@ -63,7 +63,7 @@ void MemoryStats::setPeaksToCurrent()
 	}
 }
 
-void MemoryStats::setPeaksFrom(MemoryStatsLocalPeak& _peaks)
+void MemoryStats::setPeaksFrom(MemoryStatLocalPeak& _peaks)
 {
 	m_memoryUsagePeak	= _peaks.m_memoryUsagePeak;
 	m_overheadPeak		= _peaks.m_overheadPeak;
@@ -135,41 +135,6 @@ bool tagInsert(MemoryTagTree* _rootTag, MemoryTagTree* _tag, uint32_t _parentTag
 	}
 }
 
-void tagTreeDestroy(MemoryTagTree& _rootTag)
-{
-	MemoryTagTree::ChildMap::iterator it = _rootTag.m_children.begin();
-	MemoryTagTree::ChildMap::iterator end = _rootTag.m_children.end();
-	while (it != end)
-	{
-		MemoryTagTree* ct = it->second;
-		tagTreeDestroy(*ct);
-		delete ct;
-		++it;
-	}
-	_rootTag.m_children.clear();
-}
-
-void destroyStackTree(StackTraceTree& _tree)
-{
-	StackTraceTree::ChildNodes::iterator it  = _tree.m_children.begin();
-	StackTraceTree::ChildNodes::iterator end = _tree.m_children.end();
-
-	while (it != end)
-	{
-		StackTraceTree& ct = *it;
-		destroyStackTree(ct);
-		++it;
-	}
-
-	_tree.m_children.clear();
-
-	_tree.m_memUsage		= 0;
-	_tree.m_memUsagePeak	= 0; 
-	_tree.m_overhead		= 0;
-	_tree.m_overheadPeak	= 0;
-	_tree.m_parent			= NULL;
-}
-
 static inline void addOpToTag(MemoryTagTree* _tag, int64_t _size, int64_t _overhead, MemoryOperation* _op)
 {
 	_tag->m_usage += _size;
@@ -229,6 +194,41 @@ void tagAddOp(MemoryTagTree& _rootTag, MemoryOperation* _op, MemoryTagTree*& _pr
 	};
 
 	addOpToTag(tag, size, overhead, _op);
+}
+
+void tagTreeDestroy(MemoryTagTree& _rootTag)
+{
+	MemoryTagTree::ChildMap::iterator it = _rootTag.m_children.begin();
+	MemoryTagTree::ChildMap::iterator end = _rootTag.m_children.end();
+	while (it != end)
+	{
+		MemoryTagTree* ct = it->second;
+		tagTreeDestroy(*ct);
+		delete ct;
+		++it;
+	}
+	_rootTag.m_children.clear();
+}
+
+void destroyStackTree(StackTraceTree& _tree)
+{
+	StackTraceTree::ChildNodes::iterator it = _tree.m_children.begin();
+	StackTraceTree::ChildNodes::iterator end = _tree.m_children.end();
+
+	while (it != end)
+	{
+		StackTraceTree& ct = *it;
+		destroyStackTree(ct);
+		++it;
+	}
+
+	_tree.m_children.clear();
+
+	_tree.m_memUsage = 0;
+	_tree.m_memUsagePeak = 0;
+	_tree.m_overhead = 0;
+	_tree.m_overheadPeak = 0;
+	_tree.m_parent = NULL;
 }
 
 } // namespace rtm

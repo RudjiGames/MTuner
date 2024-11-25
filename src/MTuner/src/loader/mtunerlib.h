@@ -16,7 +16,7 @@ bool mtunerLoaderInit(bool _MTuner = false);
 bool mtunerLoaderShutDown();
 
 struct StackTrace;
-struct MemoryStatsLocalPeak;
+struct MemoryStatLocalPeak;
 
 class uint32_t_hash
 {
@@ -84,12 +84,12 @@ enum eGroupSort
 //--------------------------------------------------------------------------
 struct HistogramBin
 {
-	uint64_t	m_size;							///< Memory usage at the end of time slice
-	uint64_t	m_sizePeak;						///< Peak memory usage inside the time slice
-	uint32_t	m_overhead;						///< Overhead at the end of time slice
-	uint32_t	m_overheadPeak;					///< Peak overhead inside the time slice
-	uint32_t	m_count;						///< Number of surviving memory blocks at the end of time slice
-	uint32_t	m_countPeak;					///< Peak number of live blocks inside the time slice
+	uint64_t		m_size;						///< Memory usage at the end of time slice
+	uint64_t		m_sizePeak;					///< Peak memory usage inside the time slice
+	uint32_t		m_overhead;					///< Overhead at the end of time slice
+	uint32_t		m_overheadPeak;				///< Peak overhead inside the time slice
+	uint32_t		m_count;					///< Number of surviving memory blocks at the end of time slice
+	uint32_t		m_countPeak;				///< Peak number of live blocks inside the time slice
 };
 
 //--------------------------------------------------------------------------
@@ -121,7 +121,7 @@ struct MemoryStats
 	}
 
 	void setPeaksToCurrent();
-	void setPeaksFrom(MemoryStatsLocalPeak& _peaks);
+	void setPeaksFrom(MemoryStatLocalPeak& _peaks);
 };
 
 //--------------------------------------------------------------------------
@@ -131,19 +131,21 @@ struct MemoryOperationGroup
 {
 	enum { INDEX_MAPPINGS = 11 };
 
-	uint32_t						m_minSize;			// single allocation size
-	uint32_t						m_maxSize;			// single allocation size
-	int64_t							m_peakSize;			// group size
-	int64_t							m_peakSizeGlobal;	// total memory usage at the time of group peak size
-	int64_t							m_liveSize;			// group size
-	uint32_t						m_count;
-	uint32_t						m_liveCount;
-	uint32_t						m_liveCountPeak;
-	uint32_t						m_liveCountPeakGlobal;
-	std::vector<MemoryOperation*>	m_operations;
-	uint32_t						m_indexMappings[INDEX_MAPPINGS];
-	uint32_t						m_histogram[rtm::MemoryStats::NUM_HISTOGRAM_BINS];
-	uint32_t						m_histogramPeak[rtm::MemoryStats::NUM_HISTOGRAM_BINS];
+	typedef std::vector<MemoryOperation*> MemoryOpArray;
+
+	uint32_t		m_minSize;					///< single allocation size
+	uint32_t		m_maxSize;					///< single allocation size
+	int64_t			m_peakSize;					///< group size
+	int64_t			m_peakSizeGlobal;			///< total memory usage at the time of group peak size
+	int64_t			m_liveSize;					///< group size
+	uint32_t		m_count;
+	uint32_t		m_liveCount;
+	uint32_t		m_liveCountPeak;
+	uint32_t		m_liveCountPeakGlobal;
+	MemoryOpArray	m_operations;
+	uint32_t		m_indexMappings[INDEX_MAPPINGS];
+	uint32_t		m_histogram[rtm::MemoryStats::NUM_HISTOGRAM_BINS];
+	uint32_t		m_histogramPeak[rtm::MemoryStats::NUM_HISTOGRAM_BINS];
 
 	inline MemoryOperationGroup()
 		: m_minSize(0xffffffff)
@@ -168,15 +170,15 @@ struct MemoryOperationGroup
 //--------------------------------------------------------------------------
 struct HistogramBinPeak
 {
-	uint64_t	m_sizePeak;
-	uint32_t	m_overheadPeak;
-	uint32_t	m_countPeak;
+	uint64_t			m_sizePeak;
+	uint32_t			m_overheadPeak;
+	uint32_t			m_countPeak;
 };
 
 //--------------------------------------------------------------------------
 /// Helper structure storing local peak values of a time range
 //--------------------------------------------------------------------------
-struct MemoryStatsLocalPeak
+struct MemoryStatLocalPeak
 {
 	uint64_t			m_memoryUsagePeak;
 	uint32_t			m_overheadPeak;
@@ -189,10 +191,10 @@ struct MemoryStatsLocalPeak
 //--------------------------------------------------------------------------
 struct MemoryStatsTimed
 {
-	uint64_t				m_time;
-	uint32_t				m_operationIndex;
-	MemoryStatsLocalPeak	m_localPeak;
-	MemoryStats				m_stats;
+	uint64_t			m_time;
+	uint32_t			m_operationIndex;
+	MemoryStatLocalPeak	m_localPeak;
+	MemoryStats			m_stats;
 };
 
 //--------------------------------------------------------------------------
@@ -206,9 +208,9 @@ struct StackTrace
 		Filtered
 	};
 
-	uint32_t		m_numFrames;
-	int16_t			m_addedToTree[2];
-	uint64_t		m_frames[1];
+	uint32_t			m_numFrames;
+	int16_t				m_addedToTree[2];
+	uint64_t			m_frames[1];
 
 	static uint32_t		calculateSize(uint32_t numFrames);
 	static void			init(StackTrace* st, uint32_t numFrames);
@@ -299,8 +301,8 @@ struct MemoryTagTree
 
 bool tagFind(MemoryTagTree& _rootTag, uint32_t _hash, MemoryTagTree*& ioResult, MemoryTagTree*& _prevTag);
 bool tagInsert(MemoryTagTree* _rootTag, MemoryTagTree* _tag, uint32_t _parentTagHash);
-void tagTreeDestroy(MemoryTagTree& _rootTag);
 void tagAddOp(MemoryTagTree& _rootTag, MemoryOperation* _op, MemoryTagTree*& _prevTag);
+void tagTreeDestroy(MemoryTagTree& _rootTag);
 
 struct MemoryMarkerEvent
 {
