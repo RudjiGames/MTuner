@@ -461,7 +461,7 @@ int main(int argc, const char* argv[])
 		regArg.toWCharArray(diaPathW);
 		diaPathW[regArg.length()] = 0;
 
-		shExecInfo.fMask		= nullptr;
+		shExecInfo.fMask		= 0;
 		shExecInfo.hwnd			= nullptr;
 		shExecInfo.lpVerb		= L"runas";
 		shExecInfo.lpFile		= L"regsvr32";
