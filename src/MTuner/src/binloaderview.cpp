@@ -12,8 +12,8 @@ BinLoaderView::BinLoaderView(QWidget* _parent, Qt::WindowFlags _flags) :
 	QWidget(_parent, _flags)
 {
 	ui.setupUi(this);
-	m_context			= NULL;
-	m_savedStackTraces	= NULL;
+	m_context			= nullptr;
+	m_savedStackTraces	= nullptr;
 	m_savedStackTracesCount = 0;
 
 	m_histogramType		= 0;

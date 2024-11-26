@@ -66,7 +66,7 @@ int TagTreeItem::columnCount() const
 
 QVariant TagTreeItem::data(int _column) const
 {
-	if (m_parent == NULL)
+	if (m_parent == nullptr)
 	{
 		switch (_column)
 		{
@@ -112,7 +112,7 @@ TagTreeModel::TagTreeModel(CaptureContext* _context, QObject* _parent) :
 	QAbstractItemModel(_parent)
 {
 	m_context = _context;
-	m_rootItem = new TagTreeItem(_context, NULL);
+	m_rootItem = new TagTreeItem(_context, nullptr);
 	setupModelData(&_context->m_capture->getTagTree(), m_rootItem);
 }
 
@@ -225,7 +225,7 @@ TagTreeWidget::TagTreeWidget(QWidget* _parent, Qt::WindowFlags _flags) :
 {
 	ui.setupUi(this);
 
-	m_context = NULL;
+	m_context = nullptr;
 	m_tree = findChild<QTreeView*>("treeWidget");
 	connect(m_tree,SIGNAL(entered(const QModelIndex&)), this, SLOT(rowClicked(const QModelIndex&)));
 }
@@ -246,7 +246,7 @@ void TagTreeWidget::setContext(CaptureContext* _context)
 	if (m_context)
 		setupTree();
 	else
-		m_tree->setModel(NULL);
+		m_tree->setModel(nullptr);
 }
 
 void TagTreeWidget::setupTree()

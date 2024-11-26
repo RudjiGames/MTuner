@@ -38,7 +38,7 @@ Graph::Graph(QWidget* _parent, Qt::WindowFlags _flags) :
 
 	m_graph->setGraph(this);
 
-	setContext(NULL,NULL);
+	setContext(nullptr, nullptr);
 }
 
 void Graph::changeEvent(QEvent* _event)
@@ -52,26 +52,13 @@ void Graph::setContext(CaptureContext* _context, BinLoaderView* _binView)
 {
 	m_context = _context;
 	m_graph->setContext(_context, _binView);
-	if (!_context)
-	{
-		m_buttonZoomIn->setEnabled(false);
-		m_buttonZoomOut->setEnabled(false);
-		m_buttonZoomReset->setEnabled(false);
-		m_buttonZoomSelect->setEnabled(false);
-		m_scroll->setEnabled(false);
-		m_buttonAutoZoom->setEnabled(false);
-	}
-	else
-	{
-		m_buttonZoomIn->setEnabled(true);
-		m_buttonZoomOut->setEnabled(false);
-		m_buttonZoomReset->setEnabled(false);
-		m_buttonZoomSelect->setEnabled(false);
-		m_scroll->setEnabled(false);
-		m_buttonAutoZoom->setEnabled(true);
-	}
-	
+
+	m_buttonZoomOut->setEnabled(false);
+	m_buttonZoomReset->setEnabled(false);
+	m_buttonZoomSelect->setEnabled(false);
 	m_scroll->setEnabled(false);
+	m_buttonZoomIn->setEnabled(_context == nullptr);
+	m_buttonAutoZoom->setEnabled(_context == nullptr);
 }
 
 bool Graph::isAutoZoomSet() const

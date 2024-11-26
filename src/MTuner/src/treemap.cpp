@@ -23,10 +23,9 @@ TreeMapWidget::TreeMapWidget(QWidget* _parent, Qt::WindowFlags _flags) :
 
     m_graphicsView->setScene(m_scene);
     m_graphicsView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
-	connect(m_graphicsView, SIGNAL(setStackTrace(rtm::StackTrace**,int)), this, SIGNAL(setStackTrace(rtm::StackTrace**,int)))			;
-
-	connect(m_graphicsView, SIGNAL(highlightTime(uint64_t)),			this, SIGNAL(highlightTime(uint64_t)));
-	connect(m_graphicsView, SIGNAL(highlightRange(uint64_t, uint64_t)), this, SIGNAL(highlightRange(uint64_t, uint64_t)));
+	connect(m_graphicsView, SIGNAL(setStackTrace(rtm::StackTrace**,int)),	this, SIGNAL(setStackTrace(rtm::StackTrace**,int)));
+	connect(m_graphicsView, SIGNAL(highlightTime(uint64_t)),				this, SIGNAL(highlightTime(uint64_t)));
+	connect(m_graphicsView, SIGNAL(highlightRange(uint64_t, uint64_t)),		this, SIGNAL(highlightRange(uint64_t, uint64_t)));
 }
 
 void TreeMapWidget::changeEvent(QEvent* _event)

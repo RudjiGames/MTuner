@@ -23,9 +23,9 @@ GCCSetup::GCCSetup(QWidget* _parent, Qt::WindowFlags _flags) :
 	m_ToolchainNameLabel->hide();
 	m_ToolchainNameEdit->hide();
 
-	m_group32		= findChild<QGroupBox*>("groupBox32");
-	m_group64		= findChild<QGroupBox*>("groupBox64");
-	m_groupProDGps3	= findChild<QGroupBox*>("groupBoxProDGps3");
+	m_group32				= findChild<QGroupBox*>("groupBox32");
+	m_group64				= findChild<QGroupBox*>("groupBox64");
+	m_groupProDGps3			= findChild<QGroupBox*>("groupBoxProDGps3");
 	m_groupProDGps3->hide();
 
 	m_leditEnv32			= findChild<QLineEdit*>("lineEditEnv32");
@@ -98,9 +98,7 @@ void GCCSetup::readSettings(QSettings& _settings)
 				m_toolchains[j].m_ToolchainPrefix32	= settings.value("tcPrefix32").toString();
 				m_toolchains[j].m_Environment64		= settings.value("tcEnv64").toString();
 				m_toolchains[j].m_ToolchainPath64	= settings.value("tcPath64").toString();
-				qDebug() << m_toolchains[j].m_ToolchainPrefix64;
 				m_toolchains[j].m_ToolchainPrefix64	= settings.value("tcPrefix64").toString();
-				qDebug() << m_toolchains[j].m_ToolchainPrefix64;
 				break;
 			}
 		}

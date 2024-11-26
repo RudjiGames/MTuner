@@ -18,8 +18,8 @@ HistogramView::HistogramView(QWidget* _parent) :
 	m_scene = new QGraphicsScene(this);
     m_scene->setItemIndexMethod(QGraphicsScene::NoIndex);
 
-    m_context = NULL;
-	m_histogram = NULL;
+    m_context	= nullptr;
+	m_histogram = nullptr;
 
 	m_mode		= 0;
 	m_showPeaks	= false;
@@ -44,9 +44,9 @@ QRect HistogramView::getDrawRect() const
 	int hHeight	= sz.height()/2;
 
 	int left	= -hWidth + HistogramView::s_marginLeft;
-	int right	= hWidth - HistogramView::s_marginRight;
+	int right	=  hWidth - HistogramView::s_marginRight;
 	int top		= -hHeight + HistogramView::s_marginTop;
-	int bottom	= hHeight - HistogramView::s_marginBottom;
+	int bottom	=  hHeight - HistogramView::s_marginBottom;
 	
 	return QRect(left,top,right-left,bottom-top);
 }

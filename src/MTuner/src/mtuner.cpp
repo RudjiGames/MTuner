@@ -155,7 +155,7 @@ MTuner::MTuner(QWidget* _parent, Qt::WindowFlags _flags) :
 	connect(m_projectsManager, SIGNAL(captureSetProcessID(uint64_t)), this, SLOT(captureSetProcessID(uint64_t)));
 	connect(m_projectsManager, SIGNAL(captureStartMonitoring()), this, SLOT(startCaptureStatusTimer()));
 
-	m_watchTimer = NULL;
+	m_watchTimer = nullptr;
 	m_capturePid = 0;
 
 	m_loadingProgressBar = new QProgressBar();
@@ -282,7 +282,7 @@ void getStoragePath(wchar_t _path[512])
 	if (vistaOrHigher)
 	{
 		wchar_t* str;
-		HRESULT hr = SHGetKnownFolderPath( FOLDERID_RoamingAppData, 0, NULL, &str);
+		HRESULT hr = SHGetKnownFolderPath( FOLDERID_RoamingAppData, 0, nullptr, &str);
 		if (hr == S_OK)
 		{
 			wcscpy(_path, str);
@@ -389,7 +389,7 @@ void MTuner::heapSelected(uint64_t _handle)
 	if (view)
 	{
 		view->setCurrentHeap(_handle);
-		CaptureContext* m_context = view ? view->getContext() : NULL;
+		CaptureContext* m_context = view ? view->getContext() : nullptr;
 		if (m_context)
 			m_context->m_capture->setCurrentHeap(_handle);
 	}
@@ -401,7 +401,7 @@ void MTuner::moduleSelected(void* _module)
 	if (view)
 	{
 		view->setCurrentModule((rdebug::ModuleInfo*)_module);
-		CaptureContext* m_context = view ? view->getContext() : NULL;
+		CaptureContext* m_context = view ? view->getContext() : nullptr;
 		if (m_context)
 			m_context->m_capture->setCurrentModule((rdebug::ModuleInfo*)_module);
 	}
@@ -555,7 +555,7 @@ void MTuner::setWidgetSources(CaptureContext* _context)
 	ui.action_Save_capture_window_layout->setEnabled(_context != 0);
 
 	CaptureContext* ctx = _context;
-	BinLoaderView* binView = _context ? _context->m_binLoaderView : NULL;
+	BinLoaderView* binView = _context ? _context->m_binLoaderView : nullptr;
 	m_stats->setContext(ctx);
 	m_graph->setContext(ctx, binView);
 	m_histogramWidget->setContext(ctx, binView);
@@ -577,7 +577,7 @@ void MTuner::setWidgetSources(CaptureContext* _context)
 		graphWidget->setMaxTime(binView->getMaxTime());
 	}
 
-	emit binLoaded(binView != NULL);
+	emit binLoaded(binView != nullptr);
 }
 
 void MTuner::suicide()

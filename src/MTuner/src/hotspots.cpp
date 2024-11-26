@@ -13,14 +13,14 @@ HotspotsWidget::HotspotsWidget(QWidget* _parent, Qt::WindowFlags _flags) :
 {
 	ui.setupUi(this);
 
-	m_usageMapping	= NULL;
-	m_peakUsageMapping = NULL;
-	m_leaksMapping	= NULL;
+	m_usageMapping		= nullptr;
+	m_peakUsageMapping	= nullptr;
+	m_leaksMapping		= nullptr;
 
-	m_usageTable	= findChild<QTableWidget*>("tableUsage");
-	m_peakUsageTable= findChild<QTableWidget*>("tablePeak");
-	m_peakCountTable= findChild<QTableWidget*>("tablePeakCount");
-	m_leaksTable	= findChild<QTableWidget*>("tableLeaks");
+	m_usageTable		= findChild<QTableWidget*>("tableUsage");
+	m_peakUsageTable	= findChild<QTableWidget*>("tablePeak");
+	m_peakCountTable	= findChild<QTableWidget*>("tablePeakCount");
+	m_leaksTable		= findChild<QTableWidget*>("tableLeaks");
 
 	m_tableKeyWatch = new TableKeyWatcher();
 	m_tableKeyWatch->installOn(m_usageTable);

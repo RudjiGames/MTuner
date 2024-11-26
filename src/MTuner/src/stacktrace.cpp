@@ -75,8 +75,8 @@ StackTrace::StackTrace(QWidget* _parent, Qt::WindowFlags _flags) :
 	m_toolTipLabel->setWindowFlag(Qt::ToolTip);
 	m_toolTipLabel->hide();
 
-	m_context			= NULL;
-	m_currentTrace		= NULL;
+	m_context			= nullptr;
+	m_currentTrace		= nullptr;
 	m_currentTraceCnt	= 0;
 	m_currentTraceIdx	= 0;
 

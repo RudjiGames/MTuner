@@ -23,7 +23,7 @@ ProjectsManager::ProjectsManager(QWidget* _parent, Qt::WindowFlags _flags)
 	m_buttonRemove		= findChild<QPushButton*>("buttonDelete");
 	m_buttonRun			= findChild<QPushButton*>("buttonRun");
 
-	m_watcher			= NULL;
+	m_watcher			= nullptr;
 	m_injecting			= false;
 
 	m_buttonAdd->setEnabled(false);

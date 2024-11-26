@@ -445,7 +445,7 @@ void* OperationTableSource::FindNextByAddress(uint64_t _address, uint32_t _start
 			return op;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void* OperationTableSource::FindNextBySize(uint64_t _size, uint32_t _startIndex)
@@ -459,7 +459,7 @@ void* OperationTableSource::FindNextBySize(uint64_t _size, uint32_t _startIndex)
 			return op;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void OperationTableSource::saveState(QSettings& _settings)
@@ -471,9 +471,9 @@ void OperationTableSource::saveState(QSettings& _settings)
 OperationsList::OperationsList(QWidget* _parent, Qt::WindowFlags _flags) :
 	QWidget(_parent, _flags)
 {
-	m_context = NULL;
-	m_currentItem = NULL;
-	m_tableSource = NULL;
+	m_context = nullptr;
+	m_currentItem = nullptr;
+	m_tableSource = nullptr;
 	m_enableFiltering = false;
 
 	ui.setupUi(this);
@@ -587,7 +587,7 @@ void OperationsList::selectNext()
 
 void OperationsList::selectNextByAddress(uint64_t _address)
 {
-	void* item = NULL;
+	void* item = nullptr;
 	if (m_currentItem)
 	{
 		uint32_t index = m_tableSource->getItemIndex(m_currentItem);
@@ -607,7 +607,7 @@ void OperationsList::selectNextByAddress(uint64_t _address)
 
 void OperationsList::selectNextBySize(uint64_t _size)
 {
-	void* item = NULL;
+	void* item = nullptr;
 	if (m_currentItem)
 	{
 		uint32_t index = m_tableSource->getItemIndex(m_currentItem);

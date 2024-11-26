@@ -26,17 +26,10 @@ SymbolStore::SymbolStore(QWidget* _parent, Qt::WindowFlags _flags)
 	m_srcRegistry->setChecked(false);
 
 #if RTM_PLATFORM_WINDOWS
-	char buffer[2048];
-	if (GetEnvironmentVariable("_NT_SYMBOL_PATH", (LPSTR)buffer, sizeof(buffer)))
-	{
-		m_hasRegistryEntry = true;
-		m_srcRegistry->setEnabled(true);
-	}
-	else
-	{
-		m_hasRegistryEntry = false;
-		m_srcRegistry->setEnabled(false);
-	}
+	wchar_t buffer[4096];
+	bool enableRegistry = GetEnvironmentVariableW(L"_NT_SYMBOL_PATH", (LPWSTR)buffer, sizeof(buffer)) > 0;
+	m_hasRegistryEntry = enableRegistry;
+	m_srcRegistry->setEnabled(enableRegistry);
 #else
 	m_srcRegistry->setEnabled(false);
 #endif
@@ -56,7 +49,7 @@ QString	SymbolStore::getSymbolStoreString() const
 	if (m_srcRegistry->isChecked())
 	{
 #if RTM_PLATFORM_WINDOWS
-		wchar_t buffer[2048];
+		wchar_t buffer[4096];
 		GetEnvironmentVariableW(L"_NT_SYMBOL_PATH", (LPWSTR)buffer, sizeof(buffer));
 		ret = QString::fromWCharArray(buffer);
 #endif

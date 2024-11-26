@@ -11,7 +11,7 @@ Stats::Stats(QWidget* _parent, Qt::WindowFlags _flags) :
 	QWidget(_parent, _flags)
 {
 	ui.setupUi(this);
-	m_context = NULL;
+	m_context = nullptr;
 
 	m_table = findChild<QTableWidget*>("tableWidget");
 	m_table->setGridStyle(Qt::NoPen);

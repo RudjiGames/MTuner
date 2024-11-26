@@ -42,7 +42,7 @@ GraphWidget::GraphWidget(QWidget* _parent) :
 	m_hightlightTime		= (uint64_t)-1;
 	m_hightlightTimeEnd		= (uint64_t)-1;
 	m_hightlightIntensity	= 0.f;
-	m_highlightAnimation	= NULL;
+	m_highlightAnimation	= nullptr;
 	m_LButtonDown			= false;
 	m_isDragging			= false;
 	m_RButtonDown			= false;
@@ -50,7 +50,7 @@ GraphWidget::GraphWidget(QWidget* _parent) :
 	m_hoverMarkerTime		= 0;
 	m_markerSelectFromTime	= (uint64_t)-1;
 	m_markerSelectToTime	= (uint64_t)-1;
-	m_context				= NULL;
+	m_context				= nullptr;
 	m_inContextMenu			= false;
 
 	GraphCurve* curve = new GraphCurve(this);
@@ -235,7 +235,7 @@ void GraphWidget::highlightRange(uint64_t _minTime, uint64_t _maxTime)
 
 void GraphWidget::animateHighlight()
 {
-	if (m_highlightAnimation != NULL)
+	if (m_highlightAnimation != nullptr)
 		m_highlightAnimation->stop();
 
 	m_hightlightIntensity	= 1.0f;

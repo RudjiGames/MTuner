@@ -40,9 +40,9 @@ void err(const char* _message)
 
 bool handleInject(rtm::CommandLine& _cmdLine)
 {
-	const char* profileExeConst	= NULL;
-	const char* profileWorkDir	= NULL;
-	const char* profileCmdArgs	= NULL;
+	const char* profileExeConst	= nullptr;
+	const char* profileWorkDir	= nullptr;
+	const char* profileCmdArgs	= nullptr;
 
 	if (!_cmdLine.getArg('p', profileExeConst))
 		return false;
@@ -64,7 +64,7 @@ bool handleInject(rtm::CommandLine& _cmdLine)
 	exePos[1] = L'\0';
 
 	char workingDir[512];
-	if (profileWorkDir == NULL)
+	if (profileWorkDir == nullptr)
 	{
 		rtm::strlCpy(workingDir, 512, profileExe);
 		size_t end = strlen(workingDir) - 1;
@@ -76,7 +76,7 @@ bool handleInject(rtm::CommandLine& _cmdLine)
 	rtm::pathCanonicalize(workingDir);
 
 	char cmdArgs[512];
-	if (profileCmdArgs == NULL)
+	if (profileCmdArgs == nullptr)
 		strcpy(cmdArgs, "");
 	else
 		strcpy(cmdArgs, profileCmdArgs);
@@ -213,7 +213,7 @@ int handleCommandLine(int argc, char const* argv[])
 		return 0;
 	}
 
-	const char* profileExe = NULL;
+	const char* profileExe = nullptr;
 	if (cmdLine.getArg('p', profileExe))
 	{
 #if RTM_PLATFORM_WINDOWS
@@ -226,7 +226,7 @@ int handleCommandLine(int argc, char const* argv[])
 		return 0;
 	}
 	
-	const char* filePath = NULL;
+	const char* filePath = nullptr;
 	char inFilePath[1024];
 	if (!cmdLine.getArg('i', filePath))
 	{
@@ -248,10 +248,10 @@ int handleCommandLine(int argc, char const* argv[])
 			strcpy(inFilePath, filePath);
 	}
 	
-	const char* symSource = NULL;
+	const char* symSource = nullptr;
 	cmdLine.getArg('s', symSource);
 
-	const char* outFilePath = NULL;;
+	const char* outFilePath = nullptr;;
 	if (!cmdLine.getArg('o', outFilePath))
 	{
 		err("ERROR: Output file must be specified!");
@@ -273,7 +273,7 @@ int handleCommandLine(int argc, char const* argv[])
 	bool enableFiltering = false;
 
 	uint32_t tagHash = 0;
-	const char* tag = NULL;
+	const char* tag = nullptr;
 	if (cmdLine.getArg("tag", tag))
 	{
 		tagHash = rtm::hashStr(tag);
@@ -281,7 +281,7 @@ int handleCommandLine(int argc, char const* argv[])
 	}
 
 	uint32_t binIndex = 0xffffffff;
-	const char* histogram = NULL;
+	const char* histogram = nullptr;
 	if (cmdLine.getArg('h', histogram))
 	{
 		int size = atoi(histogram);
@@ -290,7 +290,7 @@ int handleCommandLine(int argc, char const* argv[])
 	}
 
 	float timeMin = -1.0f;
-	const char* timeMinArg = NULL;
+	const char* timeMinArg = nullptr;
 	if (cmdLine.getArg("ts", timeMinArg))
 	{
 		timeMin = (float)atof(timeMinArg);
@@ -298,7 +298,7 @@ int handleCommandLine(int argc, char const* argv[])
 	}
 
 	float timeMax = -1.0f;
-	const char* timeMaxArg = NULL;
+	const char* timeMaxArg = nullptr;
 	if (cmdLine.getArg("te", timeMaxArg))
 	{
 		timeMax = (float)atof(timeMaxArg);
@@ -317,7 +317,7 @@ int handleCommandLine(int argc, char const* argv[])
 
 		if (context.m_capture->loadBin(inFilePath) == rtm::Capture::LoadResult::LoadSuccess)
 		{
-			setupLoaderToolchain(&context, inFilePath, &gcc_setup, NULL, NULL,  symSource ? QString(symSource) : QString(""), resolverCallBack);
+			setupLoaderToolchain(&context, inFilePath, &gcc_setup, nullptr, nullptr,  symSource ? QString(symSource) : QString(""), resolverCallBack);
 
 			rtm::Console::debug("Building analysis data...\n");
 			context.m_capture->buildAnalyzeData(context.m_symbolResolver);
@@ -461,14 +461,14 @@ int main(int argc, const char* argv[])
 		regArg.toWCharArray(diaPathW);
 		diaPathW[regArg.length()] = 0;
 
-		shExecInfo.fMask		= NULL;
-		shExecInfo.hwnd			= NULL;
+		shExecInfo.fMask		= nullptr;
+		shExecInfo.hwnd			= nullptr;
 		shExecInfo.lpVerb		= L"runas";
 		shExecInfo.lpFile		= L"regsvr32";
 		shExecInfo.lpParameters	= diaPathW;
-		shExecInfo.lpDirectory	= NULL;
+		shExecInfo.lpDirectory	= nullptr;
 		shExecInfo.nShow		= SW_MAXIMIZE;
-		shExecInfo.hInstApp		= NULL;
+		shExecInfo.hInstApp		= nullptr;
 
 		if (!ShellExecuteExW(&shExecInfo))
 		{

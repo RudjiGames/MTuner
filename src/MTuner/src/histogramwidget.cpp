@@ -42,13 +42,15 @@ void HistogramWidget::changeEvent(QEvent* _event)
 void HistogramWidget::setContext(CaptureContext* _capture, BinLoaderView* _binView)
 {
 	m_binView = _binView;
+
+	m_comboType->setEnabled(_capture != nullptr);
+	m_comboHist->setEnabled(_capture != nullptr);
+	m_chkPeaks->setEnabled(_capture != nullptr);
+	m_chkScale->setEnabled(_capture != nullptr);
+	m_histogramView->setContext(_capture);
+
 	if (_capture)
 	{
-		m_histogramView->setContext(_capture);
-		m_comboType->setEnabled(true);
-		m_comboHist->setEnabled(true);
-		m_chkPeaks->setEnabled(true);
-		m_chkScale->setEnabled(true);
 		displayTypeChanged(m_binView->getHistogramType());
 		displayModeChanged(m_binView->getHistogramMode());
 		showPeaksChanged(m_binView->getHistogramPeaks()?1:0);
@@ -56,11 +58,6 @@ void HistogramWidget::setContext(CaptureContext* _capture, BinLoaderView* _binVi
 	}
 	else
 	{
-		m_histogramView->setContext(NULL);
-		m_comboType->setEnabled(false);
-		m_comboHist->setEnabled(false);
-		m_chkPeaks->setEnabled(false);
-		m_chkScale->setEnabled(false);
 		displayTypeChanged(0);
 		displayModeChanged(0);
 		showPeaksChanged(0);
