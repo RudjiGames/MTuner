@@ -8,7 +8,7 @@
 #include <rmem/src/rmem_hook.h>
 #include <rbase/inc/endianswap.h>
 
-#define LZ4_DISABLE_DEPRECATE_WARNINGS
+#define LZ5_DISABLE_DEPRECATE_WARNINGS
 #include <rmem/3rd/lz4-r191/lz4.c>
 
 #if RTM_COMPILER_MSVC
