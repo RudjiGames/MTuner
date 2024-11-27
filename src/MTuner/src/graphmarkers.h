@@ -38,9 +38,8 @@ public:
 	MarkerToolTip getTooltip(const QPointF& _point) const;
 
 	/// QWidget
-	virtual QRectF			boundingRect() const;
-	virtual QPainterPath	shape() const;
-	virtual void			paint(QPainter* _painter, const QStyleOptionGraphicsItem* _option, QWidget* _widget);
+	virtual QRectF	boundingRect() const;
+	virtual void	paint(QPainter* _painter, const QStyleOptionGraphicsItem* _option, QWidget* _widget);
 };
 
 #endif // RTM_MTUNER_GRAPHMARKERS_H

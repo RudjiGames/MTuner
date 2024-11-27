@@ -60,15 +60,14 @@ public:
 public:
 	ProjectsManager(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 
-	void			save();
-	void			changeEvent(QEvent* _event);
-	void			addProject(const Project& _project) { m_projects.push_back(_project); updateProjectList(); }
-	int				getNumProjects() const { return m_projects.size(); }
+	void save();
+	void changeEvent(QEvent* _event);
+	void addProject(const Project& _project) { m_projects.push_back(_project); updateProjectList(); }
+	int	 getNumProjects() const { return m_projects.size(); }
 	const Project&	getProject(int _index) const { return m_projects[_index]; }
-	bool			run(const QString& _executable, const QString& _cmd = QString(), const QString& _workingDir = QString(), const QStringList& _environment = QStringList(), bool _inheritEnv = true, int _allocator = 0, bool _shouldCapture = true, bool _shouldLoad = true);
-
-	void			loadSettings(QSettings& _settings);
-	void			saveSettings(QSettings& _settings);
+	bool run(const QString& _executable, const QString& _cmd = QString(), const QString& _workingDir = QString(), const QStringList& _environment = QStringList(), bool _inheritEnv = true, int _allocator = 0, bool _shouldCapture = true, bool _shouldLoad = true);
+	void loadSettings(QSettings& _settings);
+	void saveSettings(QSettings& _settings);
 
 public Q_SLOTS:
 	void buttonAdd();

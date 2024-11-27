@@ -61,37 +61,37 @@ class MTuner : public QMainWindow
 	Q_OBJECT
 
 private:
-	ProjectsManager*		m_projectsManager;
-	QString					m_watchedFile;
-	QTimer*					m_watchTimer;
-	uint64_t				m_capturePid;
-	SymbolStore*			m_symbolStore;
-	GCCSetup*				m_gccSetup;
-	DockWidget*				m_graphDock;
-	DockWidget*				m_statsDock;
-	DockWidget*				m_histogramDock;
-	DockWidget*				m_tagTreeDock;
-	DockWidget*				m_stackAndSourceDock;
-	DockWidget*				m_heapsDock;
-	DockWidget*				m_modulesDock;
-	QProgressBar*			m_loadingProgressBar;
-	QLabel*					m_statusBarRedDot;
-	CentralWidget*			m_centralWidget;
-	QFileDialog*			m_fileDialog;
+	ProjectsManager*	m_projectsManager;
+	QString				m_watchedFile;
+	QTimer*				m_watchTimer;
+	uint64_t			m_capturePid;
+	SymbolStore*		m_symbolStore;
+	GCCSetup*			m_gccSetup;
+	DockWidget*			m_graphDock;
+	DockWidget*			m_statsDock;
+	DockWidget*			m_histogramDock;
+	DockWidget*			m_tagTreeDock;
+	DockWidget*			m_stackAndSourceDock;
+	DockWidget*			m_heapsDock;
+	DockWidget*			m_modulesDock;
+	QProgressBar*		m_loadingProgressBar;
+	QLabel*				m_statusBarRedDot;
+	CentralWidget*		m_centralWidget;
+	QFileDialog*		m_fileDialog;
 
-	Graph*					m_graph;
-	HistogramWidget*		m_histogramWidget;
-	HeapsWidget*			m_heapsWidget;
-	ModulesWidget*			m_modulesWidget;
-	SourceView*				m_sourceView;
-	StackAndSource*			m_stackAndSource;
-	ExternalEditor*			m_externalEditor;
+	Graph*				m_graph;
+	HistogramWidget*	m_histogramWidget;
+	HeapsWidget*		m_heapsWidget;
+	ModulesWidget*		m_modulesWidget;
+	SourceView*			m_sourceView;
+	StackAndSource*		m_stackAndSource;
+	ExternalEditor*		m_externalEditor;
 
-	Stats*					m_stats;
-	bool					m_showWelcomeDialog;
-	bool					m_closeStartPageWidgetOnOpen;
+	Stats*				m_stats;
+	bool				m_showWelcomeDialog;
+	bool				m_closeStartPageWidgetOnOpen;
 
-	TagTreeWidget*			m_tagTree;
+	TagTreeWidget*		m_tagTree;
 
 public:
 	MTuner(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);

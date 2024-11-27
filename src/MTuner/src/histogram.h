@@ -69,9 +69,8 @@ public:
 	const QVector<HistogramToolTip>&	getTooltips() const { return m_toolTips; }
 
 	/// QWidget
-	virtual QRectF			boundingRect() const;
-	virtual QPainterPath	shape() const;
-	virtual void			paint(QPainter* _painter, const QStyleOptionGraphicsItem* _option, QWidget* _widget);
+	virtual QRectF	boundingRect() const;
+	virtual void	paint(QPainter* _painter, const QStyleOptionGraphicsItem* _option, QWidget* _widget);
 
 private:
 	QString		fromVal(int _val);

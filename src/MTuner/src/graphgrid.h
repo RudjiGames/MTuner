@@ -21,10 +21,8 @@ public:
 	void parentResized() { prepareGeometryChange(); }
 
 	/// QWidget
-	virtual QRectF			boundingRect() const;
-	virtual QPainterPath	shape() const;
-	virtual void			paint(QPainter* _painter, const QStyleOptionGraphicsItem* _option, QWidget* _widget);
-	
+	virtual QRectF	boundingRect() const;
+	virtual void	paint(QPainter* _painter, const QStyleOptionGraphicsItem* _option, QWidget* _widget);
 };
 
 #endif // RTM_MTUNER_GRAPHGRID_H

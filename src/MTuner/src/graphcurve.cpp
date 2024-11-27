@@ -37,13 +37,6 @@ QRectF GraphCurve::boundingRect() const
 	return QRectF(-sz.width()/2, -sz.height()/2, sz.width()+1, sz.height());
 }
 
-QPainterPath GraphCurve::shape() const
-{
-    QPainterPath path;
-	path.addRect( QRectF(-100, -100, 100, 100) );
-    return path;
-}
-
 void GraphCurve::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _option, QWidget* _widget)
 {
 	RTM_UNUSED(_option);

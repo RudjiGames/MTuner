@@ -21,13 +21,6 @@ QRectF GraphGrid::boundingRect() const
 	return QRectF(-sz.width()/2, -sz.height()/2, sz.width(), sz.height());
 }
 
-QPainterPath GraphGrid::shape() const
-{
-    QPainterPath path;
-	path.addRect( QRectF(0, 0, 0, 0) );
-    return path;
-}
-
 static const char* getTextFromSize(uint64_t _size)
 {
 	static char buffer[64];

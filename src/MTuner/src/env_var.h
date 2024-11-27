@@ -19,8 +19,7 @@ public:
 	EnvVar(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 
 	void changeEvent(QEvent* _event);
-
-	void set(const QString& _key, const QString& _value);
+ 	void set(const QString& _key, const QString& _value);
 	void get(QString& _key, QString& _value);
 
 public Q_SLOTS:

@@ -15,14 +15,14 @@ class Inject : public QDialog
 public:
 	Inject(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);
 
-	void	changeEvent(QEvent* _event);
-	int		getAllocator() { return ui.allocatorCombo->currentIndex(); }
-	bool	shouldCapture() { return ui.capture->isChecked(); }
-	bool	loadAfterCapture();
+	void changeEvent(QEvent* _event);
+	int	 getAllocator() { return ui.allocatorCombo->currentIndex(); }
+	bool shouldCapture() { return ui.capture->isChecked(); }
+	bool loadAfterCapture();
 
 public Q_SLOTS:
-	void	capture(bool);
-	void	allocatorChanged(int);
+	void capture(bool);
+	void allocatorChanged(int);
 
 private:
 	Ui::Inject ui;

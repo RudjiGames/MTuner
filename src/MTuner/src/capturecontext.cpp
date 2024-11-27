@@ -42,7 +42,7 @@ void CaptureContext::setupResolver(rdebug::Toolchain& _tc, std::string& _executa
 
 				if (len)
 				{
-					char buffer[512];
+					char buffer[2048];
 					strcpy(buffer, symbolStorePath.c_str());
 					buffer[len+1] = L'\0';
 					m_symbolStoreDName = buffer;

@@ -32,23 +32,19 @@ QRectF Histogram::boundingRect() const
 	return QRectF(-sz.width()/2, -sz.height()/2, sz.width(), sz.height());
 }
 
-QPainterPath Histogram::shape() const
-{
-    QPainterPath path;
-	path.addRect( QRectF(0, 0, 0, 0) );
-    return path;
-}
-
 QString Histogram::fromVal(int _val)
 {
 	QString s;
-	if (_val < 1024)
+	if (_val < (1 << 10))
 		s = QString::number(_val) + QString(" b");
 	else
-		if (_val < 1024*1024)
-			s = QString::number(_val/1024) + QString(" Kb");
+		if (_val < (1 << 20))
+			s = QString::number(_val/ (1 << 10)) + QString(" Kb");
 		else
-			s = QString::number(_val/(1024*1024)) + QString(" Mb");
+			if (_val < (1 << 30))
+				s = QString::number(_val/(1 << 20)) + QString(" Mb");
+			else
+				s = QString::number(_val/ (1 << 30)) + QString(" Gb");
 
 	while (s.length() < 6)
 		s = QString(" ") + s;
@@ -59,34 +55,28 @@ uint64_t Histogram::getMaxValue(rtm::MemoryStats& _stats, HistogramType::Enum _t
 {
 	uint64_t maxVal = 0;
 	int numBins = rtm::MemoryStats::NUM_HISTOGRAM_BINS;
-	switch (_type)
+	for (int i = 0; i < numBins; ++i)
 	{
-	case HistogramType::Size:
-		for (int i=0; i<numBins; ++i)
+		switch (_type)
 		{
+		case HistogramType::Size:
 			maxVal = qMax(maxVal, _stats.m_histogram[i].m_size);
 			if (_usePeak)
 				maxVal = qMax(maxVal, _stats.m_histogram[i].m_sizePeak);
-		}
-		break;
+			break;
 
-	case HistogramType::Overhead:
-		for (int i=0; i<numBins; ++i)
-		{
+		case HistogramType::Overhead:
 			maxVal = qMax(maxVal, (uint64_t)_stats.m_histogram[i].m_overhead);
 			if (_usePeak)
 				maxVal = qMax(maxVal, (uint64_t)_stats.m_histogram[i].m_overheadPeak);
-		}
-		break;
+			break;
 
-	case HistogramType::Count:
-		for (int i=0; i<numBins; ++i)
-		{
+		case HistogramType::Count:
 			maxVal = qMax(maxVal, (uint64_t)_stats.m_histogram[i].m_count);
 			if (_usePeak)
 				maxVal = qMax(maxVal, (uint64_t)_stats.m_histogram[i].m_countPeak);
-		}
-		break;
+			break;
+		};
 	}
 	return maxVal;
 }
