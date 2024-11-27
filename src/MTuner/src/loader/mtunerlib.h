@@ -315,7 +315,7 @@ struct MemoryMarkerTime
 {
 	uint64_t			m_threadID;
 	uint64_t			m_time;
-	MemoryMarkerEvent*	m_event;
+	uint32_t			m_eventHash;
 };
 
 } // namespace rtm

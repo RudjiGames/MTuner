@@ -394,7 +394,6 @@ void GraphWidget::updateToolTip(const QPoint& _position)
 								 sqs_5 + m_locale.toString(qulonglong(entry.m_numLiveBlocks)) + QString("</pre>");
 
 		m_toolTipLabel->setText(ttip);
-		m_toolTipLabel->adjustSize();
 	}
 	else
 		if (drawRect.contains(pt.x(), pt.y()) && !m_LButtonDown && !m_inContextMenu)
@@ -411,15 +410,17 @@ void GraphWidget::updateToolTip(const QPoint& _position)
 
 			QString ttip = sqs_PRE + sqs_1 + timeStr + sqs_BR +
 									 sqs_2 + m_locale.toString(qulonglong(entry.m_usage)) + sqs_BR +
-									 sqs_3 + m_locale.toString(qulonglong(entry.m_numLiveBlocks)) + sqs_PRE + QString("\n");
+									 sqs_3 + m_locale.toString(qulonglong(entry.m_numLiveBlocks)) + QString("</pre>");
 
 			m_toolTipLabel->setText(ttip);
-			m_toolTipLabel->adjustSize();
 		}
 		else
-			if (!m_LButtonDown)
+			if ((m_hoverMarkerTime == 0) && (!m_LButtonDown))
+			{
 				m_toolTipLabel->setText("");
+			}
 
+	m_toolTipLabel->adjustSize();
 	showToolTip();
 }
 
@@ -551,20 +552,18 @@ void GraphWidget::mouseMovement(const QPoint& _position, Qt::MouseButtons _butto
 
 	QPointF spt = mapToScene(_position);
 
-	const QVector<MarkerToolTip>& toolTips = m_markers->getTooltips();
-	for (int i = 0; i < toolTips.size(); ++i)
+	MarkerToolTip toolTip = m_markers->getTooltip(spt);
+
+	m_hoverMarkerTime = 0;
+	if (toolTip.m_text.length())
 	{
-		if (toolTips[i].m_rect.contains(spt) && !m_inContextMenu)
-		{
-			QString text(toolTips[i].m_text);
-			text = text + QString("\n") + tr("Time") + QString(": ") + getTimeString(m_context->m_capture->getFloatTime(toolTips[i].m_time));
-			text = text + QString("\n") + tr("Thread") + QString(": 0x") + QString::number(toolTips[i].m_threadID, 16);
+		QString text(QString("<pre>") + toolTip.m_text.c_str());
+		text = text + QString("\n") + QStringColor(tr("Time"), "ff42a6ba") + getTimeString(m_context->m_capture->getFloatTime(toolTip.m_time));
+		text = text + QString("\n") + QStringColor(tr("Thread"), "ff83cf67") + QString("0x") + QString::number(toolTip.m_threadID, 16) + QString("</pre>");
 
-			m_toolTipLabel->setText(text);
+		m_toolTipLabel->setText(text);
 
-			m_hoverMarkerTime = toolTips[i].m_time;
-			break;
-		}
+		m_hoverMarkerTime = toolTip.m_time;
 	}
 
 	if ((_buttons & Qt::LeftButton) && m_LButtonDown && !m_isDragging)
@@ -700,15 +699,11 @@ void GraphWidget::contextMenuEvent(QContextMenuEvent* _event)
 	bool isInMarker = false;
 	QPoint pt = QCursor::pos();
 	QPointF spt = mapToScene(mapFromGlobal(pt));
-	const QVector<MarkerToolTip>&	toolTips = m_markers->getTooltips();
-	for (int i=0; i<toolTips.size(); ++i)
+	MarkerToolTip toolTip = m_markers->getTooltip(spt);
+	if (toolTip.m_text.length())
 	{
-		if (toolTips[i].m_rect.contains(spt))
-		{
-			isInMarker = true;
-			m_hoverMarkerTime = toolTips[i].m_time;
-			break;
-		}
+		isInMarker = true;
+		m_hoverMarkerTime = toolTip.m_time;
 	}
 
 	m_inContextMenu = true;

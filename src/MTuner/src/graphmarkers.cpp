@@ -14,6 +14,42 @@ GraphMarkers::GraphMarkers(GraphWidget* _graphWidget)
 	m_graphWidget = _graphWidget;
 }
 
+MarkerToolTip GraphMarkers::getTooltip(const QPointF& _point) const
+{
+	MarkerToolTip ret;
+
+	if (!m_graphWidget->getContext())
+		return ret;
+
+	CaptureContext* ctx = m_graphWidget->getContext();
+	QRect rect = m_graphWidget->getDrawRect();
+	int bottom = rect.height() + rect.y();
+
+	const std::vector<rtm::MemoryMarkerTime>& mm = ctx->m_capture->getMemoryMarkers();
+
+	for (size_t i = 0; i < mm.size(); ++i)
+	{
+		const rtm::MemoryMarkerTime& mt = mm[i];
+		if (mt.m_time < m_graphWidget->minTime())
+			continue;
+		if (mt.m_time > m_graphWidget->maxTime())
+			continue;
+
+		int posX = m_graphWidget->mapTimeToPos(mt.m_time);
+		QRectF markerRect = QRect(posX - 3, bottom + 3, 6, GraphWidget::s_marginBottom - 12);
+
+		if (markerRect.contains(_point))
+		{
+			ret.m_rect = markerRect;
+			ret.m_text = ctx->m_capture->getMemoryMarkerName(mm[i].m_eventHash);
+			ret.m_time = mm[i].m_time;
+			ret.m_threadID = mm[i].m_threadID;
+			return ret;
+		}
+	}
+	return ret;
+}
+
 QRectF GraphMarkers::boundingRect() const
 {
 	QSize sz = m_graphWidget->size();
@@ -40,15 +76,13 @@ void GraphMarkers::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _op
 	QRect rect = m_graphWidget->getDrawRect();
 	int bottom = rect.height() + rect.y();
 	
-	m_toolTips.clear();
-
 	uint64_t m1 = m_graphWidget->getMarkerFromTime();
 	uint64_t m2 = m_graphWidget->getMarkerToTime();
 
 	_painter->setPen(QPen(Qt::darkGray, 1.0, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 	const std::vector<rtm::MemoryMarkerTime>& mm = ctx->m_capture->getMemoryMarkers();
-	size_t numMarkers = mm.size();
-	for (size_t i=0; i<numMarkers; ++i)
+
+	for (size_t i=0; i< mm.size(); ++i)
 	{
 		const rtm::MemoryMarkerTime& mt = mm[i];
 		if (mt.m_time < m_graphWidget->minTime())
@@ -56,8 +90,8 @@ void GraphMarkers::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _op
 		if (mt.m_time > m_graphWidget->maxTime())
 			continue;
 
-		uint32_t color = mm[i].m_event->m_color;
-		_painter->setBrush(QBrush(QColor( (color >> 16) & 0xff, (color >> 8) & 0xff, (color >> 0) & 0xff))); 
+		uint32_t color = ctx->m_capture->getMemoryMarkerColor(mm[i].m_eventHash);
+		_painter->setBrush(QBrush(QColor( (color >> 16) & 0xff, (color >> 8) & 0xff, (color >> 0) & 0xff)));
 		int posX = m_graphWidget->mapTimeToPos(mt.m_time);
 		QRect markerRect = QRect(posX-3,bottom+3,6,GraphWidget::s_marginBottom-12);
 
@@ -76,12 +110,5 @@ void GraphMarkers::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _op
 		}
 
 		_painter->drawLine(posX, bottom-3, posX, bottom+3);
-
-		MarkerToolTip tt;
-		tt.m_rect		= markerRect;
-		tt.m_text		= mm[i].m_event->m_name.c_str();
-		tt.m_time		= mm[i].m_time;
-		tt.m_threadID	= mm[i].m_threadID;
-		m_toolTips.push_back(tt);
 	}
 }

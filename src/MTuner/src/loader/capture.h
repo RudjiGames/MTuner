@@ -71,11 +71,11 @@ class Capture
 		std::vector<GraphEntry>			m_usageGraph;			///< memory usage graph data
 		StackTraceTree					m_stackTraceTree;		///< stack trace tree
 		MemoryTagTree					m_tagTree;				///< Global tag tree
-		MemoryMarkersHashType			m_memoryMarkers;
 		HeapsType						m_Heaps;
 		uint64_t						m_currentHeap;
 		rdebug::ModuleInfo*				m_currentModule;
 		std::vector<MemoryMarkerTime>	m_memoryMarkerTimes;
+		MemoryMarkersHashType			m_memoryMarkers;
 		uint64_t						m_CPUFrequency;
 		MemoryOpArray					m_memoryLeaks;			///< List of allocations without matching free
 		LoadProgress					m_loadProgressCallback;
@@ -134,6 +134,8 @@ class Capture
 		const MemoryStats&	getSnapshotStats() const { return m_statsSnapshot; }
 		void		getGraphAtTime(uint64_t _time, GraphEntry& _entry);
 		const std::vector<MemoryMarkerTime>& getMemoryMarkers() const { return m_memoryMarkerTimes; }
+		uint32_t getMemoryMarkerColor(uint32_t _hash) { return m_memoryMarkers[_hash].m_color; }
+		std::string getMemoryMarkerName(uint32_t _hash) { return m_memoryMarkers[_hash].m_name; }
 		const MemoryTagTree& getTagTree() const { return m_tagTree; }
 		const StackTraceTree& getStackTraceTree() const { return m_stackTraceTree; }
 		const StackTraceTree& getStackTraceTreeFiltered() const { return m_filter.m_stackTraceTree; }

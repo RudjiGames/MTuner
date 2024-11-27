@@ -819,9 +819,9 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					}
 
 					MemoryMarkerEvent me;
-					me.m_color		= markerColor;
 					me.m_name		= markerName;
 					me.m_nameHash	= markerNameHash;
+					me.m_color		= markerColor;
 					m_memoryMarkers[markerNameHash] = me;
 				}
 				break;
@@ -846,13 +846,10 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					if (minMarkerTime > time)
 						minMarkerTime = time;
 
-					MemoryMarkerEvent* evt = &m_memoryMarkers[markerNameHash];
-					RTM_ASSERT(evt != NULL, "");
-
 					MemoryMarkerTime mt;
 					mt.m_threadID	= threadID;
-					mt.m_event		= evt;
 					mt.m_time		= time;
+					mt.m_eventHash	= markerNameHash;
 					m_memoryMarkerTimes.push_back(mt);
 				}
 				break;

@@ -12,30 +12,30 @@ class GraphCurve;
 struct MarkerToolTip
 {
 	QRectF		m_rect;
-	const char*	m_text;
 	float		m_time;
 	uint64_t	m_threadID;
+	std::string	m_text;
 
 	MarkerToolTip() {}
-	MarkerToolTip(const QRect& _rect, const char* _text, float _time, uint64_t _threadID) : 
+	MarkerToolTip(const QRect& _rect, float _time, uint64_t _threadID, const char* _text) :
 		m_rect(_rect), 
-		m_text(_text), 
 		m_time(_time), 
 		m_threadID(_threadID)
-	{}
+	{
+		m_text = _text;
+	}
 };
 
 class GraphMarkers : public QGraphicsItem
 {
 private:
 	GraphWidget*			m_graphWidget;
-	QVector<MarkerToolTip>	m_toolTips;
 
 public:
 	GraphMarkers(GraphWidget* _graphWidget);
 
 	void parentResized() { prepareGeometryChange(); }
-	const QVector<MarkerToolTip>& getTooltips() const { return m_toolTips; }
+	MarkerToolTip getTooltip(const QPointF& _point) const;
 
 	/// QWidget
 	virtual QRectF			boundingRect() const;
