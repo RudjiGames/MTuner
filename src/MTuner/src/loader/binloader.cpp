@@ -9,7 +9,6 @@
 #include <rbase/inc/endianswap.h>
 
 #define LZ4_DISABLE_DEPRECATE_WARNINGS
-#include <rmem/3rd/lz4-r191/lz4.h>
 #include <rmem/3rd/lz4-r191/lz4.c>
 
 #if RTM_COMPILER_MSVC
@@ -143,7 +142,7 @@ bool BinLoader::loadChunk()
 	m_dataAvailable = -1;
 	while (m_dataAvailable < 0)
 	{
-		m_dataAvailable = LZ4_decompress_safe((const char*)m_srcData, (char*)m_data, size, m_dataSize);
+		m_dataAvailable = LZ5_decompress_safe((const char*)m_srcData, (char*)m_data, size, m_dataSize);
 		if (m_dataAvailable < 0)
 		{
 			delete[] m_data;
