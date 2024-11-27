@@ -171,8 +171,7 @@ void Histogram::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 	QFont font("Consolas",8,QFont::Normal);
 	_painter->setFont(font);
 
-	int numBins = rtm::MemoryStats::NUM_HISTOGRAM_BINS;
-	int delta = (right-left) / (numBins);
+	int delta = (right-left) / (rtm::MemoryStats::NUM_HISTOGRAM_BINS);
 
 	QRectF boundRect = boundingRect();
 	int deltaW = (boundRect.width() - (right-left))/2;
@@ -183,7 +182,7 @@ void Histogram::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 
 	uint32_t selectedBin = ctx->m_capture->getSelectHistogramBin();
 
-	for (int i=0; i<numBins; ++i)
+	for (int i=0; i<rtm::MemoryStats::NUM_HISTOGRAM_BINS; ++i)
 	{
 		_painter->save();
 		if (i == static_cast<int>(selectedBin))
@@ -256,7 +255,7 @@ void Histogram::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 				maxVal = maxValPeak;
 
 			int position = left + delta;
-			for (int i=0; i<numBins; ++i)
+			for (int i=0; i<rtm::MemoryStats::NUM_HISTOGRAM_BINS; ++i)
 			{
 				uint64_t binVal = getValue(*stats, m_type,i,false);
 				uint64_t binHeight = maxVal ? ((bottom - top) * binVal) / maxVal : 0;
@@ -300,7 +299,7 @@ void Histogram::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 			}
 
 			int position = left + delta;
-			for (int i=0; i<numBins; ++i)
+			for (int i=0; i<rtm::MemoryStats::NUM_HISTOGRAM_BINS; ++i)
 			{
 				if (m_showPeaks)
 				{

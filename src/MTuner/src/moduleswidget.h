@@ -15,10 +15,10 @@ class ModulesWidget : public QWidget
 	Q_OBJECT
 
 private:
-	QLineEdit*		m_filter;
-	QTreeWidget*	m_list;
-	QTreeWidgetItem*m_currentItem;
-	CaptureContext*	m_context;
+	QLineEdit*			m_filter;
+	QTreeWidget*		m_list;
+	QTreeWidgetItem*	m_currentItem;
+	CaptureContext*		m_context;
 	rdebug::ModuleInfo* m_currentInfo;
 
 public:

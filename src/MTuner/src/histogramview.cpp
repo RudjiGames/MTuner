@@ -18,11 +18,10 @@ HistogramView::HistogramView(QWidget* _parent) :
 	m_scene = new QGraphicsScene(this);
     m_scene->setItemIndexMethod(QGraphicsScene::NoIndex);
 
-    m_context	= nullptr;
-	m_histogram = nullptr;
-
-	m_mode		= 0;
-	m_showPeaks	= false;
+    m_context		= nullptr;
+	m_histogram		= nullptr;
+	m_mode			= 0;
+	m_showPeaks		= false;
 	m_histogramType	= 0;
 
     setScene(m_scene);

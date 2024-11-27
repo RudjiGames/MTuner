@@ -14,13 +14,13 @@ class HistogramView : public QGraphicsView
 	Q_OBJECT
 
 private:
-    QGraphicsScene*	m_scene;
-	CaptureContext*	m_context;
-	Histogram*		m_histogram;
-	QLabel*			m_toolTipLabel;
-	int				m_mode;
-	bool			m_showPeaks;
-	int				m_histogramType;
+    QGraphicsScene*		m_scene;
+	CaptureContext*		m_context;
+	Histogram*			m_histogram;
+	QLabel*				m_toolTipLabel;
+	int					m_mode;
+	bool				m_showPeaks;
+	int					m_histogramType;
 
 public:
 	static const int	s_marginLeft	= 45;
