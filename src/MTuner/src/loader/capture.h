@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_CAPTURE_H__
-#define __RTM_MTUNER_CAPTURE_H__
+#ifndef RTM_MTUNER_CAPTURE_H
+#define RTM_MTUNER_CAPTURE_H
 
 #include <rdebug/inc/rdebug.h>
 #include <rbase/inc/cpu.h>
@@ -17,11 +17,11 @@ class BinLoader;
 
 typedef void (*LoadProgress)(void* inCustomData, float inProgress, const char* inMessage);
 
-typedef ankerl::unordered_dense::map<uint32_t,  StackTrace*,uint32_t_hash,uint32_t_equal>				StackTraceHashType;
-typedef ankerl::unordered_dense::map<uintptr_t, MemoryOperationGroup,uintptr_t_hash,uintptr_t_equal>	MemoryGroupsHashType;
-typedef ankerl::unordered_dense::map<uint32_t,  MemoryMarkerEvent,uint32_t_hash,uint32_t_equal>			MemoryMarkersHashType;
-typedef ankerl::unordered_dense::map<uint64_t,  std::string>											HeapsType;
-typedef std::vector<MemoryOperation*>																	MemoryOpArray;
+typedef ankerl::unordered_dense::map<uint32_t,  StackTrace*>			StackTraceHashType;
+typedef ankerl::unordered_dense::map<uintptr_t, MemoryOperationGroup>	MemoryGroupsHashType;
+typedef ankerl::unordered_dense::map<uint32_t,  MemoryMarkerEvent>		MemoryMarkersHashType;
+typedef ankerl::unordered_dense::map<uint64_t,  std::string>			HeapsType;
+typedef std::vector<MemoryOperation*>									MemoryOpArray;
 
 //--------------------------------------------------------------------------
 struct GraphEntry
@@ -169,4 +169,4 @@ class Capture
 
 } // namespace rtm
 
-#endif // __RTM_MTUNER_CAPTURE_H__
+#endif // RTM_MTUNER_CAPTURE_H

@@ -8,7 +8,6 @@
 
 #include <MTuner/.qt/qt_ui/stackandsource_ui.h>
 
-class BinLoaderView;
 class ExternalEditor;
 
 class StackAndSource : public QWidget

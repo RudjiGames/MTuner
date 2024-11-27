@@ -34,12 +34,10 @@ public:
 
 	bool isLeaksOnlyChecked() const { return m_operationSearch->isLeaksOnlyChecked(); }
 	void changeEvent(QEvent* _event);
-
 	void setContext(CaptureContext* _context, bool _valid = false);
 	void setFilteringState(bool _state, bool _leaksOnly);
 	bool getFilteringState() const;
 	void setSearchVisible(bool _visible) { m_operationSearch->setVisible(_visible);  }
-
 	void loadState(QSettings& _settings, const QString& _name, bool _resetGeometry);
 	void saveState(QSettings& _settings);
 

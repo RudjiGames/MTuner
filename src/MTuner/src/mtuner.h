@@ -19,7 +19,6 @@ class ExternalEditor;
 class CentralWidget;
 class SourceView;
 class Graph;
-class BinLoaderView;
 class TagTreeWidget;
 class GCCSetup;
 

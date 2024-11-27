@@ -8,16 +8,11 @@
 #include <MTuner/src/loader/binloader.h>
 #include <MTuner/src/loader/util.h>
 #include <rbase/inc/endianswap.h>
-#include <rbase/inc/path.h>
-#include <rbase/inc/winchar.h>
 #include <rdebug/inc/rdebug.h>
-
-#include <type_traits>
 
 #if RTM_PLATFORM_WINDOWS && RTM_COMPILER_MSVC
 
 #pragma warning (push)
-#pragma warning (disable:4530) // exceptions not used
 #pragma warning (disable:4211) // redefined extern to static
 
 static bool __uncaught_exception() { return true; }
@@ -1045,7 +1040,7 @@ bool Capture::isInFilter(MemoryOperation* _op)
 		for (uint32_t i=0; i<numEntries; ++i)
 		{
 			rdebug::ModuleInfo info;
-			if (m_currentModule->checkAddress(_op->m_stackTrace->m_frames[i])) // , _op->m_operationTime))
+			if (m_currentModule->checkAddress(_op->m_stackTrace->m_frames[i]))
 			{
 				moduleInStack = true;
 				break;

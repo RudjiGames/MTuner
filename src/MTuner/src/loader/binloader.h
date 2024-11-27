@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_BINLOADER_H__
-#define __RTM_MTUNER_BINLOADER_H__
+#ifndef RTM_MTUNER_BINLOADER_H
+#define RTM_MTUNER_BINLOADER_H
 
 namespace rtm {
 
@@ -41,4 +41,4 @@ private:
 
 } // namespace rtm
 
-#endif // __RTM_MTUNER_BINLOADER_H__
+#endif // RTM_MTUNER_BINLOADER_H

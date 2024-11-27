@@ -6,8 +6,6 @@
 #ifndef RTM_MTUNER_HIGHLIGHTER_H
 #define RTM_MTUNER_HIGHLIGHTER_H
 
-class QTextDocument;
-
 class Highlighter : public QSyntaxHighlighter
 {
     Q_OBJECT
@@ -21,8 +19,8 @@ protected:
 private:
     struct HighlightingRule
     {
-		QRegularExpression	m_pattern;
-        QTextCharFormat		m_format;
+		QRegularExpression		m_pattern;
+        QTextCharFormat			m_format;
     };
 
     QVector<HighlightingRule>	m_highlightingRules;

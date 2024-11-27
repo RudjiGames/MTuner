@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_MTUNERLIB_H__
-#define __RTM_MTUNER_MTUNERLIB_H__
+#ifndef RTM_MTUNER_MTUNERLIB_H
+#define RTM_MTUNER_MTUNERLIB_H
 
 #include <string>
 #include <rmem/src/rmem_enums.h>
@@ -18,24 +18,23 @@ bool mtunerLoaderShutDown();
 struct StackTrace;
 struct MemoryStatLocalPeak;
 
-class uint32_t_hash
+//--------------------------------------------------------------------------
+/// Methods of sorting memory operations
+//--------------------------------------------------------------------------
+enum eOperationSort
 {
-public:	inline size_t operator() (const uint32_t _key) const { return (size_t)_key; }
+	OP_SORT_POINTER,							///< Sort by pointer value
+	OP_SORT_TIME								///< Sort by operation time
 };
 
-class uintptr_t_hash
+//--------------------------------------------------------------------------
+/// Methods of sorting memory operation groups
+//--------------------------------------------------------------------------
+enum eGroupSort
 {
-public:	inline size_t operator() (const uintptr_t _key) const { return (size_t)_key; }
-};
-
-class uint32_t_equal
-{
-public:	inline bool operator() (const uint32_t _key1, const uint32_t _key2) const { return _key1 == _key2; }
-};
-
-class uintptr_t_equal
-{
-public:	inline bool operator() (const uintptr_t _key1, const uintptr_t _key2) const { return _key1 == _key2; }
+	GROUP_SORT_COUNT,							///< Sort by number of operations in the group
+	GROUP_SORT_SIZE,							///< Sort by size of the operation in the group
+	GROUP_SORT_TOTAL_SIZE						///< Sort by total size (number*size) of the group
 };
 
 //--------------------------------------------------------------------------
@@ -61,35 +60,16 @@ struct MemoryOperation
 };
 
 //--------------------------------------------------------------------------
-/// Methods of sorting memory operations
-//--------------------------------------------------------------------------
-enum eOperationSort
-{
-	OP_SORT_POINTER,							///< Sort by pointer value
-	OP_SORT_TIME								///< Sort by operation time
-};
-
-//--------------------------------------------------------------------------
-/// Methods of sorting memory operation groups
-//--------------------------------------------------------------------------
-enum eGroupSort
-{
-	GROUP_SORT_COUNT,							///< Sort by number of operations in the group
-	GROUP_SORT_SIZE,							///< Sort by size of the operation in the group
-	GROUP_SORT_TOTAL_SIZE						///< Sort by total size (number*size) of the group
-};
-
-//--------------------------------------------------------------------------
 /// Histogram data for a single bin (memory size range) - AOS
 //--------------------------------------------------------------------------
 struct HistogramBin
 {
-	uint64_t		m_size;						///< Memory usage at the end of time slice
-	uint64_t		m_sizePeak;					///< Peak memory usage inside the time slice
-	uint32_t		m_overhead;					///< Overhead at the end of time slice
-	uint32_t		m_overheadPeak;				///< Peak overhead inside the time slice
-	uint32_t		m_count;					///< Number of surviving memory blocks at the end of time slice
-	uint32_t		m_countPeak;				///< Peak number of live blocks inside the time slice
+	uint64_t			m_size;					///< Memory usage at the end of time slice
+	uint64_t			m_sizePeak;				///< Peak memory usage inside the time slice
+	uint32_t			m_overhead;				///< Overhead at the end of time slice
+	uint32_t			m_overheadPeak;			///< Peak overhead inside the time slice
+	uint32_t			m_count;				///< Number of surviving memory blocks at the end of time slice
+	uint32_t			m_countPeak;			///< Peak number of live blocks inside the time slice
 };
 
 //--------------------------------------------------------------------------
@@ -103,21 +83,21 @@ struct MemoryStats
 		NUM_HISTOGRAM_BINS	= 23				///< up to 8 bytes to 32M+
 	}; 
 
-	uint64_t		m_memoryUsage;				///< Memory usage at the end of time slice
-	uint64_t		m_memoryUsagePeak;			///< Peak memory usage inside the time slice
-	uint32_t		m_overhead;					///< Allocation overhead at the end of time slice
-	uint32_t		m_overheadPeak;				///< Peak allocation overhead inside the time slice
-	uint32_t		m_numberOfOperations;		///< Number of operations inside the time slice
-	uint32_t		m_numberOfAllocations;		///< Number of allocations inside the time slice
-	uint32_t		m_numberOfReAllocations;	///< Number of reallocations inside the time slice
-	uint32_t		m_numberOfFrees;			///< Number of frees inside the time slice
-	uint32_t		m_numberOfLiveBlocks;		///< Memory blocks allocated but not freed inside the time slice - Memory leaks!
-	uint32_t		m_numberOfLiveBlocksPeak;
-	HistogramBin	m_histogram[NUM_HISTOGRAM_BINS];
+	uint64_t			m_memoryUsage;			///< Memory usage at the end of time slice
+	uint64_t			m_memoryUsagePeak;		///< Peak memory usage inside the time slice
+	uint32_t			m_overhead;				///< Allocation overhead at the end of time slice
+	uint32_t			m_overheadPeak;			///< Peak allocation overhead inside the time slice
+	uint32_t			m_numberOfOperations;	///< Number of operations inside the time slice
+	uint32_t			m_numberOfAllocations;	///< Number of allocations inside the time slice
+	uint32_t			m_numberOfReAllocations;///< Number of reallocations inside the time slice
+	uint32_t			m_numberOfFrees;		///< Number of frees inside the time slice
+	uint32_t			m_numberOfLiveBlocks;	///< Memory blocks allocated but not freed inside the time slice - Memory leaks!
+	uint32_t			m_numberOfLiveBlocksPeak;
+	HistogramBin		m_histogram[NUM_HISTOGRAM_BINS];
 
 	void reset()
 	{
-		memset(this,0,sizeof(MemoryStats));
+		memset(this, 0, sizeof(MemoryStats));
 	}
 
 	void setPeaksToCurrent();
@@ -133,19 +113,19 @@ struct MemoryOperationGroup
 
 	typedef std::vector<MemoryOperation*> MemoryOpArray;
 
-	uint32_t		m_minSize;					///< single allocation size
-	uint32_t		m_maxSize;					///< single allocation size
-	int64_t			m_peakSize;					///< group size
-	int64_t			m_peakSizeGlobal;			///< total memory usage at the time of group peak size
-	int64_t			m_liveSize;					///< group size
-	uint32_t		m_count;
-	uint32_t		m_liveCount;
-	uint32_t		m_liveCountPeak;
-	uint32_t		m_liveCountPeakGlobal;
-	MemoryOpArray	m_operations;
-	uint32_t		m_indexMappings[INDEX_MAPPINGS];
-	uint32_t		m_histogram[rtm::MemoryStats::NUM_HISTOGRAM_BINS];
-	uint32_t		m_histogramPeak[rtm::MemoryStats::NUM_HISTOGRAM_BINS];
+	uint32_t			m_minSize;				///< single allocation size
+	uint32_t			m_maxSize;				///< single allocation size
+	int64_t				m_peakSize;				///< group size
+	int64_t				m_peakSizeGlobal;		///< total memory usage at the time of group peak size
+	int64_t				m_liveSize;				///< group size
+	uint32_t			m_count;
+	uint32_t			m_liveCount;
+	uint32_t			m_liveCountPeak;
+	uint32_t			m_liveCountPeakGlobal;
+	MemoryOpArray		m_operations;
+	uint32_t			m_indexMappings[INDEX_MAPPINGS];
+	uint32_t			m_histogram[rtm::MemoryStats::NUM_HISTOGRAM_BINS];
+	uint32_t			m_histogramPeak[rtm::MemoryStats::NUM_HISTOGRAM_BINS];
 
 	inline MemoryOperationGroup()
 		: m_minSize(0xffffffff)
@@ -159,8 +139,8 @@ struct MemoryOperationGroup
 	{
 		for (int i=0; i<rtm::MemoryStats::NUM_HISTOGRAM_BINS; i++)
 		{
-			m_histogram[i] = 0;
-			m_histogramPeak[i] = 0;
+			m_histogram[i]		= 0;
+			m_histogramPeak[i]	= 0;
 		}
 	}
 };
@@ -320,4 +300,4 @@ struct MemoryMarkerTime
 
 } // namespace rtm
 
-#endif // __RTM_MTUNER_MTUNERLIB_H__
+#endif // RTM_MTUNER_MTUNERLIB_H

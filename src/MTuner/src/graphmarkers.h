@@ -7,7 +7,6 @@
 #define RTM_MTUNER_GRAPHMARKERS_H
 
 class GraphWidget;
-class GraphCurve;
 
 struct MarkerToolTip
 {

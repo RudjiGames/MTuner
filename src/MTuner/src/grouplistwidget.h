@@ -13,9 +13,11 @@ struct CaptureContext;
 
 struct GroupMapping
 {
-	uint32_t								m_columnIndex;
-	std::vector<rtm::MemoryOperationGroup*>*	m_allGroups;
-	std::vector<uint32_t>					m_sortedIdx;
+	typedef std::vector<rtm::MemoryOperationGroup*> MemoryOperationPtrArray;
+
+	uint32_t					m_columnIndex;
+	MemoryOperationPtrArray*	m_allGroups;
+	std::vector<uint32_t>		m_sortedIdx;
 };
 
 class GroupList : public QWidget
@@ -44,10 +46,8 @@ public:
 	void setContext(CaptureContext* _context);
 	void setFilteringState(bool _state);
 	bool getFilteringState() const;
-
 	void loadState(QSettings& _settings, const QString& _name, bool _resetGeometry);
 	void saveState(QSettings& _settings);
-
 	void mouseMoveEvent(QMouseEvent* _event);
 
 Q_SIGNALS:

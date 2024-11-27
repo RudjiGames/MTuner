@@ -104,7 +104,7 @@ protected:
 	void createCustomContextMenu();
 	void animateRange(uint64_t _min, uint64_t _max);
 
-	bool	event(QEvent *event);
+	bool event(QEvent *event);
 
 public Q_SLOTS:
 	void zoomIn();

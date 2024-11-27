@@ -8,8 +8,6 @@
 
 #include <MTuner/.qt/qt_ui/centralwidget_ui.h>
 
-class StackTrace;
-class SourceView;
 class BinLoaderView;
 struct CaptureContext;
 

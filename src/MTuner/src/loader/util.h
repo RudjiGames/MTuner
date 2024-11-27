@@ -3,8 +3,8 @@
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
-#ifndef __RTM_MTUNER_UTIL_H__
-#define __RTM_MTUNER_UTIL_H__
+#ifndef RTM_MTUNER_UTIL_H
+#define RTM_MTUNER_UTIL_H
 
 #include <rbase/inc/uint32_t.h>
 #include <rbase/inc/hash.h>
@@ -141,4 +141,4 @@ static inline void fillStats_Free(MemoryOperation* _op, MemoryStats& _stats)
 
 } // namespace rtm
 
-#endif // __RTM_MTUNER_UTIL_H__
+#endif // RTM_MTUNER_UTIL_H
