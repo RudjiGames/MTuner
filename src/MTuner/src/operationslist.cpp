@@ -5,9 +5,7 @@
 
 #include <MTuner_pch.h>
 #include <MTuner/src/operationslist.h>
-#include <MTuner/src/bigtable.h>
 #include <MTuner/src/capturecontext.h>
-
 
 #if RTM_PLATFORM_WINDOWS && RTM_COMPILER_MSVC
 #pragma warning(push)

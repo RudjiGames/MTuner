@@ -4,7 +4,6 @@
 //--------------------------------------------------------------------------//
 
 #include <MTuner_pch.h>
-#include <MTuner/src/environment.h>
 #include <MTuner/src/projectsmanager.h>
 
 ProjectsManager::ProjectsManager(QWidget* _parent, Qt::WindowFlags _flags)
