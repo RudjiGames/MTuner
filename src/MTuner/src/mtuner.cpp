@@ -374,7 +374,7 @@ void MTuner::saveCaptureWindowLayout()
 
 void MTuner::openDocumentation()
 {
-	QDesktopServices::openUrl(QUrl("https://milostosic.github.io/MTuner/", QUrl::TolerantMode));
+	QDesktopServices::openUrl(QUrl("https://rudjigames.github.io/MTuner/", QUrl::TolerantMode));
 }
 
 void MTuner::about()
