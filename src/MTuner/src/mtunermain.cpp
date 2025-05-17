@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------//
-/// Copyright 2024 Milos Tosic. All Rights Reserved.                       ///
+/// Copyright 2025 Milos Tosic. All Rights Reserved.                       ///
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
@@ -22,7 +22,7 @@
 #endif
 #endif // RTM_PLATFORM_WINDOWS
 
-static const char* g_banner = "Copyright (c) 2022 by Milos Tosic. All rights reserved.\n";
+static const char* g_banner = "Copyright (c) 2025 by Milos Tosic. All rights reserved.\n";
 
 void setupLoaderToolchain(CaptureContext* _context, const QString& _file, GCCSetup* inGCCSetup, 
 							QFileDialog* _fileDialog, MTuner* _MTuner, const QString& _symSource, rdebug::module_load_cb _callBack);

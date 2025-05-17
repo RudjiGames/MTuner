@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------//
-/// Copyright 2024 Milos Tosic. All Rights Reserved.                       ///
+/// Copyright 2025 Milos Tosic. All Rights Reserved.                       ///
 /// License: http://www.opensource.org/licenses/BSD-2-Clause               ///
 //--------------------------------------------------------------------------//
 
@@ -12,7 +12,7 @@
 
 namespace rtm {
 
-static const char* g_LogBanner = "MTuner v1.0 analysis log file\nCopyright (c) 2023 by Milos Tosic\n\n";
+static const char* g_LogBanner = "MTuner v1.0 analysis log file\nCopyright (c) 2025 by Milos Tosic\n\n";
 
 //--------------------------------------------------------------------------
 static inline const char* gGetStringFromOperation( uint16_t _op )
