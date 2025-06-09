@@ -67,7 +67,7 @@ for:
     - git clone --recursive --depth 1 https://github.com/milostosic/MTuner  MTuner
 
     install:
-      - MTuner\build\tools\bin\windows\genie.exe --file=MTuner\src\MTuner\genie\genie.lua vs2022
+      - build\tools\bin\windows\genie.exe --file=MTuner\src\MTuner\genie\genie.lua vs2022
 
     build: 
       project: .build\windows\vs2022\MTuner\projects\MTuner.sln
