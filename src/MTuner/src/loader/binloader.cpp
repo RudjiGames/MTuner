@@ -117,15 +117,15 @@ bool BinLoader::loadChunk()
 	if (e != 1)
 		return false;
 
-	if (!((sig == 0x23234646) || sig == Endian::swap(uint32_t(0x23234646))))
+	if (!((sig == 0x23234646) || sig == endianSwap(uint32_t(0x23234646))))
 		return false;
 
 	e = fread(&size, sizeof(uint32_t), 1, m_file);
 	if (e == 0)
 		return false;
 
-	if (sig == Endian::swap(uint32_t(0x23234646)))
-		size = Endian::swap(size);
+	if (sig == endianSwap(uint32_t(0x23234646)))
+		size = endianSwap(size);
 
 	if (m_srcDataSize < (int32_t)size)
 	{

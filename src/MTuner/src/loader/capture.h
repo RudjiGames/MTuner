@@ -128,7 +128,7 @@ class Capture
 		
 		uint64_t	getMinTime() const { return m_minTime; }
 		uint64_t	getMaxTime() const { return m_maxTime; }
-		float		getFloatTime(uint64_t _time) { return CPU::time(_time, m_CPUFrequency); }
+		float		getFloatTime(uint64_t _time) { return cpuTime(_time, m_CPUFrequency); }
 		uint64_t	getClocksFromTime(float _time) { return (uint64_t)(_time*m_CPUFrequency); }
 		const MemoryStats&	getGlobalStats() const { return m_statsGlobal; }
 		const MemoryStats&	getSnapshotStats() const { return m_statsSnapshot; }
