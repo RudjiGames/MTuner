@@ -916,7 +916,7 @@ void MTuner::openFileFromPath(const QString& _file)
 			// give it a moment
 			if (postLoadTime.msecsSinceStartOfDay() - preLoadTime.msecsSinceStartOfDay() < 500.0f)
 			{
-				rtm::Thread::sleep(1000);
+				rtm::threadSleep(1000);
 				res = ctx->m_capture->loadBin(fn.c_str());
 			}
 		}

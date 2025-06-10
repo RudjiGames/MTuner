@@ -74,7 +74,7 @@ inline uint32_t	ReadString(char _string[Len], BinLoader& _loader, bool _swapEndi
 		return 0;
 
 	if (_swapEndian)
-		len = Endian::swap(len);
+		len = endianSwap(len);
 
 	if (len < Len)
 	{
@@ -97,7 +97,7 @@ inline uint32_t	ReadString(char16_t _string[Len], BinLoader& _loader, bool _swap
 		return 0;
 
 	if (_swapEndian)
-		len = Endian::swap(len);
+		len = endianSwap(len);
 
 	if (len < Len)
 	{
@@ -339,7 +339,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 	fseeko64(f, 0, SEEK_SET);
 #endif
 
-	bool isCompressed = ((compressSignature == 0x23234646) || compressSignature == Endian::swap(uint32_t(0x23234646)));
+	bool isCompressed = ((compressSignature == 0x23234646) || compressSignature == endianSwap(uint32_t(0x23234646)));
 
 	BinLoader loader(f, isCompressed);
 
@@ -379,7 +379,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 	m_toolchain		= (rmem::ToolChain::Enum)toolChain;
 
 	if (m_swapEndian)
-		cpuFrequency = Endian::swap(cpuFrequency);
+		cpuFrequency = endianSwap(cpuFrequency);
 	m_CPUFrequency = cpuFrequency;
 
 	printf("Load bin:\n  version %d.%d\n  %s endian\n  %sbit\n",
@@ -558,25 +558,25 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 					if (m_swapEndian)
 					{
-						op->m_allocatorHandle		= Endian::swap(op->m_allocatorHandle);
-						op->m_threadID				= Endian::swap(op->m_threadID);
-						op->m_operationTime			= Endian::swap(op->m_operationTime);
-						op->m_allocSize				= Endian::swap(op->m_allocSize);
-						op->m_overhead				= Endian::swap(op->m_overhead);
+						op->m_allocatorHandle		= endianSwap(op->m_allocatorHandle);
+						op->m_threadID				= endianSwap(op->m_threadID);
+						op->m_operationTime			= endianSwap(op->m_operationTime);
+						op->m_allocSize				= endianSwap(op->m_allocSize);
+						op->m_overhead				= endianSwap(op->m_overhead);
 
 						if (m_64bit)
 						{
-							op->m_pointer			= Endian::swap(op->m_pointer);
-							op->m_previousPointer	= Endian::swap(op->m_previousPointer);
+							op->m_pointer			= endianSwap(op->m_pointer);
+							op->m_previousPointer	= endianSwap(op->m_previousPointer);
 						}
 						else
 						{
 							uint32_t actualPtr		= (uint32_t)op->m_pointer;
-							actualPtr				= Endian::swap(actualPtr);
+							actualPtr				= endianSwap(actualPtr);
 							op->m_pointer			= (uint64_t)actualPtr;
 
 							actualPtr				= (uint32_t)op->m_previousPointer;
-							actualPtr				= Endian::swap(actualPtr);
+							actualPtr				= endianSwap(actualPtr);
 							op->m_previousPointer	= (uint64_t)actualPtr;
 						}
 					}
@@ -612,7 +612,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					}
 
 					if (m_swapEndian)
-						numFrames16 = Endian::swap(numFrames16);
+						numFrames16 = endianSwap(numFrames16);
 
 					numFrames32 = numFrames16;
 					if (numFrames32 > 512)
@@ -622,7 +622,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					}
 
 					if (m_swapEndian && stackTraceHash)
-						stackTraceHash = Endian::swap(stackTraceHash);
+						stackTraceHash = endianSwap(stackTraceHash);
 
 					StackTrace* st = NULL;
 
@@ -642,7 +642,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 							if (m_swapEndian)
 								for (uint32_t i=0; i<numFrames32; i++)
-									backTrace64[i] = Endian::swap(backTrace64[i]);
+									backTrace64[i] = endianSwap(backTrace64[i]);
 						}
 						else
 						{
@@ -658,7 +658,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 							if (m_swapEndian)
 								for (uint32_t i=0; i<numFrames32; i++)
-									backTrace32[i] = Endian::swap(backTrace32[i]);
+									backTrace32[i] = endianSwap(backTrace32[i]);
 
 							for (uint32_t i=0; i<numFrames32; i++)
 								backTrace64[i] = (uint64_t)backTrace32[i];
@@ -751,8 +751,8 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 					if (m_swapEndian)
 					{
-						tagHash			= Endian::swap(tagHash);
-						tagParentHash	= Endian::swap(tagParentHash);
+						tagHash			= endianSwap(tagHash);
+						tagParentHash	= endianSwap(tagParentHash);
 					}
 
 					addMemoryTag(tagName,tagHash,tagParentHash);
@@ -769,8 +769,8 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 					if (m_swapEndian)
 					{
-						tagHash		= Endian::swap(tagHash);
-						threadID	= Endian::swap(threadID);
+						tagHash		= endianSwap(tagHash);
+						threadID	= endianSwap(threadID);
 					}
 
 					std::vector<uint32_t>& tagStack = perThreadTagStack[threadID];
@@ -788,8 +788,8 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 					if (m_swapEndian)
 					{
-						tagHash		= Endian::swap(tagHash);
-						threadID	= Endian::swap(threadID);
+						tagHash		= endianSwap(tagHash);
+						threadID	= endianSwap(threadID);
 					}
 
 					std::vector<uint32_t>& tagStack = perThreadTagStack[threadID];
@@ -809,8 +809,8 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 					if (m_swapEndian)
 					{
-						markerNameHash	= Endian::swap(markerNameHash);
-						markerColor		= Endian::swap(markerColor);
+						markerNameHash	= endianSwap(markerNameHash);
+						markerColor		= endianSwap(markerColor);
 					}
 
 					MemoryMarkerEvent me;
@@ -833,9 +833,9 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 					if (m_swapEndian)
 					{
-						markerNameHash	= Endian::swap(markerNameHash);
-						threadID		= Endian::swap(threadID);
-						time			= Endian::swap(time);
+						markerNameHash	= endianSwap(markerNameHash);
+						threadID		= endianSwap(threadID);
+						time			= endianSwap(time);
 					}
 
 					if (minMarkerTime > time)
@@ -874,8 +874,8 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 					if (m_swapEndian)
 					{
-						modBase = Endian::swap(modBase);
-						modSize = Endian::swap(modSize);
+						modBase = endianSwap(modBase);
+						modSize = endianSwap(modSize);
 					}
 
 					addModule(modName, modBase, modSize, time);
@@ -907,8 +907,8 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 					if (m_swapEndian)
 					{
-						modBase = Endian::swap(modBase);
-						modSize = Endian::swap(modSize);
+						modBase = endianSwap(modBase);
+						modSize = endianSwap(modSize);
 					}
 
 					removeModule(modName, modBase, modSize, time);
@@ -923,7 +923,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					ReadString<1024>(allocatorName, loader, m_swapEndian);
 					VERIFY_READ_SIZE(allocatorHandle);
 					if (m_swapEndian)
-						allocatorHandle = Endian::swap(allocatorHandle);
+						allocatorHandle = endianSwap(allocatorHandle);
 
 					m_Heaps[allocatorHandle] = allocatorName;
 				}
@@ -1177,7 +1177,7 @@ bool Capture::loadModuleInfo(BinLoader& _loader, uint64_t _fileSize)
 	_loader.readVar(symbolInfoSize);
 
 	if (m_swapEndian)
-		symbolInfoSize = Endian::swap(symbolInfoSize);
+		symbolInfoSize = endianSwap(symbolInfoSize);
 
 	QByteArray executablePath;
 
@@ -1224,8 +1224,8 @@ bool Capture::loadModuleInfo(BinLoader& _loader, uint64_t _fileSize)
 
 		if (m_swapEndian)
 		{
-			modBase = Endian::swap(modBase);
-			modSize = Endian::swap(modSize);
+			modBase = endianSwap(modBase);
+			modSize = endianSwap(modSize);
 		}
 
 		addModule(pathBuffer, modBase, modSize, 0);
