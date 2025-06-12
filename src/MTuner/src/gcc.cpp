@@ -5,7 +5,7 @@
 
 #include <MTuner_pch.h>
 #include <MTuner/src/gcc.h>
-#include <rbase/inc/winchar.h>
+#include <rbase/inc/widechar.h>
 
 GCCSetup::GCCSetup(QWidget* _parent, Qt::WindowFlags _flags) :
 	QDialog(_parent, Qt::WindowSystemMenuHint | Qt::WindowTitleHint)

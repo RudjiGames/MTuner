@@ -5,7 +5,7 @@
 
 #include <MTuner_pch.h>
 #include <MTuner/src/capturecontext.h>
-#include <rbase/inc/winchar.h>
+#include <rbase/inc/widechar.h>
 #include <rdebug/inc/rdebug.h>
 
 CaptureContext::CaptureContext()
