@@ -248,21 +248,18 @@ uint32_t OperationTableSource::getNumberOfRows()
 
 static bool isLeakedBlock(const rtm::MemoryOperation* _op)
 {
-	switch (_op->m_operationType)
-	{
-	case rmem::LogMarkers::OpAlloc:
-	case rmem::LogMarkers::OpAllocAligned:
-	case rmem::LogMarkers::OpCalloc:
-	case rmem::LogMarkers::OpRealloc:
-	case rmem::LogMarkers::OpReallocAligned:
+	do {
+		if (_op->m_operationType == rmem::LogMarkers::OpFree)
+			return false;
+
 		if (!_op->m_chainNext)
 			return true;
-		return isLeakedBlock(_op->m_chainNext);
 
-	case rmem::LogMarkers::OpFree:
-		return false;
-	};
-	return false;
+		_op = _op->m_chainNext;
+
+	} while (_op);
+
+	return true;
 }
 
 QString getTimeString(float _time, uint64_t* _msec = 0);
