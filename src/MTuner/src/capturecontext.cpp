@@ -44,10 +44,11 @@ void CaptureContext::setupResolver(rdebug::Toolchain& _tc, std::string& _executa
 
 				if (len)
 				{
-					char buffer[2048];
-					strcpy(buffer, symbolStorePath.c_str());
-					buffer[len+1] = L'\0';
+					char* buffer = new char[len+2];
+					rtm::strlCpy(buffer, len+1, symbolStorePath.c_str());
+					buffer[len+1] = '\0';
 					m_symbolStoreDName = buffer;
+					delete[] buffer;
 				}
 				else
 				{
