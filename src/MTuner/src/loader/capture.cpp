@@ -144,6 +144,8 @@ static inline void updateLiveBlocks(MemoryOperation* _op, uint64_t& _liveBlocks)
 	case rmem::LogMarkers::OpReallocAligned:
 		if (_op->m_previousPointer == 0)
 			++_liveBlocks;
+		else if (_op->m_allocSize == 0)
+			--_liveBlocks;
 		break;
 	case rmem::LogMarkers::OpFree:
 		--_liveBlocks;

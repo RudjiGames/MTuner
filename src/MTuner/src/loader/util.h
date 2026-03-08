@@ -92,9 +92,15 @@ static inline uint32_t fillStats_ReAlloc(MemoryOperation* _op, MemoryStats& _sta
 
 	const uint32_t binIdx = getHistogramBinIndex(_op->m_allocSize);
 
-	_stats.m_histogram[binIdx].m_count			+= 1;
-	_stats.m_histogram[binIdx].m_size			+= _op->m_allocSize;
-	_stats.m_histogram[binIdx].m_overhead		+= _op->m_overhead;
+	// realloc(ptr, 0) acts as free - skip histogram/peak updates for the new bin
+	const bool isActualAllocation = (_op->m_allocSize != 0) || !prevOp;
+
+	if (isActualAllocation)
+	{
+		_stats.m_histogram[binIdx].m_count			+= 1;
+		_stats.m_histogram[binIdx].m_size			+= _op->m_allocSize;
+		_stats.m_histogram[binIdx].m_overhead		+= _op->m_overhead;
+	}
 
 	if (prevOp)
 	{
@@ -103,6 +109,12 @@ static inline uint32_t fillStats_ReAlloc(MemoryOperation* _op, MemoryStats& _sta
 		_stats.m_histogram[binIdxPrev].m_count		-= 1;
 		_stats.m_histogram[binIdxPrev].m_size		-= prevOp->m_allocSize;
 		_stats.m_histogram[binIdxPrev].m_overhead	-= prevOp->m_overhead;
+
+		// realloc(ptr, 0) acts as free - decrement live block count
+		if (_op->m_allocSize == 0)
+		{
+			--_stats.m_numberOfLiveBlocks;
+		}
 	}
 	else
 	{
@@ -113,10 +125,14 @@ static inline uint32_t fillStats_ReAlloc(MemoryOperation* _op, MemoryStats& _sta
 			_stats.m_numberOfLiveBlocksPeak = qMax(_stats.m_numberOfLiveBlocks, _stats.m_numberOfLiveBlocksPeak);
 		}
 	}
-	
-	_stats.m_histogram[binIdx].m_countPeak		= qMax(_stats.m_histogram[binIdx].m_countPeak, _stats.m_histogram[binIdx].m_count);
-	_stats.m_histogram[binIdx].m_sizePeak		= qMax(_stats.m_histogram[binIdx].m_sizePeak, _stats.m_histogram[binIdx].m_size);
-	_stats.m_histogram[binIdx].m_overheadPeak	= qMax(_stats.m_histogram[binIdx].m_overheadPeak, _stats.m_histogram[binIdx].m_overhead);
+
+	// Only update peaks for new bin if we actually added to it
+	if (isActualAllocation)
+	{
+		_stats.m_histogram[binIdx].m_countPeak		= qMax(_stats.m_histogram[binIdx].m_countPeak, _stats.m_histogram[binIdx].m_count);
+		_stats.m_histogram[binIdx].m_sizePeak		= qMax(_stats.m_histogram[binIdx].m_sizePeak, _stats.m_histogram[binIdx].m_size);
+		_stats.m_histogram[binIdx].m_overheadPeak	= qMax(_stats.m_histogram[binIdx].m_overheadPeak, _stats.m_histogram[binIdx].m_overhead);
+	}
 
 	return binIdx;
 }
