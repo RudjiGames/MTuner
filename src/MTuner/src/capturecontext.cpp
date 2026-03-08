@@ -18,6 +18,7 @@ CaptureContext::CaptureContext()
 
 CaptureContext::~CaptureContext()
 {
+	delete m_capture;
 	if (m_symbolResolver)
 	{
 		rdebug::symbolResolverDelete((uintptr_t)m_symbolResolver);
