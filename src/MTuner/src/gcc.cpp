@@ -178,10 +178,11 @@ rdebug::Toolchain::Type getTCType(rmem::ToolChain::Enum _toolchain)
 
 static void fixSlashes(QString& _path, QString& _slash)
 {
-	_path = _path.replace("/", _slash);
+	// first double slashes, then single
 	_path = _path.replace("//", _slash);
-	_path = _path.replace("\\", _slash);
 	_path = _path.replace("\\\\", _slash);
+	_path = _path.replace("/", _slash);
+	_path = _path.replace("\\", _slash);
 }
 
 bool GCCSetup::resolveToolchain(Toolchain& _toolchain, bool _64bit, rdebug::Toolchain& _tc)

@@ -165,11 +165,12 @@ static inline void updateLiveSize(MemoryOperation* _op, uint64_t& _liveSize)
 	case rmem::LogMarkers::OpRealloc:
 	case rmem::LogMarkers::OpReallocAligned:
 		_liveSize += _op->m_allocSize;
-		if (_op->m_previousPointer)
+		if (_op->m_previousPointer && _op->m_chainPrev)
 			_liveSize -= _op->m_chainPrev->m_allocSize;
 		break;
 	case rmem::LogMarkers::OpFree:
-		_liveSize -= _op->m_chainPrev->m_allocSize;
+		if (_op->m_chainPrev)
+			_liveSize -= _op->m_chainPrev->m_allocSize;
 		break;
 	};
 }
