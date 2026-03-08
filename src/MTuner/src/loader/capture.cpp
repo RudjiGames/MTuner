@@ -2108,9 +2108,6 @@ void Capture::addToMemoryGroups(MemoryGroupsHashType& _groups, MemoryOperation* 
 				//group.m_liveSize -= _op->m_allocSize;
 				group.m_peakSize  = qMax(group.m_peakSize, group.m_liveSize);
 
-				const uint32_t binIdx = getHistogramBinIndex(_op->m_allocSize);
-				group.m_histogram[binIdx]--;
-
 			}
 			break;
 
@@ -2138,30 +2135,33 @@ void Capture::addToMemoryGroups(MemoryGroupsHashType& _groups, MemoryOperation* 
 				MemoryOperationGroup& group = _groups[groupHash];
 				group.m_operations.push_back(_op);
 				group.m_count++;
-				group.m_liveCount++;
 
 				group.m_minSize = qMin(group.m_minSize, _op->m_allocSize);
 				group.m_maxSize = qMax(group.m_maxSize, _op->m_allocSize);
 
-				group.m_liveSize += _op->m_allocSize;
-
-				int64_t newPeakSize = qMax(group.m_peakSize, group.m_liveSize);
-				if (newPeakSize > group.m_peakSize)
+				if (_op->m_allocSize != 0 || !prevOp)
 				{
-					group.m_peakSize		= newPeakSize;
-					group.m_peakSizeGlobal	= _liveSize;
-				}
+					group.m_liveCount++;
+					group.m_liveSize += _op->m_allocSize;
 
-				uint32_t newPeakCount = qMax(group.m_liveCountPeak, group.m_liveCount);
-				if (newPeakCount > group.m_liveCountPeak)
-				{
-					group.m_liveCountPeak		= newPeakCount;
-					group.m_liveCountPeakGlobal = _liveBlocks;
-				}
+					int64_t newPeakSize = qMax(group.m_peakSize, group.m_liveSize);
+					if (newPeakSize > group.m_peakSize)
+					{
+						group.m_peakSize		= newPeakSize;
+						group.m_peakSizeGlobal	= _liveSize;
+					}
 
-				const uint32_t binIdx = getHistogramBinIndex(_op->m_allocSize);
-				group.m_histogram[binIdx]++;
-				group.m_histogramPeak[binIdx] = qMax(group.m_histogram[binIdx], group.m_histogramPeak[binIdx]);
+					uint32_t newPeakCount = qMax(group.m_liveCountPeak, group.m_liveCount);
+					if (newPeakCount > group.m_liveCountPeak)
+					{
+						group.m_liveCountPeak		= newPeakCount;
+						group.m_liveCountPeakGlobal = _liveBlocks;
+					}
+
+					const uint32_t binIdx = getHistogramBinIndex(_op->m_allocSize);
+					group.m_histogram[binIdx]++;
+					group.m_histogramPeak[binIdx] = qMax(group.m_histogram[binIdx], group.m_histogramPeak[binIdx]);
+				}
 			}
 			break;
 	};
