@@ -18,12 +18,13 @@ CaptureContext::CaptureContext()
 
 CaptureContext::~CaptureContext()
 {
-	delete m_capture;
 	if (m_symbolResolver)
 	{
 		rdebug::symbolResolverDelete((uintptr_t)m_symbolResolver);
 		m_symbolResolver = 0;
 	}
+
+	delete m_capture;
 }
 
 void CaptureContext::setupResolver(rdebug::Toolchain& _tc, std::string& _executable, rdebug::module_load_cb _callback, void* _data)
