@@ -44,7 +44,7 @@ bool handleInject(rtm::CommandLine& _cmdLine)
 	const char* MTunerDirConst = _cmdLine.getArg(0);
 	uint32_t Len = rtm::strLen(MTunerDirConst);
 	char* MTunerDir = new char[Len + 1];
-	rtm::strlCpy(MTunerDir, 1024, MTunerDirConst);
+	rtm::strlCpy(MTunerDir, Len + 1, MTunerDirConst);
 	rtm::pathCanonicalize(MTunerDir);
 
 	Len = rtm::strLen(profileExeConst);
@@ -68,7 +68,7 @@ bool handleInject(rtm::CommandLine& _cmdLine)
 		workingDir[end+1] = '\0';
 	}
 	else
-		rtm::strlCpy(workingDir, 512, profileWorkDir);
+		rtm::strlCpy(workingDir, Len, profileWorkDir);
 	rtm::pathCanonicalize(workingDir);
 
 	const char* profileCmdArgs = nullptr;
