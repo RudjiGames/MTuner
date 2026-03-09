@@ -106,6 +106,8 @@ void GraphGrid::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 	uint64_t max = m_curve->getMaxUsage();
 	uint64_t min = m_curve->getMinUsage();
 
+	if (!max) max = 1; // prevent unlikely division by zero
+
 	uint64_t maxSize = 8;
 	while (maxSize <= max) maxSize <<= 1;
 	maxSize >>= 1;
