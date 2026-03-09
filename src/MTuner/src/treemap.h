@@ -18,6 +18,7 @@ private:
 	CaptureContext*			m_context;
 	TreeMapView*			m_graphicsView;
 	TreeMapGraphicsItem*	m_map;
+	QLocale					m_locale;
 
 public:
 	TreeMapWidget(QWidget* _parent = 0, Qt::WindowFlags _flags = (Qt::WindowFlags)0);

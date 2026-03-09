@@ -34,6 +34,7 @@ private:
 	uint32_t					m_mapType;
 	TreeMapGraphicsItem*		m_item;
 	QLabel*						m_toolTipLabel;
+	QLocale						m_locale;
 
 public:
 	TreeMapView(QWidget* _parent = 0);
@@ -72,9 +73,10 @@ private:
 	QRectF				m_oldRect;
 	TreeMapView*		m_treeView;
 	CaptureContext*		m_context;
+	QLocale*			m_locale;
 
 public:
-	TreeMapGraphicsItem(TreeMapView* _treeView, CaptureContext* _context);
+	TreeMapGraphicsItem(TreeMapView* _treeView, CaptureContext* _context, QLocale* _locale);
 
 	void redraw();
 	void parentResized() { prepareGeometryChange(); }

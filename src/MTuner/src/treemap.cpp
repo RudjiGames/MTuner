@@ -39,7 +39,7 @@ void TreeMapWidget::setContext(CaptureContext* _context)
 {
 	m_context = _context;
 	m_graphicsView->setContext(_context);
-	m_map = new TreeMapGraphicsItem(m_graphicsView, _context);
+	m_map = new TreeMapGraphicsItem(m_graphicsView, _context, m_locale);
 	m_scene->addItem(m_map);
 }
 

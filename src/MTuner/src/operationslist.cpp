@@ -65,6 +65,7 @@ class OperationTableSource : public BigTableSource
 		uint32_t		m_currentColumn;
 		bool			m_valid;
 		Qt::SortOrder	m_sortOrder;
+		QLocale			m_locale;
 		const std::vector<rtm::MemoryOperation*>*	m_allOps;
 
 	public:
@@ -314,8 +315,7 @@ QString OperationTableSource::getItem(uint32_t _index, int32_t _column, QColor* 
 
 		case OperationColumn::Size:
 		{
-			QLocale locale;
-			return locale.toString(op->m_allocSize);
+			return m_locale.toString(op->m_allocSize);
 		}
 
 		case OperationColumn::Alignment:

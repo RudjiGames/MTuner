@@ -10,6 +10,7 @@
 
 static QFont s_sizeFont(QFont("Arial", 7));
 static QFont s_toolTipFont(QFont("Arial", 8));
+static int s_fontHeight = QFontMetrics(s_sizeFont).height();
 
 QString QStringColor(const QString& _string, const char* _color, bool _addColon = true);
 
@@ -204,13 +205,12 @@ void TreeMapView::updateHighlight(const QPoint& _pos)
 			{
 				m_highlightNode		= &m_tree[i];
 
-				QLocale locale;
 				QString str =	QString("<pre>") +
-										QStringColor(tr("Total size"), "ff42a6ba") + QStringColor(locale.toString(qulonglong(m_highlightNode->m_size)), "ffffff33", false) + QString("<br>") +
-										QStringColor(tr("Operations"), "ff83cf67") + locale.toString(qulonglong(m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Alloc] + m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Realloc] + m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Free])) + QString("<br><br>") +
-										QStringColor(tr("  Allocs"), "ffffffff") + locale.toString(qulonglong(m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Alloc])) + QString("<br>") +
-										QStringColor(tr("Reallocs"), "ffffffff") + locale.toString(qulonglong(m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Realloc])) + QString("<br>") +
-										QStringColor(tr("   Frees"), "ffffffff") + locale.toString(qulonglong(m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Free])) + QString("</pre>");
+										QStringColor(tr("Total size"), "ff42a6ba") + QStringColor(m_locale.toString(qulonglong(m_highlightNode->m_size)), "ffffff33", false) + QString("<br>") +
+										QStringColor(tr("Operations"), "ff83cf67") + m_locale.toString(qulonglong(m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Alloc] + m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Realloc] + m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Free])) + QString("<br><br>") +
+										QStringColor(tr("  Allocs"), "ffffffff") + m_locale.toString(qulonglong(m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Alloc])) + QString("<br>") +
+										QStringColor(tr("Reallocs"), "ffffffff") + m_locale.toString(qulonglong(m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Realloc])) + QString("<br>") +
+										QStringColor(tr("   Frees"), "ffffffff") + m_locale.toString(qulonglong(m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Free])) + QString("</pre>");
 				m_toolTipLabel->setText(str);
 				m_item->redraw();
 				invalidateScene();
@@ -337,11 +337,12 @@ void TreeMapView::leaveEvent(QEvent*)
 	repaint();
 }
 
-TreeMapGraphicsItem::TreeMapGraphicsItem(TreeMapView* _treeView, CaptureContext* _context)
+TreeMapGraphicsItem::TreeMapGraphicsItem(TreeMapView* _treeView, CaptureContext* _context, QLocale* _locale)
 {
 	m_oldRect				= QRectF(0,0,0,0);
 	m_treeView				= _treeView;
 	m_context				= _context;
+	m_locale				= _locale;
 	_treeView->setItem(this);
 	setCacheMode(QGraphicsItem::NoCache);
 	setAcceptHoverEvents(true);
@@ -424,9 +425,7 @@ void TreeMapGraphicsItem::paint(QPainter* _painter, const QStyleOptionGraphicsIt
 		TreeMapNode& info = tree[i];
 		if (info.m_tree->m_children.empty())
 		{
-			QLocale locale;
-			int s_fontHeight = QFontMetrics(s_sizeFont).height();
-			drawBlockText(locale.toString(qulonglong(info.m_size)), _painter, s_fontHeight, info.m_rect, &info == highlight);
+			drawBlockText(m_locale->toString(qulonglong(info.m_size)), _painter, s_fontHeight, info.m_rect, &info == highlight);
 		}
 	}
 }
