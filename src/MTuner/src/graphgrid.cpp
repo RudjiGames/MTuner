@@ -21,10 +21,9 @@ QRectF GraphGrid::boundingRect() const
 	return QRectF(-sz.width()/2, -sz.height()/2, sz.width(), sz.height());
 }
 
-static const char* getTextFromSize(uint64_t _size)
+static const char* getTextFromSize(uint64_t _size, char buffer[64])
 {
-	static char buffer[64];
-	static const char* suffix[] = { "b ", "Kb", "Mb", "Gb", "Tb" };
+	static const char* suffix[] = { "b ", "Kb", "Mb", "Gb", "Tb", "Pb"};
 
 	uint64_t size = _size;
 	int suffIdx = 0;
@@ -134,7 +133,8 @@ void GraphGrid::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 
 		_painter->drawLine(left, ycoord, right, ycoord);
 		QRectF txtR(left-39, ycoord-7, 36, 10);
-		_painter->drawText(txtR, Qt::AlignCenter, getTextFromSize(maxSize));
+		char buffer[64];
+		_painter->drawText(txtR, Qt::AlignCenter, getTextFromSize(maxSize, buffer));
 		maxSize >>= 1;
 	}
 
