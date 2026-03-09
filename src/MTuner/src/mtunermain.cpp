@@ -38,33 +38,32 @@ void err(const char* _message)
 bool handleInject(rtm::CommandLine& _cmdLine)
 {
 	const char* profileExeConst	= nullptr;
-	const char* profileWorkDir	= nullptr;
-	const char* profileCmdArgs	= nullptr;
-
 	if (!_cmdLine.getArg('p', profileExeConst))
 		return false;
 
-	char profileExe[1024];
-	rtm::strlCpy(profileExe, 1024, profileExeConst);
-	rtm::pathCanonicalize(profileExe);
-
-	_cmdLine.getArg('w', profileWorkDir);
-	_cmdLine.getArg('c', profileCmdArgs);
-
 	const char* MTunerDirConst = _cmdLine.getArg(0);
-	char MTunerDir[1024];
+	uint32_t Len = rtm::strLen(MTunerDirConst);
+	char* MTunerDir = new char[Len + 1];
 	rtm::strlCpy(MTunerDir, 1024, MTunerDirConst);
 	rtm::pathCanonicalize(MTunerDir);
+
+	Len = rtm::strLen(profileExeConst);
+	char* profileExe = new char[Len + 1];
+	char* workingDir = new char[Len]; // larger than needed by file name
+	rtm::strlCpy(profileExe, Len + 1, profileExeConst);
+	rtm::pathCanonicalize(profileExe);
+
+	const char* profileWorkDir = nullptr;
+	_cmdLine.getArg('w', profileWorkDir);
 
 	char* exePos = MTunerDir + rtm::strLen(MTunerDir) - 1;
 	while ((*exePos != '/') && (*exePos != '\\')) exePos--;
 	exePos[1] = L'\0';
 
-	char workingDir[512];
 	if (profileWorkDir == nullptr)
 	{
-		rtm::strlCpy(workingDir, 512, profileExe);
-		size_t end = strlen(workingDir) - 1;
+		rtm::strlCpy(workingDir, Len, profileExe);
+		size_t end = rtm::strLen(workingDir) - 1;
 		while ((workingDir[end] != '/') && (workingDir[end] != '\\')) --end;
 		workingDir[end+1] = '\0';
 	}
@@ -72,43 +71,27 @@ bool handleInject(rtm::CommandLine& _cmdLine)
 		rtm::strlCpy(workingDir, 512, profileWorkDir);
 	rtm::pathCanonicalize(workingDir);
 
-	char cmdArgs[512];
+	const char* profileCmdArgs = nullptr;
+	_cmdLine.getArg('c', profileCmdArgs);
+
+	std::string cmdArgs;
 	if (profileCmdArgs == nullptr)
-		strcpy(cmdArgs, "");
+		cmdArgs = "";
 	else
-		strcpy(cmdArgs, profileCmdArgs);
+		cmdArgs = profileCmdArgs;
 
-	char inject32[512];
-	char inject64[512];
-	rtm::strlCpy(inject32, 512, MTunerDir);
-	rtm::strlCpy(inject64, 512, MTunerDir);
-	rtm::strlCat(inject32, 512, "MTunerInject32.exe");
-	rtm::strlCat(inject64, 512, "MTunerInject64.exe");
+	std::string cmdLine32("\"");
+	cmdLine32 += MTunerDir + std::string("MTunerInject32.exe\" #23#") + profileExe + "#23# #23#" + cmdArgs + "#23# #23#" + workingDir + "#23#";
 
-	char cmdLine32[4096];
-	rtm::strlCpy(cmdLine32, 4096, "\"");
-	rtm::strlCat(cmdLine32, 4096, inject32);
-	rtm::strlCat(cmdLine32, 4096, "\" #23#");
-	rtm::strlCat(cmdLine32, 4096, profileExe);
-	rtm::strlCat(cmdLine32, 4096, "#23# #23#");
-	rtm::strlCat(cmdLine32, 4096, cmdArgs);
-	rtm::strlCat(cmdLine32, 4096, "#23# #23#");
-	rtm::strlCat(cmdLine32, 4096, workingDir);
-	rtm::strlCat(cmdLine32, 4096, "#23#");
+	std::string cmdLine64("\"");
+	cmdLine64 += MTunerDir + std::string("MTunerInject64.exe\" #23#") + profileExe + "#23# #23#" + cmdArgs + "#23# #23#" + workingDir + "#23#";
 
-	char cmdLine64[4096];
-	rtm::strlCpy(cmdLine64, 4096, "\"");
-	rtm::strlCat(cmdLine64, 4096, inject64);
-	rtm::strlCat(cmdLine64, 4096, "\" #23#");
-	rtm::strlCat(cmdLine64, 4096, profileExe);
-	rtm::strlCat(cmdLine64, 4096, "#23# #23#");
-	rtm::strlCat(cmdLine64, 4096, cmdArgs);
-	rtm::strlCat(cmdLine64, 4096, "#23# #23#");
-	rtm::strlCat(cmdLine64, 4096, workingDir);
-	rtm::strlCat(cmdLine64, 4096, "#23#");
+	delete[] workingDir;
+	delete[] MTunerDir;
+	delete[] profileExe;
 
-	rdebug::processRun(cmdLine32);
-	rdebug::processRun(cmdLine64);
+	rdebug::processRun(cmdLine32.c_str());
+	rdebug::processRun(cmdLine64.c_str());
 
 	return true;
 }
