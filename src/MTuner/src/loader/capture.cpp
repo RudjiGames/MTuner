@@ -1266,6 +1266,8 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 	uint32_t numOpsOver100 = numStackTraces/100;
 	uint32_t idx = 0;
 
+	if (!numOpsOver100) numOpsOver100 = 1; // prevent unlikely division by zero
+
 	ankerl::unordered_dense::map<uint64_t, uint64_t> address_IDs;
 
 	while (it != end)
