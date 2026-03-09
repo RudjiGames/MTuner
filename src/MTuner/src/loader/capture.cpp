@@ -310,7 +310,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 	rtm::MultiToWide path(_path);
 	FILE* f  = _wfopen(path.m_ptr, L"rb");
 #else
-	FILE *f = fopen(_path, "r");
+	FILE *f = fopen(_path, "rb");
 #endif
 
 	if (!f)
@@ -340,6 +340,8 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 	_fseeki64(f, 0, SEEK_SET);
 #elif RTM_PLATFORM_LINUX
 	fseeko64(f, 0, SEEK_SET);
+#elif RTM_PLATFORM_OSX
+	fseeko(f, 0, SEEK_SET);
 #endif
 
 	bool isCompressed = ((compressSignature == 0x23234646) || compressSignature == endianSwap(uint32_t(0x23234646)));
