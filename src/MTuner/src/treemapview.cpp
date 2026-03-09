@@ -10,7 +10,6 @@
 
 static QFont s_sizeFont(QFont("Arial", 7));
 static QFont s_toolTipFont(QFont("Arial", 8));
-static int s_fontHeight = QFontMetrics(s_sizeFont).height();
 
 QString QStringColor(const QString& _string, const char* _color, bool _addColon = true);
 
@@ -419,7 +418,9 @@ void TreeMapGraphicsItem::paint(QPainter* _painter, const QStyleOptionGraphicsIt
 		_painter->setBrush(gr);
 		_painter->drawRect(highlightRect);
 	}
-	
+
+	static QFontMetrics	metrics(s_sizeFont);
+	int s_fontHeight = metrics.height();
 	for (size_t i=0; i<tree.size(); ++i)
 	{
 		TreeMapNode& info = tree[i];

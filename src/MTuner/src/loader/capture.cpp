@@ -66,6 +66,22 @@ inline bool psTime(MemoryOperation* inOp1, MemoryOperation* inOp2)
 	return inOp1->m_operationTime < inOp2->m_operationTime;
 }
 
+static bool isLeakedBlock(const rtm::MemoryOperation* _op)
+{
+	do {
+		if (_op->m_operationType == rmem::LogMarkers::OpFree)
+			return false;
+
+		if (!_op->m_chainNext)
+			return true;
+
+		_op = _op->m_chainNext;
+
+	} while (_op);
+
+	return true;
+}
+
 template <uint32_t Len>
 inline uint32_t	ReadString(char _string[Len], BinLoader& _loader, bool _swapEndian, uint8_t _xor = 0)
 {
@@ -722,6 +738,7 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					op->m_chainNext  = NULL;
 					op->m_tag        = tag;
 					op->m_isValid    = 1;
+					op->m_isLeaked	 = 0;
 
 					m_operations.push_back(op);
 
@@ -1486,6 +1503,11 @@ bool Capture::setLinksAndRemoveInvalid(uint64_t inMinMarkerTime)
 	size_t newSize = newEnd -  m_operations.begin();
 	m_operations.resize(newSize);
 
+	// calcluate leak info
+	for (auto* op : m_operations)
+	{
+		op->m_isLeaked = isLeakedBlock(op);
+	}
 	// get time range
 	numOps = (uint32_t)m_operations.size();
 	

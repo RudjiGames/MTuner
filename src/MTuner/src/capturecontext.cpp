@@ -34,7 +34,7 @@ void CaptureContext::setupResolver(rdebug::Toolchain& _tc, std::string& _executa
 		case rdebug::Toolchain::MSVC:
 			{
 				std::string symbolStorePath = _tc.m_toolchainPath;
-				size_t len = symbolStorePath.length();
+				uint32_t len = (uint32_t)symbolStorePath.length();
 				if (len)
 				while (--len)
 				{

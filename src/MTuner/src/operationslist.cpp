@@ -247,22 +247,6 @@ uint32_t OperationTableSource::getNumberOfRows()
 	return m_numRows;
 }
 
-static bool isLeakedBlock(const rtm::MemoryOperation* _op)
-{
-	do {
-		if (_op->m_operationType == rmem::LogMarkers::OpFree)
-			return false;
-
-		if (!_op->m_chainNext)
-			return true;
-
-		_op = _op->m_chainNext;
-
-	} while (_op);
-
-	return true;
-}
-
 QString getTimeString(float _time, uint64_t* _msec = 0);
 QString OperationTableSource::getItem(uint32_t _index, int32_t _column, QColor* _color, bool* _setColor)
 {
@@ -273,12 +257,11 @@ QString OperationTableSource::getItem(uint32_t _index, int32_t _column, QColor* 
 	uint32_t idx = m_mapping.m_sortedIndex[index];
 	const rtm::MemoryOperation* op = m_mapping.m_allOps->operator[](idx);
 
-	bool leaked = isLeakedBlock(op);
 	if (_color)
 	{
 		*_color = QColor(255,169,40);
 		if (_setColor)
-			*_setColor = leaked;
+			*_setColor = op->m_isLeaked ? true : false;
 	}
 
 	switch (_column)

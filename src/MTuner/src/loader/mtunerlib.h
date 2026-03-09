@@ -54,8 +54,9 @@ struct MemoryOperation
 	uint32_t			m_allocSize;
 	uint32_t			m_overhead;
 	uint16_t			m_tag;
-	uint8_t				m_operationType : 7;
+	uint8_t				m_operationType : 6;
 	uint8_t				m_isValid		: 1;
+	uint8_t				m_isLeaked		: 1;
 	uint8_t				m_alignment;
 };
 
