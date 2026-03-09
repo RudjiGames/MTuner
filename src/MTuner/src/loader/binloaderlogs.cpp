@@ -31,10 +31,10 @@ static inline const char* gGetStringFromOperation( uint16_t _op )
 
 //--------------------------------------------------------------------------
 template <typename T>
-static char* FormatNumber( T inNum, char ioBuff[128] )
+static char* FormatNumber( T inNum, char ioBuff[256] )
 {
-	ioBuff[127] = '\0';
-	int j = 126;
+	ioBuff[255] = '\0';
+	int j = 254;
 	T num = inNum;
 	uint32_t i = 0;
 	if (num)
@@ -54,10 +54,10 @@ static char* FormatNumber( T inNum, char ioBuff[128] )
 }
 
 template <typename T>
-static wchar_t* FormatNumber( T inNum, wchar_t ioBuff[128] )
+static wchar_t* FormatNumber( T inNum, wchar_t ioBuff[256] )
 {
-	ioBuff[127] = L'\0';
-	int j = 126;
+	ioBuff[255] = L'\0';
+	int j = 254;
 	T num = inNum;
 	uint32_t i = 0;
 	if (num)
@@ -92,7 +92,7 @@ static inline void WriteStackFrame(FILE* inFile, rdebug::StackFrame& inSt)
 //--------------------------------------------------------------------------
 void	Capture::writeGlobalStats( FILE* inFile )
 {
-	char buffer[128];
+	char buffer[256];
 
 	fprintf(inFile,"----------------------------------------\n");
 	fprintf(inFile,"Memory usage            : %s\n", FormatNumber(m_statsGlobal.m_memoryUsage,buffer));
@@ -276,7 +276,7 @@ bool Capture::saveGroupsLogXML(const char* _path, eGroupSort _sorting, uintptr_t
 	fprintf(f, "%s", m_loadedFile.c_str());
 	fprintf(f, "\">\n");
 
-	char buffer[128];
+	char buffer[256];
 	fprintf(f, "    <Stats>\n");
 	fprintf(f, "        <Usage>");
 	fprintf(f, "%s", FormatNumber(m_statsGlobal.m_memoryUsage,buffer));
