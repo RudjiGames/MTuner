@@ -23,7 +23,7 @@ QRectF GraphGrid::boundingRect() const
 
 static const char* getTextFromSize(uint64_t _size, char buffer[64])
 {
-	static const char* suffix[] = { "b ", "Kb", "Mb", "Gb", "Tb", "Pb"};
+	static const char* suffix[] = { "b ", "Kb", "Mb", "Gb", "Tb", "Pb", "Eb", "Zb"};
 
 	uint64_t size = _size;
 	int suffIdx = 0;
@@ -35,6 +35,10 @@ static const char* getTextFromSize(uint64_t _size, char buffer[64])
 
 	strcpy(&buffer[61],suffix[suffIdx]);
 	int idx = 60;
+	if (!size)
+	{
+		buffer[idx--] = '0';
+	}
 	while (size)
 	{
 		buffer[idx--] = '0' + size%10;
@@ -46,6 +50,7 @@ static const char* getTextFromSize(uint64_t _size, char buffer[64])
 
 QString getTimeString(float _time, uint64_t* _msec = 0)
 {
+	RTM_ASSERT(_time >= 0.0f, "");
 	uint64_t time = _time * 1000;
 
 	if (_msec)
@@ -69,6 +74,13 @@ QString getTimeString(float _time, uint64_t* _msec = 0)
 		return QString("%1s %2ms").arg(sec).arg(msec);
 
 	return QString("0s %1ms").arg(msec);
+}
+
+// Inline time-to-pixel conversion avoiding repeated getDrawRect() and null checks
+static inline int timeToPos(uint64_t _x, uint64_t _minTime, uint64_t _timeRange, int _drawLeft, int _drawWidth)
+{
+	uint64_t offset = ((_x - _minTime) * _drawWidth) / _timeRange;
+	return _drawLeft + (int)offset;
 }
 
 void GraphGrid::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _option, QWidget* _widget)
@@ -142,8 +154,11 @@ void GraphGrid::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 
 	// times
 
-	uint64_t minTime = m_graphWidget->minTime();
-	uint64_t maxTime = m_graphWidget->maxTime();
+	const uint64_t minTime = m_graphWidget->minTime();
+	const uint64_t maxTime = m_graphWidget->maxTime();
+	const uint64_t timeRange = maxTime - minTime;
+	const int drawLeft = rect.x();
+	const int drawWidth = rect.width();
 
 	uint64_t minMSec;
 	uint64_t maxMSec;
@@ -157,23 +172,28 @@ void GraphGrid::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 	_painter->drawText(lcorner, Qt::AlignCenter, timeMin);
 	_painter->drawText(rcorner, Qt::AlignCenter, timeMax);
 
+	if (timeRange > 0)
 	{
-		uint64_t msecs = maxMSec - minMSec;
-		uint64_t single = msecs / 11;
+		if (maxMSec <= minMSec)
+			return;
+
+		const uint64_t msecs = maxMSec - minMSec;
+		const uint64_t single = msecs / 11;
+		const uint64_t cpuFreq = ctx->m_capture->getClocksFromTime(1.0f); // cache frequency
 
 		uint64_t round = 1;
-		while (round < single) round *= 10;
+		while (round < single && round <= UINT64_C(1000000000000000000)) round *= 10;
 
 		uint64_t curr = minMSec + round;
 		curr -= curr % round;
 
-		uint64_t intensity = 255*single/round;
+		const uint64_t intensity = 255*single/round;
 		_painter->setPen(QPen(QColor(0,0,0,intensity/2), 1.0, Qt::DashLine));
 
 		while (curr < maxMSec)
 		{
-			uint64_t clocks = ctx->m_capture->getClocksFromTime(float(curr) / 1000.0f);
-			int highlightX = m_graphWidget->mapTimeToPos(clocks);
+			const uint64_t clocks = (uint64_t)((double)curr / 1000.0 * cpuFreq);
+			const int highlightX = timeToPos(clocks, minTime, timeRange, drawLeft, drawWidth);
 			_painter->drawLine(highlightX, top, highlightX, bottom);
 			curr += round;
 		}
@@ -188,8 +208,8 @@ void GraphGrid::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 
 			while (curr < maxMSec)
 			{
-				uint64_t clocks = ctx->m_capture->getClocksFromTime(float(curr) / 1000.0f);
-				int highlightX = m_graphWidget->mapTimeToPos(clocks);
+				const uint64_t clocks = (uint64_t)((double)curr / 1000.0 * cpuFreq);
+				const int highlightX = timeToPos(clocks, minTime, timeRange, drawLeft, drawWidth);
 				_painter->drawLine(highlightX, top, highlightX, bottom);
 				curr += round;
 			}
@@ -205,8 +225,8 @@ void GraphGrid::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _optio
 		highlightTimeEnd = maxTime;
 
 	float intensity = m_graphWidget->highlightIntensity();
-	int highlightXstart	= m_graphWidget->mapTimeToPos(highlightTimeStart);
-	int highlightXend	= m_graphWidget->mapTimeToPos(highlightTimeEnd);
+	int highlightXstart	= timeRange > 0 ? timeToPos(highlightTimeStart, minTime, timeRange, drawLeft, drawWidth) : drawLeft;
+	int highlightXend	= timeRange > 0 ? timeToPos(highlightTimeEnd, minTime, timeRange, drawLeft, drawWidth) : drawLeft;
 
 	_painter->setPen(QPen(QColor(255,255,255,255*intensity), 1.0, Qt::DashLine));
 

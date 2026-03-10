@@ -895,11 +895,12 @@ void MTuner::openFileFromPath(const QString& _file)
 		if (!symStore.isEmpty())
 		{
 			std::wstring storePathW = symStore.toStdWString();
-			rdebug::symbolSetServerSource(storePathW.c_str());
+			rtm::WideToMulti mb(storePathW.c_str());
+			rdebug::symbolSetServerSource(mb);
 		}
 		else
 		{
-			rdebug::symbolSetServerSource(L"");
+			rdebug::symbolSetServerSource("");
 		}
 
 		statusBar()->showMessage(tr("Loading, please wait..."));

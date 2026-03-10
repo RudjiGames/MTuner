@@ -96,7 +96,7 @@ void HotspotsWidget::usageSortingDone(GroupMapping* _group)
 
 		m_usageTable->insertRow(i);
 
-		m_usageTable->setItem(i, 0, new QTableWidgetItem(s_typeName[group->m_operations[0]->m_operationType]));
+		m_usageTable->setItem(i, 0, new QTableWidgetItem(s_typeName[group->m_groupOperations[0]->m_operationType]));
 
 		QString size;
 		if (group->m_maxSize != group->m_minSize)
@@ -105,8 +105,8 @@ void HotspotsWidget::usageSortingDone(GroupMapping* _group)
 			size = locale.toString(group->m_minSize);
 
 		m_usageTable->setItem(i, 1, new QTableWidgetItem(size));
-		m_usageTable->setItem(i, 2, new QTableWidgetItem((group->m_operations[0]->m_alignment == 255) ? QString("Default") :
-															QString::number(1 << group->m_operations[0]->m_alignment)));
+		m_usageTable->setItem(i, 2, new QTableWidgetItem((group->m_groupOperations[0]->m_alignment == 255) ? QString("Default") :
+															QString::number(1 << group->m_groupOperations[0]->m_alignment)));
 		m_usageTable->setItem(i, 3, new QTableWidgetItem(locale.toString(group->m_liveCount)));
 		m_usageTable->setItem(i, 4, new QTableWidgetItem(locale.toString((qlonglong)group->m_liveSize)));
 
@@ -136,7 +136,7 @@ void HotspotsWidget::peakUsageSortingDone(GroupMapping* _group)
 			break;
 
 		m_peakUsageTable->insertRow(i);
-		m_peakUsageTable->setItem(i, 0, new QTableWidgetItem(s_typeName[group->m_operations[0]->m_operationType]));
+		m_peakUsageTable->setItem(i, 0, new QTableWidgetItem(s_typeName[group->m_groupOperations[0]->m_operationType]));
 
 		QString size;
 		if (group->m_maxSize != group->m_minSize)
@@ -145,8 +145,8 @@ void HotspotsWidget::peakUsageSortingDone(GroupMapping* _group)
 			size = locale.toString(group->m_minSize);
 
 		m_peakUsageTable->setItem(i, 1, new QTableWidgetItem(size));
-		m_peakUsageTable->setItem(i, 2, new QTableWidgetItem((group->m_operations[0]->m_alignment == 255) ? QString("Default") :
-															QString::number(1 << group->m_operations[0]->m_alignment)));
+		m_peakUsageTable->setItem(i, 2, new QTableWidgetItem((group->m_groupOperations[0]->m_alignment == 255) ? QString("Default") :
+															QString::number(1 << group->m_groupOperations[0]->m_alignment)));
 		m_peakUsageTable->setItem(i, 3, new QTableWidgetItem(locale.toString(group->m_liveCountPeak)));
 		m_peakUsageTable->setItem(i, 4, new QTableWidgetItem(locale.toString((qlonglong)group->m_peakSize)));
 
@@ -175,7 +175,7 @@ void HotspotsWidget::peakCountSortingDone(GroupMapping* _group)
 			break;
 
 		m_peakCountTable->insertRow(i);
-		m_peakCountTable->setItem(i, 0, new QTableWidgetItem(s_typeName[group->m_operations[0]->m_operationType]));
+		m_peakCountTable->setItem(i, 0, new QTableWidgetItem(s_typeName[group->m_groupOperations[0]->m_operationType]));
 
 		QString size;
 		if (group->m_maxSize != group->m_minSize)
@@ -183,8 +183,8 @@ void HotspotsWidget::peakCountSortingDone(GroupMapping* _group)
 		else
 			size = locale.toString(group->m_minSize);
 		m_peakCountTable->setItem(i, 1, new QTableWidgetItem(size));
-		m_peakCountTable->setItem(i, 2, new QTableWidgetItem((group->m_operations[0]->m_alignment == 255) ? QString("Default") :
-															QString::number(1 << group->m_operations[0]->m_alignment)));
+		m_peakCountTable->setItem(i, 2, new QTableWidgetItem((group->m_groupOperations[0]->m_alignment == 255) ? QString("Default") :
+															QString::number(1 << group->m_groupOperations[0]->m_alignment)));
 		m_peakCountTable->setItem(i, 3, new QTableWidgetItem(locale.toString(group->m_liveCountPeak)));
 		m_peakCountTable->setItem(i, 4, new QTableWidgetItem(locale.toString((qlonglong)group->m_peakSize)));
 
@@ -209,11 +209,11 @@ void HotspotsWidget::leaksSortingDone(GroupMapping* _group)
 
 		rtm::MemoryOperationGroup* group = getGroupFromMapping(_group, i);
 
-		if (group->m_liveCount * group->m_operations[0]->m_allocSize == 0)
+		if (group->m_liveCount * group->m_groupOperations[0]->m_allocSize == 0)
 			break;
 
 		m_leaksTable->insertRow(i);
-		m_leaksTable->setItem(i, 0, new QTableWidgetItem(s_typeName[group->m_operations[0]->m_operationType]));
+		m_leaksTable->setItem(i, 0, new QTableWidgetItem(s_typeName[group->m_groupOperations[0]->m_operationType]));
 
 		QString size;
 		if (group->m_maxSize != group->m_minSize)
@@ -222,8 +222,8 @@ void HotspotsWidget::leaksSortingDone(GroupMapping* _group)
 			size = locale.toString(group->m_minSize);
 
 		m_leaksTable->setItem(i, 1, new QTableWidgetItem(size));
-		m_leaksTable->setItem(i, 2, new QTableWidgetItem((group->m_operations[0]->m_alignment == 255) ? QString("Default") :
-															QString::number(1 << group->m_operations[0]->m_alignment)));
+		m_leaksTable->setItem(i, 2, new QTableWidgetItem((group->m_groupOperations[0]->m_alignment == 255) ? QString("Default") :
+															QString::number(1 << group->m_groupOperations[0]->m_alignment)));
 		m_leaksTable->setItem(i, 3, new QTableWidgetItem(locale.toString(group->m_liveCount)));
 		m_leaksTable->setItem(i, 4, new QTableWidgetItem(locale.toString((qlonglong)group->m_liveSize)));
 
@@ -262,11 +262,11 @@ void HotspotsWidget::updateStackTrace(QTableWidget* _table)
 
 	if (group)
 	{
-		emit setStackTrace(&(group->m_operations[0]->m_stackTrace), 1);
+		emit setStackTrace(&(group->m_groupOperations[0]->m_stackTrace), 1);
 
-		size_t len = group->m_operations.size();
-		uint64_t mn = group->m_operations[0]->m_operationTime;
-		uint64_t mx = group->m_operations[len - 1]->m_operationTime;
+		size_t len = group->m_groupOperations.size();
+		uint64_t mn = group->m_groupOperations[0]->m_operationTime;
+		uint64_t mx = group->m_groupOperations[len - 1]->m_operationTime;
 		emit highlightRange(mn, mx);
 	}
 }

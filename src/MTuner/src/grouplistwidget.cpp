@@ -77,7 +77,7 @@ struct pSortType
 	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
 	pSortType(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
-	inline uint8_t operator()(const uint32_t _val) const { return (*m_allGroups)[_val]->m_operations[0]->m_operationType; } 
+	inline uint8_t operator()(const uint32_t _val) const { return (*m_allGroups)[_val]->m_groupOperations[0]->m_operationType; } 
 };
 
 // concurrency::parallel_radixsort Heap
@@ -86,7 +86,7 @@ struct pSortHeap
 	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
 	pSortHeap(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
-	inline uint64_t operator()(const uint32_t _val) const { return (*m_allGroups)[_val]->m_operations[0]->m_allocatorHandle; } 
+	inline uint64_t operator()(const uint32_t _val) const { return (*m_allGroups)[_val]->m_groupOperations[0]->m_allocatorHandle; }
 };
 
 // concurrency::parallel_radixsort Size
@@ -138,7 +138,7 @@ struct pSortAlignment
 	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
 	pSortAlignment(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
-	inline uint8_t operator()(const uint32_t _val) const { return (*m_allGroups)[_val]->m_operations[0]->m_alignment; } 
+	inline uint8_t operator()(const uint32_t _val) const { return (*m_allGroups)[_val]->m_groupOperations[0]->m_alignment; }
 };
 
 // concurrency::parallel_radixsort Group size
@@ -536,17 +536,17 @@ QString GroupTableSource::getItem(uint32_t _index, int32_t _column, QColor*, boo
 				QObject::tr("Realloc aligned")
 			};
 
-			return typeName[group->m_operations[0]->m_operationType];
+			return typeName[group->m_groupOperations[0]->m_operationType];
 		}
 	
 		case GroupColumn::Heap:
 			{
 				rtm::HeapsType& heaps = m_context->m_capture->getHeaps();
-				rtm::HeapsType::iterator it = heaps.find(group->m_operations[0]->m_allocatorHandle);
+				rtm::HeapsType::iterator it = heaps.find(group->m_groupOperations[0]->m_allocatorHandle);
 				if (it != heaps.end())
 					return it->second.c_str();
 				else
-					return QString("0x") + QString::number(group->m_operations[0]->m_allocatorHandle, 16);
+					return QString("0x") + QString::number(group->m_groupOperations[0]->m_allocatorHandle, 16);
 			}
 		
 		case GroupColumn::Size:
@@ -566,10 +566,10 @@ QString GroupTableSource::getItem(uint32_t _index, int32_t _column, QColor*, boo
 
 		case GroupColumn::Alignment:
 		{
-			if (group->m_operations[0]->m_alignment == 255)
+			if (group->m_groupOperations[0]->m_alignment == 255)
 				return QObject::tr("Default");
 			else
-				return QString::number(1 << group->m_operations[0]->m_alignment);
+				return QString::number(1 << group->m_groupOperations[0]->m_alignment);
 		}
 
 		case GroupColumn::GroupSize:
@@ -740,26 +740,26 @@ void GroupList::selectionChanged(void* _item)
 
 	if (group->m_count == 1)
 	{
-		emit highlightTime(group->m_operations[0]->m_operationTime);
+		emit highlightTime(group->m_groupOperations[0]->m_operationTime);
 	}
 	else
 	{
-		size_t len = group->m_operations.size();
-		uint64_t mn = group->m_operations[0]->m_operationTime;
-		uint64_t mx = group->m_operations[len-1]->m_operationTime;
+		size_t len = group->m_groupOperations.size();
+		uint64_t mn = group->m_groupOperations[0]->m_operationTime;
+		uint64_t mx = group->m_groupOperations[len-1]->m_operationTime;
 		emit highlightRange(mn, mx);
 	}
 
-	emit setStackTrace(&(group->m_operations[0]->m_stackTrace), 1);
+	emit setStackTrace(&(group->m_groupOperations[0]->m_stackTrace), 1);
 }
 
 void GroupList::groupRightClick(void* _item, const QPoint& _pos)
 {
 	rtm::MemoryOperationGroup* group = (rtm::MemoryOperationGroup*)_item;
-	size_t last = group->m_operations.size();
+	size_t last = group->m_groupOperations.size();
 	if (last> 0) --last;
-	m_lastRange[0] = group->m_operations[0]->m_operationTime;
-	m_lastRange[1] = group->m_operations[last]->m_operationTime;
+	m_lastRange[0] = group->m_groupOperations[0]->m_operationTime;
+	m_lastRange[1] = group->m_groupOperations[last]->m_operationTime;
 
 	m_selectAction =  new QAction(QString(tr("Select group range")),this);
 	connect(m_selectAction, SIGNAL(triggered()), this, SLOT(selectTriggered()));

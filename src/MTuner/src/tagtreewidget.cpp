@@ -209,8 +209,8 @@ void TagTreeModel::setupModelData(const rtm::MemoryTagTree* _tree, TagTreeItem* 
 {
 	TagTreeItem* treeItem = new TagTreeItem(m_context, _tree, _parent);
 
-	rtm::MemoryTagTree::ChildMap::const_iterator it  = _tree->m_children.begin();
-	rtm::MemoryTagTree::ChildMap::const_iterator end = _tree->m_children.end();
+	rtm::MemoryTagTree::ChildNodes::const_iterator it  = _tree->m_children.begin();
+	rtm::MemoryTagTree::ChildNodes::const_iterator end = _tree->m_children.end();
 
 	while (it != end)
 	{

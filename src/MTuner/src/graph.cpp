@@ -57,8 +57,8 @@ void Graph::setContext(CaptureContext* _context, BinLoaderView* _binView)
 	m_buttonZoomReset->setEnabled(false);
 	m_buttonZoomSelect->setEnabled(false);
 	m_scroll->setEnabled(false);
-	m_buttonZoomIn->setEnabled(_context == nullptr);
-	m_buttonAutoZoom->setEnabled(_context == nullptr);
+	m_buttonZoomIn->setEnabled(_context != nullptr);
+	m_buttonAutoZoom->setEnabled(_context != nullptr);
 }
 
 bool Graph::isAutoZoomSet() const
@@ -88,13 +88,13 @@ void Graph::zoomChanged()
 		m_buttonZoomOut->setEnabled(true);
 		m_scroll->setEnabled(true);
 		
-		float visRange = m_graph->maxTime() - m_graph->minTime();
-		float hVisRange = visRange*0.5f;
+		double visRange = (double)(m_graph->maxTime() - m_graph->minTime());
+		double hVisRange = visRange * 0.5;
 
-		float newMin = m_context->m_capture->getMinTime() + hVisRange;
-		float newMax = m_context->m_capture->getMaxTime() - hVisRange;
+		double newMin = (double)m_context->m_capture->getMinTime() + hVisRange;
+		double newMax = (double)m_context->m_capture->getMaxTime() - hVisRange;
 
-		m_scroll->setValue(m_scroll->maximum() * (m_graph->minTime() - m_context->m_capture->getMinTime()) / (newMax-newMin));
+		m_scroll->setValue((int)(m_scroll->maximum() * (m_graph->minTime() - m_context->m_capture->getMinTime()) / (newMax - newMin)));
 	}
 	else
 	{

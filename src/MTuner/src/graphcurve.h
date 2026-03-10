@@ -16,8 +16,6 @@ private:
 
 	Graph*			m_graph;
 	GraphWidget*	m_graphWidget;
-	uint64_t		m_minUsage;
-	uint64_t		m_maxUsage;
 	GraphVec		m_graphValues;
 	bool			m_prevAutoZoom;
 	uint64_t		m_prevMinTime;

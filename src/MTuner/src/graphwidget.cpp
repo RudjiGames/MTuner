@@ -236,7 +236,10 @@ void GraphWidget::highlightRange(uint64_t _minTime, uint64_t _maxTime)
 void GraphWidget::animateHighlight()
 {
 	if (m_highlightAnimation != nullptr)
+	{
 		m_highlightAnimation->stop();
+		delete m_highlightAnimation;
+	}
 
 	m_hightlightIntensity	= 1.0f;
 
@@ -269,14 +272,14 @@ void GraphWidget::animateRange(uint64_t _min, uint64_t _max)
 	animation->setDuration(150);
 	animation->setStartValue(qulonglong(m_minTime));
 	animation->setEndValue(qulonglong(_min));
-	animation->start();
-
 	connect(animation, SIGNAL(valueChanged(const QVariant&)), this, SLOT(zoomAnimEvent()));
+	animation->start();
 
 	animation = new QPropertyAnimation(this, "maxTime");
 	animation->setDuration(150);
 	animation->setStartValue(qulonglong(m_maxTime));
 	animation->setEndValue(qulonglong(_max));
+	connect(animation, SIGNAL(valueChanged(const QVariant&)), this, SLOT(zoomAnimEvent()));
 	animation->start();
 }
 
@@ -288,7 +291,7 @@ void GraphWidget::zoomIn()
 void GraphWidget::zoomIn(uint64_t _time)
 {
 	int64_t timeSpan = (m_maxTime - m_minTime) / 2;
-	int64_t middle = (m_maxTime + m_minTime) / 2;
+	int64_t middle = m_minTime + (m_maxTime - m_minTime) / 2;
 	if (_time != UINT64_MAX)
 	{
 		middle = _time;
@@ -326,7 +329,7 @@ void GraphWidget::zoomOut()
 void GraphWidget::zoomOut(uint64_t _time)
 {
 	int64_t timeSpan = (m_maxTime - m_minTime) / 2;
-	int64_t middle   = (m_maxTime + m_minTime) / 2;
+	int64_t middle = m_minTime + (m_maxTime - m_minTime) / 2;
 	if (_time != UINT64_MAX)
 	{
 		middle = _time;
@@ -682,7 +685,7 @@ void GraphWidget::mouseReleaseEvent(QMouseEvent* _event)
 
 	QGraphicsView::mouseReleaseEvent(_event);
 
-	mouseMovement(mapToScene(QCursor::pos()).toPoint(), Qt::LeftButton);
+	mouseMovement(mapFromGlobal(QCursor::pos()), Qt::NoButton);
 }
 
 void GraphWidget::contextMenuEvent(QContextMenuEvent* _event)

@@ -123,7 +123,7 @@ struct MemoryOperationGroup
 	uint32_t			m_liveCount;
 	uint32_t			m_liveCountPeak;
 	uint32_t			m_liveCountPeakGlobal;
-	MemoryOpArray		m_operations;
+	MemoryOpArray		m_groupOperations;
 	uint32_t			m_indexMappings[INDEX_MAPPINGS];
 	uint32_t			m_histogram[rtm::MemoryStats::NUM_HISTOGRAM_BINS];
 	uint32_t			m_histogramPeak[rtm::MemoryStats::NUM_HISTOGRAM_BINS];
@@ -195,7 +195,6 @@ struct StackTrace
 
 	static uint32_t		calculateSize(uint32_t numFrames);
 	static void			init(StackTrace* st, uint32_t numFrames);
-	static uint16_t*	getIndexArray(StackTrace* st);
 	static StackTrace** getNextArray(StackTrace* st);
 };
 
@@ -204,7 +203,7 @@ struct StackTrace
 //--------------------------------------------------------------------------
 struct StackTraceTree
 {
-	typedef std::vector<StackTraceTree>	ChildNodes;
+	typedef std::vector<StackTraceTree*>	ChildNodes;
 
 	enum Enum
 	{
@@ -242,17 +241,19 @@ struct StackTraceTree
 	{
 		memset(&m_opCount[0], 0, sizeof(int32_t)*StackTraceTree::Count);
 	}
-};
 
-void destroyStackTree( StackTraceTree& _tree );
+	~StackTraceTree();
+	void reset();
+};
 
 //--------------------------------------------------------------------------
 /// Memory tag tree
 //--------------------------------------------------------------------------
 struct MemoryTagTree
 {
-	typedef ankerl::unordered_dense::map<uint32_t,MemoryTagTree*>	ChildMap;
-	typedef std::vector<MemoryOperation*>							OpList;
+	//typedef ankerl::unordered_dense::map<uint32_t,MemoryTagTree*>	ChildMap;
+	typedef ankerl::unordered_dense::map<uint32_t, MemoryTagTree* >		ChildNodes;
+	typedef std::vector<MemoryOperation*>								OpList;
 
 	std::string			m_name;
 	uint32_t			m_hash;
@@ -262,22 +263,15 @@ struct MemoryTagTree
 	uint64_t			m_overheadPeak;
 	uint32_t			m_operationCount[rmem::LogMarkers::OpCount];
 	MemoryTagTree*		m_parent;
-	ChildMap			m_children;
+	ChildNodes			m_children;
 	OpList				m_operations;
 
 	inline MemoryTagTree()
 	{
-		m_name			= "";
-		m_hash			= 0;
-		m_usage			= 0;
-		m_usagePeak		= 0;
-		m_overhead		= 0;
-		m_overheadPeak	= 0;
-		m_parent		= NULL;
-
-		for (uint32_t i=0; i<rmem::LogMarkers::OpCount; i++)
-			m_operationCount[i] = 0;
+		reset();
 	}
+	~MemoryTagTree();
+	void reset();
 };
 
 bool tagFind(MemoryTagTree& _rootTag, uint32_t _hash, MemoryTagTree*& ioResult, MemoryTagTree*& _prevTag);

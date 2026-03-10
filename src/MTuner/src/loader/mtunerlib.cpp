@@ -97,8 +97,8 @@ bool tagFind(MemoryTagTree& _rootTag, uint32_t _hash, MemoryTagTree*& _result, M
 	}
 	else
 	{
-		MemoryTagTree::ChildMap::iterator it = _rootTag.m_children.begin();
-		MemoryTagTree::ChildMap::iterator end = _rootTag.m_children.end();
+		MemoryTagTree::ChildNodes::iterator it = _rootTag.m_children.begin();
+		MemoryTagTree::ChildNodes::iterator end = _rootTag.m_children.end();
 		while (it != end)
 		{
 			if (tagFind(*it->second, _hash, _result, _prevTag))
@@ -123,8 +123,8 @@ bool tagInsert(MemoryTagTree* _rootTag, MemoryTagTree* _tag, uint32_t _parentTag
 	}
 	else
 	{
-		MemoryTagTree::ChildMap::iterator it = _rootTag->m_children.begin();
-		MemoryTagTree::ChildMap::iterator end = _rootTag->m_children.end();
+		MemoryTagTree::ChildNodes::iterator it = _rootTag->m_children.begin();
+		MemoryTagTree::ChildNodes::iterator end = _rootTag->m_children.end();
 		while (it != end)
 		{
 			if (tagInsert(it->second,_tag,_parentTagHash))
@@ -198,37 +198,59 @@ void tagAddOp(MemoryTagTree& _rootTag, MemoryOperation* _op, MemoryTagTree*& _pr
 
 void tagTreeDestroy(MemoryTagTree& _rootTag)
 {
-	MemoryTagTree::ChildMap::iterator it = _rootTag.m_children.begin();
-	MemoryTagTree::ChildMap::iterator end = _rootTag.m_children.end();
-	while (it != end)
-	{
-		MemoryTagTree* ct = it->second;
-		tagTreeDestroy(*ct);
-		delete ct;
-		++it;
-	}
-	_rootTag.m_children.clear();
+	_rootTag.reset();
 }
 
-void destroyStackTree(StackTraceTree& _tree)
+StackTraceTree::~StackTraceTree()
 {
-	StackTraceTree::ChildNodes::iterator it = _tree.m_children.begin();
-	StackTraceTree::ChildNodes::iterator end = _tree.m_children.end();
+	reset();
+}
 
-	while (it != end)
+void StackTraceTree::reset()
+{
+	for (size_t i=0; i<m_children.size(); ++i)
 	{
-		StackTraceTree& ct = *it;
-		destroyStackTree(ct);
-		++it;
+		delete m_children[i];
 	}
+	m_children.clear();
 
-	_tree.m_children.clear();
+	m_addressID		= 0;
+	m_memUsage		= 0;
+	m_memUsagePeak	= 0;
+	m_minTime		= 0;
+	m_maxTime		= 0;
+	m_overhead		= 0;
+	m_overheadPeak	= 0;
+	m_depth			= 0;
+	for (int i = 0; i < StackTraceTree::Count; ++i)
+		m_opCount[i] = 0;
+	m_parent		= nullptr;
+	m_stackTraceList= 0;
+}
 
-	_tree.m_memUsage = 0;
-	_tree.m_memUsagePeak = 0;
-	_tree.m_overhead = 0;
-	_tree.m_overheadPeak = 0;
-	_tree.m_parent = NULL;
+MemoryTagTree::~MemoryTagTree()
+{
+	reset();
+}
+
+void MemoryTagTree::reset()
+{
+	for (auto it = m_children.begin(); it != m_children.end(); ++it)
+	{
+		delete it->second;
+	}
+	m_children.clear();
+
+	m_name			= "";
+	m_hash			= 0;
+	m_usage			= 0;
+	m_usagePeak		= 0;
+	m_overhead		= 0;
+	m_overheadPeak	= 0;
+	m_parent		= nullptr;
+
+	for (uint32_t i=0; i<rmem::LogMarkers::OpCount; i++)
+		m_operationCount[i] = 0;
 }
 
 } // namespace rtm

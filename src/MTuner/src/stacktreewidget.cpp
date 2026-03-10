@@ -29,41 +29,45 @@ public:
 	TreeItem(CaptureContext* _context, const rtm::StackTraceTree* _tree, TreeItem* _parent, const rtm::StackTraceTree* _root, int _depth);
 	~TreeItem();
 
-	void appendChild(TreeItem* _child);
+	inline void appendChild(TreeItem* _child);
 
 	TreeItem*			child(int _row);
 	int					childCount() const;
 	int					columnCount() const;
 	QVariant			data(int _column) const;
 	int					row() const;
+	QString				getModule() const;
+	QString				getFile() const;
+	QString				getFunction() const;
 	TreeItem*			parent();
 	rtm::StackTrace*	getStackTraceListRoot()	{ return m_tree->m_stackTraceList; }
 	int					depth() const { return m_depth; }
 
-	int							m_depth;
 	std::vector<TreeItem*>		m_children;
 	CaptureContext*				m_context;
 	const rtm::StackTraceTree*	m_tree;
+	const rtm::StackTraceTree*  m_root;
 	TreeItem*					m_parent;
-	const rtm::StackTraceTree*	m_root;
-	mutable QString				m_module;
-	mutable QString				m_file;
-	mutable QString				m_func;
+	
+	int							m_depth		: 31;
+	mutable int					m_resolved	:  1;
 	mutable int					m_line;
-	mutable bool				m_resolved;
+private:
+	mutable uint32_t			m_module;
+	mutable uint32_t			m_file;
+	mutable uint32_t			m_func;
 };
-
 
 // SORTING by func
 
 static inline bool sortTreeFunc_asc(TreeItem* _in1, TreeItem* _in2)
 {
-	return _in1->m_func < _in2->m_func;
+	return _in1->getFunction() < _in2->getFunction();
 }
 
 static inline bool sortTreeFunc_des(TreeItem* _in1, TreeItem* _in2)
 {
-	return _in1->m_func > _in2->m_func;
+	return _in1->getFunction() > _in2->getFunction();
 }
 
 void sortTreeCol_Func_asc(TreeItem* _item)
@@ -84,12 +88,12 @@ void sortTreeCol_Func_des(TreeItem* _item)
 
 static inline bool sortTreeModule_asc(TreeItem* _in1, TreeItem* _in2)
 {
-	return _in1->m_module < _in2->m_module;
+	return _in1->getModule() < _in2->getModule();
 }
 
 static inline bool sortTreeModule_des(TreeItem* _in1, TreeItem* _in2)
 {
-	return _in1->m_module > _in2->m_module;
+	return _in1->getModule() > _in2->getModule();
 }
 
 void sortTreeCol_Module_asc(TreeItem* _item)
@@ -237,12 +241,12 @@ void sortTreeCol_PeakUsage_des(TreeItem* _item)
 
 static inline bool sortTreeFile_asc(TreeItem* _in1, TreeItem* _in2)
 {
-	return _in1->m_file < _in2->m_file;
+	return _in1->getFile() < _in2->getFile();
 }
 
 static inline bool sortTreeFile_des(TreeItem* _in1, TreeItem* _in2)
 {
-	return _in1->m_file > _in2->m_file;
+	return _in1->getFile() > _in2->getFile();
 }
 
 void sortTreeCol_File_asc(TreeItem* _item)
@@ -287,7 +291,7 @@ void sortTreeCol_Line_des(TreeItem* _item)
 
 TreeItem::TreeItem(CaptureContext* _context, const rtm::StackTraceTree* _tree, TreeItem* _parent, const rtm::StackTraceTree* _root, int _depth)
 {
-	m_resolved	= false;
+	m_resolved	= 0;
 	m_context	= _context;
 	m_tree		= _tree;
 	m_root		= _root;
@@ -307,6 +311,7 @@ TreeItem::~TreeItem()
 void TreeItem::appendChild(TreeItem* _item)
 {
 	m_children.push_back(_item);
+	m_children.shrink_to_fit();
 }
 
 TreeItem *TreeItem::child(int _row)
@@ -372,14 +377,14 @@ QVariant TreeItem::data(int _column) const
 
 			QString srcpath = QDir(file).path();
 			if (!QDir::isRelativePath(srcpath))
-				m_file = QDir(srcpath).absolutePath();
+				m_file = m_context->addFile(QDir(srcpath).absolutePath());
 			else
-				m_file = srcpath;
+				m_file = m_context->addFile(srcpath);
 
-			m_module	= QString::fromUtf8(frame.m_moduleName);
-			m_func		= QString::fromUtf8(frame.m_func);
+			m_module	= m_context->addModule(QString::fromUtf8(frame.m_moduleName));
+			m_func		= m_context->addFunction(QString::fromUtf8(frame.m_func));
 			m_line		= frame.m_line;
-			m_resolved	= true;
+			m_resolved	= -1;
 		}
 
 		switch (_column)
@@ -396,6 +401,21 @@ QVariant TreeItem::data(int _column) const
 		};
 		return "";
 	}
+}
+
+inline QString TreeItem::getModule() const
+{
+	return m_context->getModule(m_module);
+}
+
+inline QString TreeItem::getFile() const
+{
+	return m_context->getFile(m_file);
+}
+
+inline QString TreeItem::getFunction() const
+{
+	return m_context->getFunction(m_func);
 }
 
 TreeItem* TreeItem::parent()
@@ -672,10 +692,10 @@ void TreeModel::setupModelData(const rtm::StackTraceTree& _tree, TreeItem* _pare
 	rtm::StackTraceTree::ChildNodes::const_iterator end = _tree.m_children.end();
 	while (it != end)
 	{
-		const rtm::StackTraceTree& tree = *it;
+		const rtm::StackTraceTree* tree = *it;
 
-		TreeItem* treeItem = new TreeItem(m_context, &tree, _parent, _root, _depth);
-		setupModelData(tree, treeItem, _root, _depth+1);
+		TreeItem* treeItem = new TreeItem(m_context, tree, _parent, _root, _depth);
+		setupModelData(*tree, treeItem, _root, _depth+1);
 		++it;
 	}
 }

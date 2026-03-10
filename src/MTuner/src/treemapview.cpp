@@ -83,6 +83,7 @@ static inline bool sortMapItems(const TreeMapNode& _in1, const TreeMapNode& _in2
 void calcLines(const std::vector<TreeMapNode>& _nodes, QVector<QLineF>& _lines)
 {
 	_lines.clear();
+	_lines.reserve(static_cast<int>(_nodes.size() * 2));
 	for (const TreeMapNode& node : _nodes)
 	{
 		_lines.push_back(QLineF(node.m_rect.bottomLeft(), node.m_rect.bottomRight()));
@@ -138,7 +139,7 @@ void squaredLayout(std::vector<TreeMapNode>& _nodes, int _start, int _end, QRect
 			float q = float(_nodes[iMid + 1].m_size) / dblTotal;
 			if (getNormAspect(w, h, a, b + q) > dblAspect)
 				break;
-			b += q;
+		 b += q;
 			++iMid;
 		}
 		QRectF rcSlice( x, y, w*b, h );
@@ -199,22 +200,26 @@ void TreeMapView::updateHighlight(const QPoint& _pos)
 
 	m_highlightNode = 0;
 	for (size_t i=0; i<m_tree.size(); ++i)
-		if (m_tree[i].m_rect.contains(scenePos))
-			if (m_highlightNode != &m_tree[i])
-			{
-				m_highlightNode		= &m_tree[i];
+	{
+		if (!m_tree[i].m_rect.contains(scenePos))
+			continue;
 
-				QString str =	QString("<pre>") +
-										QStringColor(tr("Total size"), "ff42a6ba") + QStringColor(m_locale.toString(qulonglong(m_highlightNode->m_size)), "ffffff33", false) + QString("<br>") +
-										QStringColor(tr("Operations"), "ff83cf67") + m_locale.toString(qulonglong(m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Alloc] + m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Realloc] + m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Free])) + QString("<br><br>") +
-										QStringColor(tr("  Allocs"), "ffffffff") + m_locale.toString(qulonglong(m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Alloc])) + QString("<br>") +
-										QStringColor(tr("Reallocs"), "ffffffff") + m_locale.toString(qulonglong(m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Realloc])) + QString("<br>") +
-										QStringColor(tr("   Frees"), "ffffffff") + m_locale.toString(qulonglong(m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Free])) + QString("</pre>");
-				m_toolTipLabel->setText(str);
-				m_item->redraw();
-				invalidateScene();
-				return;
-			}
+		if (m_highlightNode == &m_tree[i])
+			break;
+
+		m_highlightNode = &m_tree[i];
+
+		QString str =	QString("<pre>") +
+								QStringColor(tr("Total size"), "ff42a6ba") + QStringColor(m_locale.toString(qulonglong(m_highlightNode->m_size)), "ffffff33", false) + QString("<br>") +
+								QStringColor(tr("Operations"), "ff83cf67") + m_locale.toString(qulonglong(m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Alloc] + m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Realloc] + m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Free])) + QString("<br><br>") +
+								QStringColor(tr("  Allocs"), "ffffffff") + m_locale.toString(qulonglong(m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Alloc])) + QString("<br>") +
+								QStringColor(tr("Reallocs"), "ffffffff") + m_locale.toString(qulonglong(m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Realloc])) + QString("<br>") +
+								QStringColor(tr("   Frees"), "ffffffff") + m_locale.toString(qulonglong(m_highlightNode->m_tree->m_opCount[rtm::StackTraceTree::Free])) + QString("</pre>");
+		m_toolTipLabel->setText(str);
+		m_item->redraw();
+		invalidateScene();
+		return;
+	}
 }
 
 void TreeMapView::buildTreeRecurse(rtm::StackTraceTree* _tree)
@@ -234,7 +239,7 @@ void TreeMapView::buildTreeRecurse(rtm::StackTraceTree* _tree)
 	rtm::StackTraceTree::ChildNodes::iterator end = children.end();
 	while (it != end)
 	{
-		buildTreeRecurse(&*it);
+		buildTreeRecurse(*it);
 		++it;
 	}
 }
@@ -357,21 +362,23 @@ QRectF TreeMapGraphicsItem::boundingRect() const
 	return QRectF(m_treeView->pos(), m_treeView->pos() + QPointF(m_treeView->width(), m_treeView->height()));
 }
 
-static inline void drawBlockText(const QString& _text, QPainter* _painter, int _fontHeight, QRectF& _rect, bool _highlight)
+static inline void drawBlockText(const QString& _text, QPainter* _painter, int _fontHeight, const QFontMetrics& _metrics, QRectF& _rect, bool _highlight)
 {
+	if ((_rect.height() <= _fontHeight))
+		return;
+
+	int width = _metrics.horizontalAdvance(_text);
+	if (_rect.width() - width <= 6.0f)
+		return;
+
 	if (_highlight)
 		_painter->setPen(Qt::yellow);
 	else
 		_painter->setPen(Qt::white);
 
-	int width = QFontMetrics(s_sizeFont).horizontalAdvance(_text);
-
-	if ((_rect.width() - width > 6.0f) && (_rect.height() > _fontHeight))
-	{
-		QRectF textRect = _rect.adjusted(3.0f,0,-3.0f,14-_rect.height());
-		_painter->setFont(s_sizeFont);
-		_painter->drawText(textRect,_text);
-	}
+	QRectF textRect = _rect.adjusted(3.0f,0,-3.0f,14-_rect.height());
+	_painter->setFont(s_sizeFont);
+	_painter->drawText(textRect,_text);
 }
 
 void TreeMapGraphicsItem::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _item, QWidget* _widget)
@@ -421,12 +428,17 @@ void TreeMapGraphicsItem::paint(QPainter* _painter, const QStyleOptionGraphicsIt
 
 	static QFontMetrics	metrics(s_sizeFont);
 	int s_fontHeight = metrics.height();
+	_painter->setFont(s_sizeFont);
 	for (size_t i=0; i<tree.size(); ++i)
 	{
 		TreeMapNode& info = tree[i];
-		if (info.m_tree->m_children.empty())
-		{
-			drawBlockText(m_locale->toString(qulonglong(info.m_size)), _painter, s_fontHeight, info.m_rect, &info == highlight);
-		}
+		QRectF& nodeRect = info.m_rect;
+
+		// Skip nodes too small to display text
+		if (nodeRect.height() <= s_fontHeight)
+			continue;
+
+		QString text = m_locale->toString(qulonglong(info.m_size));
+		drawBlockText(text, _painter, s_fontHeight, metrics, nodeRect, &info == highlight);
 	}
 }

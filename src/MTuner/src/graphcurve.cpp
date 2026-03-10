@@ -13,8 +13,6 @@ GraphCurve::GraphCurve(GraphWidget* _graphWidget)
 {
 	m_graphWidget	= _graphWidget;
 
-	m_minUsage		= 0;
-	m_maxUsage		= 0;
 	m_prevMinTime	= 0;
 	m_prevMaxTime	= 0;
 	m_prevLeft		= 0;
@@ -165,9 +163,9 @@ void GraphCurve::paint(QPainter* _painter, const QStyleOptionGraphicsItem* _opti
 	{
 		rtm::GraphEntry& entry_graph = m_graphValues[index++];
 
-		yUsage	= bottom - ((entry_graph.m_usage		 - minUsage) * (bottom-top))/peakUsage;
-		yLive	= bottom - ((entry_graph.m_numLiveBlocks - minLive)  * (bottom-top))/peakLive;
-
+		yUsage	= (peakUsage != 0) ? bottom - ((entry_graph.m_usage          - minUsage) * (bottom-top))/peakUsage : bottom - (bottom-top)/2;
+		yLive	= (peakLive  != 0) ? bottom - ((entry_graph.m_numLiveBlocks  - minLive)  * (bottom-top))/peakLive  : bottom - (bottom-top)/2;
+			
 		pathUsageCurve.lineTo(xcoord, yUsage);
 		pathLiveCurve.lineTo(xcoord, yLive);
 

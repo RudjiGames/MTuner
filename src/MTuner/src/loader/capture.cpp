@@ -220,8 +220,8 @@ void Capture::clearData()
 	m_64bit				= false;
 
 	m_loadedFile.clear();
-	m_operationPool.reset();
-	m_stackPool.reset();
+	m_operationPool.reset(true);
+	m_stackPool.reset(true);
 	m_operations.clear();
 	m_operationsInvalid.clear();
 	m_statsGlobal.reset();
@@ -257,47 +257,35 @@ void Capture::clearData()
 	m_currentModule  = 0;
 
 	tagTreeDestroy(m_tagTree);
-	destroyStackTree(m_stackTraceTree);
+	m_stackTraceTree.reset();
 }
 
 inline static uint32_t getStackTraceAndFramesSize(uint32_t numFrames)
 {
+	// StackTrace::m_frames[1] is already included in sizeof(StackTrace), so we need to add (numFrames*2-1) frames
 	return (uint32_t)(sizeof(StackTrace) + (numFrames * 2 - 1) * sizeof(uint64_t));
-}
-
-inline static uint32_t getStackTraceIndexArraySize(uint32_t numFrames)
-{
-	return (uint32_t)((numFrames * 2) * sizeof(uint16_t));
 }
 
 inline static uint32_t getStackTraceNextArraySize(uint32_t numFrames)
 {
-	return (uint32_t)(sizeof(StackTrace*) * (numFrames + 1));
+	return (uint32_t)(sizeof(StackTrace*) * numFrames);
 }
 
 inline uint32_t StackTrace::calculateSize(uint32_t numFrames)
 {
 	return	getStackTraceAndFramesSize(numFrames) +
-			getStackTraceIndexArraySize(numFrames) +
 			getStackTraceNextArraySize(numFrames);
 }
 
 inline void StackTrace::init(StackTrace* st, uint32_t numFrames)
 {
-	memset(StackTrace::getNextArray(st), 0, sizeof(StackTrace*) * (numFrames));
-	st->m_numFrames = (uint64_t)numFrames;
-}
-
-inline uint16_t* StackTrace::getIndexArray(StackTrace* st)
-{
-	uint32_t offset = getStackTraceAndFramesSize(st->m_numFrames);
-	return (uint16_t*)(((uint8_t*)(st)) + offset);
+	rtm::memSet(StackTrace::getNextArray(st), 0, sizeof(StackTrace*) * numFrames);
+	st->m_numFrames = numFrames;
 }
 
 StackTrace** StackTrace::getNextArray(StackTrace* st)
 {
-	uint32_t offset =	getStackTraceAndFramesSize(st->m_numFrames) +
-						getStackTraceIndexArraySize(st->m_numFrames);
+	uint32_t offset = getStackTraceAndFramesSize(st->m_numFrames);
 	return (StackTrace**)(((uint8_t*)(st)) + offset);
 }
 
@@ -417,7 +405,6 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 
 	bool loadSuccess = true;
 
-	
 	ankerl::unordered_dense::map<uint64_t, std::vector<uint32_t>>  perThreadTagStack;
 
 	uint64_t minMarkerTime		= (uint64_t)-1;
@@ -815,7 +802,8 @@ Capture::LoadResult Capture::loadBin(const char* _path)
 					}
 
 					std::vector<uint32_t>& tagStack = perThreadTagStack[threadID];
-					tagStack.pop_back();
+					if (!tagStack.empty())
+						tagStack.pop_back();
 				}
 				break;
 
@@ -1316,7 +1304,7 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 		}
 
 		int skip = 0;
-		while (st->m_frames[skip + numFrames] == 0)
+		while (skip < numFrames && st->m_frames[skip + numFrames] == 0)
 			skip++;
 
 		// remove mtunerdll from the top of call stack
@@ -1331,8 +1319,6 @@ void Capture::buildAnalyzeData(uintptr_t _symResolver)
 
 			st->m_numFrames = newCount;
 		}
-
-		memset(StackTrace::getIndexArray(st), 0xff, getStackTraceIndexArraySize(st->m_numFrames));
 
 		st->m_addedToTree[StackTrace::Global] = 0;
 		++it;
@@ -1752,8 +1738,6 @@ void Capture::calculateFilteredData()
 	{
 		StackTrace* st = *it;
 		st->m_addedToTree[StackTrace::Filtered] = 0;
-		// clear second half
-		memset(StackTrace::getIndexArray(st) + (getStackTraceIndexArraySize(st->m_numFrames) / 4), 0xff, getStackTraceIndexArraySize(st->m_numFrames) / 2);
 
 		++it;
 
@@ -1782,7 +1766,7 @@ void Capture::calculateFilteredData()
 
 	m_filter.m_operationGroups.clear();
 
-	destroyStackTree(m_filter.m_stackTraceTree);
+	m_filter.m_stackTraceTree.reset();
 
 	const uint32_t numOps = maxTimeOpIndex - minTimeOpIndex;
 	nextProgressPoint = minTimeOpIndex;
@@ -2079,7 +2063,7 @@ void Capture::addToMemoryGroups(MemoryGroupsHashType& _groups, MemoryOperation* 
 			{
 				groupHash = calcGroupHash(_op);
 				MemoryOperationGroup& group = _groups[groupHash];
-				group.m_operations.push_back(_op);
+				group.m_groupOperations.push_back(_op);
 				group.m_count++;
 				group.m_liveCount++;
 
@@ -2126,7 +2110,7 @@ void Capture::addToMemoryGroups(MemoryGroupsHashType& _groups, MemoryOperation* 
 
 				groupHash = calcGroupHash(_op);
 				MemoryOperationGroup& group = _groups[groupHash];
-				group.m_operations.push_back(_op);
+				group.m_groupOperations.push_back(_op);
 				group.m_count++;
 
 				group.m_minSize = qMin(group.m_minSize, _op->m_allocSize);
@@ -2160,7 +2144,7 @@ void Capture::addToMemoryGroups(MemoryGroupsHashType& _groups, MemoryOperation* 
 
 				groupHash = calcGroupHash(_op);
 				MemoryOperationGroup& group = _groups[groupHash];
-				group.m_operations.push_back(_op);
+				group.m_groupOperations.push_back(_op);
 				group.m_count++;
 
 				group.m_minSize = qMin(group.m_minSize, _op->m_allocSize);
@@ -2215,9 +2199,8 @@ static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, 
 	currNode->m_maxTime = _operationTime;
 
 	// add stack trace to root node
-	StackTrace::getNextArray(_trace);
-		StackTrace** ar = StackTrace::getNextArray(_trace);
-		ar[0]		= _root->m_stackTraceList;
+	StackTrace** ar = StackTrace::getNextArray(_trace);
+	ar[0]		= _root->m_stackTraceList;
 	_root->m_stackTraceList	= _trace;
 
 	while (--currFrame >= 0)
@@ -2225,41 +2208,32 @@ static void addToTree(StackTraceTree* _root, StackTrace* _trace, int64_t _size, 
 		int32_t depth = numFrames-currFrame;
 
 		const uint64_t	currUniqueID = _trace->m_frames[currFrame+numFrames];
-		uint16_t* IDIdxArray = StackTrace::getIndexArray(_trace);
-		uint16_t& currUniqueIDIdx	= IDIdxArray[currFrame+numFrames*_offset];
 
 		StackTraceTree* nextNode = 0;
 
-		if (currUniqueIDIdx == (uint16_t)-1)
+		size_t numChildren = currNode->m_children.size();
+		size_t found = numChildren;
+		for (size_t i=0; i<numChildren; i++)
 		{
-			size_t numChildren = currNode->m_children.size();
-			size_t found = numChildren;
-			for (size_t i=0; i<numChildren; i++)
+			if (currNode->m_children[i]->m_addressID == currUniqueID)
 			{
-				if (currNode->m_children[i].m_addressID == currUniqueID)
-				{
-					found			= i;
-					currUniqueIDIdx	= (uint16_t)i;
-					break;
-				}
+				found			= i;
+				break;
 			}
+		}
 
-			if (found == numChildren)
-			{
-				// not found
-				StackTraceTree newNode;
-				newNode.m_parent	= currNode;
-				newNode.m_addressID	= currUniqueID;
-				newNode.m_depth		= depth;
-				currNode->m_children.emplace_back(newNode);
-				currUniqueIDIdx	= (uint16_t)(currNode->m_children.size() - 1);
-				nextNode = &currNode->m_children[numChildren];
-			}
-			else
-				nextNode = &currNode->m_children[found];
+		if (found == numChildren)
+		{
+			// not found
+			StackTraceTree* newNode = new StackTraceTree();
+			newNode->m_parent		= currNode;
+			newNode->m_addressID	= currUniqueID;
+			newNode->m_depth		= depth;
+			currNode->m_children.emplace_back(newNode);
+			nextNode = currNode->m_children[numChildren];
 		}
 		else
-			nextNode = &currNode->m_children[(unsigned int)currUniqueIDIdx];
+			nextNode = currNode->m_children[found];
 
 		currNode = nextNode;
 

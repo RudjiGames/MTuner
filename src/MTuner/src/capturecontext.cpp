@@ -5,6 +5,7 @@
 
 #include <MTuner_pch.h>
 #include <MTuner/src/capturecontext.h>
+#include <rbase/inc/hash.h>
 #include <rbase/inc/widechar.h>
 #include <rdebug/inc/rdebug.h>
 
@@ -71,4 +72,52 @@ void CaptureContext::resolveStackFrame(uint64_t _address, rdebug::StackFrame& _f
 {
 	if (m_symbolResolver)
 		rdebug::symbolResolverGetFrame(m_symbolResolver, _address, &_frame);
+}
+
+uint32_t CaptureContext::addModule(const QString& _module)
+{
+	uint32_t hash = rtm::hashCity32(_module.data(), _module.length() * 2); // QChar is 2 bytes
+	m_hashMapModules.insert(hash, _module);
+	return hash;
+}
+
+uint32_t CaptureContext::addFile(const QString& _file)
+{
+	uint32_t hash = rtm::hashCity32(_file.data(), _file.length() * 2); // QChar is 2 bytes
+	m_hashMapFiles.insert(hash, _file);
+	return hash;
+}
+
+uint32_t CaptureContext::addFunction(const QString& _function)
+{
+	uint32_t hash = rtm::hashCity32(_function.data(), _function.length() * 2); // QChar is 2 bytes
+	m_hashMapFunctions.insert(hash, _function);
+	return hash;
+}
+
+QString CaptureContext::getModule(uint32_t _moduleHash) const
+{
+	auto it = m_hashMapModules.find(_moduleHash);
+	if (it != m_hashMapModules.end())
+		return m_hashMapModules.value(_moduleHash);
+	else
+		return QString("Unknown");
+}
+
+QString CaptureContext::getFile(uint32_t _fileHash) const
+{
+	auto it = m_hashMapFiles.find(_fileHash);
+	if (it != m_hashMapFiles.end())
+		return m_hashMapFiles.value(_fileHash);
+	else
+		return QString("Unknown");
+}
+
+QString CaptureContext::getFunction(uint32_t _functionHash) const
+{
+	auto it = m_hashMapFunctions.find(_functionHash);
+	if (it != m_hashMapFunctions.end())
+		return m_hashMapFunctions.value(_functionHash);
+	else
+		return QString("Unknown");
 }

@@ -154,7 +154,7 @@ bool Capture::saveLog(const char* _path, uintptr_t _symResolver )
 
 static inline bool sortGroupByCount( const MemoryOperationGroup* _g1, const MemoryOperationGroup* _g2)
 {
-	return (_g1->m_operations.size() > _g2->m_operations.size());
+	return (_g1->m_groupOperations.size() > _g2->m_groupOperations.size());
 }
 
 static inline bool sortGroupBySize( const MemoryOperationGroup* _g1, const MemoryOperationGroup* _g2)
@@ -211,7 +211,7 @@ bool Capture::saveGroupsLog(const char* _path, eGroupSort _sorting, uintptr_t _s
 	{
 		MemoryOperationGroup* group = sortedGroups[i];
 
-		MemoryOperation* opEx = group->m_operations[0];
+		MemoryOperation* opEx = group->m_groupOperations[0];
 		const char* opType = gGetStringFromOperation(opEx->m_operationType);
 
 		if (group->m_minSize != group->m_maxSize)
@@ -323,7 +323,7 @@ bool Capture::saveGroupsLogXML(const char* _path, eGroupSort _sorting, uintptr_t
 	{
 		MemoryOperationGroup* group = sortedGroups[i];
 
-		MemoryOperation* opEx = group->m_operations[0];
+		MemoryOperation* opEx = group->m_groupOperations[0];
 		const char* opType = gGetStringFromOperation(opEx->m_operationType);
 
 		fprintf(f, "    <Group>\n");

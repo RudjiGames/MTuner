@@ -18,12 +18,22 @@ struct CaptureContext
 	rmem::ToolChain::Enum	m_toolchain;
 	BinLoaderView*			m_binLoaderView;
 
+	QMap<uint32_t, QString>	m_hashMapModules;
+	QMap<uint32_t, QString>	m_hashMapFiles;
+	QMap<uint32_t, QString>	m_hashMapFunctions;
+
 	CaptureContext();
 	~CaptureContext();
 
-	void		setupResolver(rdebug::Toolchain& _tc, std::string& _executable, rdebug::module_load_cb _callback, void* _data);
-	std::string	getSymbolStoreDir() const { return m_symbolStoreDName; }
-	void		resolveStackFrame(uint64_t _address, rdebug::StackFrame& ioFrame);
+	void			setupResolver(rdebug::Toolchain& _tc, std::string& _executable, rdebug::module_load_cb _callback, void* _data);
+	std::string		getSymbolStoreDir() const { return m_symbolStoreDName; }
+	void			resolveStackFrame(uint64_t _address, rdebug::StackFrame& ioFrame);
+	uint32_t		addModule(const QString& _file);
+	uint32_t		addFile(const QString& _file);
+	uint32_t		addFunction(const QString& _file);
+	QString			getModule(uint32_t _moduleHash) const;
+	QString			getFile(uint32_t _fileHash) const;
+	QString			getFunction(uint32_t _functionHash) const;
 };
 
 #endif // RTM_MTUNER_CAPTURE_CONTEXT_H
