@@ -25,3 +25,6 @@
 [submodule "src/tools/MTunerInject"]
 	path = src/tools/MTunerInject
 	url = https://github.com/RudjiGames/MTunerInject
+[submodule "zidar"]
+	path = zidar
+	url = https://github.com/RudjiGames/zidar
