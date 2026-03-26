@@ -16,3 +16,15 @@
 [submodule "zidar"]
 	path = zidar
 	url = https://github.com/RudjiGames/zidar
+[submodule "src/libs/rbase"]
+	path = src/libs/rbase
+	url = https://github.com/RudjiGames/rbase.git
+[submodule "src/libs/rdebug"]
+	path = src/libs/rdebug
+	url = https://github.com/RudjiGames/rdebug.git
+[submodule "src/libs/rmem"]
+	path = src/libs/rmem
+	url = https://github.com/RudjiGames/rmem.git
+[submodule "src/libs/rqt"]
+	path = src/libs/rqt
+	url = https://github.com/RudjiGames/rqt.git
