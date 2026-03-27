@@ -2,30 +2,6 @@
 environment:
   matrix:
 
-   - job_name: OSX
-     APPVEYOR_BUILD_WORKER_IMAGE: macOS-sonoma
-     buildcfg: debug64
-
-   - job_name: OSX
-     APPVEYOR_BUILD_WORKER_IMAGE: macOS-sonoma
-     buildcfg: release64
-
-   - job_name: OSX
-     APPVEYOR_BUILD_WORKER_IMAGE: macOS-sonoma
-     buildcfg: retail64
-
-   - job_name: Linux
-     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2204
-     buildcfg: debug64
-
-   - job_name: Linux
-     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2204
-     buildcfg: release64
-
-   - job_name: Linux
-     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2204
-     buildcfg: retail64
-
    - job_name: Windows
      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
      configuration: Debug
@@ -40,6 +16,30 @@ environment:
      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
      configuration: Retail
      platform: x64
+     
+   - job_name: Linux
+     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2204
+     buildcfg: debug64
+
+   - job_name: Linux
+     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2204
+     buildcfg: release64
+
+   - job_name: Linux
+     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2204
+     buildcfg: retail64
+
+   - job_name: OSX
+     APPVEYOR_BUILD_WORKER_IMAGE: macOS-sonoma
+     buildcfg: debug64
+
+   - job_name: OSX
+     APPVEYOR_BUILD_WORKER_IMAGE: macOS-sonoma
+     buildcfg: release64
+
+   - job_name: OSX
+     APPVEYOR_BUILD_WORKER_IMAGE: macOS-sonoma
+     buildcfg: retail64
 
 shallow_clone: true
 

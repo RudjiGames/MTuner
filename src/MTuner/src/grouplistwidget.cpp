@@ -218,7 +218,7 @@ struct pSortTypeNVC
 	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
 	pSortTypeNVC(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
-	inline bool operator()(const uint32_t _val1, const uint32_t _val2) const { return (*m_allGroups)[_val1]->m_operations[0]->m_operationType < (*m_allGroups)[_val2]->m_operations[0]->m_operationType; }
+	inline bool operator()(const uint32_t _val1, const uint32_t _val2) const { return (*m_allGroups)[_val1]->m_groupOperations[0]->m_operationType < (*m_allGroups)[_val2]->m_groupOperations[0]->m_operationType; }
 };
 
 struct pSortHeapNVC
@@ -226,7 +226,7 @@ struct pSortHeapNVC
 	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
 	pSortHeapNVC(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
-	inline bool operator()(const uint32_t _val1, const uint32_t _val2) const { return (*m_allGroups)[_val1]->m_operations[0]->m_allocatorHandle < (*m_allGroups)[_val2]->m_operations[0]->m_allocatorHandle; }
+	inline bool operator()(const uint32_t _val1, const uint32_t _val2) const { return (*m_allGroups)[_val1]->m_groupOperations[0]->m_allocatorHandle < (*m_allGroups)[_val2]->m_groupOperations[0]->m_allocatorHandle; }
 };
 
 struct pSortSizeNVC
@@ -272,7 +272,7 @@ struct pSortAlignmentNVC
 	std::vector<rtm::MemoryOperationGroup*>* m_allGroups;
 	pSortAlignmentNVC(std::vector<rtm::MemoryOperationGroup*>& _groups) : m_allGroups(&_groups) {}
 
-	inline bool operator()(const uint32_t _val1, const uint32_t _val2) const { return (*m_allGroups)[_val1]->m_operations[0]->m_alignment < (*m_allGroups)[_val2]->m_operations[0]->m_alignment; }
+	inline bool operator()(const uint32_t _val1, const uint32_t _val2) const { return (*m_allGroups)[_val1]->m_groupOperations[0]->m_alignment < (*m_allGroups)[_val2]->m_groupOperations[0]->m_alignment; }
 };
 
 struct pSortGroupSizeNVC
