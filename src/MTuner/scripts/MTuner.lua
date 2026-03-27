@@ -18,6 +18,14 @@ function projectExtraConfig_MTuner()
 		defines { "_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS" }
 end
 
+function projectExtraConfig_MTuner() 
+	includedirs	{ path.join(projectGetPath("MTuner"), "../") }
+end
+
+function projectExtraConfigExecutable_MTuner() 
+	includedirs	{ path.join(projectGetPath("MTuner"), "../") }
+end
+
 function projectExtraConfigExecutable_MTuner()
 	if getTargetOS() == "linux" then
 		links {	
