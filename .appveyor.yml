@@ -48,7 +48,7 @@ install:
 - git submodule update
 
 for:
-  
+
 # ======================================
 # Windows
 # ======================================
@@ -58,19 +58,18 @@ for:
       only:
       - job_name: Windows
       - QTDIR: C:\Qt\6.9.3\msvc2022_64
-    
+
     init:
     - set QTDIR=C:\Qt\6.9.3\msvc2022_64
     - git clone --depth 1 https://github.com/rjpcomputing/luaforwindows luaforwindows
     - copy %cd%\luaforwindows\files\lua5.1.exe %cd%\luaforwindows\files\lua.exe
     - set PATH=%cd%\luaforwindows\files;C:\Qt\6.9.3\msvc2022_64\bin;%PATH%
-    - git clone --recursive --depth 1 https://github.com/milostosic/MTuner  MTuner
 
     install:
-      - MTuner\zidar\tools\bin\windows\genie.exe --file=MTuner\src\MTuner\scripts\genie.lua vs2022
+      - zidar\tools\bin\windows\genie.exe --file=src\MTuner\scripts\genie.lua vs2022
 
-    build: 
-      project: MTuner\.zidar\windows\vs2022\MTuner\projects\MTuner.sln
+    build:
+      project: .zidar\windows\vs2022\MTuner\projects\vs2022\MTuner.sln
 
 # ======================================
 # Linux
@@ -83,20 +82,21 @@ for:
 
     init:
       - sudo apt install -y lua5.3 lua-filesystem
-      - export QTDIR="$HOME/Qt/6.9.1/gcc_64"
-      - export PATH="$HOME/Qt/6.9.1/gcc_64/bin:$HOME/Qt/6.9.1/gcc_64/libexec:/home/appveyor/Qt/6.9.1/gcc_64/libexec:$PATH"
-      - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/Qt/6.9.1/gcc_64/lib/pkgconfig"
-      - git clone --recursive --depth 1 https://github.com/milostosic/MTuner    MTuner
-      - git clone --depth 1 https://github.com/bkaradzic/GENie                  GENie
+      - sudo ln -sf /usr/bin/lua5.3 /usr/bin/lua
+      - export QTDIR="$HOME/Qt/6.9.2"
+      - export PATH="$HOME/Qt/6.9.2/bin:$HOME/Qt/6.9.2/libexec:$PATH"
+      - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/Qt/6.9.2/lib/pkgconfig"
+      - export LD_LIBRARY_PATH="$HOME/Qt/6.9.2/lib:$HOME/Qt/6.9.2:$LD_LIBRARY_PATH"
+      - git clone --depth 1 https://github.com/bkaradzic/GENie                  GENie		# build GENie from source: `GLIBC_2.29' not found
       - cd GENie && make && cd ..
 
     install:
-      - ./GENie/bin/linux/genie --file=MTuner/src/MTuner/scripts/genie.lua --gcc=linux-gcc gmake
-  
+      - ./GENie/bin/linux/genie --file=src/MTuner/scripts/genie.lua --gcc=linux-gcc gmake
+
     build_script:
-      - cd MTuner/.zidar/linux/linux-gcc/MTuner/projects/
+      - cd ./.zidar/linux/linux-gcc/MTuner/projects/
       - make config=${buildcfg}
-     
+
 # ======================================
 # OSX
 # ======================================
@@ -107,19 +107,18 @@ for:
       - job_name: OSX
 
     init:
-      - export QTDIR="$HOME/Qt/6.6.1/macos/" 
+      - export QTDIR="$HOME/Qt/6.6.1/macos/"
       - export PATH="$HOME/Qt/6.6.1/macos/bin:$HOME/Qt/6.6.1/macos/libexec:$PATH"
       - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/Qt/6.6.1/macos/lib/pkgconfig"
       - curl -L -R -O https://www.lua.org/ftp/lua-5.4.7.tar.gz
       - tar zxf lua-5.4.7.tar.gz
       - cd lua-5.4.7 && sudo make all test && sudo make install && cd ..
-      - git clone --recursive --depth 1 https://github.com/milostosic/MTuner MTuner
-      - git clone --depth 1 https://github.com/bkaradzic/GENie GENie  # build GENie from source: we don't know the target CPU, can't use ARM binary from 'build'
+      - git clone --depth 1 https://github.com/bkaradzic/GENie GENie  # build GENie from source: we don't know the target CPU, can't use ARM binary from 'zi'
       - cd GENie && make && cd ..
-    
+
     install:
-      - ./GENie/bin/darwin/genie --file=MTuner/src/MTuner/scripts/genie.lua --gcc=osx-x64 gmake
-    
+      - ./GENie/bin/darwin/genie --file=src/MTuner/scripts/genie.lua --gcc=osx-x64 gmake
+
     build_script:
-      - cd MTuner/.zidar/osx/clang/MTuner/projects/
+      - cd ./.zidar/osx/clang/MTuner/projects/
       - make config=${buildcfg}
