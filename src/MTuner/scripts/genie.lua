@@ -3,9 +3,7 @@
 -- License: http://www.opensource.org/licenses/BSD-2-Clause
 --
 
-newoption { trigger = "zidar-path", description = "Path to zidar" }
-dofile(_OPTIONS["zidar-path"] .. "/zidar.lua")
-
+dofile("../../../zidar/zidar.lua")
 dofile("MTuner.lua")
 
 solution "MTuner"
