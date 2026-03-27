@@ -44,8 +44,7 @@ environment:
 shallow_clone: true
 
 install:
-- git submodule init
-- git submodule update
+- git submodule update --init --recursive
 
 for:
 
