@@ -71,7 +71,7 @@ for:
       - zidar\tools\bin\windows\genie.exe --file=src\MTuner\scripts\genie.lua vs2022
 
     build:
-      project: .zidar\windows\vs2022\MTuner\projects\vs2022\MTuner.sln
+      project: MTuner\.zidar\windows\vs2022\MTuner\projects\vs2022\MTuner.sln
 
 # ======================================
 # Linux
