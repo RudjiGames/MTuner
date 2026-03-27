@@ -2,6 +2,18 @@
 environment:
   matrix:
 
+   - job_name: Linux
+     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2204
+     buildcfg: debug64
+
+   - job_name: Linux
+     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2204
+     buildcfg: release64
+
+   - job_name: Linux
+     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2204
+     buildcfg: retail64
+
    - job_name: Windows
      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
      configuration: Debug
@@ -16,18 +28,6 @@ environment:
      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
      configuration: Retail
      platform: x64
-
-   - job_name: Linux
-     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2204
-     buildcfg: debug64
-
-   - job_name: Linux
-     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2204
-     buildcfg: release64
-
-   - job_name: Linux
-     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2204
-     buildcfg: retail64
 
    - job_name: OSX
      APPVEYOR_BUILD_WORKER_IMAGE: macOS-sonoma
@@ -85,18 +85,20 @@ for:
     init:
       - sudo apt install -y lua5.3 lua-filesystem
       - sudo ln -sf /usr/bin/lua5.3 /usr/bin/lua
-
-    build_script:
       - export QTDIR="$HOME/Qt/6.9.2"
       - export PATH="$HOME/Qt/6.9.2/bin:$HOME/Qt/6.9.2/libexec:$PATH"
       - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/Qt/6.9.2/lib/pkgconfig"
       - export LD_LIBRARY_PATH="$HOME/Qt/6.9.2/lib:$HOME/Qt/6.9.2:$LD_LIBRARY_PATH"
-      - git clone --depth 1 https://github.com/bkaradzic/GENie     GENie		# build GENie from source: `GLIBC_2.29' not found
       - git clone --depth 1 https://github.com/RudjiGames/MTuner   MTuner
+      - git clone --depth 1 https://github.com/bkaradzic/GENie     GENie		# build GENie from source: `GLIBC_2.29' not found
       - cd GENie && make && cd ..
-      - cd MTuner && git submodule update --init --recursive && cd ..
-      - ./GENie/bin/linux/genie --file=MTuner/src/MTuner/scripts/genie.lua --gcc=linux-gcc gmake
-      - cd MTuner/.zidar/linux/linux-gcc/MTuner/projects/ && make config=${buildcfg}
+      - cd MTuner && git submodule update --init --recursive
+
+    install:
+      - ../GENie/bin/linux/genie --file=src/MTuner/scripts/genie.lua --gcc=linux-gcc gmake
+
+    build_script:
+      - cd .zidar/linux/linux-gcc/MTuner/projects/ && make config=${buildcfg}
 
 # ======================================
 # OSX
