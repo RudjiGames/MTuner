@@ -57,13 +57,13 @@ for:
     matrix:
       only:
       - job_name: Windows
-      - QTDIR: C:\Qt\6.5.3\msvc2019_64
+      - QTDIR: C:\Qt\6.9.3\msvc2022_64
     
     init:
-    - set QTDIR=C:\Qt\6.5.3\msvc2019_64
+    - set QTDIR=C:\Qt\6.9.3\msvc2022_64
     - git clone --depth 1 https://github.com/rjpcomputing/luaforwindows luaforwindows
     - copy %cd%\luaforwindows\files\lua5.1.exe %cd%\luaforwindows\files\lua.exe
-    - set PATH=%cd%\luaforwindows\files;C:\Qt\6.5.3\msvc2019_64\bin;%PATH%
+    - set PATH=%cd%\luaforwindows\files;C:\Qt\6.9.3\msvc2022_64\bin;%PATH%
     - git clone --recursive --depth 1 https://github.com/milostosic/MTuner  MTuner
 
     install:
@@ -83,9 +83,9 @@ for:
 
     init:
       - sudo apt install -y lua5.3 lua-filesystem
-      - export QTDIR="$HOME/Qt/6.5.3/gcc_64"
-      - export PATH="$HOME/Qt/6.5.3/gcc_64/bin:$HOME/Qt/6.5.3/gcc_64/libexec:/home/appveyor/Qt/6.5.3/gcc_64/libexec:$PATH"
-      - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/Qt/6.5.3/gcc_64/lib/pkgconfig"
+      - export QTDIR="$HOME/Qt/6.9.1/gcc_64"
+      - export PATH="$HOME/Qt/6.9.1/gcc_64/bin:$HOME/Qt/6.9.1/gcc_64/libexec:/home/appveyor/Qt/6.9.1/gcc_64/libexec:$PATH"
+      - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/Qt/6.9.1/gcc_64/lib/pkgconfig"
       - git clone --recursive --depth 1 https://github.com/milostosic/MTuner    MTuner
       - git clone --depth 1 https://github.com/bkaradzic/GENie                  GENie
       - cd GENie && make && cd ..
@@ -107,9 +107,9 @@ for:
       - job_name: OSX
 
     init:
-      - export QTDIR="$HOME/Qt/6.5.3/macos/" 
-      - export PATH="$HOME/Qt/6.5.3/macos/bin:$HOME/Qt/6.5.3/macos/libexec:$PATH"
-      - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/Qt/6.5.3/macos/lib/pkgconfig"
+      - export QTDIR="$HOME/Qt/6.6.1/macos/" 
+      - export PATH="$HOME/Qt/6.6.1/macos/bin:$HOME/Qt/6.6.1/macos/libexec:$PATH"
+      - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/Qt/6.6.1/macos/lib/pkgconfig"
       - curl -L -R -O https://www.lua.org/ftp/lua-5.4.7.tar.gz
       - tar zxf lua-5.4.7.tar.gz
       - cd lua-5.4.7 && sudo make all test && sudo make install && cd ..
