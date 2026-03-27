@@ -68,7 +68,7 @@ for:
     - cd MTuner && git submodule update --init --recursive
 
     install:
-      - zidar\tools\bin\windows\genie.exe --file=src\MTuner\scripts\genie.lua vs2022
+      - MTuner\zidar\tools\bin\windows\genie.exe --file=MTuner\src\MTuner\scripts\genie.lua vs2022
 
     build:
       project: MTuner\.zidar\windows\vs2022\MTuner\projects\vs2022\MTuner.sln
@@ -95,10 +95,10 @@ for:
       - cd MTuner && git submodule update --init --recursive
 
     install:
-      - ./GENie/bin/linux/genie --file=src/MTuner/scripts/genie.lua --gcc=linux-gcc gmake
+      - ./GENie/bin/linux/genie --file=MTuner/src/MTuner/scripts/genie.lua --gcc=linux-gcc gmake
 
     build_script:
-      - cd ./.zidar/linux/linux-gcc/MTuner/projects/
+      - cd MTuner/.zidar/linux/linux-gcc/MTuner/projects/
       - make config=${buildcfg}
 
 # ======================================
@@ -123,8 +123,8 @@ for:
       - cd MTuner && git submodule update --init --recursive
 
     install:
-      - ./GENie/bin/darwin/genie --file=src/MTuner/scripts/genie.lua --gcc=osx-x64 gmake
+      - ./GENie/bin/darwin/genie --file=MTuner/src/MTuner/scripts/genie.lua --gcc=osx-x64 gmake
 
     build_script:
-      - cd ./.zidar/osx/clang/MTuner/projects/
+      - cd MTuner/.zidar/osx/clang/MTuner/projects/
       - make config=${buildcfg}
